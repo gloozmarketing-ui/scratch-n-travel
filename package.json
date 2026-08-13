@@ -1,0 +1,22 @@
+{
+  "name": "scratch-n-travel",
+  "version": "1.0.0",
+  "description": "Social Travel Platform for Families, Pets, Local Secrets & Digital Scratchbooks",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx serve .",
+    "seed": "node scripts/hermes_travel_seeder.js"
+  },
+  "keywords": [
+    "social-travel",
+    "family-travel",
+    "pet-friendly-travel",
+    "local-secrets",
+    "travel-scratchbook"
+  ],
+  "author": "Scratch'n'Travel Team",
+  "license": "MIT",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.45.0"
+  }
+}

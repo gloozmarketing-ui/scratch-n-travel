@@ -1,0 +1,79 @@
+{
+  "city": "Lissabon",
+  "country": "Portugal",
+  "health_score": 92.5,
+  "baseline_spots": [
+    {
+      "title": "Praia da Ursa",
+      "category": "secret_spot",
+      "tags": [
+        "pet_friendly",
+        "family_friendly",
+        "secret_spot"
+      ],
+      "description": "Naturbelassener Sandstrand mit Klippen. Perfekt für Hundeauslauf & Familien-Picknick.",
+      "coordinates": {
+        "lat": 38.7903,
+        "lng": -9.4925
+      },
+      "verified_by": "Local Community"
+    },
+    {
+      "title": "Jardim da Estrela Park",
+      "category": "family_friendly",
+      "tags": [
+        "family_friendly",
+        "playground",
+        "stroller_friendly"
+      ],
+      "description": "Schattiger Park mit historischem Pavillon, stufenfreien Wegen und großem Kinderspielplatz.",
+      "coordinates": {
+        "lat": 38.715,
+        "lng": -9.1585
+      },
+      "verified_by": "Local Mamas"
+    },
+    {
+      "title": "Tasca O Galo Alfama",
+      "category": "local_food",
+      "tags": [
+        "pet_friendly",
+        "local_food",
+        "traditional"
+      ],
+      "description": "Authentische Nachbarschafts-Tasca mit Wassernapf für Hunde und frischem Bacalhau.",
+      "coordinates": {
+        "lat": 38.712,
+        "lng": -9.131
+      },
+      "verified_by": "Local Foodies"
+    }
+  ],
+  "pet_highlights": [
+    {
+      "spot": "Praia da Ursa",
+      "feature": "Schattenbereiche unter Klippen, Kotbeutelstationen"
+    },
+    {
+      "spot": "Parque Monsanto",
+      "feature": "Großes Freilaufgehege & Hundetrainingsbereich"
+    }
+  ],
+  "family_highlights": [
+    {
+      "spot": "Ozeanarium Parque das Nações",
+      "feature": "Kinderwagen-Rampen & Fläschchen-Aufwärmstation"
+    },
+    {
+      "spot": "Jardim da Estrela",
+      "feature": "Eingezäunter Kleinkind-Bereich"
+    }
+  ],
+  "local_recipes": [
+    {
+      "title": "Pastéis de Nata de Alfama",
+      "chef": "Maria (Local)",
+      "difficulty": "Mittel"
+    }
+  ]
+}

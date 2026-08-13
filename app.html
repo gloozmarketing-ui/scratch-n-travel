@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scratch'n'Travel — App Dashboard</title>
+  
+  <link rel="stylesheet" href="assets/css/main.css">
+  <link rel="stylesheet" href="assets/css/components.css">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <header class="navbar">
+    <div class="container nav-wrap">
+      <a href="index.html" class="brand-logo">
+        Scratch'n'Travel<span class="dot">.</span> <span style="font-size: 0.8rem; font-weight: 400; color: var(--emerald-primary); border: 1px solid var(--border-line); padding: 2px 8px; border-radius: 12px;">App v2.0</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html">← Zurück zur Übersicht</a></li>
+        <li><a href="#explorer" class="active">City Explorer</a></li>
+        <li><a href="#flugrechner">Flugrechner 🐕</a></li>
+        <li><a href="#checklisten">Checklisten 📋</a></li>
+        <li><a href="#scratchbook">Scratchbook 📖</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <!-- App Header Banner -->
+  <section class="container" style="padding: 40px 0 20px;">
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+      <div>
+        <span class="badge badge-emerald">Lissabon City Brain</span>
+        <h1 style="font-size: 2rem; margin-top: 8px;">Willkommen in Lissabon & Umgebung 🇵🇹</h1>
+        <p style="font-size: 0.95rem;">Entdecke verifizierte Geheimtipps von Einheimischen, hundefreundliche Strände & Familien-Spots.</p>
+      </div>
+      <div>
+        <button class="btn btn-primary" onclick="openUnlockModal('demo', 'Lissabon Secret Gem')">+ Spot Beitragen</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 1: Filter & Spots Explorer -->
+  <section id="explorer" class="container">
+    <!-- Filter Toolbar -->
+    <div class="filter-bar">
+      <span style="font-weight: 600; font-size: 0.9rem; margin-right: 8px;">Filter:</span>
+      <button class="filter-btn active" data-filter="all">Alle Spots</button>
+      <button class="filter-btn" data-filter="secret">🔐 Secret Spots</button>
+      <button class="filter-btn" data-filter="pet">🐶 Hundefreundlich</button>
+      <button class="filter-btn" data-filter="family">👶 Kinderfreundlich</button>
+      <button class="filter-btn" data-filter="food">🍲 Lokale Küche</button>
+    </div>
+
+    <!-- Spots Grid -->
+    <div class="grid-3">
+
+      <!-- Spot Card 1: Secret Spot & Pet Friendly -->
+      <div class="glass-card spot-card" data-tags="secret pet family">
+        <div>
+          <div class="spot-header">
+            <span class="badge badge-gold">🔐 Geheimtipp</span>
+            <span class="badge badge-emerald">🐶 + 👶 Willkommen</span>
+          </div>
+          <h3 class="spot-title">Praia da Ursa & Klippenpfad</h3>
+          <p style="font-size: 0.9rem; color: var(--text-muted);">
+            Wunderschöner, naturbelassener Sandstrand abseits der Touristenbusse. Feiner Sand für Kinder, weitläufiger Auslauf für Hunde.
+          </p>
+
+          <div class="secret-blur-overlay" id="blur-spot1">
+            <p>🔒 Exakte Koordinaten & Anfahrt verschwommen</p>
+            <button class="btn btn-primary" style="padding: 8px 16px; font-size: 0.85rem;" onclick="openUnlockModal('spot1', 'Praia da Ursa')">
+              Ehrenkodex akzeptieren & Freischalten 🔑
+            </button>
+          </div>
+
+          <div id="reveal-spot1" style="display: none; background: rgba(16,185,129,0.1); border: 1px solid var(--emerald-primary); padding: 12px; border-radius: var(--radius-sm); margin: 12px 0;">
+            <p style="color: #FFF; font-size: 0.85rem;"><strong>📍 Freigeschaltet:</strong> 38.7903° N, 9.4925° W (Parkplatz am Ende der N247, dann 15 Min. schattiger Fußweg).</p>
+          </div>
+        </div>
+
+        <div style="font-size: 0.8rem; color: var(--text-dim); border-top: 1px solid var(--border-line); padding-top: 12px; margin-top: 12px;">
+          Verifiziert von: João (Local) • 4.9 ★ (28 Bewertungen)
+        </div>
+      </div>
+
+      <!-- Spot Card 2: Family Friendly Park -->
+      <div class="glass-card spot-card" data-tags="family food">
+        <div>
+          <div class="spot-header">
+            <span class="badge badge-cyan">👶 Kinder-Tipp</span>
+            <span class="badge badge-emerald">🍲 Rezept & Picknick</span>
+          </div>
+          <h3 class="spot-title">Jardim da Estrela & Café Picknick</h3>
+          <p style="font-size: 0.9rem; color: var(--text-muted);">
+            Wunderschöner Park mit schattigen Mammutbäumen, großem Spielplatz, Ententeich und kinderfreundlichem Kiosk mit frischen Pastéis.
+          </p>
+
+          <div style="background: rgba(255,255,255,0.05); padding: 12px; border-radius: var(--radius-sm); margin: 16px 0;">
+            <p style="font-size: 0.85rem; color: #FFF;"><strong>✨ Highlight:</strong> Stufenfreie Wege für Kinderwagen, eingezäunter Spielbereich.</p>
+          </div>
+        </div>
+
+        <div style="font-size: 0.8rem; color: var(--text-dim); border-top: 1px solid var(--border-line); padding-top: 12px; margin-top: 12px;">
+          Verifiziert von: Maria (Local Mama) • 5.0 ★ (42 Bewertungen)
+        </div>
+      </div>
+
+      <!-- Spot Card 3: Pet Friendly Tavern -->
+      <div class="glass-card spot-card" data-tags="pet food">
+        <div>
+          <div class="spot-header">
+            <span class="badge badge-emerald">🐶 Hunde erlaubt</span>
+            <span class="badge badge-cyan">🍲 Trad. Tavern</span>
+          </div>
+          <h3 class="spot-title">Tasca O Galo (Alfama)</h3>
+          <p style="font-size: 0.9rem; color: var(--text-muted);">
+            Familiengeführte Kiez-Tasca. Der Wirt bringt unaufgefordert einen Frische-Wassernapf für den Hund und serviert fangfrischen Bacalhau.
+          </p>
+
+          <div style="background: rgba(255,255,255,0.05); padding: 12px; border-radius: var(--radius-sm); margin: 16px 0;">
+            <p style="font-size: 0.85rem; color: #FFF;"><strong>✨ Highlight:</strong> Hunde auf der Außenterrasse und im Innenbereich ausdrücklich willkommen.</p>
+          </div>
+        </div>
+
+        <div style="font-size: 0.8rem; color: var(--text-dim); border-top: 1px solid var(--border-line); padding-top: 12px; margin-top: 12px;">
+          Verifiziert von: Tiago (Local) • 4.8 ★ (19 Bewertungen)
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Section 2: Airline Pet Calculator -->
+  <section id="flugrechner" class="container" style="padding: 60px 0;">
+    <div class="glass-card" style="max-width: 800px; margin: 0 auto;">
+      <span class="badge badge-cyan">🛫 Haustier-Flug-Rechner</span>
+      <h2 style="margin-top: 8px;">Darf dein Hund / deine Katze in die Kabine?</h2>
+      <p style="font-size: 0.95rem; margin-bottom: 20px;">Berechne Gewichtsgrenzen (Tier + Tasche) und Fluggebühren für deine Airline.</p>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px;">
+        <div>
+          <label style="font-size: 0.85rem; color: var(--text-muted);">Gewicht des Haustiers (kg)</label>
+          <input type="number" id="petWeightKg" value="6" step="0.5" style="width: 100%; padding: 10px; border-radius: var(--radius-sm); border: 1px solid var(--border-line); background: #0B131F; color: #FFF;" oninput="calculatePetFlight()">
+        </div>
+
+        <div>
+          <label style="font-size: 0.85rem; color: var(--text-muted);">Gewicht Transporttasche (kg)</label>
+          <input type="number" id="carrierWeightKg" value="1.2" step="0.1" style="width: 100%; padding: 10px; border-radius: var(--radius-sm); border: 1px solid var(--border-line); background: #0B131F; color: #FFF;" oninput="calculatePetFlight()">
+        </div>
+
+        <div>
+          <label style="font-size: 0.85rem; color: var(--text-muted);">Fluggesellschaft</label>
+          <select id="airlineSelect" style="width: 100%; padding: 10px; border-radius: var(--radius-sm); border: 1px solid var(--border-line); background: #0B131F; color: #FFF;" onchange="calculatePetFlight()">
+            <option value="lufthansa">Lufthansa (Max. 8 kg)</option>
+            <option value="eurowings">Eurowings (Max. 8 kg)</option>
+            <option value="iberia">Iberia / Vueling (Max. 8 kg)</option>
+            <option value="airfrance">Air France (Max. 8 kg)</option>
+            <option value="ryanair">Ryanair (Keine Haustiere)</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="airlineResultOutput"></div>
+    </div>
+  </section>
+
+  <!-- Section 3: Interactive Dynamic Checklists -->
+  <section id="checklisten" class="container" style="padding: 40px 0 60px;">
+    <h2 style="text-align: center; margin-bottom: 32px;">📋 Reise-Checklisten für Familien & Haustiere</h2>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 24px;">
+      <!-- Family Checklist -->
+      <div>
+        <div class="checklist-box">
+          <div class="checklist-title">
+            <span>👶 Kinder & Familie Checkliste</span>
+          </div>
+          <div id="family-checklist-box"></div>
+        </div>
+      </div>
+
+      <!-- Pet Checklist -->
+      <div>
+        <div class="checklist-box">
+          <div class="checklist-title">
+            <span>🐶 Hunde & Haustiere Checkliste</span>
+          </div>
+          <div id="pet-checklist-box"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 4: Scratchbook Journal -->
+  <section id="scratchbook" class="container" style="padding: 40px 0 80px;">
+    <div class="glass-card">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+        <div>
+          <span class="badge badge-gold">📖 Reise-Scratchbook</span>
+          <h2 style="margin-top: 8px;">Mein Lissabon Tagebuch 2026</h2>
+          <p style="font-size: 0.9rem;">Gespeicherte Orte, Kontakte & Erinnerungen für dein Souvenir-PDF.</p>
+        </div>
+        <div>
+          <button class="btn btn-primary" onclick="exportScratchbook()">🖨️ Scratchbook Als PDF Exportieren</button>
+        </div>
+      </div>
+
+      <div style="margin-top: 24px; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px;">
+        <div style="background: rgba(255,255,255,0.04); padding: 16px; border-radius: var(--radius-sm);">
+          <strong style="color: var(--emerald-primary);">📍 Besuchte Orte:</strong>
+          <ul style="font-size: 0.85rem; margin-top: 8px; list-style: none;">
+            <li>✓ Praia da Ursa (Hundestrand)</li>
+            <li>✓ Jardim da Estrela (Spielplatz)</li>
+            <li>✓ Tasca O Galo (Essen mit Hund)</li>
+          </ul>
+        </div>
+
+        <div style="background: rgba(255,255,255,0.04); padding: 16px; border-radius: var(--radius-sm);">
+          <strong style="color: var(--cyan-accent);">🍲 Gelerntes Rezept:</strong>
+          <p style="font-size: 0.85rem; margin-top: 8px;">"Pastéis de Nata — Zimt & Eigelb-Rezept von Maria aus Alfama."</p>
+        </div>
+
+        <div style="background: rgba(255,255,255,0.04); padding: 16px; border-radius: var(--radius-sm);">
+          <strong style="color: var(--sand-gold);">👥 Getroffene Menschen:</strong>
+          <p style="font-size: 0.85rem; margin-top: 8px;">João (Angeln), Tiago (Tasca-Wirt), Maria & Kids (Picknick-Treffen).</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Secret Unlock Pledge Modal Overlay -->
+  <div class="modal-overlay" id="unlockModal">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeUnlockModal()">×</button>
+      <span class="badge badge-gold">🔐 Local Etiquette Pledge</span>
+      <h3 style="margin-top: 12px;" id="modalSpotTitle">Secret Spot Enthüllen</h3>
+      <p style="font-size: 0.9rem; margin-top: 8px;">
+        Dieser Ort wird von Einheimischen gepflegt und geschützt. Um die genauen Koordinaten freizuschalten, erkläre dich mit den Regeln einverstanden:
+      </p>
+
+      <div style="margin: 20px 0; background: rgba(0,0,0,0.3); padding: 16px; border-radius: var(--radius-sm); font-size: 0.85rem;">
+        <p style="margin-bottom: 8px;">🌿 <strong>Leave No Trace:</strong> Hinterlasse keinen Müll.</p>
+        <p style="margin-bottom: 8px;">🐕 <strong>Haustier-Etikette:</strong> Kot sofort entfernen & Anleinpflicht beachten.</p>
+        <p>🔇 <strong>Ruhe & Respekt:</strong> Keine laute Musik oder Massen-Instagramming.</p>
+      </div>
+
+      <button class="btn btn-primary" style="width: 100%;" onclick="confirmEtiquettePledge()">
+        Ich verspreche es & Koordinaten Freischalten 🔑
+      </button>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <p>© 2026 Scratch'n'Travel App — All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="assets/js/supabase-client.js"></script>
+  <script src="assets/js/family-pet-engine.js"></script>
+  <script src="assets/js/hermes-concierge.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script>
+    // Initial pet calculation on load
+    document.addEventListener('DOMContentLoaded', () => {
+      calculatePetFlight();
+    });
+  </script>
+</body>
+</html>
