@@ -1,0 +1,58 @@
+name: Hermes Travel — Deploy & Content Automation
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    # Every Monday 08:00 UTC — City Seeding & Content Update
+    - cron: '0 8 * * 1'
+  workflow_dispatch:
+
+jobs:
+  # ─── Job 1: Vercel Deploy (on every push) ─────────────────────────────────
+  deploy-vercel:
+    name: Deploy to Vercel
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Deploy to Vercel
+        run: |
+          npm install -g vercel@latest
+          vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+          vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+          vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
+  # ─── Job 2: Hermes City Seeder (Weekly on Monday) ─────────────────────────
+  hermes-city-seeder:
+    name: Hermes City Brain Seeder
+    runs-on: ubuntu-latest
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Run Hermes City Seeder
+        env:
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+        run: node scripts/hermes_travel_seeder.js Lissabon
+
+      - name: Commit Updated City Brain Data
+        run: |
+          git config user.name "Hermes[bot]"
+          git config user.email "hermes@scratch-n-travel.com"
+          git add seeded_cities/
+          git diff-index --quiet HEAD || git commit -m "auto(hermes): weekly city brain update [skip ci]"
+          git push
