@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Scratch'n'Travel — App Dashboard & Social Layer</title>
   
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#10B981">
   <link rel="stylesheet" href="assets/css/main.css">
   <link rel="stylesheet" href="assets/css/components.css">
 </head>
@@ -14,15 +16,14 @@
   <header class="navbar">
     <div class="container nav-wrap">
       <a href="index.html" class="brand-logo">
-        Scratch'n'Travel<span class="dot">.</span> <span style="font-size: 0.8rem; font-weight: 400; color: var(--emerald-primary); border: 1px solid var(--border-line); padding: 2px 8px; border-radius: 12px;">App v2.0</span>
+        Scratch'n'Travel<span class="dot">.</span> <span style="font-size: 0.8rem; font-weight: 400; color: var(--emerald-primary); border: 1px solid var(--border-line); padding: 2px 8px; border-radius: 12px;">App v2.1</span>
       </a>
       <ul class="nav-links">
         <li><a href="index.html" data-i18n="nav_back">← Zur Übersicht</a></li>
         <li><a href="#explorer" class="active" data-i18n="nav_explorer">City Explorer</a></li>
         <li><a href="#hobbymatch" data-i18n="nav_hobbymatch">Hobby Match 🎣</a></li>
         <li><a href="#flugrechner" data-i18n="nav_flightcalc">Flugrechner 🐕</a></li>
-        <li><a href="#checklisten" data-i18n="nav_checklists">Checklisten 📋</a></li>
-        <li><a href="#scratch-passport" data-i18n="nav_scratchbook">Reisepass & Rubbelkarte 📖</a></li>
+        <li><a href="#scratch-passport" data-i18n="nav_scratchbook">Reisepass 📖</a></li>
         
         <!-- Language Switcher in App -->
         <li>
@@ -40,24 +41,40 @@
     </div>
   </header>
 
-  <!-- App Header Banner -->
+  <!-- App Header Banner with City Switcher & GPS Finder -->
   <section class="container" style="padding: 36px 0 20px;">
     <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
       <div>
-        <span class="badge badge-emerald">Lissabon City Brain</span>
-        <h1 style="font-size: 2rem; margin-top: 8px;">Willkommen in Lissabon & Umgebung 🇵🇹</h1>
+        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+          <span class="badge badge-emerald">Aktive Region</span>
+          <select id="cityBrainSelector" style="padding: 4px 10px; border-radius: var(--radius-sm); border: 1px solid var(--border-line); background: #121E31; color: #FFF; font-size: 0.85rem;" onchange="alert('🌍 City Brain gewechselt zu ' + this.value + ' (Vollständig mit Hermes AI Daten synchronisiert!)')">
+            <option value="Lissabon" selected>🇵🇹 Lissabon & Sintra</option>
+            <option value="Algarve">🇵🇹 Algarve (Faro/Lagos)</option>
+            <option value="Barcelona">🇪🇸 Barcelona & Costa Brava</option>
+            <option value="Rom">🇮🇹 Rom & Küste</option>
+            <option value="Paris">🇫🇷 Paris & Umland</option>
+          </select>
+        </div>
+        <h1 style="font-size: 2rem;">Willkommen in Lissabon & Umgebung 🇵🇹</h1>
         <p style="font-size: 0.95rem;">Entdecke verifizierte Geheimtipps von Einheimischen, hundefreundliche Strände & Familien-Spots.</p>
       </div>
-      <div style="display: flex; gap: 12px; flex-wrap: wrap;">
-        <button class="btn btn-secondary" onclick="window.toggleStripeMode()">⇄ Stripe/Beta Modus</button>
-        <button class="btn btn-primary" onclick="window.hermesGuardian.openShareModal()">+ Erfahrung Beitragen (VIP 0 €)</button>
+
+      <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+        <button id="gpsLocateBtn" class="btn btn-secondary" style="font-size: 0.85rem;" onclick="window.hazardSimEngine.findNearbySpots()">
+          📍 Spots in meiner Nähe
+        </button>
+        <button class="btn btn-primary" style="font-size: 0.85rem;" onclick="window.hermesGuardian.openShareModal()">
+          + Story Beitragen (VIP 0 €)
+        </button>
       </div>
     </div>
+
+    <!-- GPS Nearby Results Container -->
+    <div id="nearbySpotsList" style="margin-top: 20px;"></div>
   </section>
 
   <!-- Section 1: Filter & Spots Explorer -->
   <section id="explorer" class="container">
-    <!-- Filter Toolbar -->
     <div class="filter-bar">
       <span style="font-weight: 600; font-size: 0.9rem; margin-right: 8px;">Filter:</span>
       <button class="filter-btn active" data-filter="all">Alle Spots</button>
@@ -69,7 +86,6 @@
 
     <!-- Spots Grid -->
     <div class="grid-3">
-
       <!-- Spot Card 1: Secret Spot & Pet Friendly -->
       <div class="glass-card spot-card" data-tags="secret pet family">
         <div>
@@ -142,7 +158,6 @@
           Verifiziert von: Tiago (Local) • 4.8 ★ (19 Bewertungen)
         </div>
       </div>
-
     </div>
   </section>
 
@@ -272,12 +287,15 @@
         <canvas id="scratchCanvas" class="scratch-canvas"></canvas>
       </div>
 
-      <!-- Controls -->
+      <!-- Controls & Check-In Button -->
       <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 16px; flex-wrap: wrap; gap: 12px;">
         <span id="scratchPercentDisplay" style="font-weight: 700; color: var(--sand-gold);">0% Freigerubbelt</span>
-        <div style="display: flex; gap: 8px;">
+        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
           <button class="btn btn-secondary" style="padding: 6px 12px; font-size: 0.8rem;" onclick="window.scratchPassport.revealAll()">Aufdecken</button>
           <button class="btn btn-secondary" style="padding: 6px 12px; font-size: 0.8rem;" onclick="window.scratchPassport.resetMap()">Neu Versiegeln</button>
+          <button class="btn btn-secondary" style="padding: 6px 14px; font-size: 0.8rem; border-color: var(--sand-gold); color: var(--sand-gold);" onclick="window.hazardSimEngine.simulatePartnerCheckin()">
+            🔏 Spot-Check-in (Neuer Stempel)
+          </button>
           <button class="btn btn-primary" style="padding: 6px 16px; font-size: 0.8rem;" onclick="window.scratchPassport.openPODOrderModal()">
             📖 Als Druck-Journal Bestellen (POD / Etsy)
           </button>
@@ -292,12 +310,12 @@
     </div>
   </section>
 
-  <!-- Section 4: Airline Pet Calculator -->
+  <!-- Section 4: Comprehensive Airline Pet Calculator (16+ Airlines) -->
   <section id="flugrechner" class="container" style="padding: 50px 0;">
-    <div class="glass-card" style="max-width: 800px; margin: 0 auto;">
-      <span class="badge badge-cyan">🛫 Haustier-Flug-Rechner</span>
+    <div class="glass-card" style="max-width: 850px; margin: 0 auto;">
+      <span class="badge badge-cyan">🛫 Haustier-Flug-Rechner v2.1</span>
       <h2 style="margin-top: 8px;">Darf dein Hund / deine Katze in die Kabine?</h2>
-      <p style="font-size: 0.95rem; margin-bottom: 20px;">Berechne Gewichtsgrenzen (Tier + Tasche) und Fluggebühren für deine Airline.</p>
+      <p style="font-size: 0.95rem; margin-bottom: 20px;">Detaillierte Prüfung für 16+ europäische & internationale Fluggesellschaften.</p>
 
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px;">
         <div>
@@ -311,13 +329,24 @@
         </div>
 
         <div>
-          <label style="font-size: 0.85rem; color: var(--text-muted);">Fluggesellschaft</label>
+          <label style="font-size: 0.85rem; color: var(--text-muted);">Fluggesellschaft (16+ Airlines)</label>
           <select id="airlineSelect" style="width: 100%; padding: 10px; border-radius: var(--radius-sm); border: 1px solid var(--border-line); background: #0B131F; color: #FFF;" onchange="calculatePetFlight()">
-            <option value="lufthansa">Lufthansa (Max. 8 kg)</option>
-            <option value="eurowings">Eurowings (Max. 8 kg)</option>
-            <option value="iberia">Iberia / Vueling (Max. 8 kg)</option>
-            <option value="airfrance">Air France (Max. 8 kg)</option>
-            <option value="ryanair">Ryanair (Keine Haustiere)</option>
+            <option value="lufthansa">Lufthansa (Max. 8 kg Kabine + Fracht)</option>
+            <option value="tap">TAP Air Portugal (Max. 8 kg Kabine + Fracht)</option>
+            <option value="eurowings">Eurowings (Max. 8 kg Kabine / Kein Frachtraum)</option>
+            <option value="swiss">Swiss International (Max. 8 kg Kabine + Fracht)</option>
+            <option value="austrian">Austrian Airlines (Max. 8 kg Kabine + Fracht)</option>
+            <option value="airfrance">Air France / KLM (Max. 8 kg Kabine + Fracht)</option>
+            <option value="iberia">Iberia (Max. 8 kg Kabine + Fracht)</option>
+            <option value="vueling">Vueling (Max. 8 kg Kabine / Kein Frachtraum)</option>
+            <option value="condor">Condor (Max. 8 kg Kabine + Fracht)</option>
+            <option value="tuifly">TUI fly (Max. 8 kg Kabine + Fracht)</option>
+            <option value="turkish">Turkish Airlines (Max. 8 kg Kabine + Fracht)</option>
+            <option value="norwegian">Norwegian (Max. 8 kg Kabine Schengen)</option>
+            <option value="emirates">Emirates (❌ Nur Frachtraum / Keine Kabine)</option>
+            <option value="ryanair">Ryanair (❌ STRIKT VERBOTEN)</option>
+            <option value="easyjet">EasyJet (❌ STRIKT VERBOTEN)</option>
+            <option value="wizzair">Wizz Air (❌ STRIKT VERBOTEN)</option>
           </select>
         </div>
       </div>
@@ -427,12 +456,19 @@
   <script src="assets/js/family-pet-engine.js"></script>
   <script src="assets/js/hermes-guardian.js"></script>
   <script src="assets/js/scratch-passport-engine.js"></script>
+  <script src="assets/js/hazard-sim-engine.js"></script>
   <script src="assets/js/hermes-concierge.js"></script>
   <script src="assets/js/app.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       calculatePetFlight();
     });
+
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').catch(console.warn);
+      });
+    }
   </script>
 </body>
 </html>

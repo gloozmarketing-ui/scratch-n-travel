@@ -4,8 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Scratch'n'Travel — Social Travel Plattform für Familien, Tiere, Extreme & Geheimtipps</title>
-  <meta name="description" content="Reise nicht nur als Tourist. Werde Teil des Ortes. Entdecke Familien- & Hundereisen, Extremsport, Secret Spots und den Local Safety & Scam-Radar.">
+  <meta name="description" content="Reise nicht nur als Tourist. Werde Teil des Ortes. Entdecke Familien- & Hundereisen, Extremsport, Secret Spots, Unwetter-Radar und günstige eSIMs.">
   
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#10B981">
   <link rel="stylesheet" href="assets/css/main.css">
   <link rel="stylesheet" href="assets/css/components.css">
 
@@ -15,9 +17,9 @@
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
     "name": "Scratch'n'Travel",
-    "operatingSystem": "Web",
+    "operatingSystem": "Web, iOS, Android",
     "applicationCategory": "TravelApplication",
-    "description": "Die Human-First Reise-Plattform mit Geheimtipps, Hobbys, Haustier- & Familienreisen, Extremsport und Scam-Radar.",
+    "description": "Die Human-First Reise-Plattform mit Geheimtipps, Hobbys, Haustier- & Familienreisen, Extremsport, Unwetter-Radar und eSIM-Guide.",
     "offers": {
       "@type": "Offer",
       "price": "0",
@@ -39,9 +41,9 @@
         <li><a href="#vorteile" data-i18n="nav_concept">Das Konzept</a></li>
         <li><a href="#familie-tiere" data-i18n="nav_family_pets">Familien & Tiere 🐶</a></li>
         <li><a href="#aktivitaeten" data-i18n="nav_activities">Aktivitäten & Extreme 🏄‍♂️</a></li>
-        <li><a href="#safety-radar" data-i18n="nav_safety">Safety & Scam-Radar ⚠️</a></li>
+        <li><a href="#hazard-radar">Naturgefahren & Brand ⚠️</a></li>
+        <li><a href="#esim-guide">Internet & eSIM 📱</a></li>
         <li><a href="#scratch-passport" data-i18n="nav_scratchbook">Pass & Rubbelkarte 📖</a></li>
-        <li><a href="#community-feed">Erfahrungsberichte 💬</a></li>
         <li><a href="#preise" data-i18n="nav_pricing">Preise & Beta 💳</a></li>
         
         <!-- Multilingual Switcher -->
@@ -69,12 +71,12 @@
         <span class="gradient-text" data-i18n="hero_title_2">Werde Teil des Ortes.</span>
       </h1>
       <p class="hero-subtitle" data-i18n="hero_subtitle">
-        Entdecke versteckte Orte von Einheimischen, triff Gleichgesinnte für deine Hobbys, plane Extremsport & Familienausflüge und schütze dich vor Touristenfallen.
+        Entdecke versteckte Orte von Einheimischen, triff Gleichgesinnte für deine Hobbys, plane Extremsport & Familienausflüge und schütze dich vor Touristenfallen & Unwettern.
       </p>
 
       <div style="display: flex; justify-content: center; gap: 16px; flex-wrap: wrap;">
         <a href="app.html" class="btn btn-primary" data-i18n="hero_cta_explore">Entdecken & Ausprobieren ✨</a>
-        <a href="#community-feed" class="btn btn-secondary">Erfahrungen teilen (VIP 0 €) 🎁</a>
+        <a href="#hazard-radar" class="btn btn-secondary">Naturgefahren & Brand-Radar 🔥</a>
       </div>
     </div>
   </section>
@@ -100,7 +102,29 @@
     <div class="grid-3" id="activitiesGrid"></div>
   </section>
 
-  <!-- Section 2: Luxury Obsidian & Gold Scratch Map & Travel Passport -->
+  <!-- Section 2: Live Hazard, Wildfire & Weather Alerts (Unwetter & Brand) -->
+  <section id="hazard-radar" class="container" style="padding: 60px 0;">
+    <div style="text-align: center; max-width: 800px; margin: 0 auto 32px;">
+      <span class="badge badge-gold">🚨 Live Hazard & Disaster Radar</span>
+      <h2 style="margin-top: 12px;">Unwetter, Waldbrand & Meeres-Gefahren</h2>
+      <p>Echtzeit-Warnungen vor Naturgefahren: Sintra-Parksperrungen bei Hitzewellen, Meeres-Unterströmungen (Riptides) und Klippen-Abbrüche.</p>
+    </div>
+
+    <div class="grid-3" id="hazardAlertsGrid"></div>
+  </section>
+
+  <!-- Section 3: Low Cost Global Internet & eSIM Guide -->
+  <section id="esim-guide" class="container" style="padding: 60px 0;">
+    <div style="text-align: center; max-width: 800px; margin: 0 auto 32px;">
+      <span class="badge badge-cyan">📱 Günstiges Internet im Ausland</span>
+      <h2 style="margin-top: 12px;">eSIM, Lokale SIM-Karten & Roaming-Tipps</h2>
+      <p>Surfe ohne teure Roaming-Überraschungen: eSIMs ab 4,50 €, lokale Vielnutzer-SIMs und Vermeidung der teuren Fähren-Satellitenfalle.</p>
+    </div>
+
+    <div class="grid-3" id="internetGuideGrid"></div>
+  </section>
+
+  <!-- Section 4: Luxury Obsidian & Gold Scratch Map & Travel Passport -->
   <section id="scratch-passport" class="container" style="padding: 60px 0;">
     <div style="text-align: center; max-width: 750px; margin: 0 auto 36px;">
       <span class="badge badge-gold">✨ Luxury Black & Gold Edition</span>
@@ -142,7 +166,7 @@
     </div>
   </section>
 
-  <!-- Section 3: Community Experience Exchange Feed ("Give to Get") -->
+  <!-- Section 5: Community Experience Exchange Feed ("Give to Get") -->
   <section id="community-feed" class="container" style="padding: 60px 0;">
     <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; margin-bottom: 30px;">
       <div>
@@ -158,7 +182,7 @@
     <div class="grid-3" id="communityFeedGrid"></div>
   </section>
 
-  <!-- Section 4: Local Safety & Scam-Radar (Wem man NICHT trauen sollte) -->
+  <!-- Section 6: Local Safety & Scam-Radar -->
   <section id="safety-radar" class="container" style="padding: 60px 0;">
     <div style="text-align: center; max-width: 800px; margin: 0 auto 32px;">
       <span class="badge badge-gold" data-i18n="safety_badge">⚠️ Insider-Schutz von Einheimischen</span>
@@ -181,11 +205,10 @@
       </div>
     </div>
 
-    <!-- Safety Grid -->
     <div class="grid-3" id="safetyRadarGrid"></div>
   </section>
 
-  <!-- Section 5: AI Concierge Demo -->
+  <!-- Section 7: AI Concierge Demo -->
   <section class="container" style="padding: 40px 0;">
     <div class="ai-concierge-card">
       <span class="badge badge-emerald" data-i18n="concierge_badge">🤖 Hermes AI Travel Concierge</span>
@@ -201,7 +224,7 @@
     </div>
   </section>
 
-  <!-- Section 6: Dynamic Pricing & 1-Click Stripe / Beta Switcher -->
+  <!-- Section 8: Dynamic Pricing & 1-Click Stripe / Beta Switcher -->
   <section id="preise" class="container" style="padding: 60px 0;">
     <div style="text-align: center; max-width: 750px; margin: 0 auto 30px;">
       <span class="badge badge-gold" data-i18n="pricing_badge">Fair, Transparent & Sicher</span>
@@ -236,8 +259,8 @@
         <ul style="list-style: none; margin-bottom: 24px; font-size: 0.9rem;">
           <li style="margin-bottom: 8px;">✓ Basis-Geheimtipps ansehen</li>
           <li style="margin-bottom: 8px;">✓ Familien- & Hunde-Checklisten</li>
-          <li style="margin-bottom: 8px;">✓ Haustier-Flugrechner</li>
-          <li style="margin-bottom: 8px;">✓ Basis City Explorer</li>
+          <li style="margin-bottom: 8px;">✓ Haustier-Flugrechner (16+ Airlines)</li>
+          <li style="margin-bottom: 8px;">✓ Live Unwetter & Naturgefahren-Radar</li>
         </ul>
         <button id="price-btn-free" class="btn btn-secondary" style="width: 100%;" onclick="window.stripeManager.startCheckout('free')">Kostenlos nutzen</button>
       </div>
@@ -254,8 +277,8 @@
           <li style="margin-bottom: 8px;">✓ Unbegrenzt 🔐 Secret Spots Koordinaten enthüllen</li>
           <li style="margin-bottom: 8px;">✓ Unbegrenzte Hermes AI Concierge Empfehlungen</li>
           <li style="margin-bottom: 8px;">✓ Hobby-Matching & Direktnachrichten mit Locals</li>
-          <li style="margin-bottom: 8px;">✓ Digital Travel Scratchbook PDF-Export</li>
-          <li style="margin-bottom: 8px;">✓ Local Safety & Scam-Radar Echtzeitwarnungen</li>
+          <li style="margin-bottom: 8px;">✓ Digital Travel Scratchbook & Pass Visa-Stempel</li>
+          <li style="margin-bottom: 8px;">✓ Offline-Modus & Local Safety Radar</li>
         </ul>
         <button id="price-btn-pro" class="btn btn-primary" style="width: 100%;" onclick="window.stripeManager.startCheckout('pro')">VIP Beta-Zugang sichern (0 €) 🎉</button>
       </div>
@@ -271,15 +294,15 @@
         <ul style="list-style: none; margin-bottom: 24px; font-size: 0.9rem;">
           <li style="margin-bottom: 8px;">✓ Hervorgehobenes Profil für B&Bs, Ferienhäuser & Cafés</li>
           <li style="margin-bottom: 8px;">✓ "Familie & Hund Willkommen" Verifizierungs-Badge</li>
+          <li style="margin-bottom: 8px;">✓ QR-Checkin Partner-Stempel für Gäste vergeben</li>
           <li style="margin-bottom: 8px;">✓ Direkte Gästekontakte 100% ohne Buchungsprovision</li>
-          <li style="margin-bottom: 8px;">✓ Lokale Event- & Workshop-Angebote einstellen</li>
         </ul>
         <button id="price-btn-business" class="btn btn-secondary" style="width: 100%;" onclick="window.stripeManager.startCheckout('business')">Pionier-Host werden (0 €) 🚀</button>
       </div>
     </div>
   </section>
 
-  <!-- Share Experience Modal (Give-to-Get Loop with Hermes Guardian) -->
+  <!-- Share Experience Modal -->
   <div class="modal-overlay" id="shareExperienceModal">
     <div class="modal-content" style="max-width: 600px;">
       <button class="modal-close" onclick="window.hermesGuardian.closeShareModal()">×</button>
@@ -322,7 +345,7 @@
     <div class="container">
       <p data-i18n="footer_copy">© 2026 Scratch'n'Travel — Human-First Social Travel Platform.</p>
       <p style="margin-top: 8px; font-size: 0.8rem;" data-i18n="footer_links">
-        🔒 100% ohne Tracking-Cookies | Impressum | Datenschutz | Nutzungsbedingungen
+        🔒 100% ohne Tracking-Cookies | PWA & Offline-Fähig | Impressum | Datenschutz | Nutzungsbedingungen
       </p>
     </div>
   </footer>
@@ -336,7 +359,20 @@
   <script src="assets/js/safety-radar.js"></script>
   <script src="assets/js/hermes-guardian.js"></script>
   <script src="assets/js/scratch-passport-engine.js"></script>
+  <script src="assets/js/hazard-sim-engine.js"></script>
   <script src="assets/js/hermes-concierge.js"></script>
   <script src="assets/js/app.js"></script>
+  <script>
+    // PWA Service Worker Registration
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').then(reg => {
+          console.log('⚡ PWA Service Worker registered:', reg.scope);
+        }).catch(err => {
+          console.warn('SW registration skipped:', err);
+        });
+      });
+    }
+  </script>
 </body>
 </html>
