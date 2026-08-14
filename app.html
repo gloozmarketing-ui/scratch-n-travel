@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="de">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Scratch'n'Travel — App Dashboard</title>
+  <title>Scratch'n'Travel — App Dashboard & Social Layer</title>
   
   <link rel="stylesheet" href="assets/css/main.css">
   <link rel="stylesheet" href="assets/css/components.css">
@@ -17,25 +17,40 @@
         Scratch'n'Travel<span class="dot">.</span> <span style="font-size: 0.8rem; font-weight: 400; color: var(--emerald-primary); border: 1px solid var(--border-line); padding: 2px 8px; border-radius: 12px;">App v2.0</span>
       </a>
       <ul class="nav-links">
-        <li><a href="index.html">← Zurück zur Übersicht</a></li>
-        <li><a href="#explorer" class="active">City Explorer</a></li>
-        <li><a href="#flugrechner">Flugrechner 🐕</a></li>
-        <li><a href="#checklisten">Checklisten 📋</a></li>
-        <li><a href="#scratchbook">Scratchbook 📖</a></li>
+        <li><a href="index.html" data-i18n="nav_back">← Zur Übersicht</a></li>
+        <li><a href="#explorer" class="active" data-i18n="nav_explorer">City Explorer</a></li>
+        <li><a href="#hobbymatch" data-i18n="nav_hobbymatch">Hobby Match 🎣</a></li>
+        <li><a href="#flugrechner" data-i18n="nav_flightcalc">Flugrechner 🐕</a></li>
+        <li><a href="#checklisten" data-i18n="nav_checklists">Checklisten 📋</a></li>
+        <li><a href="#scratch-passport" data-i18n="nav_scratchbook">Reisepass & Rubbelkarte 📖</a></li>
+        
+        <!-- Language Switcher in App -->
+        <li>
+          <div class="lang-selector">
+            <button class="lang-btn active" data-lang="de" onclick="window.i18n.setLanguage('de')">🇩🇪 DE</button>
+            <button class="lang-btn" data-lang="en" onclick="window.i18n.setLanguage('en')">🇬🇧 EN</button>
+            <button class="lang-btn" data-lang="es" onclick="window.i18n.setLanguage('es')">🇪🇸 ES</button>
+            <button class="lang-btn" data-lang="fr" onclick="window.i18n.setLanguage('fr')">🇫🇷 FR</button>
+            <button class="lang-btn" data-lang="it" onclick="window.i18n.setLanguage('it')">🇮🇹 IT</button>
+          </div>
+        </li>
+
+        <li id="userTierBadge"><span class="badge badge-cyan">Explorer (Free)</span></li>
       </ul>
     </div>
   </header>
 
   <!-- App Header Banner -->
-  <section class="container" style="padding: 40px 0 20px;">
+  <section class="container" style="padding: 36px 0 20px;">
     <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
       <div>
         <span class="badge badge-emerald">Lissabon City Brain</span>
         <h1 style="font-size: 2rem; margin-top: 8px;">Willkommen in Lissabon & Umgebung 🇵🇹</h1>
         <p style="font-size: 0.95rem;">Entdecke verifizierte Geheimtipps von Einheimischen, hundefreundliche Strände & Familien-Spots.</p>
       </div>
-      <div>
-        <button class="btn btn-primary" onclick="openUnlockModal('demo', 'Lissabon Secret Gem')">+ Spot Beitragen</button>
+      <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+        <button class="btn btn-secondary" onclick="window.toggleStripeMode()">⇄ Stripe/Beta Modus</button>
+        <button class="btn btn-primary" onclick="window.hermesGuardian.openShareModal()">+ Erfahrung Beitragen (VIP 0 €)</button>
       </div>
     </div>
   </section>
@@ -131,8 +146,154 @@
     </div>
   </section>
 
-  <!-- Section 2: Airline Pet Calculator -->
-  <section id="flugrechner" class="container" style="padding: 60px 0;">
+  <!-- Section 2: Hobby Match & "I'm Here" Travel Meetup Hub (Module B) -->
+  <section id="hobbymatch" class="container" style="padding: 50px 0 20px;">
+    <div style="text-align: center; max-width: 700px; margin: 0 auto 30px;">
+      <span class="badge badge-cyan">🤝 Module B: Find Your People</span>
+      <h2 style="margin-top: 10px;">Hobby-Matching & Reise-Treffen</h2>
+      <p>Finde Locals und Reisende mit gemeinsamen Interessen für Aktivitäten vor Ort — ohne Dating-Zwang.</p>
+    </div>
+
+    <!-- "I'm Here" Broadcast Banner -->
+    <div class="im-here-box">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+        <div>
+          <span class="badge badge-emerald">📍 "I'm Here" Status aktiv</span>
+          <h3 style="margin-top: 8px;">Du bist in Lissabon: 14. – 20. August 2026</h3>
+          <p style="font-size: 0.9rem; color: var(--text-main); margin-top: 4px;">
+            Deine gewählten Hobbys: <span class="hobby-tag highlight">🎣 Angeln</span> <span class="hobby-tag highlight">🐕 Hundespaziergang</span> <span class="hobby-tag highlight">🍳 Kochen</span>
+          </p>
+        </div>
+        <div>
+          <button class="btn btn-primary" onclick="broadcastImHere()">Reise-Status aktualisieren 📡</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hobby Matching Feed -->
+    <div class="grid-3">
+      <!-- Match Card 1: Local Fisherman -->
+      <div class="hobby-card">
+        <div>
+          <div class="hobby-user-header">
+            <div class="hobby-avatar">🎣</div>
+            <div>
+              <h4 style="font-size: 1.1rem;">João P. <span class="badge badge-emerald" style="font-size: 0.7rem;">Local</span></h4>
+              <p style="font-size: 0.8rem;">Cascais / Lissabon • Antwortet in 15 Min.</p>
+            </div>
+          </div>
+          <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 12px;">
+            <em>"Gehe Samstag früh zum Brandungsangeln an die Felsen bei Guincho. Wer Lust hat mitzukommen, einfach schreiben!"</em>
+          </p>
+          <div>
+            <span class="hobby-tag highlight">🎣 98% Hobby-Match</span>
+            <span class="hobby-tag">🌊 Klippen</span>
+            <span class="hobby-tag">🐟 Wolfsbarsch</span>
+          </div>
+        </div>
+        <button class="btn btn-secondary" style="width: 100%; margin-top: 16px; font-size: 0.85rem;" onclick="connectHobbyUser('João P.', 'Brandungsangeln')">
+          Nachricht senden 💬
+        </button>
+      </div>
+
+      <!-- Match Card 2: Family & Dog Traveler -->
+      <div class="hobby-card">
+        <div>
+          <div class="hobby-user-header">
+            <div class="hobby-avatar">🐕</div>
+            <div>
+              <h4 style="font-size: 1.1rem;">Sarah & Bello <span class="badge badge-cyan" style="font-size: 0.7rem;">Traveler</span></h4>
+              <p style="font-size: 0.8rem;">Aus Berlin • In Lissabon bis 18. Aug.</p>
+            </div>
+          </div>
+          <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 12px;">
+            <em>"Suchen andere Hundebesitzer für gemeinsame Strandspaziergänge an der Praia da Ursa & Café-Pausen in Alfama."</em>
+          </p>
+          <div>
+            <span class="hobby-tag highlight">🐕 100% Match</span>
+            <span class="hobby-tag highlight">☕ Kiez-Cafés</span>
+            <span class="hobby-tag">👶 Kleinkind</span>
+          </div>
+        </div>
+        <button class="btn btn-secondary" style="width: 100%; margin-top: 16px; font-size: 0.85rem;" onclick="connectHobbyUser('Sarah', 'Hundestrand Treffen')">
+          Nachricht senden 💬
+        </button>
+      </div>
+
+      <!-- Match Card 3: Local Cooking Enthusiast -->
+      <div class="hobby-card">
+        <div>
+          <div class="hobby-user-header">
+            <div class="hobby-avatar">🍳</div>
+            <div>
+              <h4 style="font-size: 1.1rem;">Maria D. <span class="badge badge-emerald" style="font-size: 0.7rem;">Host</span></h4>
+              <p style="font-size: 0.8rem;">Alfama • Kocht traditionell seit 30 Jahren</p>
+            </div>
+          </div>
+          <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 12px;">
+            <em>"Zeige kleinen Familien gerne, wie man echte Pastéis de Nata & Caldo Verde ohne Schnickschnack backt."</em>
+          </p>
+          <div>
+            <span class="hobby-tag highlight">🍳 95% Match</span>
+            <span class="hobby-tag">🍮 Pastéis</span>
+            <span class="hobby-tag">👶 Familien</span>
+          </div>
+        </div>
+        <button class="btn btn-secondary" style="width: 100%; margin-top: 16px; font-size: 0.85rem;" onclick="connectHobbyUser('Maria D.', 'Pastéis Kochworkshop')">
+          Nachricht senden 💬
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 3: Luxury Obsidian & Gold Travel Passport & Rubbelkarte -->
+  <section id="scratch-passport" class="container" style="padding: 50px 0;">
+    <div class="passport-booklet">
+      <div class="passport-header-emblem">
+        <span style="font-size: 2.8rem;">⚜️</span>
+        <h2 style="font-size: 1.8rem; color: var(--sand-gold); margin-top: 4px; letter-spacing: 0.08em; text-transform: uppercase;">
+          Official Travel Passport & Scratchbook
+        </h2>
+        <p style="font-size: 0.85rem; color: var(--text-muted);">
+          Dokument-Nr: <strong style="color: #FFF;">ST-2026-PT-8842</strong> • Status: <strong style="color: var(--emerald-primary);">VIP PRO TRAVELER</strong> • Karma: <strong>98 Pt.</strong>
+        </p>
+      </div>
+
+      <!-- Interactive Canvas -->
+      <div class="scratch-map-container" style="height: 380px;">
+        <div class="scratch-map-bg">
+          <div style="text-align: center; color: #FFF;">
+            <h3 style="font-size: 1.6rem; color: var(--sand-gold); margin-bottom: 8px;">🗺️ Portugal & Europa Freigelegt!</h3>
+            <p style="font-size: 0.9rem; max-width: 480px; margin: 0 auto; color: var(--text-muted);">
+              📍 Freigeschaltete Secrets: Praia da Ursa (Sintra), Tasca O Galo (Alfama), Nazaré Big Waves, Berlengas Riffe & Arrábida Flachwasser.
+            </p>
+          </div>
+        </div>
+        <canvas id="scratchCanvas" class="scratch-canvas"></canvas>
+      </div>
+
+      <!-- Controls -->
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 16px; flex-wrap: wrap; gap: 12px;">
+        <span id="scratchPercentDisplay" style="font-weight: 700; color: var(--sand-gold);">0% Freigerubbelt</span>
+        <div style="display: flex; gap: 8px;">
+          <button class="btn btn-secondary" style="padding: 6px 12px; font-size: 0.8rem;" onclick="window.scratchPassport.revealAll()">Aufdecken</button>
+          <button class="btn btn-secondary" style="padding: 6px 12px; font-size: 0.8rem;" onclick="window.scratchPassport.resetMap()">Neu Versiegeln</button>
+          <button class="btn btn-primary" style="padding: 6px 16px; font-size: 0.8rem;" onclick="window.scratchPassport.openPODOrderModal()">
+            📖 Als Druck-Journal Bestellen (POD / Etsy)
+          </button>
+        </div>
+      </div>
+
+      <!-- Official Visa Stamps Collection -->
+      <h3 style="margin-top: 32px; font-size: 1.2rem; color: #FFF; border-bottom: 1px dashed var(--border-line); padding-bottom: 8px;">
+        🔏 Offizielle Visa-Stempel & Entdeckungs-Siegel
+      </h3>
+      <div class="passport-stamps-grid" id="passportStampsGrid"></div>
+    </div>
+  </section>
+
+  <!-- Section 4: Airline Pet Calculator -->
+  <section id="flugrechner" class="container" style="padding: 50px 0;">
     <div class="glass-card" style="max-width: 800px; margin: 0 auto;">
       <span class="badge badge-cyan">🛫 Haustier-Flug-Rechner</span>
       <h2 style="margin-top: 8px;">Darf dein Hund / deine Katze in die Kabine?</h2>
@@ -165,8 +326,8 @@
     </div>
   </section>
 
-  <!-- Section 3: Interactive Dynamic Checklists -->
-  <section id="checklisten" class="container" style="padding: 40px 0 60px;">
+  <!-- Section 5: Interactive Dynamic Checklists -->
+  <section id="checklisten" class="container" style="padding: 40px 0 50px;">
     <h2 style="text-align: center; margin-bottom: 32px;">📋 Reise-Checklisten für Familien & Haustiere</h2>
 
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 24px;">
@@ -187,43 +348,6 @@
             <span>🐶 Hunde & Haustiere Checkliste</span>
           </div>
           <div id="pet-checklist-box"></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Section 4: Scratchbook Journal -->
-  <section id="scratchbook" class="container" style="padding: 40px 0 80px;">
-    <div class="glass-card">
-      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
-        <div>
-          <span class="badge badge-gold">📖 Reise-Scratchbook</span>
-          <h2 style="margin-top: 8px;">Mein Lissabon Tagebuch 2026</h2>
-          <p style="font-size: 0.9rem;">Gespeicherte Orte, Kontakte & Erinnerungen für dein Souvenir-PDF.</p>
-        </div>
-        <div>
-          <button class="btn btn-primary" onclick="exportScratchbook()">🖨️ Scratchbook Als PDF Exportieren</button>
-        </div>
-      </div>
-
-      <div style="margin-top: 24px; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px;">
-        <div style="background: rgba(255,255,255,0.04); padding: 16px; border-radius: var(--radius-sm);">
-          <strong style="color: var(--emerald-primary);">📍 Besuchte Orte:</strong>
-          <ul style="font-size: 0.85rem; margin-top: 8px; list-style: none;">
-            <li>✓ Praia da Ursa (Hundestrand)</li>
-            <li>✓ Jardim da Estrela (Spielplatz)</li>
-            <li>✓ Tasca O Galo (Essen mit Hund)</li>
-          </ul>
-        </div>
-
-        <div style="background: rgba(255,255,255,0.04); padding: 16px; border-radius: var(--radius-sm);">
-          <strong style="color: var(--cyan-accent);">🍲 Gelerntes Rezept:</strong>
-          <p style="font-size: 0.85rem; margin-top: 8px;">"Pastéis de Nata — Zimt & Eigelb-Rezept von Maria aus Alfama."</p>
-        </div>
-
-        <div style="background: rgba(255,255,255,0.04); padding: 16px; border-radius: var(--radius-sm);">
-          <strong style="color: var(--sand-gold);">👥 Getroffene Menschen:</strong>
-          <p style="font-size: 0.85rem; margin-top: 8px;">João (Angeln), Tiago (Tasca-Wirt), Maria & Kids (Picknick-Treffen).</p>
         </div>
       </div>
     </div>
@@ -251,6 +375,44 @@
     </div>
   </div>
 
+  <!-- Share Experience Modal -->
+  <div class="modal-overlay" id="shareExperienceModal">
+    <div class="modal-content" style="max-width: 600px;">
+      <button class="modal-close" onclick="window.hermesGuardian.closeShareModal()">×</button>
+      <span class="badge badge-emerald">🎁 Give-to-Get Exchange</span>
+      <h3 style="margin-top: 12px;">Erfahrungsbericht teilen & Pro-Status freischalten</h3>
+      <p style="font-size: 0.88rem; color: var(--text-muted); margin: 6px 0 16px;">
+        Teile einen echten Geheimtipp, eine Restaurant-Empfehlung oder eine Warnung vor einer Touristenfalle.
+      </p>
+
+      <div style="display: flex; flex-direction: column; gap: 12px;">
+        <input type="text" id="expAuthor" placeholder="Dein Name oder Pseudonym (z.B. Alex aus Köln)" style="padding: 10px 14px; border-radius: var(--radius-sm); border: 1px solid var(--border-line); background: #0B131F; color: #FFF;">
+        <input type="text" id="expCity" placeholder="Stadt / Region (z.B. Lissabon, Algarve, Porto)" style="padding: 10px 14px; border-radius: var(--radius-sm); border: 1px solid var(--border-line); background: #0B131F; color: #FFF;">
+        <input type="text" id="expTitle" placeholder="Titel deines Tipps (z.B. Bester Hundestrand ohne Touristen)" style="padding: 10px 14px; border-radius: var(--radius-sm); border: 1px solid var(--border-line); background: #0B131F; color: #FFF;">
+        <textarea id="expStory" rows="4" placeholder="Beschreibe deine Erfahrung, Besonderheiten, Preise oder Wegbeschreibung..." style="padding: 10px 14px; border-radius: var(--radius-sm); border: 1px solid var(--border-line); background: #0B131F; color: #FFF; font-family: inherit; font-size: 0.9rem;"></textarea>
+
+        <div style="background: rgba(16, 185, 129, 0.1); border: 1px solid var(--emerald-primary); padding: 10px; border-radius: var(--radius-sm); font-size: 0.78rem; color: #FFF;">
+          🛡️ <strong>Hermes Guardian Schutz:</strong> Beiträge werden in Echtzeit auf Sicherheit und authentischen Reise-Vibe geprüft. Kein Spam, keine Beleidigungen.
+        </div>
+
+        <button class="btn btn-primary" style="width: 100%; margin-top: 8px;" onclick="
+          const a = document.getElementById('expAuthor').value;
+          const c = document.getElementById('expCity').value;
+          const t = document.getElementById('expTitle').value;
+          const s = document.getElementById('expStory').value;
+          if (t && s) {
+            const ok = window.hermesGuardian.submitExperience(t, s, a, c);
+            if (ok) window.hermesGuardian.closeShareModal();
+          } else {
+            alert('Bitte gib mindestens einen Titel und deinen Erfahrungsbericht ein.');
+          }
+        ">
+          Erfahrung Veröffentlichen & VIP Aktivieren ✨
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- Footer -->
   <footer class="site-footer">
     <div class="container">
@@ -260,11 +422,14 @@
 
   <!-- Scripts -->
   <script src="assets/js/supabase-client.js"></script>
+  <script src="assets/js/i18n.js"></script>
+  <script src="assets/js/stripe-config.js"></script>
   <script src="assets/js/family-pet-engine.js"></script>
+  <script src="assets/js/hermes-guardian.js"></script>
+  <script src="assets/js/scratch-passport-engine.js"></script>
   <script src="assets/js/hermes-concierge.js"></script>
   <script src="assets/js/app.js"></script>
   <script>
-    // Initial pet calculation on load
     document.addEventListener('DOMContentLoaded', () => {
       calculatePetFlight();
     });

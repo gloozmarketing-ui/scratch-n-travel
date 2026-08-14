@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="de">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Scratch'n'Travel — Die Social Travel Plattform für Familien, Tiere & Geheimtipps</title>
-  <meta name="description" content="Reise nicht nur als Tourist. Werde Teil des Ortes. Die Human-First Reise-Plattform mit Geheimtipps, Hobby-Matching, Familien- & Hundereisen und Reise-Scratchbooks.">
+  <title>Scratch'n'Travel — Social Travel Plattform für Familien, Tiere, Extreme & Geheimtipps</title>
+  <meta name="description" content="Reise nicht nur als Tourist. Werde Teil des Ortes. Entdecke Familien- & Hundereisen, Extremsport, Secret Spots und den Local Safety & Scam-Radar.">
   
   <link rel="stylesheet" href="assets/css/main.css">
   <link rel="stylesheet" href="assets/css/components.css">
@@ -17,7 +17,7 @@
     "name": "Scratch'n'Travel",
     "operatingSystem": "Web",
     "applicationCategory": "TravelApplication",
-    "description": "Die Social Layer Reise-Plattform für Familien, Haustierhalter und echte Geheimtipps von Einheimischen.",
+    "description": "Die Human-First Reise-Plattform mit Geheimtipps, Hobbys, Haustier- & Familienreisen, Extremsport und Scam-Radar.",
     "offers": {
       "@type": "Offer",
       "price": "0",
@@ -34,13 +34,28 @@
       <a href="index.html" class="brand-logo">
         Scratch'n'Travel<span class="dot">.</span>
       </a>
+      
       <ul class="nav-links">
-        <li><a href="#vorteile">Das Konzept</a></li>
-        <li><a href="#familie-tiere">Familien & Tiere 🐶</a></li>
-        <li><a href="#geheimtipps">Geheimtipps 🔐</a></li>
-        <li><a href="#scratchbook">Scratchbook 📖</a></li>
-        <li><a href="#preise">Preise</a></li>
-        <li><a href="app.html" class="btn btn-primary" style="padding: 8px 20px; font-size: 0.9rem;">App Starten →</a></li>
+        <li><a href="#vorteile" data-i18n="nav_concept">Das Konzept</a></li>
+        <li><a href="#familie-tiere" data-i18n="nav_family_pets">Familien & Tiere 🐶</a></li>
+        <li><a href="#aktivitaeten" data-i18n="nav_activities">Aktivitäten & Extreme 🏄‍♂️</a></li>
+        <li><a href="#safety-radar" data-i18n="nav_safety">Safety & Scam-Radar ⚠️</a></li>
+        <li><a href="#scratch-passport" data-i18n="nav_scratchbook">Pass & Rubbelkarte 📖</a></li>
+        <li><a href="#community-feed">Erfahrungsberichte 💬</a></li>
+        <li><a href="#preise" data-i18n="nav_pricing">Preise & Beta 💳</a></li>
+        
+        <!-- Multilingual Switcher -->
+        <li>
+          <div class="lang-selector">
+            <button class="lang-btn active" data-lang="de" onclick="window.i18n.setLanguage('de')">🇩🇪 DE</button>
+            <button class="lang-btn" data-lang="en" onclick="window.i18n.setLanguage('en')">🇬🇧 EN</button>
+            <button class="lang-btn" data-lang="es" onclick="window.i18n.setLanguage('es')">🇪🇸 ES</button>
+            <button class="lang-btn" data-lang="fr" onclick="window.i18n.setLanguage('fr')">🇫🇷 FR</button>
+            <button class="lang-btn" data-lang="it" onclick="window.i18n.setLanguage('it')">🇮🇹 IT</button>
+          </div>
+        </li>
+
+        <li><a href="app.html" class="btn btn-primary" style="padding: 8px 20px; font-size: 0.9rem;" data-i18n="nav_start_app">App Starten →</a></li>
       </ul>
     </div>
   </header>
@@ -48,188 +63,279 @@
   <!-- Hero Section -->
   <section class="hero">
     <div class="container">
-      <span class="badge badge-emerald">🌍 Die Social Layer von Reisen</span>
+      <span class="badge badge-emerald" data-i18n="hero_badge">🌍 Die Social Layer von Reisen</span>
       <h1 style="margin-top: 16px;">
-        Verreise nicht als Tourist.<br>
-        <span class="gradient-text">Werde Teil des Ortes.</span>
+        <span data-i18n="hero_title_1">Verreise nicht als Tourist.</span><br>
+        <span class="gradient-text" data-i18n="hero_title_2">Werde Teil des Ortes.</span>
       </h1>
-      <p class="hero-subtitle">
-        Entdecke versteckte Orte von Einheimischen, triff Gleichgesinnte für deine Hobbys und erlebe entspannte <strong>Reisen mit Kindern und Haustieren</strong> — inklusive Flug-Regeln, Checklisten & Reise-Scratchbook.
+      <p class="hero-subtitle" data-i18n="hero_subtitle">
+        Entdecke versteckte Orte von Einheimischen, triff Gleichgesinnte für deine Hobbys, plane Extremsport & Familienausflüge und schütze dich vor Touristenfallen.
       </p>
 
       <div style="display: flex; justify-content: center; gap: 16px; flex-wrap: wrap;">
-        <a href="app.html" class="btn btn-primary">Entdecken & Ausprobieren ✨</a>
-        <a href="#familie-tiere" class="btn btn-secondary">Familien- & Hunde-Hub 🐕</a>
+        <a href="app.html" class="btn btn-primary" data-i18n="hero_cta_explore">Entdecken & Ausprobieren ✨</a>
+        <a href="#community-feed" class="btn btn-secondary">Erfahrungen teilen (VIP 0 €) 🎁</a>
       </div>
     </div>
   </section>
 
-  <!-- Section 1: Family & Pet Travel Focus -->
-  <section id="familie-tiere" class="container" style="padding: 60px 0;">
-    <div style="text-align: center; max-width: 700px; margin: 0 auto 40px;">
-      <span class="badge badge-cyan">🐶 NEU: Kinder & Haustiere im Fokus</span>
-      <h2 style="margin-top: 12px;">Sorgenfreies Reisen für die ganze Familie</h2>
-      <p>Keine überraschenden Verbote mehr. Finde gezielt Unterkünfte mit eingezäuntem Garten, kinderwagenfreundliche Wege und berechne Flugregeln für deinen Hund in Sekunden.</p>
+  <!-- Section 1: Activities Hub (Family, Pets, Extreme, Culture) -->
+  <section id="aktivitaeten" class="container" style="padding: 60px 0;">
+    <div style="text-align: center; max-width: 750px; margin: 0 auto 32px;">
+      <span class="badge badge-cyan" data-i18n="act_badge">🏄‍♂️ Von Familienurlaub bis Adrenalin</span>
+      <h2 style="margin-top: 12px;" data-i18n="act_title">Aktivitäten nach deinem Geschmack</h2>
+      <p data-i18n="act_subtitle">Egal ob kinderwagenfreundlicher Strand, Hundespielwiese oder 100-Meter-Klippensprung in Nazaré — filtere nach deinem Abenteuer-Level.</p>
     </div>
 
-    <div class="grid-3">
-      <!-- Feature Card 1 -->
-      <div class="glass-card">
-        <div style="font-size: 2.5rem; margin-bottom: 12px;">🛫</div>
-        <h3>Flug- & Kabinen-Rechner</h3>
-        <p>Prüfe sofort, ob dein Hund/Katze im Handgepäck mitfliegen darf (z.B. Lufthansa max. 8 kg) oder in den Frachtraum muss. Inklusive Gebühren-Übersicht.</p>
-        <a href="app.html#flugrechner" style="display: inline-block; margin-top: 16px; font-weight: 600;">Zum Flug-Rechner →</a>
-      </div>
-
-      <!-- Feature Card 2 -->
-      <div class="glass-card">
-        <div style="font-size: 2.5rem; margin-bottom: 12px;">📋</div>
-        <h3>Interaktive Checklisten</h3>
-        <p>EU-Heimtierausweis, Tollwut-Fristen (min. 21 Tage), Notfall-Tierarzt vor Ort, Baby-Reiseapotheke & Snacks — nie wieder etwas Wichtiges vergessen.</p>
-        <a href="app.html#checklisten" style="display: inline-block; margin-top: 16px; font-weight: 600;">Checkliste öffnen →</a>
-      </div>
-
-      <!-- Feature Card 3 -->
-      <div class="glass-card">
-        <div style="font-size: 2.5rem; margin-bottom: 12px;">🏡</div>
-        <h3>Familie + Hund Filter</h3>
-        <p>Filtere gezielt nach Unterkünften & Plätzen mit eingezäuntem Grundstück, Hundestrand in der Nähe, Spielplatz um die Ecke und Hunde-Erlaubnis im Raum.</p>
-        <a href="app.html#explorer" style="display: inline-block; margin-top: 16px; font-weight: 600;">In der App filtern →</a>
-      </div>
+    <!-- Filter Bar for Activities -->
+    <div class="filter-bar" style="justify-content: center;">
+      <button class="filter-btn act-filter-btn active" data-act-filter="all" data-i18n="act_filter_all">Alle Aktivitäten</button>
+      <button class="filter-btn act-filter-btn" data-act-filter="family" data-i18n="act_filter_family">👶 Familie & Kinder</button>
+      <button class="filter-btn act-filter-btn" data-act-filter="pets" data-i18n="act_filter_pets">🐶 Haustiere & Hunde</button>
+      <button class="filter-btn act-filter-btn" data-act-filter="extreme" data-i18n="act_filter_extreme">⚡ Extreme & Adrenalin</button>
+      <button class="filter-btn act-filter-btn" data-act-filter="culture" data-i18n="act_filter_culture">🍲 Kultur & Kulinarik</button>
     </div>
+
+    <!-- Dynamic Activities Grid with Photos -->
+    <div class="grid-3" id="activitiesGrid"></div>
   </section>
 
-  <!-- Section 2: Secret Spots & Local Etiquette -->
-  <section id="geheimtipps" class="container" style="padding: 60px 0;">
-    <div style="text-align: center; max-width: 700px; margin: 0 auto 40px;">
-      <span class="badge badge-gold">🔐 Local Secrets Engine</span>
-      <h2 style="margin-top: 12px;">Orte, die Einheimische wirklich lieben</h2>
-      <p>Abseits vom Massentourismus. Schütze die Natur und schalte exklusive Koordinaten frei, indem du den nachhaltigen Verhaltenskodex bestätigst.</p>
+  <!-- Section 2: Luxury Obsidian & Gold Scratch Map & Travel Passport -->
+  <section id="scratch-passport" class="container" style="padding: 60px 0;">
+    <div style="text-align: center; max-width: 750px; margin: 0 auto 36px;">
+      <span class="badge badge-gold">✨ Luxury Black & Gold Edition</span>
+      <h2 style="margin-top: 12px;">Interaktive Rubbel-Weltkarte & Reise-Pass</h2>
+      <p>Halte deine Entdeckungen fest wie in einem echten, gold-geprägten Reisepass mit Visa-Stempeln und rubbelbereiter Obsidian-Karte.</p>
     </div>
 
-    <div class="glass-card" style="max-width: 800px; margin: 0 auto;">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-        <span class="badge badge-emerald">Lissabon, Portugal</span>
-        <span class="badge badge-gold">🔐 Geheimtipp</span>
+    <!-- Interactive Scratch Map Canvas -->
+    <div class="scratch-map-container">
+      <div class="scratch-map-bg">
+        <div style="text-align: center; color: #FFF;">
+          <h3 style="font-size: 1.8rem; color: var(--sand-gold); margin-bottom: 8px;">🗺️ Portugal & Europa Freigelegt!</h3>
+          <p style="font-size: 0.95rem; max-width: 500px; margin: 0 auto; color: var(--text-muted);">
+            📍 Freigeschaltete Secrets: Praia da Ursa (Sintra), Tasca O Galo (Alfama), Nazaré Big Waves, Berlengas Riffe & Arrábida Flachwasser.
+          </p>
+          <div style="margin-top: 16px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+            <span class="badge badge-emerald">🏛️ Lissabon</span>
+            <span class="badge badge-cyan">🌊 Nazaré</span>
+            <span class="badge badge-gold">🐕 Algarve</span>
+            <span class="badge badge-emerald">🍇 Douro</span>
+          </div>
+        </div>
       </div>
-      <h3>Versteckte Bucht & Hundestrand "Praia da Ursa"</h3>
-      <p>Wunderschöner, naturbelassener Klippenstrand mit feinem Sand und weitem Auslauf. Perfekt für Familien mit kletterfreudigen Kindern und Hunden.</p>
+      <canvas id="scratchCanvas" class="scratch-canvas"></canvas>
+    </div>
 
-      <div class="secret-blur-overlay">
-        <p>🔒 Exakte GPS-Koordinaten & Anfahrts-Geheimweg verschwommen</p>
-        <button class="btn btn-primary" onclick="alert('Öffne die App, um den Ehrenkodex (Leave No Trace) zu bestätigen und die Koordinaten freizuschalten!')">
-          Ehrenkodex akzeptieren & Koordinaten enthüllen 🔑
+    <!-- Scratch Controls & Outsource POD Order -->
+    <div style="display: flex; justify-content: space-between; align-items: center; max-width: 900px; margin: 16px auto 0; flex-wrap: wrap; gap: 12px;">
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <span id="scratchPercentDisplay" style="font-weight: 700; color: var(--sand-gold); font-size: 1.05rem;">0% Freigerubbelt</span>
+        <button class="btn btn-secondary" style="padding: 6px 14px; font-size: 0.8rem;" onclick="window.scratchPassport.revealAll()">Alle Secrets Aufdecken</button>
+        <button class="btn btn-secondary" style="padding: 6px 14px; font-size: 0.8rem;" onclick="window.scratchPassport.resetMap()">Neu Versiegeln</button>
+      </div>
+      <div>
+        <button class="btn btn-primary" style="padding: 10px 20px; font-size: 0.88rem;" onclick="window.scratchPassport.openPODOrderModal()">
+          📖 Als Gedrucktes Luxus-Journal Bestellen (POD) →
         </button>
       </div>
     </div>
   </section>
 
-  <!-- Section 3: Digital Travel Scratchbook -->
-  <section id="scratchbook" class="container" style="padding: 60px 0;">
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 40px; align-items: center;">
+  <!-- Section 3: Community Experience Exchange Feed ("Give to Get") -->
+  <section id="community-feed" class="container" style="padding: 60px 0;">
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; margin-bottom: 30px;">
       <div>
-        <span class="badge badge-cyan">📖 Travel Memories</span>
-        <h2 style="margin-top: 12px;">Dein digitales & gedrucktes Reise-Scratchbook</h2>
-        <p style="margin-top: 16px;">
-          Halte deine Reisen fest: Getroffene Einheimische, gelernte Rezepte, besuchte Geheimtipps und Familienfotos. Automatisches Reisetagebuch, das du sofort als hochwertiges Erinnerungs-PDF exportieren oder gedruckt bestellen kannst.
-        </p>
-        <ul style="margin: 20px 0; list-style: none;">
-          <li style="margin-bottom: 10px;">✅ Automatische Kartenerfassung besuchter Orte</li>
-          <li style="margin-bottom: 10px;">✅ Familien- & Haustier-Erinnerungsalbum</li>
-          <li style="margin-bottom: 10px;">✅ Druckfertig als PDF-Souvenir oder Geschenkbuch</li>
-        </ul>
-        <a href="app.html#scratchbook" class="btn btn-secondary">Scratchbook erstellen →</a>
+        <span class="badge badge-emerald">🎁 Give-to-Get Community Loop</span>
+        <h2 style="margin-top: 10px;">Erfahrungen teilen & 0 € VIP-Zugang sichern</h2>
+        <p style="font-size: 0.95rem;">Teile deine echten Geheimtipps & Stories. Im Gegenzug erhältst du vollen Pro-Zugang kostenlos!</p>
       </div>
-
-      <div class="journal-card">
-        <span class="badge badge-emerald">Beispiel Scratchbook</span>
-        <h3 style="margin-top: 12px;">Familienreise Lissabon & Algarve 2026</h3>
-        <p style="font-size: 0.9rem; margin-top: 8px;">12 Tage • 4 Geheimtipps • 2 Hunde-Strände • 1 Familienrezept</p>
-        <div style="margin-top: 20px; background: rgba(0,0,0,0.3); padding: 16px; border-radius: var(--radius-sm);">
-          <p style="font-size: 0.85rem; color: #FFF;"><em>"Marias Omas Pastéis-Rezept in Alfama gelernt. Bello hat den Strand geliebt!"</em></p>
-        </div>
+      <div>
+        <button class="btn btn-primary" onclick="window.hermesGuardian.openShareModal()">+ Story / Tipp Einreichen ✨</button>
       </div>
     </div>
+
+    <div class="grid-3" id="communityFeedGrid"></div>
   </section>
 
-  <!-- Section 4: AI Concierge Demo -->
+  <!-- Section 4: Local Safety & Scam-Radar (Wem man NICHT trauen sollte) -->
+  <section id="safety-radar" class="container" style="padding: 60px 0;">
+    <div style="text-align: center; max-width: 800px; margin: 0 auto 32px;">
+      <span class="badge badge-gold" data-i18n="safety_badge">⚠️ Insider-Schutz von Einheimischen</span>
+      <h2 style="margin-top: 12px;" data-i18n="safety_title">Local Safety & Scam-Radar</h2>
+      <p data-i18n="safety_subtitle">Wem du NICHT trauen solltest: Echte Warnungen vor Taschendiebbanken, Wucherpreisen, gefälschten Tickets und gefährlichen Ecken.</p>
+    </div>
+
+    <!-- Filter Bar for Safety -->
+    <div class="filter-bar" style="justify-content: space-between;">
+      <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+        <button class="filter-btn safety-filter-btn active" data-safety-filter="all" data-i18n="safety_filter_all">Alle Warnungen</button>
+        <button class="filter-btn safety-filter-btn" data-safety-filter="scam" data-i18n="safety_filter_scam">🟡 Abzocke & Wucher</button>
+        <button class="filter-btn safety-filter-btn" data-safety-filter="danger" data-i18n="safety_filter_danger">🔴 Gefahrenzonen & Banden</button>
+        <button class="filter-btn safety-filter-btn" data-safety-filter="tips" data-i18n="safety_filter_tips">🟢 Verhaltenstipps der Locals</button>
+      </div>
+      <div>
+        <button class="btn btn-secondary" style="padding: 8px 16px; font-size: 0.85rem;" onclick="window.safetyRadar.openReportModal()" data-i18n="safety_report_btn">
+          + Scam / Gefahr Melden
+        </button>
+      </div>
+    </div>
+
+    <!-- Safety Grid -->
+    <div class="grid-3" id="safetyRadarGrid"></div>
+  </section>
+
+  <!-- Section 5: AI Concierge Demo -->
   <section class="container" style="padding: 40px 0;">
     <div class="ai-concierge-card">
-      <span class="badge badge-emerald">🤖 Hermes AI Travel Concierge</span>
-      <h3 style="margin-top: 12px;">Frage Hermes nach deiner perfekten Reise</h3>
-      <p style="font-size: 0.95rem;">Gib dein Reiseziel, Kinder-Alter oder Haustier-Rasse ein. Hermes empfiehlt echte Insider-Tipps.</p>
+      <span class="badge badge-emerald" data-i18n="concierge_badge">🤖 Hermes AI Travel Concierge</span>
+      <h3 style="margin-top: 12px;" data-i18n="concierge_title">Frage Hermes nach deiner perfekten Reise</h3>
+      <p style="font-size: 0.95rem;" data-i18n="concierge_desc">Gib dein Reiseziel, Kinder-Alter, Haustier oder Extremsport-Wunsch ein. Hermes empfiehlt echte Insider-Tipps.</p>
 
       <div class="ai-input-group">
-        <input type="text" id="aiPromptInput" placeholder="Z.B. 3 Tage Lissabon mit 4-jährigem Kind und Golden Retriever...">
-        <button class="btn btn-primary" onclick="handleConciergeSubmit()">Hermes Fragen 🚀</button>
+        <input type="text" id="aiPromptInput" data-i18n-placeholder="concierge_placeholder" placeholder="Z.B. 3 Tage Lissabon: Klippenspringen, kinderfreundlicher Strand & Bacalhau ohne Touristenfallen...">
+        <button class="btn btn-primary" onclick="handleConciergeSubmit()" data-i18n="concierge_btn">Hermes Fragen 🚀</button>
       </div>
 
       <div id="aiConciergeResponse"></div>
     </div>
   </section>
 
-  <!-- Section 5: Pricing Stack -->
+  <!-- Section 6: Dynamic Pricing & 1-Click Stripe / Beta Switcher -->
   <section id="preise" class="container" style="padding: 60px 0;">
-    <div style="text-align: center; max-width: 700px; margin: 0 auto 40px;">
-      <span class="badge badge-gold">Fair & Transparent</span>
-      <h2 style="margin-top: 12px;">Einfaches Abomodell für Entdecker</h2>
-      <p>Keine versteckten Vermittlungsgebühren. Wir verdienen nur an Transparenz und Premium-Features.</p>
+    <div style="text-align: center; max-width: 750px; margin: 0 auto 30px;">
+      <span class="badge badge-gold" data-i18n="pricing_badge">Fair, Transparent & Sicher</span>
+      <h2 style="margin-top: 12px;" data-i18n="pricing_title">Preismodelle & Vorab-Zugang</h2>
+      <p data-i18n="pricing_subtitle">Keine versteckten Gebühren. Volle Kontrolle über Abrechnung und Pre-Launch Phasen.</p>
+    </div>
+
+    <!-- 1-Click Admin & Mode Switcher Bar -->
+    <div class="pricing-mode-bar">
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <span style="font-weight: 600; font-size: 0.9rem;" data-i18n="pricing_status_label">Aktueller Status:</span>
+        <div id="pricingModeBadge">
+          <span class="badge badge-cyan">🌱 Pre-Launch Beta (Kostenloser Test)</span>
+        </div>
+      </div>
+      <div>
+        <button id="pricingToggleBtn" class="btn btn-primary" style="padding: 8px 18px; font-size: 0.85rem;" onclick="window.toggleStripeMode()">
+          ⚡ 1-Klick: Stripe Live-Modus aktivieren (Preise einblenden)
+        </button>
+      </div>
     </div>
 
     <div class="grid-3">
-      <!-- Tier 1 -->
+      <!-- Tier 1: Free Explorer -->
       <div class="glass-card">
-        <h3>Free Explorer</h3>
-        <div style="font-size: 2.2rem; font-weight: 800; margin: 16px 0; color: #FFF;">0 € <span style="font-size: 1rem; font-weight: 400; color: var(--text-muted);">/ dauerhaft</span></div>
+        <span class="badge badge-cyan" id="price-badge-free">Basis</span>
+        <h3 style="margin-top: 8px;">Free Explorer</h3>
+        <div style="font-size: 2.2rem; font-weight: 800; margin: 16px 0; color: #FFF;">
+          <span id="price-val-free">0 €</span> <span id="price-period-free" style="font-size: 1rem; font-weight: 400; color: var(--text-muted);">dauerhaft kostenlos</span>
+        </div>
+        <p id="price-desc-free" style="font-size: 0.85rem; min-height: 40px; margin-bottom: 16px;">Kostenlose Basisfunktionen für Entdecker</p>
         <ul style="list-style: none; margin-bottom: 24px; font-size: 0.9rem;">
           <li style="margin-bottom: 8px;">✓ Basis-Geheimtipps ansehen</li>
           <li style="margin-bottom: 8px;">✓ Familien- & Hunde-Checklisten</li>
-          <li style="margin-bottom: 8px;">✓ Flug-Rechner nutzen</li>
+          <li style="margin-bottom: 8px;">✓ Haustier-Flugrechner</li>
+          <li style="margin-bottom: 8px;">✓ Basis City Explorer</li>
         </ul>
-        <a href="app.html" class="btn btn-secondary" style="width: 100%;">Kostenlos nutzen</a>
+        <button id="price-btn-free" class="btn btn-secondary" style="width: 100%;" onclick="window.stripeManager.startCheckout('free')">Kostenlos nutzen</button>
       </div>
 
-      <!-- Tier 2 -->
+      <!-- Tier 2: Family & Pet Pro -->
       <div class="glass-card" style="border-color: var(--emerald-primary);">
-        <span class="badge badge-emerald" style="float: right;">Empfohlen</span>
-        <h3>Family & Pet Pro</h3>
-        <div style="font-size: 2.2rem; font-weight: 800; margin: 16px 0; color: var(--emerald-primary);">7,99 € <span style="font-size: 1rem; font-weight: 400; color: var(--text-muted);">/ Monat</span></div>
+        <span class="badge badge-emerald" id="price-badge-pro" style="float: right;">Early Bird VIP</span>
+        <h3 style="margin-top: 8px;">Family & Pet Pro</h3>
+        <div style="font-size: 2.2rem; font-weight: 800; margin: 16px 0; color: var(--emerald-primary);">
+          <span id="price-val-pro">0 €</span> <span id="price-period-pro" style="font-size: 1rem; font-weight: 400; color: var(--text-muted);">Kostenlos in der Beta-Phase</span>
+        </div>
+        <p id="price-desc-pro" style="font-size: 0.85rem; min-height: 40px; margin-bottom: 16px;">🎁 Exklusiver Vorab-Zugang (Regulär 7,99 €/Monat nach offiziellem Launch)</p>
         <ul style="list-style: none; margin-bottom: 24px; font-size: 0.9rem;">
-          <li style="margin-bottom: 8px;">✓ Unbegrenzt 🔐 Secret Spots enthüllen</li>
-          <li style="margin-bottom: 8px;">✓ Unbegrenzte Hermes AI Concierge Anfragen</li>
-          <li style="margin-bottom: 8px;">✓ Hobby-Match & Direktnachrichten mit Locals</li>
-          <li style="margin-bottom: 8px;">✓ Digital Scratchbook PDF-Export</li>
+          <li style="margin-bottom: 8px;">✓ Unbegrenzt 🔐 Secret Spots Koordinaten enthüllen</li>
+          <li style="margin-bottom: 8px;">✓ Unbegrenzte Hermes AI Concierge Empfehlungen</li>
+          <li style="margin-bottom: 8px;">✓ Hobby-Matching & Direktnachrichten mit Locals</li>
+          <li style="margin-bottom: 8px;">✓ Digital Travel Scratchbook PDF-Export</li>
+          <li style="margin-bottom: 8px;">✓ Local Safety & Scam-Radar Echtzeitwarnungen</li>
         </ul>
-        <a href="app.html" class="btn btn-primary" style="width: 100%;">Pro Freischalten</a>
+        <button id="price-btn-pro" class="btn btn-primary" style="width: 100%;" onclick="window.stripeManager.startCheckout('pro')">VIP Beta-Zugang sichern (0 €) 🎉</button>
       </div>
 
-      <!-- Tier 3 -->
+      <!-- Tier 3: Local Host / Business -->
       <div class="glass-card">
-        <h3>Local Host / Business</h3>
-        <div style="font-size: 2.2rem; font-weight: 800; margin: 16px 0; color: #FFF;">29 € <span style="font-size: 1rem; font-weight: 400; color: var(--text-muted);">/ Monat</span></div>
+        <span class="badge badge-gold" id="price-badge-business" style="float: right;">Pionier Host</span>
+        <h3 style="margin-top: 8px;">Local Host / Business</h3>
+        <div style="font-size: 2.2rem; font-weight: 800; margin: 16px 0; color: #FFF;">
+          <span id="price-val-business">0 €</span> <span id="price-period-business" style="font-size: 1rem; font-weight: 400; color: var(--text-muted);">Kostenlos für Pionier-Partner</span>
+        </div>
+        <p id="price-desc-business" style="font-size: 0.85rem; min-height: 40px; margin-bottom: 16px;">🌟 Kostenlos für die ersten 50 registrierten Hosts & lokalen Betriebe</p>
         <ul style="list-style: none; margin-bottom: 24px; font-size: 0.9rem;">
-          <li style="margin-bottom: 8px;">✓ Hervorgehobenes Profil für B&Bs / Cafés</li>
-          <li style="margin-bottom: 8px;">✓ "Familie + Hund Willkommen" Verifizierung</li>
-          <li style="margin-bottom: 8px;">✓ Direktkontakt ohne Provision</li>
+          <li style="margin-bottom: 8px;">✓ Hervorgehobenes Profil für B&Bs, Ferienhäuser & Cafés</li>
+          <li style="margin-bottom: 8px;">✓ "Familie & Hund Willkommen" Verifizierungs-Badge</li>
+          <li style="margin-bottom: 8px;">✓ Direkte Gästekontakte 100% ohne Buchungsprovision</li>
+          <li style="margin-bottom: 8px;">✓ Lokale Event- & Workshop-Angebote einstellen</li>
         </ul>
-        <a href="app.html" class="btn btn-secondary" style="width: 100%;">Business Registrieren</a>
+        <button id="price-btn-business" class="btn btn-secondary" style="width: 100%;" onclick="window.stripeManager.startCheckout('business')">Pionier-Host werden (0 €) 🚀</button>
       </div>
     </div>
   </section>
 
+  <!-- Share Experience Modal (Give-to-Get Loop with Hermes Guardian) -->
+  <div class="modal-overlay" id="shareExperienceModal">
+    <div class="modal-content" style="max-width: 600px;">
+      <button class="modal-close" onclick="window.hermesGuardian.closeShareModal()">×</button>
+      <span class="badge badge-emerald">🎁 Give-to-Get Exchange</span>
+      <h3 style="margin-top: 12px;">Erfahrungsbericht teilen & Pro-Status freischalten</h3>
+      <p style="font-size: 0.88rem; color: var(--text-muted); margin: 6px 0 16px;">
+        Teile einen echten Geheimtipp, eine Restaurant-Empfehlung oder eine Warnung vor einer Touristenfalle.
+      </p>
+
+      <div style="display: flex; flex-direction: column; gap: 12px;">
+        <input type="text" id="expAuthor" placeholder="Dein Name oder Pseudonym (z.B. Alex aus Köln)" style="padding: 10px 14px; border-radius: var(--radius-sm); border: 1px solid var(--border-line); background: #0B131F; color: #FFF;">
+        <input type="text" id="expCity" placeholder="Stadt / Region (z.B. Lissabon, Algarve, Porto)" style="padding: 10px 14px; border-radius: var(--radius-sm); border: 1px solid var(--border-line); background: #0B131F; color: #FFF;">
+        <input type="text" id="expTitle" placeholder="Titel deines Tipps (z.B. Bester Hundestrand ohne Touristen)" style="padding: 10px 14px; border-radius: var(--radius-sm); border: 1px solid var(--border-line); background: #0B131F; color: #FFF;">
+        <textarea id="expStory" rows="4" placeholder="Beschreibe deine Erfahrung, Besonderheiten, Preise oder Wegbeschreibung..." style="padding: 10px 14px; border-radius: var(--radius-sm); border: 1px solid var(--border-line); background: #0B131F; color: #FFF; font-family: inherit; font-size: 0.9rem;"></textarea>
+
+        <div style="background: rgba(16, 185, 129, 0.1); border: 1px solid var(--emerald-primary); padding: 10px; border-radius: var(--radius-sm); font-size: 0.78rem; color: #FFF;">
+          🛡️ <strong>Hermes Guardian Schutz:</strong> Beiträge werden in Echtzeit auf Sicherheit und authentischen Reise-Vibe geprüft. Kein Spam, keine Beleidigungen.
+        </div>
+
+        <button class="btn btn-primary" style="width: 100%; margin-top: 8px;" onclick="
+          const a = document.getElementById('expAuthor').value;
+          const c = document.getElementById('expCity').value;
+          const t = document.getElementById('expTitle').value;
+          const s = document.getElementById('expStory').value;
+          if (t && s) {
+            const ok = window.hermesGuardian.submitExperience(t, s, a, c);
+            if (ok) window.hermesGuardian.closeShareModal();
+          } else {
+            alert('Bitte gib mindestens einen Titel und deinen Erfahrungsbericht ein.');
+          }
+        ">
+          Erfahrung Veröffentlichen & VIP Aktivieren ✨
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- Footer -->
   <footer class="site-footer">
     <div class="container">
-      <p>© 2026 Scratch'n'Travel — Human-First Social Travel Platform.</p>
-      <p style="margin-top: 8px; font-size: 0.8rem;">
-        🔒 100% ohne Tracking-Cookies | <a href="#">Impressum</a> | <a href="#">Datenschutz</a> | <a href="#">Nutzungsbedingungen (P2P Disclaimer)</a>
+      <p data-i18n="footer_copy">© 2026 Scratch'n'Travel — Human-First Social Travel Platform.</p>
+      <p style="margin-top: 8px; font-size: 0.8rem;" data-i18n="footer_links">
+        🔒 100% ohne Tracking-Cookies | Impressum | Datenschutz | Nutzungsbedingungen
       </p>
     </div>
   </footer>
 
   <!-- Scripts -->
   <script src="assets/js/supabase-client.js"></script>
+  <script src="assets/js/i18n.js"></script>
+  <script src="assets/js/stripe-config.js"></script>
   <script src="assets/js/family-pet-engine.js"></script>
+  <script src="assets/js/activities-engine.js"></script>
+  <script src="assets/js/safety-radar.js"></script>
+  <script src="assets/js/hermes-guardian.js"></script>
+  <script src="assets/js/scratch-passport-engine.js"></script>
   <script src="assets/js/hermes-concierge.js"></script>
   <script src="assets/js/app.js"></script>
 </body>

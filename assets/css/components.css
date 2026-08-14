@@ -1,4 +1,4 @@
-/* ============================================================================
+﻿/* ============================================================================
    Scratch'n'Travel — UI Components Stylesheet
    Cards, Checklists, Secret Spot Blur, Filter Bar, AI Concierge & Modals
    ============================================================================ */
@@ -231,4 +231,334 @@ footer.site-footer {
   color: var(--text-muted);
   font-size: 1.8rem;
   cursor: pointer;
+}
+
+
+/* ─── Stripe & Beta Mode Switcher & Toast Styles ────────────────────────── */
+.pricing-mode-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  background: rgba(18, 30, 49, 0.95);
+  border: 1px solid var(--emerald-glow);
+  padding: 16px 24px;
+  border-radius: var(--radius-md);
+  margin-bottom: 32px;
+}
+
+.scratch-toast {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  background: #0F172A;
+  color: #F8FAFC;
+  border: 1px solid var(--emerald-primary);
+  border-radius: var(--radius-md);
+  padding: 14px 24px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), 0 0 20px var(--emerald-glow);
+  font-size: 0.92rem;
+  font-weight: 500;
+  z-index: 10000;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+}
+
+.scratch-toast.show {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+/* ─── Hobby Match & "I'm Here" Board Styles ────────────────────────────── */
+.hobby-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-line);
+  border-radius: var(--radius-md);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: var(--transition-smooth);
+}
+
+.hobby-card:hover {
+  border-color: var(--cyan-accent);
+  transform: translateY(-4px);
+  box-shadow: 0 15px 35px -10px rgba(6, 182, 212, 0.2);
+}
+
+.hobby-user-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.hobby-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  background: rgba(6, 182, 212, 0.15);
+  border: 1px solid rgba(6, 182, 212, 0.3);
+}
+
+.hobby-tag {
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--border-line);
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  font-size: 0.8rem;
+  margin: 3px;
+  color: var(--text-main);
+}
+
+.hobby-tag.highlight {
+  background: rgba(16, 185, 129, 0.2);
+  border-color: var(--emerald-primary);
+  color: var(--emerald-primary);
+}
+
+.im-here-box {
+  background: linear-gradient(135deg, rgba(6, 182, 212, 0.12) 0%, rgba(16, 185, 129, 0.08) 100%);
+  border: 1px solid rgba(6, 182, 212, 0.35);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+  margin-bottom: 36px;
+}
+
+/* ─── Multilingual Language Selector ────────────────────────────────────── */
+.lang-selector {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-line);
+  padding: 3px 6px;
+  border-radius: var(--radius-full);
+}
+
+.lang-btn {
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.lang-btn:hover {
+  color: #FFF;
+}
+
+.lang-btn.active {
+  background: var(--emerald-primary);
+  color: #FFF;
+}
+
+/* ─── Activity Image Cards with Zoom & Overlays ─────────────────────────── */
+.activity-card {
+  padding: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--border-line);
+}
+
+.activity-img-wrap {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+}
+
+.activity-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.activity-card:hover .activity-img {
+  transform: scale(1.06);
+}
+
+.activity-badge-overlay {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: rgba(11, 19, 31, 0.85);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--border-line);
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #FFF;
+}
+
+.activity-body {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  justify-content: space-between;
+}
+
+/* ─── Safety & Scam Radar Card Styles ───────────────────────────────────── */
+.safety-card {
+  border-left: 4px solid var(--border-line);
+  transition: var(--transition-smooth);
+}
+
+.safety-card.danger {
+  border-left-color: var(--rose-heart);
+  background: linear-gradient(135deg, rgba(244, 63, 94, 0.08) 0%, rgba(18, 30, 49, 0.9) 100%);
+}
+
+.safety-card.warning {
+  border-left-color: var(--sand-gold);
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.08) 0%, rgba(18, 30, 49, 0.9) 100%);
+}
+
+.safety-card.tip {
+  border-left-color: var(--emerald-primary);
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.08) 0%, rgba(18, 30, 49, 0.9) 100%);
+}
+
+.safety-advice-box {
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  font-size: 0.85rem;
+  margin-top: 10px;
+}
+
+.safety-advice-box.danger {
+  background: rgba(244, 63, 94, 0.15);
+  border: 1px solid rgba(244, 63, 94, 0.3);
+  color: #FFF;
+}
+
+.safety-advice-box.warning {
+  background: rgba(245, 158, 11, 0.15);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  color: #FFF;
+}
+
+.safety-advice-box.tip {
+  background: rgba(16, 185, 129, 0.15);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  color: #FFF;
+}
+
+.badge-danger {
+  background: rgba(244, 63, 94, 0.2);
+  color: var(--rose-heart);
+  border: 1px solid rgba(244, 63, 94, 0.4);
+}
+
+/* ─── Luxury Obsidian & Gold Scratch Map & Travel Passport ─────────────── */
+.scratch-map-container {
+  position: relative;
+  width: 100%;
+  max-width: 900px;
+  height: 440px;
+  margin: 0 auto;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 2px solid var(--sand-gold);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 30px rgba(245, 158, 11, 0.2);
+  user-select: none;
+}
+
+.scratch-map-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at center, #1E293B 0%, #0B131F 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.scratch-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  cursor: crosshair;
+  z-index: 10;
+}
+
+/* Passport Booklet Style */
+.passport-booklet {
+  background: linear-gradient(135deg, #0A0F1D 0%, #152033 100%);
+  border: 2px solid var(--sand-gold);
+  border-radius: var(--radius-lg);
+  padding: 36px;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.75), inset 0 0 20px rgba(245, 158, 11, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.passport-header-emblem {
+  text-align: center;
+  border-bottom: 1px dashed var(--sand-gold);
+  padding-bottom: 20px;
+  margin-bottom: 24px;
+}
+
+.passport-stamps-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.passport-stamp-card {
+  background: rgba(0, 0, 0, 0.35);
+  border: 2px dashed #10B981;
+  border-radius: var(--radius-sm);
+  padding: 16px;
+  text-align: center;
+  transform: rotate(-1.5deg);
+  transition: var(--transition-fast);
+}
+
+.passport-stamp-card:nth-child(even) {
+  transform: rotate(2deg);
+}
+
+.passport-stamp-card:hover {
+  transform: rotate(0deg) scale(1.04);
+}
+
+.stamp-icon {
+  font-size: 2rem;
+  margin-bottom: 6px;
+}
+
+.stamp-status-tag {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  font-size: 0.68rem;
+  font-weight: 700;
+  margin-top: 6px;
+  letter-spacing: 0.05em;
 }

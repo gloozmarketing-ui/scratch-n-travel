@@ -2,6 +2,8 @@
   "city": "Lissabon",
   "country": "Portugal",
   "health_score": 92.5,
+  "ai_provider": "static-fallback",
+  "seeded_at": "2026-08-14T17:11:26.731Z",
   "baseline_spots": [
     {
       "title": "Praia da Ursa",
@@ -9,71 +11,109 @@
       "tags": [
         "pet_friendly",
         "family_friendly",
-        "secret_spot"
+        "secret"
       ],
-      "description": "Naturbelassener Sandstrand mit Klippen. Perfekt für Hundeauslauf & Familien-Picknick.",
-      "coordinates": {
-        "lat": 38.7903,
-        "lng": -9.4925
-      },
-      "verified_by": "Local Community"
+      "description": "Naturbelassener Sandstrand mit Klippen, abseits aller Touristenrouten.",
+      "lat": 38.7903,
+      "lng": -9.4925
     },
     {
-      "title": "Jardim da Estrela Park",
-      "category": "family_friendly",
-      "tags": [
-        "family_friendly",
-        "playground",
-        "stroller_friendly"
-      ],
-      "description": "Schattiger Park mit historischem Pavillon, stufenfreien Wegen und großem Kinderspielplatz.",
-      "coordinates": {
-        "lat": 38.715,
-        "lng": -9.1585
-      },
-      "verified_by": "Local Mamas"
-    },
-    {
-      "title": "Tasca O Galo Alfama",
+      "title": "Tasca O Galo — Alfama",
       "category": "local_food",
       "tags": [
         "pet_friendly",
-        "local_food",
-        "traditional"
+        "traditional",
+        "dog_water_bowl"
       ],
-      "description": "Authentische Nachbarschafts-Tasca mit Wassernapf für Hunde und frischem Bacalhau.",
-      "coordinates": {
-        "lat": 38.712,
-        "lng": -9.131
-      },
-      "verified_by": "Local Foodies"
+      "description": "Familiäre Kiez-Tasca. Hunde innen und außen willkommen. Fangfrischer Bacalhau.",
+      "lat": 38.712,
+      "lng": -9.131
+    },
+    {
+      "title": "Miradouro da Senhora do Monte",
+      "category": "secret_spot",
+      "tags": [
+        "secret",
+        "sunset",
+        "picnic"
+      ],
+      "description": "Spectakulärer Sonnenuntergang ohne die großen Reisebus-Touristengruppen.",
+      "lat": 38.717,
+      "lng": -9.138
+    },
+    {
+      "title": "Jardim da Estrela",
+      "category": "family_friendly",
+      "tags": [
+        "stroller_friendly",
+        "playground",
+        "shade"
+      ],
+      "description": "Historischer Park mit stufenfreien Wegen, eingezäuntem Spielbereich & Kiosk.",
+      "lat": 38.715,
+      "lng": -9.1585
+    },
+    {
+      "title": "Mercado de Campo de Ourique",
+      "category": "local_food",
+      "tags": [
+        "family_friendly",
+        "local_food",
+        "kids_menu"
+      ],
+      "description": "Echter Nachbarschaftsmarkt. Kein touristisches Food-Court. Lokale Händler & frische Produkte.",
+      "lat": 38.717,
+      "lng": -9.164
     }
   ],
   "pet_highlights": [
     {
       "spot": "Praia da Ursa",
-      "feature": "Schattenbereiche unter Klippen, Kotbeutelstationen"
+      "feature": "Schattenbereiche, keine Anleinpflicht außerhalb der Saison",
+      "best_time": "Morgens vor 10 Uhr"
     },
     {
-      "spot": "Parque Monsanto",
-      "feature": "Großes Freilaufgehege & Hundetrainingsbereich"
+      "spot": "Parque de Monsanto",
+      "feature": "Großer Freilaufbereich & Hundetraining-Zone",
+      "best_time": "Abends nach 18 Uhr"
+    },
+    {
+      "spot": "Tasca O Galo",
+      "feature": "Wassernapf inklusive, Innen & Außen hundefreundlich",
+      "best_time": "Mittagessen 12–14 Uhr"
     }
   ],
   "family_highlights": [
     {
-      "spot": "Ozeanarium Parque das Nações",
-      "feature": "Kinderwagen-Rampen & Fläschchen-Aufwärmstation"
+      "spot": "Jardim da Estrela",
+      "feature": "Stufenfreie Wege, eingezäunter Kleinkind-Spielbereich",
+      "stroller": true
     },
     {
-      "spot": "Jardim da Estrela",
-      "feature": "Eingezäunter Kleinkind-Bereich"
+      "spot": "Ozeanarium Parque das Nações",
+      "feature": "Kinderwagen-Rampen & Fläschchen-Aufwärmstation im Service-Center",
+      "stroller": true
+    },
+    {
+      "spot": "Mercado de Campo de Ourique",
+      "feature": "Kinder-Mahlzeiten ab 4 €, keine Massentouristik",
+      "stroller": true
     }
   ],
   "local_recipes": [
     {
       "title": "Pastéis de Nata de Alfama",
-      "chef": "Maria (Local)",
-      "difficulty": "Mittel"
+      "chef": "Maria (Local, Alfama)",
+      "difficulty": "Mittel",
+      "ingredient_hint": "Frische Eigelbe & Zimt sind das Geheimnis"
+    },
+    {
+      "title": "Caldo Verde — Suppe der Armen",
+      "chef": "Tiago (Local Koch)",
+      "difficulty": "Einfach",
+      "ingredient_hint": "Grünkohl, Chouriço & Olivenöl"
     }
-  ]
+  ],
+  "confidence_score": 0.91,
+  "decision_reason": "Hermes v2.0 City Brain Seeding für Lissabon — static-fallback"
 }

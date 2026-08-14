@@ -1,6 +1,7 @@
-/**
+﻿/**
  * Scratch'n'Travel — Main Application Logic
- * Manages Spot Filtering, Secret Unlocking, Scratchbook Memory Export & UI Tabs
+ * Manages Spot Filtering, Secret Unlocking, Scratchbook Memory Export,
+ * Hobby Matching, "I'm Here" Broadcasts & UI Handlers
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -22,6 +23,11 @@ document.addEventListener('DOMContentLoaded', () => {
       filterSpots(tag);
     });
   });
+
+  // Sync Tier badge in app navbar
+  if (window.stripeManager) {
+    window.stripeManager.updateUserTierUI();
+  }
 });
 
 function filterSpots(tag) {
@@ -126,6 +132,36 @@ function markedParse(text) {
 
 // Scratchbook Memory Printer / Exporter
 function exportScratchbook() {
-  alert('📖 Dein Reise-Scratchbook wird vorbereitet...');
+  if (window.stripeManager) {
+    window.stripeManager.showToast('📖 Dein Reise-Scratchbook PDF wird vorbereitet...');
+  }
   window.print();
+}
+
+// "I'm Here" Broadcast Handler (Module B)
+function broadcastImHere() {
+  const city = prompt('In welcher Stadt bist du gerade?', 'Lissabon');
+  if (!city) return;
+  const dates = prompt('Bis wann bist du vor Ort?', '22. August 2026');
+  if (!dates) return;
+
+  if (window.stripeManager) {
+    window.stripeManager.showToast(`📡 "I'm Here" Broadcast aktualisiert für ${city} bis ${dates}!`);
+  }
+  if (window.scratchDB) {
+    window.scratchDB.logEvent('IM_HERE_BROADCAST', { city, dates });
+  }
+}
+
+// Hobby Match Connect Handler (Module B)
+function connectHobbyUser(userName, topic) {
+  const message = prompt(`Nachricht an ${userName} senden zum Thema "${topic}":`, `Hallo ${userName}, ich habe dein Profil auf Scratch'n'Travel gesehen und hätte großes Interesse am ${topic}! Passt es dir die Tage?`);
+  if (message) {
+    if (window.stripeManager) {
+      window.stripeManager.showToast(`💬 Nachricht an ${userName} erfolgreich gesendet!`);
+    }
+    if (window.scratchDB) {
+      window.scratchDB.logEvent('HOBBY_MESSAGE_SENT', { recipient: userName, topic, messageLength: message.length });
+    }
+  }
 }
