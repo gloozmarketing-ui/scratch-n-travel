@@ -1,158 +1,132 @@
 ﻿/**
- * Scratch'n'Travel — Activities Engine (Family, Pets, Extreme Adrenaline & Culture)
- * Features High Quality Photography, Filters & Adventure Level Metrics
+ * Scratch'n'Travel — Activities & Extreme Sports Hub v2.1
+ * Rich photography, multi-category filters & local verified spots
  */
 
 const ACTIVITIES_DATA = [
-  // ── Extreme & Adrenaline ───────────────────────────────────────────────────
+  // 1. Extreme & Adrenaline
   {
-    id: 'act_surf_nazare',
+    id: 'act_nazare_surf',
     category: 'extreme',
-    title: 'Big Wave Surf & Klippenblick Nazaré',
-    location: 'Nazaré & Peniche, Portugal',
-    image: 'https://images.unsplash.com/photo-1502680390469-be75c86b636f?auto=format&fit=crop&w=900&q=80',
-    intensity: 'Extreme (Adrenalin 10/10)',
-    badge: '⚡ Profi & Zuschauer Hotspot',
-    tags: ['Surf', 'Big Wave', 'Atlantik', 'Klippen'],
-    description: 'Erlebe die berühmteste Riesenwelle der Welt am Leuchtturm Farol da Nazaré oder buche geführte Surf-Sessions an den Weltklasse-Breaks von Peniche.',
-    localTip: 'Tiago (Surflehrer): "Die besten Wellen für Fortgeschrittene gibt es morgens bei ablaufendem Wasser bei Supertubos."'
+    badge: '⚡ Big Wave Adrenalin',
+    title: 'Nazaré Giant Wave Surf & Cliff Watch',
+    location: 'Praia do Norte, Nazaré (1h von Lissabon)',
+    image: 'https://images.unsplash.com/photo-1502680390469-be75c86b636f?auto=format&fit=crop&w=800&q=80',
+    intensity: 'EXTREM (Bis 30m Wellen im Winter)',
+    duration: 'Tagesausflug',
+    description: 'Erlebe die mächtigsten Monsterwellen des Planeten am berühmten Leuchtturm-Felsen. Im Sommer ideal für Surfcamps & Klippenwanderungen.',
+    localTip: 'Der beste Blick ohne Gedränge ist 200m oberhalb des Farol da Nazaré am Pinienhang.',
+    priceEstimate: 'Kostenlos zum Zuschauen • Surfkurs ab 45 €'
   },
   {
-    id: 'act_diving_berlengas',
+    id: 'act_berlengas_diving',
     category: 'extreme',
-    title: 'Scuba Diving im Berlengas UNESCO-Biosphärenreservat',
-    location: 'Archipel Berlengas, Portugal',
-    image: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=900&q=80',
-    intensity: 'Fortgeschritten / Taucher',
-    badge: '🤿 Wrack- & Höhlentauchen',
-    tags: ['Scuba', 'Unterwasserhöhlen', 'Schiffswrack', 'Delfine'],
-    description: 'Glasklares Wasser bis zu 20m Sichtweite. Erkunde Unterwasserhöhlen, historische Schiffswracks und Begegnungen mit Rochen und Mondfischen.',
-    localTip: 'Manuel (Tauchguide): "Ein 7mm Neoprenanzug ist Pflicht — die Strömungen sind kräftig, aber die Sicht unschlagbar."'
-  },
-  {
-    id: 'act_paragliding_sintra',
-    category: 'extreme',
-    title: 'Klippen-Paragliding & Skydiving Sintra-Küste',
-    location: 'Praia das Maçãs / Sintra',
-    image: 'https://images.unsplash.com/photo-1516738901171-8eb4fc13bd20?auto=format&fit=crop&w=900&q=80',
-    intensity: 'High Adrenalin (Höhe 400m)',
-    badge: '🪂 Tandem & Solo Flug',
-    tags: ['Paragliding', 'Küstenwind', 'Klippen', 'Aussicht'],
-    description: 'Segle im thermischen Küstenaufwind über die Steilküste des Cabo da Roca — dem westlichsten Punkt des europäischen Festlands.',
-    localTip: 'Sofia (Pilotin): "Perfekte Startbedingungen von 15 bis 18 Uhr bei thermischem Nordwest-Wind."'
+    badge: '🤿 Biosphären-Tauchen',
+    title: 'Berlengas Archipel: Schiffswracks & Höhlentauchen',
+    location: 'Peniche Hafen (Schnellboot-Überfahrt)',
+    image: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=800&q=80',
+    intensity: 'MITTEL BIS HOCH',
+    duration: '5–6 Stunden',
+    description: 'UNESCO-Biosphärenreservat mit glasklarem Atlantikwasser, versunkenen Dampfschiffen und spektakulären Unterwasser-Höhlensystemen.',
+    localTip: 'Fähre unbedingt 3 Tage im Voraus buchen, da max. 550 Besucher pro Tag auf die Insel dürfen.',
+    priceEstimate: 'Bootstransfer ca. 25 € • 2 Tauchgänge ab 85 €'
   },
 
-  // ── Family & Kids ──────────────────────────────────────────────────────────
+  // 2. Family & Kids
   {
     id: 'act_arrabida_kayak',
     category: 'family',
-    title: 'Ruhiges Flachwasser-Kajak & Schnorcheln in Arrábida',
-    location: 'Naturpark Serra da Arrábida',
-    image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=900&q=80',
-    intensity: 'Leicht & Entspannt (Kinder ab 4)',
-    badge: '👶 Familien-Traumstrand',
-    tags: ['Flachwasser', 'Kajak', 'Feinsand', 'Keine Strömung'],
-    description: 'Kristallklares, türkisfarbenes Wasser geschützt vor Wellen durch die Steilwand des Naturparks. Ideal für Kleinkinder, Schwimm-Anfänger und Picknicks.',
-    localTip: 'Maria (Local Mama): "Früh vor 10 Uhr anreisen, da die Zufahrtsstraße im Sommer reglementiert wird."'
+    badge: '👶 Familien-Paradies',
+    title: 'Portinho da Arrábida: Kristallklares Flachwasser & Kajak',
+    location: 'Naturpark Serra da Arrábida (40 Min. von Lissabon)',
+    image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80',
+    intensity: 'SANFT & SICHER',
+    duration: 'Halbtags',
+    description: 'Windgeschützte Traumbucht mit türkisfarbenem Wasser ohne gefährliche Strömungen. Perfekt für Kleinkinder, Schwimmanfänger und Familien-Kajaks.',
+    localTip: 'Zwischen 10:00 und 17:00 Uhr ist die Zufahrt für private Autos gesperrt. Nutze den kostenlosen Shuttlebus ab Parkplatz Secil.',
+    priceEstimate: 'Kostenlos • Doppel-Kajak 15 €/h'
   },
   {
     id: 'act_estrela_park',
     category: 'family',
-    title: 'Jardim da Estrela: Schattiger Schlosspark & Spielparadies',
-    location: 'Estrela, Lissabon',
-    image: 'https://images.unsplash.com/photo-1519331379826-f10be5486c6f?auto=format&fit=crop&w=900&q=80',
-    intensity: 'Sehr leicht (Stufenfrei)',
-    badge: '🌿 Kinderwagen-Rampen',
-    tags: ['Großer Spielplatz', 'Ententeich', 'Kiosk', 'Schattenbäume'],
-    description: 'Uralte Mammutbäume spenden selbst bei 35°C kühlen Schatten. Eingezäunter Kleinkind-Spielbereich und kinderfreundliches Café mit Wickelraum.',
-    localTip: 'Duarte: "Der Kiosk backt jeden Morgen frische Mini-Pastéis — perfekt für die Kinderpause."'
+    badge: '👶 Stufenfrei mit Buggy',
+    title: 'Jardim da Estrela: Schattige Oase & Riesenspielplatz',
+    location: 'Estrela, Lissabon (Endstation Tram 28)',
+    image: 'https://images.unsplash.com/photo-1519331379826-f10be5486c6f?auto=format&fit=crop&w=800&q=80',
+    intensity: 'ENTSPANNT',
+    duration: '2–3 Stunden',
+    description: '150 Jahre alter botanischer Park mit uralten Mammutbäumen, Ententeich, tollem Kletterspielplatz und kinderfreundlichem Kioskcafé.',
+    localTip: 'Direkt gegenüber liegt die Basilika da Estrela — der Aufstieg auf die Kuppel belohnt mit Rundumblick über die Stadt.',
+    priceEstimate: 'Eintritt frei'
   },
 
-  // ── Pets & Dogs ────────────────────────────────────────────────────────────
+  // 3. Pets & Dogs
   {
     id: 'act_ursa_dog_beach',
     category: 'pets',
-    title: 'Praia da Ursa: Wilder Hundestrand & Natur-Auslauf',
-    location: 'Sintra Küste, Portugal',
-    image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=900&q=80',
-    intensity: 'Mittel (Natur-Fußweg)',
-    badge: '🐶 100% Hundefreundlich',
-    tags: ['Freilauf', 'Keine Leinenpflicht außerhalb Saison', 'Großer Sandstrand'],
-    description: 'Weitläufige Bucht mit feinem Sand und Frischwasserquellen an den Felsen. Hier können Hunde nach Herzenslust toben und schwimmen.',
-    localTip: 'João: "Genug Trinkwasser für den Hund mitnehmen, da es vor Ort keine Kioske gibt."'
+    badge: '🐶 Hundestrand & Klippen',
+    title: 'Praia da Ursa: Naturbelassene Hundefreiheit',
+    location: 'Sintra Küste (Nähe Cabo da Roca)',
+    image: 'https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&w=800&q=80',
+    intensity: 'SPORTLICHER ABSTIEG',
+    duration: 'Halbtags',
+    description: 'Einer der schönsten Strände Europas. Da kein offizieller Badebetrieb herrscht, dürfen Hunde hier das ganze Jahr frei laufen und im Sand toben.',
+    localTip: 'Festes Schuhwerk für den 15-minütigen Klippenpfad anziehen und ausreichend Trinkwasser für den Vierbeiner mitnehmen.',
+    priceEstimate: 'Kostenlos'
   },
   {
-    id: 'act_monsanto_trail',
+    id: 'act_monsanto_forest',
     category: 'pets',
-    title: 'Parque de Monsanto: Schattiger Wald-Agility Trail',
-    location: 'Monsanto, Lissabon',
-    image: 'https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=900&q=80',
-    intensity: 'Leicht bis Mittel',
-    badge: '🌲 Freilauf & Agility Zonen',
-    tags: ['Pinienwald', 'Trinkbrunnen', 'Eingezäunter Hundepark'],
-    description: 'Die grüne Lunge Lissabons. Großzügige, eingezäunte Hundewiesen mit Hindernissen, Trinkstationen und kilometerlangen weichen Waldwegen.',
-    localTip: 'Inês: "Der Parkbereich Mata de São Domingos hat die meisten natürlichen Trinkwasserstellen."'
+    badge: '🐶 Schattiger Pinienwald',
+    title: 'Parque de Monsanto: Grüner Auslauf & Panoramablick',
+    location: 'Monsanto Waldpark, Lissabon',
+    image: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=800&q=80',
+    intensity: 'LEICHT',
+    duration: '1–2 Stunden',
+    description: 'Die grüne Lunge Lissabons. Weitläufige schattige Wege, Hundespielwiesen und das verlassene Panorâmico de Monsanto mit 360-Grad-Blick.',
+    localTip: 'Perfekt für die heißen Mittagsstunden, da die dichten Pinienkronen die Temperatur um 5°C senken.',
+    priceEstimate: 'Kostenlos'
   },
 
-  // ── Culture & Culinary ─────────────────────────────────────────────────────
+  // 4. Culture & Culinary
   {
-    id: 'act_pasteis_workshop',
+    id: 'act_alfama_cooking',
     category: 'culture',
-    title: 'Geheimer Pastéis de Nata Meisterkurs bei Maria in Alfama',
-    location: 'Alfama Altstadt, Lissabon',
-    image: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=900&q=80',
-    intensity: 'Genuss & Gemütlichkeit',
-    badge: '🍮 Original Familienrezept',
-    tags: ['Kochen mit Locals', 'Zimt & Vanille', 'Kinder willkommen'],
-    description: 'Lerne in einer traditionellen Altstadt-Küche das 100 Jahre alte Geheimnis des perfekten Blätterteigs und der cremigen Eigelb-Füllung.',
-    localTip: 'Maria: "Keine fertigen Teige aus dem Supermarkt — wir rollen noch mit dem Holz-Nudelholz!"'
+    badge: '🍲 Kulinarischer Geheimtipp',
+    title: 'Pastéis de Nata & Caldo Verde Meisterklasse bei Maria',
+    location: 'Gassen von Alfama',
+    image: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=800&q=80',
+    intensity: 'GEMÜTLICH',
+    duration: '2.5 Stunden',
+    description: 'Backe in einer traditionellen Kiez-Bäckerei echte, knusprige Pastéis de Nata nach einem 100 Jahre alten Familienrezept.',
+    localTip: 'Der Teig wird mit echtem Zimt aus Sri Lanka und Bio-Zitronenabrieb parfümiert — schmeckt noch warm am besten!',
+    priceEstimate: '35 € inkl. Verkostung & Wein'
+  },
+
+  // 5. Romance & Sunset
+  {
+    id: 'act_senhora_sunset',
+    category: 'romance',
+    badge: '🌅 Romantik & Sonnenuntergang',
+    title: 'Miradouro da Senhora do Monte: Akustik & Goldene Stunde',
+    location: 'Graça, Lissabon',
+    image: 'https://images.unsplash.com/photo-1513584684374-8bab748fbf90?auto=format&fit=crop&w=800&q=80',
+    intensity: 'MAGISCH',
+    duration: '1.5 Stunden',
+    description: 'Der höchste Aussichtspunkt Lissabons. Bringe eine Decke und ein Glas Wein mit, um den Sonnenuntergang über dem Tejo zu erleben.',
+    localTip: 'Lokale Fado-Musiker spielen hier oft spontane Akustik-Sessions.',
+    priceEstimate: 'Kostenlos'
   }
 ];
 
-class ActivitiesManager {
+class ActivitiesEngineV2 {
   constructor() {
     this.activities = ACTIVITIES_DATA;
-    this.activeFilter = 'all';
-  }
-
-  renderActivities(containerId = 'activitiesGrid') {
-    const container = document.getElementById(containerId);
-    if (!container) return;
-
-    const filtered = this.activeFilter === 'all'
-      ? this.activities
-      : this.activities.filter(a => a.category === this.activeFilter);
-
-    container.innerHTML = filtered.map(item => `
-      <div class="glass-card activity-card" data-category="${item.category}">
-        <div class="activity-img-wrap">
-          <img src="${item.image}" alt="${item.title}" class="activity-img" loading="lazy">
-          <span class="activity-badge-overlay">${item.badge}</span>
-        </div>
-        <div class="activity-body">
-          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
-            <span class="badge ${item.category === 'extreme' ? 'badge-gold' : item.category === 'family' ? 'badge-cyan' : item.category === 'pets' ? 'badge-emerald' : 'badge-emerald'}">
-              ${item.location}
-            </span>
-            <span style="font-size: 0.8rem; color: var(--text-dim);">${item.intensity}</span>
-          </div>
-          <h3 style="font-size: 1.25rem; margin-bottom: 8px;">${item.title}</h3>
-          <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 14px;">${item.description}</p>
-          
-          <div style="margin-bottom: 14px;">
-            ${item.tags.map(t => `<span class="hobby-tag">${t}</span>`).join('')}
-          </div>
-
-          <div style="background: rgba(0,0,0,0.3); border-left: 3px solid var(--emerald-primary); padding: 8px 12px; border-radius: var(--radius-sm); font-size: 0.82rem; color: #FFF;">
-            <strong>💡 Local Insider:</strong> ${item.localTip}
-          </div>
-        </div>
-      </div>
-    `).join('');
+    this.currentFilter = 'all';
   }
 
   setFilter(filterKey) {
-    this.activeFilter = filterKey;
+    this.currentFilter = filterKey;
     document.querySelectorAll('.act-filter-btn').forEach(btn => {
       if (btn.getAttribute('data-act-filter') === filterKey) {
         btn.classList.add('active');
@@ -162,17 +136,52 @@ class ActivitiesManager {
     });
     this.renderActivities();
   }
+
+  renderActivities(containerId = 'activitiesGrid') {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+
+    let filtered = this.activities;
+    if (this.currentFilter !== 'all') {
+      filtered = filtered.filter(a => a.category === this.currentFilter);
+    }
+
+    container.innerHTML = filtered.map(a => `
+      <div class="glass-card activity-card">
+        <div class="activity-img-wrap">
+          <img src="${a.image}" alt="${a.title}" class="activity-img" loading="lazy">
+          <span class="activity-badge-overlay">${a.badge}</span>
+        </div>
+        <div class="activity-content">
+          <h3 class="activity-title">${a.title}</h3>
+          <p class="activity-location">📍 ${a.location}</p>
+          <p class="activity-desc">${a.description}</p>
+          
+          <div class="activity-tip-box">
+            <strong>💡 Local-Tipp:</strong> ${a.localTip}
+          </div>
+
+          <div class="activity-footer">
+            <span class="activity-intensity">⚡ ${a.intensity}</span>
+            <span class="activity-price">${a.priceEstimate}</span>
+          </div>
+
+          <button class="btn btn-secondary" style="width: 100%; margin-top: 12px; font-size: 0.82rem;" onclick="window.scratchPassport.scratchVisitedSpot('${a.title}', '${a.location}', '🏄‍♂️')">
+            Als Besucht Markieren & Freirubbeln 🔏
+          </button>
+        </div>
+      </div>
+    `).join('');
+  }
 }
 
-window.activitiesManager = new ActivitiesManager();
+window.activitiesEngine = new ActivitiesEngineV2();
 
 document.addEventListener('DOMContentLoaded', () => {
-  window.activitiesManager.renderActivities();
-  
+  window.activitiesEngine.renderActivities();
   document.querySelectorAll('.act-filter-btn').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      const filter = e.target.getAttribute('data-act-filter');
-      window.activitiesManager.setFilter(filter);
+    btn.addEventListener('click', () => {
+      window.activitiesEngine.setFilter(btn.getAttribute('data-act-filter'));
     });
   });
 });

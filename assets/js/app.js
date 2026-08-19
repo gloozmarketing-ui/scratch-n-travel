@@ -114,7 +114,7 @@ async function handleConciergeSubmit() {
   const prompt = input.value.trim();
   
   if (output) {
-    output.innerHTML = '<p style="color: var(--cyan-accent);">🤖 Hermes analysiert die besten Familien- & Haustierspots...</p>';
+    output.innerHTML = '<p style="color: var(--cyan-accent);">🤖 Die KI analysiert die besten Familien- & Haustierspots...</p>';
     const response = await window.hermesConcierge.askConcierge(prompt, 'Lissabon');
     output.innerHTML = `<div class="glass-card" style="margin-top: 16px; font-size: 0.95rem;">${markedParse(response)}</div>`;
   }
@@ -163,5 +163,15 @@ function connectHobbyUser(userName, topic) {
     if (window.scratchDB) {
       window.scratchDB.logEvent('HOBBY_MESSAGE_SENT', { recipient: userName, topic, messageLength: message.length });
     }
+  }
+}
+
+// Quick Prompt Helper for AI Concierge
+function setQuickPrompt(promptText) {
+  const input = document.getElementById('aiPromptInput');
+  if (input) {
+    input.value = promptText;
+    input.focus();
+    handleConciergeSubmit();
   }
 }

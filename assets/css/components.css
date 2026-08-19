@@ -1,564 +1,1251 @@
-﻿/* ============================================================================
-   Scratch'n'Travel — UI Components Stylesheet
-   Cards, Checklists, Secret Spot Blur, Filter Bar, AI Concierge & Modals
-   ============================================================================ */
+﻿/* ─── Navbar & Header Layout ─────────────────────────────────────────────── */
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(11, 19, 31, 0.88);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border-line);
+  transition: all 0.3s ease;
+}
 
-/* Hero Section */
-.hero {
-  padding: 80px 0 60px;
-  text-align: center;
+:root.theme-cream .navbar {
+  background: rgba(249, 246, 240, 0.96);
+  border-bottom: 1px solid rgba(63, 59, 54, 0.12);
+}
+
+:root.theme-forest .navbar {
+  background: rgba(20, 32, 24, 0.92);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.nav-wrap {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  height: 72px;
+  width: 100%;
+}
+
+.brand-logo {
+  font-size: 1.3rem;
+  font-weight: 900;
+  color: var(--text-main);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.brand-logo-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-center-links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  list-style: none;
+  flex: 1;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-center-links a {
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 0.86rem;
+  font-weight: 700;
+  transition: color 0.2s ease;
+  white-space: nowrap;
+  padding: 6px 4px;
+}
+
+.nav-center-links a:hover, .nav-center-links a.active {
+  color: var(--emerald-primary);
+}
+
+:root.theme-cream .nav-center-links a {
+  color: #525C54;
+}
+
+:root.theme-cream .nav-center-links a:hover, :root.theme-cream .nav-center-links a.active {
+  color: #D17B49;
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+@media (max-width: 1100px) {
+  .nav-center-links {
+    display: none;
+  }
+}
+
+/* ─── Custom Sleek Language Dropdown ─────────────────────────────────────── */
+.custom-lang-dropdown {
   position: relative;
+  display: inline-block;
+}
+
+.lang-dropdown-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--bg-glass);
+  border: 1px solid var(--border-line);
+  padding: 6px 12px;
+  border-radius: 9999px;
+  color: var(--text-main);
+  font-weight: 700;
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.lang-dropdown-btn:hover {
+  border-color: var(--border-active);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+:root.theme-cream .lang-dropdown-btn {
+  background: #FFFFFF;
+  color: #2C332E;
+  border-color: rgba(63, 59, 54, 0.16);
+}
+
+.lang-dropdown-menu {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
+  z-index: 1000;
+  min-width: 150px;
+  padding: 6px;
+  border: 1px solid var(--border-line);
+  background: var(--bg-card);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.4);
+  border-radius: 12px;
+  backdrop-filter: blur(20px);
+}
+
+.lang-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-main);
+  transition: all 0.15s ease;
+}
+
+.lang-option:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+:root.theme-cream .lang-option:hover {
+  background: rgba(209, 123, 73, 0.1);
+}
+
+.lang-option.active {
+  color: var(--emerald-primary);
+  background: rgba(16, 185, 129, 0.12);
+}
+
+:root.theme-cream .lang-option.active {
+  color: #D17B49;
+  background: rgba(209, 123, 73, 0.12);
+}
+
+/* ─── Luxury Theme Switcher Bar ─────────────────────────────────────────── */
+.theme-selector-bar {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--bg-glass);
+  border: 1px solid var(--border-line);
+  padding: 3px 6px;
+  border-radius: 9999px;
+}
+
+:root.theme-cream .theme-selector-bar {
+  background: #FFFFFF;
+  border-color: rgba(63, 59, 54, 0.14);
+}
+
+.theme-btn {
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  font-size: 0.76rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: all 0.2s ease;
+}
+
+.theme-btn:hover {
+  color: var(--text-main);
+}
+
+.theme-btn.active {
+  background: var(--emerald-primary);
+  color: #FFFFFF !important;
+  box-shadow: 0 2px 8px var(--emerald-glow);
+}
+
+/* ─── Hero Section ───────────────────────────────────────────────────────── */
+.hero {
+  padding: 70px 0 45px;
+  text-align: center;
+}
+
+.hero h1 {
+  font-size: clamp(2.3rem, 4.5vw, 3.6rem);
+  margin-bottom: 18px;
+  letter-spacing: -0.03em;
 }
 
 .hero-subtitle {
-  max-width: 680px;
-  margin: 20px auto 36px;
-  font-size: 1.25rem;
+  font-size: 1.1rem;
+  color: var(--text-muted);
+  max-width: 760px;
+  margin: 0 auto 30px;
+  line-height: 1.6;
 }
 
-/* Feature Grid */
-.grid-3 {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 24px;
-  margin: 40px 0;
-}
-
-/* Secret Spot Card */
-.spot-card {
-  position: relative;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.spot-card .spot-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 16px;
-}
-
-.spot-card .spot-title {
-  font-size: 1.3rem;
-  margin-bottom: 8px;
-}
-
-.secret-blur-overlay {
-  background: rgba(15, 23, 42, 0.9);
-  backdrop-filter: blur(10px);
-  border: 1px dashed var(--sand-gold);
-  border-radius: var(--radius-sm);
-  padding: 18px;
-  text-align: center;
-  margin: 16px 0;
-}
-
-.secret-blur-overlay p {
-  font-size: 0.9rem;
-  color: var(--sand-gold);
-  margin-bottom: 12px;
-}
-
-/* Checklist Component */
-.checklist-box {
-  background: var(--bg-card);
-  border: 1px solid var(--border-line);
-  border-radius: var(--radius-md);
-  padding: 24px;
-  margin-bottom: 24px;
-}
-
-.checklist-title {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  font-size: 1.2rem;
-  margin-bottom: 16px;
-  border-bottom: 1px solid var(--border-line);
-  padding-bottom: 12px;
-}
-
-.checklist-item {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 10px 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  cursor: pointer;
-  user-select: none;
-}
-
-.checklist-item:last-child {
-  border-bottom: none;
-}
-
-.checklist-item input[type="checkbox"] {
-  width: 20px;
-  height: 20px;
-  accent-color: var(--emerald-primary);
-  cursor: pointer;
-}
-
-.checklist-item.checked span {
-  text-decoration: line-through;
-  color: var(--text-dim);
-}
-
-/* Filter Toolbar */
+/* ─── Filter Bars & Buttons ──────────────────────────────────────────────── */
 .filter-bar {
   display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  background: rgba(18, 30, 49, 0.9);
-  padding: 16px;
-  border-radius: var(--radius-md);
-  border: 1px solid var(--border-line);
-  margin-bottom: 32px;
   align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 28px;
 }
 
 .filter-btn {
-  background: rgba(255, 255, 255, 0.06);
+  background: var(--bg-glass);
   border: 1px solid var(--border-line);
   color: var(--text-muted);
-  padding: 8px 16px;
-  border-radius: var(--radius-full);
-  font-size: 0.88rem;
-  font-weight: 500;
+  font-size: 0.84rem;
+  font-weight: 700;
+  padding: 6px 16px;
+  border-radius: 9999px;
   cursor: pointer;
-  transition: var(--transition-fast);
+  transition: all 0.2s ease;
 }
 
-.filter-btn:hover, .filter-btn.active {
+.filter-btn:hover {
+  border-color: var(--border-active);
+  color: var(--text-main);
+}
+
+.filter-btn.active {
   background: var(--emerald-primary);
-  color: #FFF;
+  color: #FFFFFF !important;
   border-color: var(--emerald-primary);
+  box-shadow: 0 2px 10px var(--emerald-glow);
 }
 
-/* AI Concierge Box */
-.ai-concierge-card {
-  background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(6, 182, 212, 0.08) 100%);
-  border: 1px solid rgba(16, 185, 129, 0.3);
-  border-radius: var(--radius-lg);
-  padding: 32px;
-  margin: 40px 0;
+:root.theme-cream .filter-btn {
+  background: #FFFFFF;
+  color: #525C54;
+  border-color: rgba(63, 59, 54, 0.14);
 }
 
-.ai-input-group {
-  display: flex;
-  gap: 12px;
-  margin-top: 20px;
+:root.theme-cream .filter-btn.active {
+  background: #D17B49;
+  color: #FFFFFF !important;
 }
 
-.ai-input-group input {
-  flex: 1;
-  background: rgba(11, 19, 31, 0.8);
+/* ─── WanderBond 130 Hobby-DNA ───────────────────────────────────────────── */
+.hobby-tag {
+  background: var(--bg-glass);
   border: 1px solid var(--border-line);
-  border-radius: var(--radius-full);
-  padding: 14px 24px;
-  color: #FFF;
-  font-size: 1rem;
-  outline: none;
-}
-
-.ai-input-group input:focus {
-  border-color: var(--emerald-primary);
-}
-
-/* Scratchbook Journal Card */
-.journal-card {
-  background: #152238;
-  border: 1px dashed var(--border-line);
-  border-radius: var(--radius-md);
-  padding: 24px;
-  position: relative;
-}
-
-.journal-card::before {
-  content: '📖';
-  font-size: 2rem;
-  position: absolute;
-  top: 16px;
-  right: 20px;
-  opacity: 0.3;
-}
-
-/* Footer */
-footer.site-footer {
-  border-top: 1px solid var(--border-line);
-  padding: 40px 0 30px;
-  margin-top: 80px;
-  font-size: 0.9rem;
-  color: var(--text-dim);
-  text-align: center;
-}
-
-/* Modal Overlay */
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.75);
-  backdrop-filter: blur(8px);
-  z-index: 999;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  padding: 24px;
-}
-
-.modal-content {
-  background: #121E31;
-  border: 1px solid var(--border-line);
-  border-radius: var(--radius-lg);
-  max-width: 550px;
-  width: 100%;
-  padding: 32px;
-  position: relative;
-  box-shadow: 0 25px 50px -12px rgba(0,0,0,0.7);
-}
-
-.modal-close {
-  position: absolute;
-  top: 16px;
-  right: 20px;
-  background: none;
-  border: none;
-  color: var(--text-muted);
-  font-size: 1.8rem;
-  cursor: pointer;
-}
-
-
-/* ─── Stripe & Beta Mode Switcher & Toast Styles ────────────────────────── */
-.pricing-mode-bar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 16px;
-  background: rgba(18, 30, 49, 0.95);
-  border: 1px solid var(--emerald-glow);
-  padding: 16px 24px;
-  border-radius: var(--radius-md);
-  margin-bottom: 32px;
-}
-
-.scratch-toast {
-  position: fixed;
-  bottom: 28px;
-  right: 28px;
-  background: #0F172A;
-  color: #F8FAFC;
-  border: 1px solid var(--emerald-primary);
-  border-radius: var(--radius-md);
-  padding: 14px 24px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), 0 0 20px var(--emerald-glow);
+  color: var(--text-main);
   font-size: 0.92rem;
-  font-weight: 500;
-  z-index: 10000;
-  opacity: 0;
-  transform: translateY(20px);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  pointer-events: none;
+  font-weight: 700;
+  padding: 8px 18px;
+  border-radius: 9999px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
 }
 
-.scratch-toast.show {
-  opacity: 1;
-  transform: translateY(0);
-  pointer-events: auto;
+.hobby-tag:hover {
+  border-color: var(--border-active);
+  transform: translateY(-2px);
 }
 
-/* ─── Hobby Match & "I'm Here" Board Styles ────────────────────────────── */
+.hobby-tag.active-dna, .hobby-tag.highlight {
+  background: var(--emerald-primary) !important;
+  color: #FFFFFF !important;
+  border-color: var(--emerald-primary) !important;
+  box-shadow: 0 4px 14px var(--emerald-glow);
+}
+
+:root.theme-cream .hobby-tag {
+  background: #FFFFFF;
+  color: #2C332E;
+  border-color: rgba(63, 59, 54, 0.16);
+}
+
+:root.theme-cream .hobby-tag.active-dna {
+  background: #D17B49 !important;
+  border-color: #D17B49 !important;
+  color: #FFFFFF !important;
+}
+
 .hobby-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border-line);
-  border-radius: var(--radius-md);
-  padding: 24px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  transition: var(--transition-smooth);
-}
-
-.hobby-card:hover {
-  border-color: var(--cyan-accent);
-  transform: translateY(-4px);
-  box-shadow: 0 15px 35px -10px rgba(6, 182, 212, 0.2);
+  position: relative;
 }
 
 .hobby-user-header {
   display: flex;
   align-items: center;
-  gap: 14px;
-  margin-bottom: 14px;
+  gap: 12px;
+  margin-bottom: 12px;
 }
 
 .hobby-avatar {
-  width: 48px;
-  height: 48px;
-  border-radius: var(--radius-full);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.5rem;
-  background: rgba(6, 182, 212, 0.15);
-  border: 1px solid rgba(6, 182, 212, 0.3);
-}
-
-.hobby-tag {
-  display: inline-block;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid var(--border-line);
-  padding: 4px 10px;
-  border-radius: var(--radius-full);
-  font-size: 0.8rem;
-  margin: 3px;
+  display: grid;
+  place-items: center;
+  font-size: 1.5rem;
+}
+
+/* ─── Safety & Community Meetup Shield Box ──────────────────────────────── */
+.safety-advice-box {
+  background: rgba(0, 0, 0, 0.25);
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 0.84rem;
+  color: var(--text-main);
+  line-height: 1.5;
+}
+
+:root.theme-cream .safety-advice-box {
+  background: #FAF7F2;
+  border: 1px solid rgba(63, 59, 54, 0.12);
+  color: #2C332E;
+}
+
+.community-safety-banner {
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(16, 185, 129, 0.06));
+  border: 1px solid var(--sand-gold);
+  border-radius: 16px;
+  padding: 20px;
+  margin-top: 32px;
   color: var(--text-main);
 }
 
-.hobby-tag.highlight {
-  background: rgba(16, 185, 129, 0.2);
-  border-color: var(--emerald-primary);
-  color: var(--emerald-primary);
+:root.theme-cream .community-safety-banner {
+  background: #FBF8F2;
+  border-color: #B45309;
+  color: #2C332E;
 }
 
-.im-here-box {
-  background: linear-gradient(135deg, rgba(6, 182, 212, 0.12) 0%, rgba(16, 185, 129, 0.08) 100%);
-  border: 1px solid rgba(6, 182, 212, 0.35);
-  border-radius: var(--radius-lg);
-  padding: 28px;
-  margin-bottom: 36px;
-}
-
-/* ─── Multilingual Language Selector ────────────────────────────────────── */
-.lang-selector {
+/* ─── Side Scratch Rails (Widescreen Experience) ─────────────────────────── */
+.scratch-side-rail {
+  position: fixed;
+  top: 180px;
+  z-index: 40;
   display: flex;
-  align-items: center;
-  gap: 4px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid var(--border-line);
-  padding: 3px 6px;
-  border-radius: var(--radius-full);
+  flex-direction: column;
+  gap: 14px;
+  pointer-events: auto;
 }
 
-.lang-btn {
-  background: none;
-  border: none;
-  color: var(--text-dim);
-  font-size: 0.8rem;
-  font-weight: 600;
-  padding: 4px 8px;
-  border-radius: var(--radius-full);
+.scratch-side-rail.left {
+  left: 16px;
+}
+
+.scratch-side-rail.right {
+  right: 16px;
+}
+
+.side-scratch-badge {
+  background: var(--bg-card);
+  border: 1px solid var(--sand-gold);
+  color: var(--sand-gold);
+  padding: 8px 14px;
+  border-radius: 9999px;
+  font-size: 0.78rem;
+  font-weight: 800;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+  backdrop-filter: blur(12px);
   cursor: pointer;
-  transition: var(--transition-fast);
+  transition: all 0.25s ease;
 }
 
-.lang-btn:hover {
-  color: #FFF;
+.side-scratch-badge:hover {
+  transform: scale(1.08) rotate(-2deg);
+  background: var(--sand-gold);
+  color: #000;
 }
 
-.lang-btn.active {
-  background: var(--emerald-primary);
-  color: #FFF;
+@media (max-width: 1350px) {
+  .scratch-side-rail {
+    display: none !important;
+  }
 }
 
-/* ─── Activity Image Cards with Zoom & Overlays ─────────────────────────── */
+/* ─── Activity Zoom Cards ────────────────────────────────────────────────── */
 .activity-card {
-  padding: 0;
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  border: 1px solid var(--border-line);
+  justify-content: space-between;
+  padding: 0 !important;
 }
 
 .activity-img-wrap {
-  position: relative;
   width: 100%;
-  height: 200px;
+  height: 190px;
   overflow: hidden;
+  position: relative;
 }
 
-.activity-img {
+.activity-img-wrap img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 0.4s ease;
 }
 
-.activity-card:hover .activity-img {
+.activity-card:hover .activity-img-wrap img {
   transform: scale(1.06);
 }
 
-.activity-badge-overlay {
-  position: absolute;
-  top: 12px;
-  left: 12px;
-  background: rgba(11, 19, 31, 0.85);
-  backdrop-filter: blur(8px);
-  border: 1px solid var(--border-line);
-  padding: 4px 10px;
-  border-radius: var(--radius-full);
-  font-size: 0.78rem;
-  font-weight: 600;
-  color: #FFF;
-}
-
-.activity-body {
+.activity-content {
   padding: 20px;
   display: flex;
   flex-direction: column;
-  flex: 1;
   justify-content: space-between;
+  flex-grow: 1;
 }
 
-/* ─── Safety & Scam Radar Card Styles ───────────────────────────────────── */
-.safety-card {
-  border-left: 4px solid var(--border-line);
-  transition: var(--transition-smooth);
+/* ─── Story Pins ─────────────────────────────────────────────────────────── */
+.story-pin-card {
+  border-left: 3px solid var(--sand-gold);
+  transition: all 0.3s ease;
 }
 
-.safety-card.danger {
-  border-left-color: var(--rose-heart);
-  background: linear-gradient(135deg, rgba(244, 63, 94, 0.08) 0%, rgba(18, 30, 49, 0.9) 100%);
+.story-pin-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 15px 35px -10px var(--sand-gold-glow);
 }
 
-.safety-card.warning {
-  border-left-color: var(--sand-gold);
-  background: linear-gradient(135deg, rgba(245, 158, 11, 0.08) 0%, rgba(18, 30, 49, 0.9) 100%);
-}
-
-.safety-card.tip {
-  border-left-color: var(--emerald-primary);
-  background: linear-gradient(135deg, rgba(16, 185, 129, 0.08) 0%, rgba(18, 30, 49, 0.9) 100%);
-}
-
-.safety-advice-box {
-  padding: 10px 14px;
-  border-radius: var(--radius-sm);
-  font-size: 0.85rem;
-  margin-top: 10px;
-}
-
-.safety-advice-box.danger {
-  background: rgba(244, 63, 94, 0.15);
-  border: 1px solid rgba(244, 63, 94, 0.3);
-  color: #FFF;
-}
-
-.safety-advice-box.warning {
-  background: rgba(245, 158, 11, 0.15);
-  border: 1px solid rgba(245, 158, 11, 0.3);
-  color: #FFF;
-}
-
-.safety-advice-box.tip {
-  background: rgba(16, 185, 129, 0.15);
-  border: 1px solid rgba(16, 185, 129, 0.3);
-  color: #FFF;
-}
-
-.badge-danger {
-  background: rgba(244, 63, 94, 0.2);
-  color: var(--rose-heart);
-  border: 1px solid rgba(244, 63, 94, 0.4);
-}
-
-/* ─── Luxury Obsidian & Gold Scratch Map & Travel Passport ─────────────── */
+/* ─── Scratch Map & Luxury Passport ──────────────────────────────────────── */
 .scratch-map-container {
   position: relative;
   width: 100%;
-  max-width: 900px;
-  height: 440px;
+  max-width: 920px;
+  height: 380px;
   margin: 0 auto;
-  border-radius: var(--radius-md);
+  border-radius: 16px;
   overflow: hidden;
   border: 2px solid var(--sand-gold);
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 30px rgba(245, 158, 11, 0.2);
-  user-select: none;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
 }
 
 .scratch-map-bg {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: radial-gradient(circle at center, #1E293B 0%, #0B131F 100%);
+  inset: 0;
+  background: radial-gradient(circle at center, #1A2838 0%, #080D14 100%);
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 24px;
 }
 
+:root.theme-cream .scratch-map-bg {
+  background: radial-gradient(circle at center, #EFE8DA 0%, #D8CBB6 100%);
+}
+
 .scratch-canvas {
   position: absolute;
-  top: 0;
-  left: 0;
+  inset: 0;
   width: 100%;
   height: 100%;
   cursor: crosshair;
-  z-index: 10;
+  touch-action: none;
 }
 
-/* Passport Booklet Style */
 .passport-booklet {
-  background: linear-gradient(135deg, #0A0F1D 0%, #152033 100%);
+  background: var(--bg-card);
   border: 2px solid var(--sand-gold);
-  border-radius: var(--radius-lg);
-  padding: 36px;
-  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.75), inset 0 0 20px rgba(245, 158, 11, 0.1);
-  position: relative;
-  overflow: hidden;
+  border-radius: 20px;
+  padding: 32px;
+  box-shadow: var(--card-shadow);
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+:root.theme-cream .passport-booklet {
+  background: #FFFFFF;
+  border-color: #B45309;
 }
 
 .passport-header-emblem {
   text-align: center;
-  border-bottom: 1px dashed var(--sand-gold);
+  border-bottom: 1px dashed var(--border-line);
   padding-bottom: 20px;
   margin-bottom: 24px;
 }
 
 .passport-stamps-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 16px;
   margin-top: 20px;
 }
 
-.passport-stamp-card {
-  background: rgba(0, 0, 0, 0.35);
-  border: 2px dashed #10B981;
-  border-radius: var(--radius-sm);
+.passport-stamp {
+  border: 2px dashed;
+  border-radius: 12px;
   padding: 16px;
   text-align: center;
-  transform: rotate(-1.5deg);
-  transition: var(--transition-fast);
+  background: rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease;
 }
 
-.passport-stamp-card:nth-child(even) {
-  transform: rotate(2deg);
+.passport-stamp:hover {
+  transform: scale(1.03) rotate(-1deg);
 }
 
-.passport-stamp-card:hover {
-  transform: rotate(0deg) scale(1.04);
+:root.theme-cream .passport-stamp {
+  background: #FAF7F2;
 }
 
-.stamp-icon {
-  font-size: 2rem;
-  margin-bottom: 6px;
+/* ─── Checklists Box & Clean Print Stylesheet ────────────────────────────── */
+.checklist-box {
+  background: var(--bg-card);
+  border: 1px solid var(--border-line);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: var(--card-shadow);
 }
 
-.stamp-status-tag {
-  display: inline-block;
-  padding: 2px 8px;
-  border-radius: var(--radius-full);
-  font-size: 0.68rem;
+:root.theme-cream .checklist-box {
+  background: #FFFFFF;
+  border-color: rgba(63, 59, 54, 0.14);
+}
+
+@media print {
+  body {
+    background: #FFF !important;
+    color: #000 !important;
+  }
+  .navbar, .hero, #hazard-radar, #esim-guide, #preise, .site-footer, .nav-actions, .theme-selector-bar, .scratch-side-rail {
+    display: none !important;
+  }
+  .checklist-box {
+    border: 1px solid #000 !important;
+    box-shadow: none !important;
+    page-break-inside: avoid;
+  }
+}
+
+/* ─── High Contrast Alert / POD Info Boxes for Cream & Dark ──────────────── */
+.pod-info-box {
+  background: rgba(16, 185, 129, 0.12);
+  border: 1px solid var(--emerald-primary);
+  padding: 12px 16px;
+  border-radius: 10px;
+  font-size: 0.84rem;
+  line-height: 1.5;
+  color: var(--text-main);
+  margin-bottom: 16px;
+}
+
+:root.theme-cream .pod-info-box {
+  background: #EAF4EE;
+  border-color: #5B8266;
+  color: #1B3828;
+}
+
+/* ─── Modals ─────────────────────────────────────────────────────────────── */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 1100;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.modal-content {
+  background: var(--bg-card);
+  border: 1px solid var(--border-line);
+  border-radius: 20px;
+  padding: 32px;
+  max-width: 720px;
+  width: 100%;
+  position: relative;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6);
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+:root.theme-cream .modal-content {
+  background: #FFFFFF;
+  border-color: rgba(63, 59, 54, 0.16);
+  color: #2C332E;
+}
+
+.modal-close {
+  position: absolute;
+  top: 16px;
+  right: 18px;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 1.6rem;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.modal-close:hover {
+  color: var(--rose-heart);
+}
+
+/* ─── Footer ─────────────────────────────────────────────────────────────── */
+.site-footer {
+  border-top: 1px solid var(--border-line);
+  padding: 40px 0;
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--text-dim);
+  background: var(--bg-main);
+}
+
+/* --- Scratch Region Cards (Real Country Silhouettes) v3.0 --- */
+.scratch-region-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
+  padding: 0;
+}
+
+.scratch-region-card {
+  position: relative;
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid var(--border-line);
+  background: var(--bg-card);
+  box-shadow: var(--card-shadow);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.scratch-region-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+}
+
+.src-art-layer {
+  position: relative;
+  width: 100%;
+  height: 280px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.src-country-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 1;
+}
+
+.src-words {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 12px;
+  z-index: 2;
+}
+
+.src-words span {
+  font-size: 0.8rem;
   font-weight: 700;
-  margin-top: 6px;
+  color: rgba(255,255,255,0.5);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.src-revealed-name {
+  position: absolute;
+  bottom: 12px;
+  left: 0; right: 0;
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 900;
   letter-spacing: 0.05em;
+  text-transform: uppercase;
+  z-index: 3;
+  text-shadow: 0 2px 12px rgba(0,0,0,0.6);
+}
+
+.src-foil-canvas {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 280px;
+  cursor: crosshair;
+  touch-action: none;
+  z-index: 10;
+  border-radius: 18px 18px 0 0;
+}
+
+.src-footer {
+  padding: 14px 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid var(--border-line);
+  gap: 8px;
+}
+
+.src-kicker {
+  display: block;
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  margin-bottom: 2px;
+  letter-spacing: 0.04em;
+}
+
+.src-name {
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--text-main);
+}
+
+.src-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.src-status {
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+
+/* --- Scratch Card Batch Wallet System --- */
+.scb-modal { max-width: 820px; width: 96%; }
+
+.scb-earn-guide {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-line);
+  border-radius: 12px;
+  padding: 14px 16px;
+  margin-bottom: 18px;
+}
+.scb-earn-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 8px;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+.scb-earn-item { display: flex; align-items: center; gap: 6px; }
+
+.scb-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 18px;
+  max-height: 58vh;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.scb-card {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid var(--border-line);
+  background: var(--bg-card);
+  box-shadow: var(--card-shadow);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  cursor: crosshair;
+}
+.scb-card:hover { transform: translateY(-3px); box-shadow: 0 16px 40px rgba(0,0,0,0.4); }
+
+.scb-art, .scb-foil {
+  position: absolute;
+  top: 0; left: 0;
+  width: 190px;
+  height: 190px;
+  display: block;
+}
+.scb-foil { z-index: 2; cursor: crosshair; touch-action: none; }
+
+/* Spacer so card has 190px art area height */
+.scb-card::before { content: ''; display: block; height: 190px; }
+
+.scb-footer {
+  position: relative;
+  z-index: 3;
+  padding: 10px 14px;
+  border-top: 1px solid var(--border-line);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  background: var(--bg-card);
+}
+.scb-kicker { font-size: 0.68rem; color: var(--text-dim); letter-spacing: 0.04em; }
+.scb-name   { font-size: 0.9rem; font-weight: 800; color: var(--text-main); }
+
+.scb-done { cursor: default; }
+.scb-done:hover { transform: none; }
+.scb-done-inner {
+  height: 190px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.05rem;
+  font-weight: 800;
+}
+
+.scb-locked { cursor: not-allowed; opacity: 0.5; }
+.scb-locked-inner {
+  height: 190px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 0.8rem;
+  color: var(--text-dim);
+}
+.scb-locked-inner span { font-size: 1.8rem; }
+
+.scb-empty {
+  grid-column: 1/-1;
+  text-align: center;
+  padding: 48px 20px;
+  color: var(--text-muted);
+}
+
+.scb-demo-bar {
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border-line);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  font-size: 0.8rem;
+  color: var(--text-dim);
+}
+.scb-demo-bar .btn { font-size: 0.78rem; padding: 5px 12px; }
+
+/* Wallet badge in nav */
+.scratch-wallet-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  background: var(--bg-surface);
+  color: var(--text-dim);
+  border: 1px solid var(--border-line);
+  transition: background 0.2s, color 0.2s;
+  white-space: nowrap;
+}
+.scratch-wallet-badge:hover { opacity: 0.85; }
+
+
+/* ==========================================================================
+   🏛️ NATIONALE SCHÄTZE — LUXURY ARCHITECTURAL POSTCARDS v4.0
+   ========================================================================== */
+.treas-gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 28px;
+}
+
+.treas-card {
+  position: relative;
+  background: var(--bg-card);
+  border: 1px solid var(--border-line);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: var(--card-shadow);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.treas-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.45);
+  border-color: rgba(245, 158, 11, 0.4);
+}
+
+.treas-header {
+  padding: 16px 18px 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+  border-bottom: 1px solid var(--border-line);
+}
+
+.treas-country {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  display: block;
+}
+
+.treas-title {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--text-main);
+  margin: 2px 0 0;
+  line-height: 1.25;
+}
+
+.treas-art-box {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.treas-svg {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 0 16px currentColor);
+}
+
+.treas-kicker-watermark {
+  position: absolute;
+  bottom: 8px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  color: rgba(255, 255, 255, 0.25);
+  pointer-events: none;
+}
+
+.treas-foil-cnv {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  cursor: crosshair;
+  touch-action: none;
+  z-index: 10;
+}
+
+.treas-body {
+  padding: 14px 18px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.treas-quote {
+  font-size: 0.86rem;
+  font-style: italic;
+  color: var(--text-muted);
+  line-height: 1.45;
+  margin: 0;
+}
+
+.treas-rituals {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.treas-ritual-pill {
+  font-size: 0.72rem;
+  font-weight: 700;
+  background: var(--bg-surface);
+  color: var(--text-main);
+  border: 1px solid var(--border-line);
+  padding: 3px 8px;
+  border-radius: 12px;
+}
+
+.treas-footer {
+  padding: 12px 18px;
+  background: var(--bg-surface);
+  border-top: 1px solid var(--border-line);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+.treas-status-lbl {
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+
+/* ==========================================================================
+   🤖 SMART TRAVEL AI CONCIERGE — LUXURY COMMAND BAR REDESIGN
+   ========================================================================== */
+.ai-concierge-card {
+  background: linear-gradient(145deg, rgba(16, 185, 129, 0.08) 0%, rgba(6, 182, 212, 0.04) 50%, rgba(15, 23, 42, 0.6) 100%);
+  border: 1.5px solid rgba(16, 185, 129, 0.35);
+  border-radius: 24px;
+  padding: 36px 32px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5), inset 0 0 40px rgba(16, 185, 129, 0.05);
+  backdrop-filter: blur(16px);
+  position: relative;
+  overflow: hidden;
+}
+
+.ai-concierge-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -20%;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(16, 185, 129, 0.15) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.ai-command-container {
+  margin-top: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.ai-input-bar-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: var(--bg-card);
+  border: 2px solid rgba(16, 185, 129, 0.4);
+  border-radius: 18px;
+  padding: 6px 8px 6px 18px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
+  transition: border-color 0.25s, box-shadow 0.25s;
+}
+
+.ai-input-bar-wrapper:focus-within {
+  border-color: var(--emerald-primary);
+  box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.25), 0 12px 36px rgba(0, 0, 0, 0.5);
+}
+
+.ai-input-icon {
+  font-size: 1.3rem;
+  margin-right: 12px;
+  flex-shrink: 0;
+}
+
+.ai-prompt-input-field {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 1.02rem;
+  font-weight: 500;
+  color: var(--text-main);
+  padding: 10px 0;
+  font-family: inherit;
+}
+
+.ai-prompt-input-field::placeholder {
+  color: var(--text-dim);
+  font-weight: 400;
+}
+
+.ai-submit-btn {
+  background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+  color: #FFFFFF;
+  border: none;
+  border-radius: 14px;
+  padding: 12px 24px;
+  font-size: 0.95rem;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(16, 185, 129, 0.4);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: transform 0.15s, box-shadow 0.15s;
+  flex-shrink: 0;
+}
+
+.ai-submit-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(16, 185, 129, 0.6);
+}
+
+.ai-submit-btn:active {
+  transform: translateY(0);
+}
+
+.ai-quick-tags-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.ai-quick-tag-label {
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.ai-quick-pill {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-line);
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background 0.18s, color 0.18s, border-color 0.18s, transform 0.15s;
+}
+
+.ai-quick-pill:hover {
+  background: rgba(16, 185, 129, 0.12);
+  color: var(--emerald-primary);
+  border-color: var(--emerald-primary);
+  transform: translateY(-1px);
+}
+
+
+/* ==========================================================================
+   ⭐ UNIVERSAL 5-STAR RATING SYSTEM
+   ========================================================================== */
+.rating-widget {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-line);
+  border-radius: 12px;
+  padding: 8px 12px;
+}
+
+.rating-widget-compact {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.rating-stars-interactive, .rating-stars {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.star-btn {
+  font-size: 1.15rem;
+  color: #475569;
+  cursor: pointer;
+  transition: color 0.15s, transform 0.15s;
+  user-select: none;
+  line-height: 1;
+}
+
+.star-btn:hover,
+.star-btn.hovered {
+  color: #F59E0B;
+  transform: scale(1.25);
+}
+
+.star-btn.active {
+  color: #F59E0B;
+}
+
+.star-btn.user-rated {
+  color: #F59E0B;
+  text-shadow: 0 0 8px rgba(245, 158, 11, 0.6);
+}
+
+.rating-score {
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: var(--text-main);
+}
+
+.rating-count {
+  font-size: 0.75rem;
+  color: var(--text-dim);
+}
+
+.rating-user-badge {
+  font-size: 0.7rem;
+  background: rgba(245, 158, 11, 0.15);
+  color: #F59E0B;
+  padding: 2px 6px;
+  border-radius: 6px;
+  font-weight: 700;
 }

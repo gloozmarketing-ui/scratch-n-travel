@@ -1,181 +1,218 @@
 ﻿/**
- * Scratch'n'Travel — Luxury Black & Gold Scratch-Off Map & Digital Travel Passport
- * Inspired by Luxury Scratch-Off Maps & Official Travel Passports with Visa Stamps
+ * Scratch'n'Travel — Luxury Passport, Interactive Scratch Engine & Outsource Merch Showroom (POD)
  */
+
+const DEFAULT_VISA_STAMPS = [
+  { id: 'stamp_lisbon', title: 'LISBOA SECRET GEM', date: '14. AUG 2026', color: '#10B981', icon: '🏛️', status: 'VERIFIED LOCAL' },
+  { id: 'stamp_nazare', title: 'NAZARÉ BIG WAVES', date: '15. AUG 2026', color: '#06B6D4', icon: '🌊', status: 'ADRENALINE SEAL' },
+  { id: 'stamp_ursa', title: 'PRAIA DA URSA DOG SEAL', date: '16. AUG 2026', color: '#F59E0B', icon: '🐕', status: 'PET APPROVED' },
+  { id: 'stamp_alfama', title: 'ALFAMA CHEF MASTER', date: '17. AUG 2026', color: '#D17B49', icon: '🍮', status: 'PASTEL DE NATA' }
+];
 
 class ScratchPassportEngine {
   constructor() {
-    this.canvas = null;
-    this.ctx = null;
-    this.isDrawing = false;
+    this.stamps = JSON.parse(localStorage.getItem('scratch_user_stamps')) || DEFAULT_VISA_STAMPS;
     this.scratchedPercent = 0;
-    this.stamps = JSON.parse(localStorage.getItem('scratch_user_stamps')) || [
-      { id: 'stamp_lisbon', title: 'LISBOA SECRET GEM', date: '14. AUG 2026', color: '#10B981', icon: '🏛️', status: 'VERIFIED' },
-      { id: 'stamp_nazare', title: 'NAZARÉ BIG WAVE SURF', date: '12. AUG 2026', color: '#06B6D4', icon: '🌊', status: 'UNLOCKED' },
-      { id: 'stamp_ursa', title: 'PRAIA DA URSA DOG SEAL', date: '10. AUG 2026', color: '#F59E0B', icon: '🐕', status: 'SEALED' },
-      { id: 'stamp_pasteis', title: 'ALFAMA CHEF MASTER', date: '08. AUG 2026', color: '#EC4899', icon: '🍮', status: 'VERIFIED' }
-    ];
   }
 
-  // Initialize Interactive Scratch Canvas
   initCanvas(canvasId = 'scratchCanvas') {
-    this.canvas = document.getElementById(canvasId);
-    if (!this.canvas) return;
+    const canvas = document.getElementById(canvasId);
+    if (!canvas) return;
 
-    this.ctx = this.canvas.getContext('2d');
-    this.setupGoldFoil();
+    const ctx = canvas.getContext('2d');
+    canvas.width = canvas.offsetWidth || 800;
+    canvas.height = canvas.offsetHeight || 380;
 
-    // Mouse Events
-    this.canvas.addEventListener('mousedown', (e) => { this.isDrawing = true; this.scratch(e); });
-    this.canvas.addEventListener('mousemove', (e) => { if (this.isDrawing) this.scratch(e); });
-    window.addEventListener('mouseup', () => { this.isDrawing = false; this.calcScratchedPercentage(); });
+    // Draw luxury metallic gold foil layer
+    const grad = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+    grad.addColorStop(0, '#D4AF37');
+    grad.addColorStop(0.3, '#FFF8DC');
+    grad.addColorStop(0.5, '#AA771C');
+    grad.addColorStop(0.7, '#FFDF00');
+    grad.addColorStop(1, '#8B6508');
 
-    // Touch Events for Mobile / Tablet
-    this.canvas.addEventListener('touchstart', (e) => { this.isDrawing = true; this.scratch(e.touches[0]); e.preventDefault(); }, { passive: false });
-    this.canvas.addEventListener('touchmove', (e) => { if (this.isDrawing) this.scratch(e.touches[0]); e.preventDefault(); }, { passive: false });
-    window.addEventListener('touchend', () => { this.isDrawing = false; this.calcScratchedPercentage(); });
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    ctx.fillStyle = '#000';
+    ctx.font = 'bold 18px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('✨ FREIRUBBELN: Ziehe mit der Maus oder Finger über die Goldfolie ✨', canvas.width / 2, canvas.height / 2);
+
+    let isScratching = false;
+
+    const scratch = (x, y) => {
+      ctx.globalCompositeOperation = 'destination-out';
+      ctx.beginPath();
+      ctx.arc(x, y, 28, 0, Math.PI * 2);
+      ctx.fill();
+      this.calculateScratchPercentage(canvas, ctx);
+    };
+
+    const getPos = (e) => {
+      const rect = canvas.getBoundingClientRect();
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+      return { x: clientX - rect.left, y: clientY - rect.top };
+    };
+
+    canvas.addEventListener('mousedown', (e) => { isScratching = true; const p = getPos(e); scratch(p.x, p.y); });
+    canvas.addEventListener('mousemove', (e) => { if (isScratching) { const p = getPos(e); scratch(p.x, p.y); } });
+    canvas.addEventListener('mouseup', () => { isScratching = false; });
+    canvas.addEventListener('mouseleave', () => { isScratching = false; });
+
+    canvas.addEventListener('touchstart', (e) => { isScratching = true; const p = getPos(e); scratch(p.x, p.y); });
+    canvas.addEventListener('touchmove', (e) => { if (isScratching) { const p = getPos(e); scratch(p.x, p.y); } });
+    canvas.addEventListener('touchend', () => { isScratching = false; });
+
+    this.renderStamps();
   }
 
-  setupGoldFoil() {
-    if (!this.canvas || !this.ctx) return;
-    const w = this.canvas.width = this.canvas.offsetWidth || 800;
-    const h = this.canvas.height = this.canvas.offsetHeight || 420;
-
-    // Rich Dark Obsidian & Gold Foil Gradient
-    const grad = this.ctx.createLinearGradient(0, 0, w, h);
-    grad.addColorStop(0, '#D4AF37');   // Classic Rich Gold
-    grad.addColorStop(0.3, '#F59E0B'); // Amber Gold
-    grad.addColorStop(0.7, '#B45309'); // Deep Gold Foil
-    grad.addColorStop(1, '#1E293B');   // Obsidian Shadow
-
-    this.ctx.fillStyle = grad;
-    this.ctx.fillRect(0, 0, w, h);
-
-    // Add luxury metallic shimmer pattern & text
-    this.ctx.fillStyle = 'rgba(0, 0, 0, 0.4)';
-    this.ctx.font = 'bold 20px Outfit, sans-serif';
-    this.ctx.textAlign = 'center';
-    this.ctx.fillText('✨ GOLD-FOLIE FREIRUBBELN ✨', w / 2, h / 2 - 10);
-    this.ctx.font = '14px Plus Jakarta Sans, sans-serif';
-    this.ctx.fillText('Bewege die Maus oder den Finger, um geheime Orte zu enthüllen', w / 2, h / 2 + 18);
-  }
-
-  scratch(e) {
-    if (!this.ctx || !this.canvas) return;
-    const rect = this.canvas.getBoundingClientRect();
-    const x = (e.clientX - rect.left) * (this.canvas.width / rect.width);
-    const y = (e.clientY - rect.top) * (this.canvas.height / rect.height);
-
-    this.ctx.globalCompositeOperation = 'destination-out';
-    this.ctx.beginPath();
-    this.ctx.arc(x, y, 28, 0, Math.PI * 2, false);
-    this.ctx.fill();
-  }
-
-  calcScratchedPercentage() {
-    if (!this.ctx || !this.canvas) return;
-    const imgData = this.ctx.getImageData(0, 0, this.canvas.width, this.canvas.height);
-    let transparentPixels = 0;
-    const totalPixels = imgData.data.length / 4;
-
-    for (let i = 3; i < imgData.data.length; i += 4) {
-      if (imgData.data[i] === 0) transparentPixels++;
-    }
-
-    this.scratchedPercent = Math.round((transparentPixels / totalPixels) * 100);
-    const percentEl = document.getElementById('scratchPercentDisplay');
-    if (percentEl) {
-      percentEl.textContent = `${this.scratchedPercent}% Freigerubbelt`;
-    }
-
-    if (this.scratchedPercent >= 60 && !this.bonusUnlocked) {
-      this.bonusUnlocked = true;
-      if (window.stripeManager) {
-        window.stripeManager.showToast('🎉 Wow! 60% freigerubbelt — Neuer Visa-Stempel freigeschaltet!');
+  calculateScratchPercentage(canvas, ctx) {
+    try {
+      const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+      const pixels = imgData.data;
+      let transparentCount = 0;
+      for (let i = 3; i < pixels.length; i += 16) {
+        if (pixels[i] === 0) transparentCount++;
       }
+      const totalSampled = pixels.length / 16;
+      this.scratchedPercent = Math.min(100, Math.round((transparentCount / totalSampled) * 100));
+
+      const display = document.getElementById('scratchPercentDisplay');
+      if (display) display.textContent = `${this.scratchedPercent}% Freigerubbelt`;
+    } catch (e) {
+      console.warn('Scratch percentage error:', e);
     }
   }
 
   revealAll() {
-    if (!this.ctx || !this.canvas) return;
-    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    this.scratchedPercent = 100;
-    const percentEl = document.getElementById('scratchPercentDisplay');
-    if (percentEl) percentEl.textContent = '100% Enthüllt';
+    const canvas = document.getElementById('scratchCanvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    const display = document.getElementById('scratchPercentDisplay');
+    if (display) display.textContent = `100% Freigerubbelt (Alle Secrets Enthüllt!)`;
   }
 
   resetMap() {
-    this.setupGoldFoil();
-    this.scratchedPercent = 0;
-    const percentEl = document.getElementById('scratchPercentDisplay');
-    if (percentEl) percentEl.textContent = '0% Freigerubbelt';
+    this.initCanvas('scratchCanvas');
   }
 
-  // Render Visa Stamps in Digital Passport
   renderStamps(containerId = 'passportStampsGrid') {
     const container = document.getElementById(containerId);
     if (!container) return;
 
     container.innerHTML = this.stamps.map(s => `
-      <div class="passport-stamp-card" style="border-color: ${s.color};">
-        <div class="stamp-icon">${s.icon}</div>
-        <div style="font-weight: 800; font-size: 0.82rem; color: ${s.color}; text-transform: uppercase; letter-spacing: 0.05em;">
+      <div class="passport-stamp" style="border-color: ${s.color};">
+        <div style="font-size: 1.6rem;">${s.icon}</div>
+        <div style="font-size: 0.75rem; font-weight: 800; color: ${s.color}; margin-top: 4px; text-transform: uppercase;">
           ${s.title}
         </div>
-        <div style="font-size: 0.72rem; color: var(--text-dim); margin-top: 4px;">📅 ${s.date}</div>
-        <div class="stamp-status-tag" style="background: ${s.color}22; color: ${s.color};">
-          ✓ ${s.status}
+        <div style="font-size: 0.68rem; color: var(--text-dim); margin-top: 2px;">
+          ${s.date} • ${s.status}
         </div>
       </div>
     `).join('');
   }
 
-  // Open Outsource Print-on-Demand Modal
+  // 📖 Merchandise & POD Showroom Modal with High-End Product Previews
   openPODOrderModal() {
-    let modal = document.getElementById('podOrderModal');
-    if (!modal) {
-      modal = document.createElement('div');
-      modal.id = 'podOrderModal';
-      modal.className = 'modal-overlay';
-      document.body.appendChild(modal);
-    }
+    const modalHtml = `
+      <div class="modal-overlay" id="podModal" style="display: flex;">
+        <div class="modal-content" style="max-width: 840px;">
+          <button class="modal-close" onclick="document.getElementById('podModal').remove()">×</button>
+          
+          <div style="text-align: center; margin-bottom: 20px;">
+            <span class="badge badge-gold">📖 Outsource Merch & POD Showroom</span>
+            <h2 style="font-size: 1.6rem; color: var(--text-main); margin-top: 8px;">Dein Physisches Reise-Set zum Anfassen</h2>
+            <p style="font-size: 0.9rem; color: var(--text-muted); max-width: 620px; margin: 0 auto;">
+              Keine langweiligen Kärtchen: Individuell gefertigte Echtleder-Reisepässe mit Goldprägung, hochwertige A2 Rubbel-Weltkarten und Sammler-Pins via Printful & Gelato POD.
+            </p>
+          </div>
 
-    modal.innerHTML = `
-      <div class="modal-content" style="max-width: 600px; text-align: center; border: 1px solid var(--sand-gold);">
-        <button class="modal-close" onclick="document.getElementById('podOrderModal').style.display='none'">×</button>
-        <span class="badge badge-gold">📖 Outsource & Print-on-Demand (POD / Etsy)</span>
-        <h3 style="margin-top: 12px; font-size: 1.4rem;">Gedrucktes Luxus-Passbuch & Gold-Rubbelkarte</h3>
-        <p style="font-size: 0.9rem; color: var(--text-muted); margin: 8px 0 16px;">
-          Verwandle deine digitalen Reisen in ein physisches <strong>Echtleder-Reisejournal mit Goldrändern</strong> & hochauflösender Rubbel-Weltkarte.
-        </p>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin-bottom: 20px;">
+            <!-- Product 1: Luxury Leather Passport -->
+            <div class="glass-card" style="padding: 16px; border-color: var(--sand-gold); display: flex; flex-direction: column; justify-content: space-between;">
+              <div>
+                <div style="height: 120px; border-radius: 8px; background: linear-gradient(135deg, #2E1C0C, #4A2E15); border: 1px solid var(--sand-gold); display: flex; align-items: center; justify-content: center; margin-bottom: 12px;">
+                  <div style="text-align: center;">
+                    <div style="font-size: 2rem;">⚜️</div>
+                    <div style="font-size: 0.72rem; color: var(--sand-gold); font-weight: 800; letter-spacing: 0.1em;">OFFICIAL TRAVEL PASSPORT</div>
+                  </div>
+                </div>
+                <h4 style="font-size: 1.05rem; color: var(--text-main); margin-bottom: 4px;">📖 Echtleder Travel Journal</h4>
+                <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 10px;">
+                  A5 Format, 32 nummerierte Seiten mit Goldrand, personalisierter Name, Travel-Karma Score & 4 gestanzte Visa-Stempel.
+                </p>
+              </div>
+              <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border-line); padding-top: 8px;">
+                <span style="font-size: 1.15rem; font-weight: 800; color: var(--text-main);">29,90 €</span>
+                <span class="badge badge-gold" style="font-size: 0.68rem;">Bestseller</span>
+              </div>
+            </div>
 
-        <div style="background: rgba(0,0,0,0.4); border: 1px dashed var(--sand-gold); padding: 18px; border-radius: var(--radius-md); text-align: left; font-size: 0.85rem; margin-bottom: 20px;">
-          <p style="color: #FFF; margin-bottom: 6px;">✨ <strong>Vollautomatische Produktion über POD-Partner:</strong></p>
-          <ul style="list-style: none; padding-left: 0; color: var(--text-muted);">
-            <li>✓ Veganes Leder-Cover mit personalisierter Goldprägung</li>
-            <li>✓ Automatisch eingedruckte Visa-Stempel & Reisetagebuch</li>
-            <li>✓ Echte Goldfolien-Rubbelkarten für jedes bereiste Land</li>
-            <li>✓ Weltweiter Direktversand (Dropshipping / Etsy / Printful)</li>
-          </ul>
-        </div>
+            <!-- Product 2: A2 World Scratch Map -->
+            <div class="glass-card" style="padding: 16px; border-color: var(--emerald-primary); display: flex; flex-direction: column; justify-content: space-between;">
+              <div>
+                <div style="height: 120px; border-radius: 8px; background: linear-gradient(135deg, #0B131F, #1E293B); border: 1px solid var(--emerald-primary); display: flex; align-items: center; justify-content: center; margin-bottom: 12px;">
+                  <div style="text-align: center;">
+                    <div style="font-size: 2rem;">🗺️</div>
+                    <div style="font-size: 0.72rem; color: var(--emerald-primary); font-weight: 800; letter-spacing: 0.1em;">OBSIDIAN & GOLD SCRATCH MAP</div>
+                  </div>
+                </div>
+                <h4 style="font-size: 1.05rem; color: var(--text-main); margin-bottom: 4px;">🗺️ A2 Wand-Rubbelkarte</h4>
+                <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 10px;">
+                  59,4 x 42,0 cm, 250g Kunstdruckpapier, abriebfeste Goldfolie über tiefschwarzem Obsidian-Relief mit Flaggen & Koordinaten.
+                </p>
+              </div>
+              <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border-line); padding-top: 8px;">
+                <span style="font-size: 1.15rem; font-weight: 800; color: var(--text-main);">24,90 €</span>
+                <span class="badge badge-emerald" style="font-size: 0.68rem;">Beliebt</span>
+              </div>
+            </div>
 
-        <div style="display: flex; gap: 12px; justify-content: center;">
-          <button class="btn btn-primary" onclick="alert('🛍️ Print-on-Demand API angebunden. Der Export wird druckfertig mit 300 DPI für den Druckpartner generiert.'); document.getElementById('podOrderModal').style.display='none'">
-            Druckfertige POD-Datei Exportieren 🖨️
-          </button>
-          <button class="btn btn-secondary" onclick="document.getElementById('podOrderModal').style.display='none'">
-            Schließen
-          </button>
+            <!-- Product 3: Ultimate Globetrotter Box -->
+            <div class="glass-card" style="padding: 16px; border-color: var(--cyan-accent); display: flex; flex-direction: column; justify-content: space-between;">
+              <div>
+                <div style="height: 120px; border-radius: 8px; background: linear-gradient(135deg, #0C1E2E, #164E63); border: 1px solid var(--cyan-accent); display: flex; align-items: center; justify-content: center; margin-bottom: 12px;">
+                  <div style="text-align: center;">
+                    <div style="font-size: 2rem;">🎁</div>
+                    <div style="font-size: 0.72rem; color: var(--cyan-accent); font-weight: 800; letter-spacing: 0.1em;">VIP COLLECTOR GIFT BOX</div>
+                  </div>
+                </div>
+                <h4 style="font-size: 1.05rem; color: var(--text-main); margin-bottom: 4px;">🎁 Ultimate Globetrotter Box</h4>
+                <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 10px;">
+                  Lederpass + A2 Rubbelkarte + 4 Metall-Badges (Wave Hunter, Pet Explorer) + Goldener Kratzstift in edler Magnetbox.
+                </p>
+              </div>
+              <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border-line); padding-top: 8px;">
+                <span style="font-size: 1.15rem; font-weight: 800; color: var(--text-main);">59,90 €</span>
+                <span class="badge badge-cyan" style="font-size: 0.68rem;">Komplett-Set</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="pod-info-box">
+            💡 <strong>100% Automatisierter POD-Workflow:</strong> Das System generiert hochauflösende 300-DPI Druckdateien mit Vektor-Prägemasken. Die Produktion und der weltweite Versand erfolgen ohne Vorab-Lagerbestand über Printful / Gelato.
+          </div>
+
+          <div style="display: flex; gap: 10px; justify-content: flex-end;">
+            <button class="btn btn-secondary" onclick="document.getElementById('podModal').remove()">Schließen</button>
+            <button class="btn btn-primary" onclick="alert('🛍️ Druckdatei wird im POD-System verarbeitet! Muster-Bestellung ausgelöst.'); document.getElementById('podModal').remove();">
+              Muster Bestellen / Druckdatei Exportieren 🚀
+            </button>
+          </div>
         </div>
       </div>
     `;
-    modal.style.display = 'flex';
+
+    document.body.insertAdjacentHTML('beforeend', modalHtml);
   }
 }
 
 window.scratchPassport = new ScratchPassportEngine();
 
 document.addEventListener('DOMContentLoaded', () => {
-  window.scratchPassport.initCanvas();
-  window.scratchPassport.renderStamps();
+  window.scratchPassport.initCanvas('scratchCanvas');
 });

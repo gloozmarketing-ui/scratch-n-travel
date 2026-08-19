@@ -1,21 +1,24 @@
-/* ============================================================================
-   Scratch'n'Travel — Core Design System & CSS Variables
-   Theme: Vibrant Emerald, Ocean Cyan, Sand Gold & Dark Glassmorphism
-   ============================================================================ */
+﻿/* ─── Global Reset & Base Variables ─────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
-
-:root {
-  /* Color Tokens */
+/* ─── Multi-Theme Design Tokens (Obsidian, Cream & Forest) ──────────────── */
+:root.theme-obsidian, :root {
   --bg-main: #0B131F;
-  --bg-card: rgba(18, 30, 49, 0.75);
-  --bg-card-hover: rgba(26, 42, 68, 0.85);
+  --bg-card: rgba(18, 30, 49, 0.82);
+  --bg-card-hover: rgba(26, 42, 68, 0.95);
   --bg-glass: rgba(255, 255, 255, 0.05);
+  --bg-surface: #121E31;
+  --bg-input: #0B131F;
   
   --emerald-primary: #10B981;
-  --emerald-glow: rgba(16, 185, 129, 0.3);
+  --emerald-glow: rgba(16, 185, 129, 0.35);
   --cyan-accent: #06B6D4;
   --sand-gold: #F59E0B;
+  --sand-gold-glow: rgba(245, 158, 11, 0.3);
   --rose-heart: #F43F5E;
   
   --text-main: #F8FAFC;
@@ -24,228 +27,234 @@
   
   --border-line: rgba(255, 255, 255, 0.1);
   --border-active: rgba(16, 185, 129, 0.5);
-  
-  --radius-sm: 8px;
-  --radius-md: 16px;
-  --radius-lg: 24px;
-  --radius-full: 9999px;
-  
-  --shadow-glow: 0 0 25px rgba(16, 185, 129, 0.15);
-  --shadow-card: 0 20px 40px -15px rgba(0, 0, 0, 0.5);
-  
-  --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-smooth: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  --card-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
 }
 
-/* Reset & Base Styles */
-*, *::before, *::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+:root.theme-cream {
+  --bg-main: #F9F6F0;
+  --bg-card: rgba(255, 255, 255, 0.96);
+  --bg-card-hover: #FFFFFF;
+  --bg-glass: rgba(209, 123, 73, 0.08);
+  --bg-surface: #F0ECE1;
+  --bg-input: #FFFFFF;
+  
+  --emerald-primary: #D17B49; /* Terracotta Warmth */
+  --emerald-glow: rgba(209, 123, 73, 0.25);
+  --cyan-accent: #5B8266;     /* Deep Sage */
+  --sand-gold: #B45309;       /* Amber Earth */
+  --sand-gold-glow: rgba(180, 83, 9, 0.25);
+  --rose-heart: #BE123C;
+  
+  --text-main: #2C332E;       /* Deep Charcoal Ink */
+  --text-muted: #525C54;      /* Readable Earth Slate */
+  --text-dim: #7C877E;
+  
+  --border-line: rgba(63, 59, 54, 0.14);
+  --border-active: rgba(209, 123, 73, 0.6);
+  --card-shadow: 0 8px 24px -6px rgba(63, 59, 54, 0.1);
 }
 
-html {
-  scroll-behavior: smooth;
-  font-family: 'Plus Jakarta Sans', sans-serif;
+:root.theme-forest {
+  --bg-main: #142018;         /* Midnight Alpine Forest */
+  --bg-card: rgba(32, 48, 38, 0.9);
+  --bg-card-hover: rgba(42, 64, 50, 0.98);
+  --bg-glass: rgba(255, 255, 255, 0.06);
+  --bg-surface: #1E2E24;
+  --bg-input: #111A14;
+  
+  --emerald-primary: #10B981; /* Alpine Emerald */
+  --emerald-glow: rgba(16, 185, 129, 0.35);
+  --cyan-accent: #34D399;     /* Mint Pine */
+  --sand-gold: #F59E0B;       /* Warm Amber */
+  --sand-gold-glow: rgba(245, 158, 11, 0.3);
+  --rose-heart: #FB7185;
+  
+  --text-main: #F4F1EA;       /* Warm Linen */
+  --text-muted: #B4C4AD;      /* Forest Mist */
+  --text-dim: #7E9675;
+  
+  --border-line: rgba(255, 255, 255, 0.12);
+  --border-active: rgba(16, 185, 129, 0.55);
+  --card-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.6);
+}
+
+/* Typography & Layout Foundations */
+body {
+  font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   background-color: var(--bg-main);
   color: var(--text-main);
   line-height: 1.6;
-  -webkit-font-smoothing: antialiased;
-}
-
-body {
   min-height: 100vh;
-  background: radial-gradient(circle at 10% 20%, rgba(6, 182, 212, 0.08) 0%, transparent 40%),
-              radial-gradient(circle at 90% 80%, rgba(16, 185, 129, 0.1) 0%, transparent 40%),
-              var(--bg-main);
+  transition: background-color 0.3s ease, color 0.3s ease;
   overflow-x: hidden;
 }
 
-/* Typography */
-h1, h2, h3, h4, h5, h6 {
-  font-family: 'Outfit', sans-serif;
-  color: var(--text-main);
-  line-height: 1.25;
-  font-weight: 700;
+:root.theme-cream body {
+  background: radial-gradient(circle at 10% 20%, rgba(209, 123, 73, 0.06) 0%, transparent 40%),
+              radial-gradient(circle at 90% 80%, rgba(91, 130, 102, 0.08) 0%, transparent 40%),
+              #F9F6F0;
+  color: #2C332E;
 }
 
-h1 {
-  font-size: clamp(2.2rem, 5vw, 3.8rem);
-  letter-spacing: -0.02em;
+:root.theme-forest body {
+  background: radial-gradient(circle at 10% 20%, rgba(52, 211, 153, 0.07) 0%, transparent 40%),
+              radial-gradient(circle at 90% 80%, rgba(245, 158, 11, 0.05) 0%, transparent 40%),
+              #142018;
+  color: #F4F1EA;
 }
 
-h2 {
-  font-size: clamp(1.8rem, 3.5vw, 2.6rem);
-  letter-spacing: -0.01em;
-}
-
-p {
-  color: var(--text-muted);
-  font-size: 1.05rem;
-}
-
-a {
-  color: var(--emerald-primary);
-  text-decoration: none;
-  transition: var(--transition-fast);
-}
-
-a:hover {
-  color: var(--cyan-accent);
-}
-
-/* Layout Wrappers */
 .container {
-  width: 100%;
   max-width: 1240px;
   margin: 0 auto;
   padding: 0 24px;
 }
 
-/* Gradient Text Effect */
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 800;
+  line-height: 1.25;
+  color: var(--text-main);
+  letter-spacing: -0.02em;
+}
+
+:root.theme-cream h1, :root.theme-cream h2, :root.theme-cream h3, :root.theme-cream h4 {
+  font-family: 'Fraunces', 'Georgia', serif;
+  color: #2C332E;
+}
+
 .gradient-text {
-  background: linear-gradient(135deg, #F8FAFC 0%, var(--emerald-primary) 50%, var(--cyan-accent) 100%);
+  background: linear-gradient(135deg, var(--emerald-primary), var(--sand-gold));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
-.gradient-gold {
-  background: linear-gradient(135deg, #FDE68A 0%, var(--sand-gold) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+/* Standard Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 22px;
+  border-radius: 9999px;
+  font-weight: 700;
+  font-size: 0.92rem;
+  text-decoration: none;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Glassmorphism Card Base */
+.btn-primary {
+  background: var(--emerald-primary);
+  color: #FFFFFF !important;
+  box-shadow: 0 4px 14px var(--emerald-glow);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px var(--emerald-glow);
+  opacity: 0.95;
+}
+
+.btn-secondary {
+  background: var(--bg-glass);
+  color: var(--text-main) !important;
+  border-color: var(--border-line);
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: var(--border-active);
+  transform: translateY(-2px);
+}
+
+:root.theme-cream .btn-secondary {
+  background: #FFFFFF;
+  color: #2C332E !important;
+  border-color: rgba(63, 59, 54, 0.16);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+}
+
+:root.theme-cream .btn-secondary:hover {
+  border-color: #D17B49;
+  background: #FAF7F2;
+}
+
+/* Glass & Surface Cards */
 .glass-card {
   background: var(--bg-card);
+  border: 1px solid var(--border-line);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: var(--card-shadow);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid var(--border-line);
-  border-radius: var(--radius-md);
-  padding: 28px;
-  box-shadow: var(--shadow-card);
-  transition: var(--transition-smooth);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .glass-card:hover {
   border-color: var(--border-active);
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-glow), var(--shadow-card);
+  transform: translateY(-3px);
 }
 
-/* Badges & Tags */
+:root.theme-cream .glass-card {
+  background: rgba(255, 255, 255, 0.96);
+  border-color: rgba(63, 59, 54, 0.12);
+  box-shadow: 0 8px 24px -6px rgba(63, 59, 54, 0.08);
+}
+
+/* Badges */
 .badge {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 6px 14px;
-  border-radius: var(--radius-full);
-  font-size: 0.8rem;
-  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: 9999px;
+  font-size: 0.76rem;
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.04em;
 }
 
 .badge-emerald {
-  background: rgba(16, 185, 129, 0.15);
+  background: rgba(16, 185, 129, 0.12);
   color: var(--emerald-primary);
-  border: 1px solid rgba(16, 185, 129, 0.3);
+  border: 1px solid var(--emerald-primary);
+}
+
+:root.theme-cream .badge-emerald {
+  background: rgba(209, 123, 73, 0.12);
+  color: #D17B49;
+  border-color: #D17B49;
 }
 
 .badge-cyan {
-  background: rgba(6, 182, 212, 0.15);
+  background: rgba(6, 182, 212, 0.12);
   color: var(--cyan-accent);
-  border: 1px solid rgba(6, 182, 212, 0.3);
+  border: 1px solid var(--cyan-accent);
 }
 
 .badge-gold {
-  background: rgba(245, 158, 11, 0.15);
+  background: rgba(245, 158, 11, 0.12);
   color: var(--sand-gold);
-  border: 1px solid rgba(245, 158, 11, 0.3);
+  border: 1px solid var(--sand-gold);
 }
 
-/* Buttons */
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  padding: 14px 28px;
-  border-radius: var(--radius-full);
-  font-family: 'Outfit', sans-serif;
-  font-weight: 600;
-  font-size: 1rem;
-  cursor: pointer;
-  border: none;
-  transition: var(--transition-smooth);
+.badge-danger {
+  background: rgba(244, 63, 94, 0.14);
+  color: var(--rose-heart);
+  border: 1px solid var(--rose-heart);
 }
 
-.btn-primary {
-  background: linear-gradient(135deg, var(--emerald-primary) 0%, #059669 100%);
-  color: #FFF;
-  box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+/* Grids */
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 24px;
 }
 
-.btn-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 12px 28px rgba(16, 185, 129, 0.45);
-}
-
-.btn-secondary {
-  background: var(--bg-glass);
-  color: var(--text-main);
-  border: 1px solid var(--border-line);
-}
-
-.btn-secondary:hover {
-  background: rgba(255, 255, 255, 0.12);
-  border-color: rgba(255, 255, 255, 0.25);
-}
-
-/* Navigation Header */
-header.navbar {
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  background: rgba(11, 19, 31, 0.85);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--border-line);
-  padding: 16px 0;
-}
-
-.nav-wrap {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.brand-logo {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-family: 'Outfit', sans-serif;
-  font-weight: 800;
-  font-size: 1.4rem;
-  color: #FFF;
-}
-
-.brand-logo span.dot {
-  color: var(--emerald-primary);
-}
-
-.nav-links {
-  display: flex;
-  align-items: center;
-  gap: 28px;
-  list-style: none;
-}
-
-.nav-links a {
-  color: var(--text-muted);
-  font-weight: 500;
-  font-size: 0.95rem;
-}
-
-.nav-links a:hover, .nav-links a.active {
-  color: #FFF;
+@media (max-width: 768px) {
+  .grid-3 {
+    grid-template-columns: 1fr;
+  }
 }

@@ -57,7 +57,7 @@ const STRIPE_CONFIG = {
       ctaLive: 'Pro Freischalten (7,99 €) 💳',
       features: [
         '✓ Unbegrenzt 🔐 Secret Spots Koordinaten enthüllen',
-        '✓ Unbegrenzte Hermes AI Concierge Empfehlungen',
+        '✓ Unbegrenzte Smart Travel AI Concierge Empfehlungen',
         '✓ Hobby-Matching & Direktnachrichten mit Locals',
         '✓ Digital Travel Scratchbook PDF-Export',
         '✓ Offline-Checklisten & Tierarzt-Notfallkarten'
