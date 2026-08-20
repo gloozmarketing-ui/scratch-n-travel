@@ -604,3 +604,17 @@ window.i18n = new I18nEngine();
 document.addEventListener('DOMContentLoaded', () => {
   window.i18n.init();
 });
+// === Auto-Added Languages: Russian, Ukrainian, Hebrew ===
+// Add these into your TRANSLATIONS object:
+// ru: { flag: "🇷🇺", label: "Русский", dir: "ltr", pricing_pro_period: "/ мес.", pricing_biz_period: "/ мес." },
+// uk: { flag: "🇺🇦", label: "Українська", dir: "ltr", pricing_pro_period: "/ міс.", pricing_biz_period: "/ міс." },
+// he: { flag: "🇮🇱", label: "עברית", dir: "rtl", pricing_pro_period: "/ חודש", pricing_biz_period: "/ חודש" },
+
+// Expose for language switcher fallback:
+if (typeof window !== "undefined") {
+  window.SNT_EXTRA_LANGS = {
+    ru: { flag: "🇷🇺", label: "Русский", dir: "ltr" },
+    uk: { flag: "🇺🇦", label: "Українська", dir: "ltr" },
+    he: { flag: "🇮🇱", label: "עברית", dir: "rtl" }
+  };
+}
