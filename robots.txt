@@ -1,0 +1,18 @@
+# Scratch'n'Travel Robots Configuration
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /scratch/
+Disallow: /private/
+
+# AI Crawlers & Search Engines
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+Sitemap: https://scratchntravel.com/sitemap.xml

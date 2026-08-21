@@ -1,33 +1,23 @@
-﻿/**
- * Scratch'n'Travel — Service Worker (Offline Cache & PWA)
- * Caches core pages, styling and scripts for offline usage on planes & remote beaches
+/**
+ * Scratch'n'Travel — Progressive Web App Service Worker v4.0
+ * Provides offline support, asset caching, and offline scratch map availability
  */
 
-const CACHE_NAME = 'scratch-travel-v2.1';
+const CACHE_NAME = 'snt-pwa-cache-v4';
 const STATIC_ASSETS = [
   '/',
   '/index.html',
   '/app.html',
   '/assets/css/main.css',
   '/assets/css/components.css',
-  '/assets/js/app.js',
-  '/assets/js/i18n.js',
-  '/assets/js/stripe-config.js',
-  '/assets/js/family-pet-engine.js',
-  '/assets/js/activities-engine.js',
-  '/assets/js/safety-radar.js',
-  '/assets/js/hermes-guardian.js',
-  '/assets/js/scratch-passport-engine.js',
-  '/assets/js/hazard-sim-engine.js',
-  '/assets/js/hermes-concierge.js',
+  '/assets/icons/favicon.svg',
   '/manifest.json'
 ];
 
 self.addEventListener('install', (e) => {
   e.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
-      console.log('⚡ [ServiceWorker] Pre-caching offline travel assets...');
-      return cache.addAll(STATIC_ASSETS).catch(err => console.warn('Cache addAll warning:', err));
+      return cache.addAll(STATIC_ASSETS);
     })
   );
   self.skipWaiting();
@@ -37,11 +27,8 @@ self.addEventListener('activate', (e) => {
   e.waitUntil(
     caches.keys().then((keys) => {
       return Promise.all(
-        keys.map((key) => {
-          if (key !== CACHE_NAME) {
-            console.log('⚡ [ServiceWorker] Clearing old cache:', key);
-            return caches.delete(key);
-          }
+        keys.map((k) => {
+          if (k !== CACHE_NAME) return caches.delete(k);
         })
       );
     })
@@ -50,24 +37,18 @@ self.addEventListener('activate', (e) => {
 });
 
 self.addEventListener('fetch', (e) => {
-  // Network first with cache fallback
+  // Stale-While-Revalidate Strategy for HTML/CSS/JS
   e.respondWith(
-    fetch(e.request)
-      .then((response) => {
-        // Clone and update cache
-        if (response && response.status === 200 && e.request.method === 'GET') {
-          const resClone = response.clone();
-          caches.open(CACHE_NAME).then((cache) => cache.put(e.request, resClone));
+    caches.match(e.request).then((cached) => {
+      const fetchPromise = fetch(e.request).then((networkResponse) => {
+        if (networkResponse && networkResponse.status === 200 && e.request.method === 'GET') {
+          const responseClone = networkResponse.clone();
+          caches.open(CACHE_NAME).then((cache) => cache.put(e.request, responseClone));
         }
-        return response;
-      })
-      .catch(() => {
-        return caches.match(e.request).then((cachedResponse) => {
-          if (cachedResponse) return cachedResponse;
-          if (e.request.destination === 'document') {
-            return caches.match('/app.html');
-          }
-        });
-      })
+        return networkResponse;
+      }).catch(() => cached);
+
+      return cached || fetchPromise;
+    })
   );
 });

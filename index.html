@@ -33,53 +33,42 @@
 
 
   <!-- Navigation Bar with Centered Links & Right Actions Cluster -->
-  <header class="navbar">
-    <div class="container nav-wrap">
-      <a href="index.html" class="brand-logo">
-        <span class="brand-logo-icon">
-          <svg viewBox="0 0 100 100" width="26" height="26">
-            <rect x="5" y="5" width="90" height="90" rx="24" fill="#0B131F" stroke="#F59E0B" stroke-width="6"/>
-            <polygon points="50,18 58,42 82,50 58,58 50,82 42,58 18,50 42,42" fill="#F59E0B"/>
-            <circle cx="50" cy="50" r="8" fill="#10B981"/>
-          </svg>
-        </span>
-        <span>Scratch'n'Travel</span>
+  
+  <!-- Ultra-Clean Sticky Header Navigation -->
+  <header class="navbar-sticky" style="position: sticky; top: 0; z-index: 1000; background: rgba(10,10,10,0.88); backdrop-filter: blur(16px); border-bottom: 1px solid var(--border-line); padding: 10px 24px;">
+    <div style="max-width: 1280px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 16px;">
+      <!-- Logo & Brand -->
+      <a href="index.html" style="text-decoration: none; display: flex; align-items: center; gap: 8px;">
+        <span style="font-size: 1.5rem;">🪙</span>
+        <span style="font-size: 1.25rem; font-weight: 800; color: var(--text-main); letter-spacing: -0.5px;">Scratch<span style="color: var(--emerald-primary);">'n'</span>Travel</span>
       </a>
-      
-      <!-- Centered Navigation Links -->
-      <ul class="nav-center-links">
-        <li><a href="#hobby-dna" data-i18n="nav_hobbydna">Hobby-DNA (130) 🧬</a></li>
-        <li><a href="#aktivitaeten" data-i18n="nav_activities">Aktivitäten & Extreme 🏄‍♂️</a></li>
-        <li><a href="#story-pins" data-i18n="nav_storypins">Story-Pins 🗺️</a></li>
-        <li><a href="#scratch-passport" data-i18n="nav_scratchbook">Reisepass & Schätze 📖</a></li>
-        <li><a href="#checklisten">Checklisten 📋</a></li>
-        <li><a href="#preise" data-i18n="nav_pricing">Preise & Beta 💳</a></li>
-      </ul>
 
-      <!-- Right Utility Actions Cluster -->
-      <div class="nav-actions">
-        <!-- Luxury 3-Theme Switcher -->
-        <div class="theme-selector-bar" title="Wähle dein bevorzugtes Webdesign">
-          <button class="theme-btn active" data-theme="obsidian" onclick="window.themeManager.setTheme('obsidian')">
-            ✨
-          </button>
-          <button class="theme-btn" data-theme="cream" onclick="window.themeManager.setTheme('cream')">
-            🌿
-          </button>
-          <button class="theme-btn" data-theme="forest" onclick="window.themeManager.setTheme('forest')">
-            🌲
-          </button>
+      <!-- Navigation Links -->
+      <nav class="nav-desktop-links" style="display: flex; align-items: center; gap: 22px;">
+        <div class="nav-dropdown" style="position: relative;">
+          <a href="#core-features" style="text-decoration: none; color: var(--text-main); font-size: 0.9rem; font-weight: 700; display: flex; align-items: center; gap: 4px;">
+            Features <span style="font-size: 0.7rem;">▾</span>
+          </a>
         </div>
+        <a href="#hobby-matching" style="text-decoration: none; color: var(--text-muted); font-size: 0.9rem; font-weight: 600;">🧬 Hobby-DNA</a>
+        <a href="#national-treasures" style="text-decoration: none; color: var(--text-muted); font-size: 0.9rem; font-weight: 600;">🏛️ Schätze</a>
+        <a href="#badge-merch-section" style="text-decoration: none; color: var(--text-muted); font-size: 0.9rem; font-weight: 600;">🏷️ Badges & Merch</a>
+        <a href="#preise" style="text-decoration: none; color: var(--text-muted); font-size: 0.9rem; font-weight: 600;">Preise</a>
+        <a href="#host-portal" style="text-decoration: none; color: var(--sand-gold); font-size: 0.9rem; font-weight: 700;">🌟 Host Portal</a>
+      </nav>
 
-        <!-- Custom Sleek Multilingual Dropdown -->
-        <div id="langDropdownContainer"></div>
-
-        <!-- Launch App CTA -->
-        <button class="scratch-wallet-badge" onclick="window.scratchWallet.open()" title="Deine Rubbel-Karten">🪙 0</button>
-        <a href="app.html" class="btn btn-primary" style="padding: 8px 16px; font-size: 0.86rem;" data-i18n="nav_start_app">App Starten →</a>
+      <!-- Right Action CTAs -->
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <button onclick="window.onboardingEngine.openModal()" class="btn btn-secondary" style="padding: 7px 14px; font-size: 0.82rem; font-weight: 700;">
+          ✨ Tour Starten
+        </button>
+        <a href="app.html" class="btn btn-primary" style="padding: 7px 18px; font-size: 0.85rem; font-weight: 800;">
+          App Starten 🚀
+        </a>
       </div>
     </div>
   </header>
+
 
   <!-- Hero Section -->
   <section class="hero">
@@ -507,7 +496,21 @@
     <div class="grid-3" id="hostPartnersGrid"></div>
   </section>
 
-  <section id="preise" class="container" style="padding: 60px 0;">
+  
+  <!-- Harmonized Badges & Physical Merch Section -->
+  <section id="badge-merch-section" class="section-container" style="padding: 60px 20px; border-top: 1px solid var(--border-line);">
+    <div style="text-align: center; max-width: 720px; margin: 0 auto 40px;">
+      <span class="badge badge-gold">🏷️ Gamification & Physischer Merch</span>
+      <h2 style="font-size: 2.2rem; color: var(--text-main); font-weight: 800; margin: 10px 0;">Verdiene Badges · Trage deine Reise-DNA</h2>
+      <p style="font-size: 0.98rem; color: var(--text-muted);">
+        Jeder freigeschaltete Meilenstein wird von Hermes als 300 DPI Vektormuster aufbereitet – bestellbar als Anbügel-Aufnäher, gravierter Anhänger oder PU-Reisetasche.
+      </p>
+    </div>
+
+    <div id="badgeShowcaseGrid"></div>
+  </section>
+
+<section id="preise" class="container" style="padding: 60px 0;">
     <div style="text-align: center; max-width: 750px; margin: 0 auto 30px;">
       <span class="badge badge-gold" data-i18n="pricing_badge">Fair, Transparent & Sicher</span>
       <h2 style="margin-top: 12px;" data-i18n="pricing_title">Preismodelle & Vorab-Zugang</h2>
@@ -638,6 +641,26 @@
     </div>
   </footer>
 
+  <!-- Cookie Consent Banner (DSGVO Compliant) -->
+  <div id="cookieConsentBanner" style="position: fixed; bottom: 16px; left: 16px; right: 16px; max-width: 520px; margin: 0 auto; background: var(--bg-card); border: 1px solid var(--emerald-primary); border-radius: 16px; padding: 16px 20px; box-shadow: 0 16px 40px rgba(0,0,0,0.5); z-index: 9999; display: flex; flex-direction: column; gap: 10px;">
+    <div style="font-size: 0.85rem; color: var(--text-main);">
+      🍪 <strong>Datenschutz & Privatsphäre:</strong> Wir nutzen essentielle Cookies & verschlüsselte lokale Caches für deine Scratch-Map und Wassertemperatur-Berechnungen. Keine Weitergabe an Werbetracker.
+    </div>
+    <div style="display: flex; justify-content: flex-end; gap: 10px;">
+      <button class="btn btn-secondary" style="padding: 6px 12px; font-size: 0.78rem;" onclick="document.getElementById('cookieConsentBanner').style.display='none'">Details</button>
+      <button class="btn btn-primary" style="padding: 6px 16px; font-size: 0.78rem;" onclick="document.getElementById('cookieConsentBanner').style.display='none'; localStorage.setItem('snt_cookie_accepted','true');">Einverstanden ✓</button>
+    </div>
+  </div>
+
+  <!-- Legal Links in Footer -->
+  <div style="text-align: center; padding: 24px 0; border-top: 1px solid var(--border-line); font-size: 0.78rem; color: var(--text-dim);">
+    <a href="javascript:void(0)" onclick="alert('Impressum:\nScratch\'n\'Travel International\nE-Mail: support@scratchntravel.com\nPlattform für Reise-Bildung & 130 Hobby-DNA Matching')" style="color: var(--text-muted); text-decoration: none; margin: 0 10px;">Impressum</a> · 
+    <a href="javascript:void(0)" onclick="alert('Datenschutzerklärung (DSGVO):\nAlle Daten werden nach europäischen Sicherheitsstandards verschlüsselt verarbeitet. Keine Standortweitergabe ohne explizite Erlaubnis.')" style="color: var(--text-muted); text-decoration: none; margin: 0 10px;">Datenschutz</a> · 
+    <a href="javascript:void(0)" onclick="alert('AGB:\nMonatlich kündbare Mitgliedschaften. 14 Tage Widerrufsrecht.')" style="color: var(--text-muted); text-decoration: none; margin: 0 10px;">AGB</a> · 
+    <a href="magazin/die-10-besten-surfspots-in-portugal.html" style="color: var(--sand-gold); text-decoration: none; margin: 0 10px;">Reise-Magazin 📖</a>
+  </div>
+
+
   <!-- Scripts -->
   <script src="assets/js/supabase-client.js"></script>
   <script src="assets/js/theme-manager.js"></script>
@@ -668,5 +691,9 @@
       });
     }
   </script>
+  <script src="assets/js/open-geocoding-engine.js"></script>
+  <script src="assets/js/badge-merch-sync.js"></script>
+  <script src="assets/js/onboarding-engine.js"></script>
+  <script src="assets/js/live-feed-engine.js"></script>
 </body>
 </html>
