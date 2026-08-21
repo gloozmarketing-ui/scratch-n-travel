@@ -8,6 +8,8 @@
 /* ─── Multi-Theme Design Tokens (Obsidian, Cream & Forest) ──────────────── */
 :root.theme-obsidian, :root {
   --bg-main: #0B131F;
+  --bg-dark: #0A0E17;
+  --bg-article-card: #121A2A;
   --bg-card: rgba(18, 30, 49, 0.82);
   --bg-card-hover: rgba(26, 42, 68, 0.95);
   --bg-glass: rgba(255, 255, 255, 0.05);
