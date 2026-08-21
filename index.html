@@ -71,24 +71,66 @@
 
 
   <!-- Hero Section -->
-  <section class="hero">
-    <div class="container">
-      <span class="badge badge-emerald" data-i18n="hero_badge">🌍 Die Social Layer von Reisen</span>
-      <h1 style="margin-top: 16px;">
-        <span data-i18n="hero_title_1">Verreise nicht als Tourist.</span><br>
-        <span class="gradient-text" data-i18n="hero_title_2">Werde Teil des Ortes.</span>
-      </h1>
-      <p class="hero-subtitle" data-i18n="hero_subtitle">
-        Entdecke versteckte Orte von Einheimischen, finde Gleichgesinnte mit dem <strong>WanderBond Hobby-DNA Matching (130+ Hobbys)</strong>, plane Extremsport & Familienausflüge und schütze dich vor Touristenfallen & Unwettern.
-      </p>
+  
+  <!-- Hero Section with Interactive Mini-Scratch Live-Demo -->
+  <section class="hero" style="padding: 40px 0 60px;">
+    <div class="container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 32px; align-items: center;">
+      <!-- Left Hero Pitch -->
+      <div>
+        <div style="margin-bottom: 12px;">
+          <span class="badge badge-emerald" data-i18n="hero_badge">🌍 Die Social Layer von Reisen</span>
+        </div>
+        <h1 style="margin-top: 10px; font-size: 2.8rem; line-height: 1.15; letter-spacing: -1px;">
+          <span data-i18n="hero_title_1">Verreise nicht als Tourist.</span><br>
+          <span class="gradient-text" data-i18n="hero_title_2">Werde Teil des Ortes.</span>
+        </h1>
+        <p class="hero-subtitle" style="font-size: 1.05rem; line-height: 1.6; margin: 16px 0 24px;" data-i18n="hero_subtitle">
+          Entdecke verifizierte Secrets von Locals, finde Gleichgesinnte mit dem <strong>WanderBond 130+ Hobby-DNA Matcher</strong>, plane Tagestouren zu Fuß und schütze dich vor Abzocke & Unwettern.
+        </p>
 
-      <div style="display: flex; justify-content: center; gap: 14px; flex-wrap: wrap;">
-        <a href="app.html" class="btn btn-primary" data-i18n="hero_cta_explore">Entdecken & Ausprobieren ✨</a>
-        <a href="#hobby-dna" class="btn btn-secondary" data-i18n="hero_cta_dna">130 Hobby-DNA Matcher 🧬</a>
-        <a href="#community-feed" class="btn btn-secondary" data-i18n="hero_cta_share">Erfahrungen teilen (VIP 0 €) 🎁</a>
+        <!-- Live Activity Ticker & Search Bar -->
+        <div style="margin-bottom: 24px;">
+          <div id="liveActivityFeed" style="margin-bottom: 12px;"></div>
+          <div id="citySearchBarContainer" style="width: 100%;"></div>
+        </div>
+
+        <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+          <a href="app.html" class="btn btn-primary" style="padding: 12px 24px; font-size: 1rem;" data-i18n="hero_cta_explore">App Starten ✨</a>
+          <a href="#hobby-dna" class="btn btn-secondary" style="padding: 12px 20px; font-size: 0.95rem;" data-i18n="hero_cta_dna">130 Hobby-DNA 🧬</a>
+          <button onclick="window.localVerification.openVerificationModal()" class="btn btn-secondary" style="padding: 12px 18px; font-size: 0.95rem;">
+            🛡️ Local Guide Siegel
+          </button>
+        </div>
+      </div>
+
+      <!-- Right Interactive Live Scratch Canvas -->
+      <div style="background: radial-gradient(circle, #241403 0%, #0A0A0A 100%); border: 2px solid var(--sand-gold); border-radius: 24px; padding: 24px; box-shadow: 0 16px 40px rgba(212,175,55,0.25); text-align: center;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+          <span class="badge badge-gold">🪙 Live Rubbel-Demo</span>
+          <span style="font-size: 0.75rem; color: var(--sand-gold); font-weight: 700;">Sofort mit Maus/Finger testen</span>
+        </div>
+
+        <div style="position: relative; width: 100%; height: 210px; border-radius: 16px; overflow: hidden; border: 1px solid var(--border-line); background: #141414; display: flex; align-items: center; justify-content: center;">
+          <!-- Underneath Unlocked Secret -->
+          <div style="padding: 16px; text-align: center;">
+            <div style="font-size: 2.2rem; margin-bottom: 4px;">🇵🇹 🏄‍♂️</div>
+            <h4 style="color: var(--sand-gold); font-size: 1.15rem; margin: 0;">Praia da Ursa & Sintra Freigelegt!</h4>
+            <p style="font-size: 0.8rem; color: var(--text-muted); margin: 6px 0 10px;">Geheime Klippenquelle & 130 Hobby-Match mit Surfer Pedro (94%).</p>
+            <span class="badge badge-emerald">+100 XP · Explorer Rang 1</span>
+          </div>
+
+          <!-- Gold Foil Scratch Canvas -->
+          <canvas id="heroMiniScratchCnv" style="position: absolute; top:0; left:0; width:100%; height:100%; cursor: crosshair;"></canvas>
+        </div>
+
+        <div style="margin-top: 14px; display: flex; justify-content: space-between; align-items: center; font-size: 0.82rem;">
+          <span style="color: var(--text-dim);">💡 Rubbel die Goldfolie weg</span>
+          <button class="btn btn-secondary" style="padding: 4px 12px; font-size: 0.76rem;" onclick="initHeroMiniCanvas()">Neu Versiegeln 🔄</button>
+        </div>
       </div>
     </div>
   </section>
+
 
   <!-- Section 1: WanderBond 130 Hobby-DNA Matching & Badges -->
   <section id="hobby-dna" class="container" style="padding: 60px 0;">
@@ -224,7 +266,38 @@
   </section>
 
   <!-- Section 3: Activities Hub -->
-  <section id="aktivitaeten" class="container" style="padding: 60px 0;">
+  
+  <!-- Section: Gamified World Scratch Counter Stats -->
+  <section id="world-scratch-stats-section" class="container" style="padding: 20px 0 40px;">
+    <div id="worldScratchStatsBar"></div>
+  </section>
+
+  <!-- Section: Community Day-Trips & Walking Routes -->
+  <section id="community-routes" class="container" style="padding: 60px 0;">
+    <div style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 16px; margin-bottom: 30px;">
+      <div>
+        <span class="badge badge-emerald">👟 Community Tagestouren & Routen</span>
+        <h2 style="margin-top: 10px; font-size: 2rem;">1-Tages-Entdeckungstouren zu Fuß</h2>
+        <p style="font-size: 0.95rem; color: var(--text-muted); max-width: 680px;">
+          Von Locals und erfahrenen Reisenden ausgearbeitete Spaziergänge mit Insider-Tipps, optimalen Uhrzeiten und <strong>1-Klick GPX-Export für Komoot & Maps.me</strong>.
+        </p>
+      </div>
+      <div>
+        <button class="btn btn-primary" style="padding: 10px 20px; font-size: 0.88rem;" onclick="window.routesEngine.openCreateRouteModal()">
+          + Eigene Route Vorschlagen ✨
+        </button>
+      </div>
+    </div>
+
+    <div id="communityRoutesContainer"></div>
+  </section>
+
+  <!-- Section: Fair-Price Radar & Travel Budget -->
+  <section id="travel-budget-section" class="container" style="padding: 50px 0;">
+    <div id="travelBudgetWidget"></div>
+  </section>
+
+<section id="aktivitaeten" class="container" style="padding: 60px 0;">
     <div style="text-align: center; max-width: 750px; margin: 0 auto 32px;">
       <span class="badge badge-cyan" data-i18n="act_badge">🏄‍♂️ Von Familienurlaub bis Adrenalin</span>
       <h2 style="margin-top: 12px;" data-i18n="act_title">Aktivitäten nach deinem Geschmack</h2>
@@ -480,7 +553,7 @@
     <div style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 16px; margin-bottom: 32px;">
       <div>
         <span class="badge badge-gold">🌟 B2B Host & Partner Portal</span>
-        <h2 style="margin-top: 10px; font-size: 2rem;">Vermiete Apartments, Cafés & Aktivitäten mit 0% Provision</h2>
+        <h2 style="margin-top: 10px; font-size: 2rem;">Vermiete Apartments, empfange Gäste in Cafés & biete Touren an – mit 0% Provision 🌟</h2>
         <p style="font-size: 0.95rem; color: var(--text-muted); max-width: 680px;">
           Erreiche gezielt Reisende über den <strong>130 Hobby-DNA Matcher</strong> (z.B. Hundestrände, Surfspots, traditionelle Kulinarik). Behalte 100% deiner Einnahmen ohne 15–20% Airbnb/Booking.com-Gebühren.
         </p>
@@ -497,18 +570,47 @@
   </section>
 
   
-  <!-- Harmonized Badges & Physical Merch Section -->
+  
+  <!-- Harmonized Badges & Physical Merch Section with Visual Mockups -->
   <section id="badge-merch-section" class="section-container" style="padding: 60px 20px; border-top: 1px solid var(--border-line);">
-    <div style="text-align: center; max-width: 720px; margin: 0 auto 40px;">
-      <span class="badge badge-gold">🏷️ Gamification & Physischer Merch</span>
+    <div style="text-align: center; max-width: 760px; margin: 0 auto 36px;">
+      <div style="display: flex; justify-content: center; gap: 8px; margin-bottom: 8px;">
+        <span class="badge badge-gold">🏷️ 400+ Gamification Badges</span>
+        <span class="badge badge-cyan">✨ Monatliche Secret Drops</span>
+      </div>
       <h2 style="font-size: 2.2rem; color: var(--text-main); font-weight: 800; margin: 10px 0;">Verdiene Badges · Trage deine Reise-DNA</h2>
       <p style="font-size: 0.98rem; color: var(--text-muted);">
-        Jeder freigeschaltete Meilenstein wird von Hermes als 300 DPI Vektormuster aufbereitet – bestellbar als Anbügel-Aufnäher, gravierter Anhänger oder PU-Reisetasche.
+        Jeder freigeschaltete Meilenstein wird als 300 DPI Vektormuster aufbereitet – bestellbar als robuster Anbügel-Aufnäher für deinen Rucksack, lasergravierter Schlüsselanhänger oder personalisiertes Reise-Tagebuch.
       </p>
+    </div>
+
+    <!-- Visual Real-World Mockups Carousel/Grid -->
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px; max-width: 1080px; margin: 0 auto 36px;">
+      <!-- Mockup 1: Embroidered Patch on Backpack -->
+      <div style="background: var(--bg-card); border: 1px solid var(--sand-gold); border-radius: 18px; padding: 20px; text-align: center; box-shadow: 0 8px 24px rgba(0,0,0,0.3);">
+        <div style="font-size: 3.5rem; margin-bottom: 8px;">🎒🪡</div>
+        <h4 style="font-size: 1.1rem; color: var(--text-main); font-weight: 800; margin: 0 0 4px;">Anbügel-Patches auf Rucksack</h4>
+        <p style="font-size: 0.8rem; color: var(--text-muted); margin: 0;">3D-bestickte Kanten mit Schmelzkleber für Jacken, Caps & Trekking-Rucksäcke.</p>
+      </div>
+
+      <!-- Mockup 2: Laser Engraved Keychain -->
+      <div style="background: var(--bg-card); border: 1px solid var(--border-line); border-radius: 18px; padding: 20px; text-align: center; box-shadow: 0 8px 24px rgba(0,0,0,0.3);">
+        <div style="font-size: 3.5rem; margin-bottom: 8px;">🔑⚡</div>
+        <h4 style="font-size: 1.1rem; color: var(--text-main); font-weight: 800; margin: 0 0 4px;">Lasergravierter Metall-Anhänger</h4>
+        <p style="font-size: 0.8rem; color: var(--text-muted); margin: 0;">Massives matt-schwarzes Metall mit eingravierten GPS-Koordinaten & Username.</p>
+      </div>
+
+      <!-- Mockup 3: PU Leather Passport Journal -->
+      <div style="background: var(--bg-card); border: 1px solid var(--emerald-primary); border-radius: 18px; padding: 20px; text-align: center; box-shadow: 0 8px 24px rgba(0,0,0,0.3);">
+        <div style="font-size: 3.5rem; margin-bottom: 8px;">📖✨</div>
+        <h4 style="font-size: 1.1rem; color: var(--text-main); font-weight: 800; margin: 0 0 4px;">Hardcover Reise-Journal</h4>
+        <p style="font-size: 0.8rem; color: var(--text-muted); margin: 0;">Goldgeprägte Einband-Vektormaske mit allen deinen besuchten Ländern.</p>
+      </div>
     </div>
 
     <div id="badgeShowcaseGrid"></div>
   </section>
+
 
 <section id="preise" class="container" style="padding: 60px 0;">
     <div style="text-align: center; max-width: 750px; margin: 0 auto 30px;">
@@ -633,7 +735,7 @@
     <div class="container">
       <p data-i18n="footer_copy">© 2026 Scratch'n'Travel — Human-First Social Travel Platform.</p>
       <p style="margin-top: 8px; font-size: 0.82rem; color: var(--emerald-primary);">
-        🔒 <strong>100% Tracking- und Werbe-Cookie-Frei:</strong> Einstellungen werden ausschließlich lokal im Browser gespeichert (§ 25 Abs. 2 TDDDG & DSGVO konform ohne Cookie-Banner).
+        🔒 <strong>100% Tracking- und Werbe-Cookie-Frei: Daten werden ausschließlich lokal im Browser verschlüsselt gespeichert (§ 25 Abs. 2 TDDDG & DSGVO konform).
       </p>
       <p style="margin-top: 6px; font-size: 0.78rem; color: var(--text-dim);" data-i18n="footer_links">
         PWA & Offline-Fähig | Impressum | Datenschutz
@@ -641,16 +743,7 @@
     </div>
   </footer>
 
-  <!-- Cookie Consent Banner (DSGVO Compliant) -->
-  <div id="cookieConsentBanner" style="position: fixed; bottom: 16px; left: 16px; right: 16px; max-width: 520px; margin: 0 auto; background: var(--bg-card); border: 1px solid var(--emerald-primary); border-radius: 16px; padding: 16px 20px; box-shadow: 0 16px 40px rgba(0,0,0,0.5); z-index: 9999; display: flex; flex-direction: column; gap: 10px;">
-    <div style="font-size: 0.85rem; color: var(--text-main);">
-      🍪 <strong>Datenschutz & Privatsphäre:</strong> Wir nutzen essentielle Cookies & verschlüsselte lokale Caches für deine Scratch-Map und Wassertemperatur-Berechnungen. Keine Weitergabe an Werbetracker.
-    </div>
-    <div style="display: flex; justify-content: flex-end; gap: 10px;">
-      <button class="btn btn-secondary" style="padding: 6px 12px; font-size: 0.78rem;" onclick="document.getElementById('cookieConsentBanner').style.display='none'">Details</button>
-      <button class="btn btn-primary" style="padding: 6px 16px; font-size: 0.78rem;" onclick="document.getElementById('cookieConsentBanner').style.display='none'; localStorage.setItem('snt_cookie_accepted','true');">Einverstanden ✓</button>
-    </div>
-  </div>
+  
 
   <!-- Legal Links in Footer -->
   <div style="text-align: center; padding: 24px 0; border-top: 1px solid var(--border-line); font-size: 0.78rem; color: var(--text-dim);">
@@ -695,5 +788,10 @@
   <script src="assets/js/badge-merch-sync.js"></script>
   <script src="assets/js/onboarding-engine.js"></script>
   <script src="assets/js/live-feed-engine.js"></script>
+  <script src="assets/js/gamification-400-db.js"></script>
+  <script src="assets/js/routes-daytrips-engine.js"></script>
+  <script src="assets/js/travel-budget-engine.js"></script>
+  <script src="assets/js/world-scratch-stats.js"></script>
+  <script src="assets/js/local-verification-engine.js"></script>
 </body>
 </html>
