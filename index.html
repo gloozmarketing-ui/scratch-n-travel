@@ -24,6 +24,63 @@
     "offers": { "@type": "Offer", "price": "0", "priceCurrency": "EUR" }
   }
   </script>
+
+<style id="auth-engine-styles">
+  .notif-badge {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    background: #EF4444;
+    color: #fff;
+    font-size: 0.6rem;
+    font-weight: 800;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  #notifBell { position: relative; }
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.7);
+    backdrop-filter: blur(8px);
+    z-index: 10000;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+  }
+  .modal-content {
+    background: #0B131F;
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 24px;
+    padding: 28px;
+    position: relative;
+    max-height: 90vh;
+    overflow-y: auto;
+    width: 100%;
+  }
+  .modal-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: rgba(255,255,255,0.08);
+    border: none;
+    color: var(--text-muted);
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-close:hover { background: rgba(255,255,255,0.15); }
+</style>
 </head>
 <body>
   <!-- Gold Scroll-Scratch Progress Bar -->
@@ -55,7 +112,21 @@
         <a href="#badge-merch-section" style="text-decoration: none; color: var(--text-muted); font-size: 0.9rem; font-weight: 600;">🏷️ Badges & Merch</a>
         <a href="#preise" style="text-decoration: none; color: var(--text-muted); font-size: 0.9rem; font-weight: 600;">Preise</a>
         <a href="#host-portal" style="text-decoration: none; color: var(--sand-gold); font-size: 0.9rem; font-weight: 700;">🌟 Host Portal</a>
-      </nav>
+      
+  <!-- Auth Nav Elements -->
+  <button id="navLoginBtn" class="btn btn-primary" style="padding:8px 18px;font-size:0.85rem;font-weight:800;display:flex;align-items:center;gap:6px;" onclick="window.authEngine && window.authEngine.showLoginModal()">
+    🔓 Anmelden
+  </button>
+  <div id="navUserArea" style="display:none;align-items:center;gap:10px;cursor:pointer;" onclick="window.authEngine && window.authEngine.showDashboard()">
+    <div style="display:flex;flex-direction:column;align-items:flex-end;">
+      <span id="navUserName" style="font-size:0.85rem;font-weight:800;color:var(--text-main);">Mein Konto</span>
+      <span id="navUserPlan" style="font-size:0.7rem;color:var(--text-dim);"></span>
+    </div>
+  </div>
+  <button id="notifBell" onclick="window.authEngine && window.authEngine.showNotificationsPanel()" style="background:none;border:1px solid var(--border-line);border-radius:10px;padding:8px 12px;cursor:pointer;font-size:1.1rem;position:relative;color:var(--text-main);">
+    🔔
+  </button>
+</nav>
 
       <!-- Right Action CTAs -->
       <div style="display: flex; align-items: center; gap: 10px;">
@@ -559,7 +630,53 @@
     <div style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 16px; margin-bottom: 32px;">
       <div>
         <span class="badge badge-gold">🌟 B2B Host & Partner Portal</span>
-        <h2 style="margin-top: 10px; font-size: 2rem;">Vermiete Apartments, empfange Gäste in Cafés & biete Touren an – mit 0% Provision 🌟</h2>
+        <h2 style="margin-top: 10px; font-size: 2rem;">Vermiete Apartments, empfange Gäste in Cafés & biete Touren an – mit 0% Provision 🌟
+<div id="b2bSectionEnhanced" style="margin-top:20px;">
+  <!-- City Slot Counter -->
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-bottom:20px;">
+    <div style="background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.25);border-radius:12px;padding:12px;text-align:center;">
+      <div style="font-size:0.7rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px;">Lissabon</div>
+      <div style="font-size:1.1rem;font-weight:800;color:#10B981;">2 Plätze frei</div>
+      <div style="font-size:0.7rem;color:var(--text-dim);">von 5 Beta-Slots</div>
+    </div>
+    <div style="background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.25);border-radius:12px;padding:12px;text-align:center;">
+      <div style="font-size:0.7rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px;">Barcelona</div>
+      <div style="font-size:1.1rem;font-weight:800;color:#F59E0B;">1 Platz frei</div>
+      <div style="font-size:0.7rem;color:var(--text-dim);">von 5 Beta-Slots</div>
+    </div>
+    <div style="background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.25);border-radius:12px;padding:12px;text-align:center;">
+      <div style="font-size:0.7rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px;">Porto</div>
+      <div style="font-size:1.1rem;font-weight:800;color:#10B981;">5 Plätze frei</div>
+      <div style="font-size:0.7rem;color:var(--text-dim);">von 5 Beta-Slots</div>
+    </div>
+    <div style="background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.25);border-radius:12px;padding:12px;text-align:center;">
+      <div style="font-size:0.7rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px;">Ericeira</div>
+      <div style="font-size:1.1rem;font-weight:800;color:#10B981;">4 Plätze frei</div>
+      <div style="font-size:0.7rem;color:var(--text-dim);">von 5 Beta-Slots</div>
+    </div>
+  </div>
+
+  <!-- Category Preview -->
+  <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px;">
+    <span class="badge badge-emerald">🏨 Hotel & Boutique</span>
+    <span class="badge badge-emerald">🏠 Ferienwohnung</span>
+    <span class="badge badge-emerald">🛵 Scooter Verleih</span>
+    <span class="badge badge-emerald">🤿 Tauchen</span>
+    <span class="badge badge-emerald">🏄 Surfschule</span>
+    <span class="badge badge-emerald">⛵ Yacht Charter</span>
+    <span class="badge badge-emerald">🚙 ATV Touren</span>
+    <span class="badge badge-emerald">🍽️ Restaurant</span>
+    <span class="badge badge-emerald">🪂 Fallschirm</span>
+    <span class="badge badge-emerald">💻 Coworking</span>
+    <span class="badge" style="background:rgba(255,255,255,0.06);color:var(--text-muted);">+11 weitere Kategorien</span>
+  </div>
+
+  <button id="b2bRegisterBtn" data-action="b2b-register" class="btn btn-primary" style="padding:14px 28px;font-size:1rem;font-weight:800;background:linear-gradient(135deg,#D4AF37,#F59E0B);color:#000;border:none;display:flex;align-items:center;gap:8px;" onclick="window.authEngine && window.authEngine.showB2BRegisterModal()">
+    🌟 Jetzt kostenlos Eintragen (Platz sichern) →
+  </button>
+  <p style="font-size:0.75rem;color:var(--text-dim);margin-top:8px;">🎁 Exklusiver Vorab-Zugang · Regulär 49 €/Monat · Jetzt 29 €/Monat</p>
+</div>
+</h2>
         <p style="font-size: 0.95rem; color: var(--text-muted); max-width: 680px;">
           Erreiche gezielt Reisende über den <strong>130 Hobby-DNA Matcher</strong> (z.B. Hundestrände, Surfspots, traditionelle Kulinarik). Behalte 100% deiner Einnahmen ohne 15–20% Airbnb/Booking.com-Gebühren.
         </p>
@@ -671,7 +788,7 @@
           <li style="margin-bottom: 8px;">🔓 <strong>100% Exakte GPS-Koordinaten</strong> freigeschaltet</li>
           <li style="margin-bottom: 8px;">🤖 <strong>Unbegrenzte KI Concierge Routen</strong> & Wassertemperaturen</li>
           <li style="margin-bottom: 8px;">📥 <strong>1-Klick PDF & Druck-Export</strong> aller Checklisten</li>
-          <li style="margin-bottom: 8px;">🪙 <strong>2x Schnelleres Kartensammeln</strong> & Exklusive Länder-Bonus-Batches</li>
+          <li style="margin-bottom: 8px;">🪙 <strong>Unbegrenztes Kartenportfolio</strong> & Exklusive Länder-Bonus-Batches</li>
           <li style="margin-bottom: 8px;">🎁 <strong>10% Rabatt</strong> auf den Luxus-Reisepass & A2 Map</li>
         </ul>
         <button id="price-btn-pro" class="btn btn-primary" style="width: 100%;" onclick="window.stripeManager.startCheckout('pro_family')" data-i18n="pricing_pro_btn">Pro VIP Freischalten (0 € Beta)</button>
@@ -800,5 +917,6 @@
   <script src="assets/js/world-scratch-stats.js"></script>
   <script src="assets/js/local-verification-engine.js"></script>
   <script src="assets/js/map-safety-badge-pins.js"></script>
+  <script src="assets/js/auth-subscription-engine.js"></script>
 </body>
 </html>

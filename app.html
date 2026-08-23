@@ -11,6 +11,63 @@
   <meta name='impact-site-verification' value='0b4ed92b-6ad6-4cec-8394-50ad76c0c132'>
   <link rel="stylesheet" href="assets/css/main.css">
   <link rel="stylesheet" href="assets/css/components.css">
+
+<style id="auth-engine-styles">
+  .notif-badge {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    background: #EF4444;
+    color: #fff;
+    font-size: 0.6rem;
+    font-weight: 800;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  #notifBell { position: relative; }
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.7);
+    backdrop-filter: blur(8px);
+    z-index: 10000;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+  }
+  .modal-content {
+    background: #0B131F;
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 24px;
+    padding: 28px;
+    position: relative;
+    max-height: 90vh;
+    overflow-y: auto;
+    width: 100%;
+  }
+  .modal-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: rgba(255,255,255,0.08);
+    border: none;
+    color: var(--text-muted);
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-close:hover { background: rgba(255,255,255,0.15); }
+</style>
 </head>
 <body>
   <!-- Gold Scroll-Scratch Progress Bar -->
@@ -461,5 +518,6 @@
   <script src="assets/js/world-scratch-stats.js"></script>
   <script src="assets/js/local-verification-engine.js"></script>
   <script src="assets/js/map-safety-badge-pins.js"></script>
+  <script src="assets/js/auth-subscription-engine.js"></script>
 </body>
 </html>
