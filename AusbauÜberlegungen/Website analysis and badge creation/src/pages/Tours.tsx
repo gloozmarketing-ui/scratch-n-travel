@@ -143,11 +143,22 @@ export default function Tours() {
                     {t.strollerDetails && <p className="text-blue-400/90">👶 {t.strollerDetails}</p>}
                   </div>
                 )}
-                <div className="flex gap-1.5 mt-auto">
+                <div className="flex gap-1.5 mt-auto flex-wrap">
                   <button onClick={() => handleDownload(t)} className="btn btn-primary flex-1 text-xs py-2 font-bold">
-                    📥 GPX
+                    📥 GPX (Komoot)
                   </button>
-                  <button className="btn btn-ghost flex-1 text-xs py-2">
+                  <a
+                    href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(
+                      `${t.title}, ${t.location}`
+                    )}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn btn-secondary flex-1 text-xs py-2 font-bold text-center flex items-center justify-center gap-1"
+                  >
+                    <span>🗺️</span>
+                    <span>Maps</span>
+                  </a>
+                  <button className="btn btn-ghost text-xs py-2 px-3">
                     ❤️ {t.likes}
                   </button>
                 </div>
