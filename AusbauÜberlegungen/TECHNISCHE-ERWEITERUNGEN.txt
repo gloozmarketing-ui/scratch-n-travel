@@ -1,0 +1,5 @@
+- goole maps anbinden 
+- reise Planung direkt in google Kalender anbinden
+- als story in social networks teilen (zusätzliche Werbung für mich mit einem link auf die seite oder tags )
+- Reisestatistik für Reisende und für Business owner + platz request sender / reserving
+- quests erstellen?

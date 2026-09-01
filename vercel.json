@@ -3,14 +3,68 @@
   "name": "scratch-n-travel",
   "cleanUrls": true,
   "trailingSlash": false,
+  "buildCommand": "cd \"AusbauÜberlegungen/Website analysis and badge creation\" && npm install && npm run build",
+  "outputDirectory": "AusbauÜberlegungen/Website analysis and badge creation/dist",
   "headers": [
     {
       "source": "/(.*)",
       "headers": [
-        { "key": "X-Content-Type-Options", "value": "nosniff" },
-        { "key": "X-Frame-Options", "value": "DENY" },
-        { "key": "X-XSS-Protection", "value": "1; mode=block" }
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "SAMEORIGIN"
+        },
+        {
+          "key": "X-XSS-Protection",
+          "value": "1; mode=block"
+        }
       ]
+    }
+  ],
+  "functions": {
+    "api/create-checkout-session.js": {
+      "maxDuration": 10
+    },
+    "api/create-merch-checkout-session.js": {
+      "maxDuration": 10
+    },
+    "api/stripe-webhook.js": {
+      "maxDuration": 30
+    },
+    "api/hermes-concierge.js": {
+      "maxDuration": 20
+    },
+    "api/pod-orders.js": {
+      "maxDuration": 15
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/api/create-checkout-session",
+      "destination": "/api/create-checkout-session.js"
+    },
+    {
+      "source": "/api/create-merch-checkout-session",
+      "destination": "/api/create-merch-checkout-session.js"
+    },
+    {
+      "source": "/api/stripe-webhook",
+      "destination": "/api/stripe-webhook.js"
+    },
+    {
+      "source": "/api/hermes-concierge",
+      "destination": "/api/hermes-concierge.js"
+    },
+    {
+      "source": "/api/pod-orders",
+      "destination": "/api/pod-orders.js"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
   ]
 }

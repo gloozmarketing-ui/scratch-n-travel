@@ -1,0 +1,45 @@
+{
+  "updatedAt": "2026-08-30T10:59:51.361Z",
+  "products": {
+    "badge_patch": {
+      "productId": "prod_VARLTsRoAXjw66",
+      "priceId": "price_1UA6SlPoNfLOPXfNLDhPeYJu",
+      "name": "Scratch'n'Travel — Travel Badge Patch (Iron-On)",
+      "amount": 1499,
+      "category": "badge_patch",
+      "printifyTemplate": "iron_on_patch_75mm"
+    },
+    "scratch_map_a2": {
+      "productId": "prod_VARLnGRaLJtEuc",
+      "priceId": "price_1UA6SmPoNfLOPXfN606TubEM",
+      "name": "Scratch'n'Travel — Scratch-Off World Map (A2)",
+      "amount": 3499,
+      "category": "scratch_map",
+      "printifyTemplate": "poster_a2_matte"
+    },
+    "passport_booklet": {
+      "productId": "prod_VARLOTZgnJb2e2",
+      "priceId": "price_1UA6SnPoNfLOPXfNjW7wVjdA",
+      "name": "Scratch'n'Travel — Official Luxury Travel Passport (A5)",
+      "amount": 2499,
+      "category": "passport_booklet",
+      "printifyTemplate": "notebook_a5_softcover"
+    },
+    "tshirt_local_legend": {
+      "productId": "prod_VARLdaQ3CL6AIe",
+      "priceId": "price_1UA6SoPoNfLOPXfN6KfnNkYU",
+      "name": "Scratch'n'Travel — Local Legend T-Shirt",
+      "amount": 2999,
+      "category": "tshirt",
+      "printifyTemplate": "tshirt_unisex_gildan"
+    },
+    "canvas_bag": {
+      "productId": "prod_VARLqYr7sD9g8Y",
+      "priceId": "price_1UA6SpPoNfLOPXfNbenQSVPl",
+      "name": "Scratch'n'Travel — Travel Canvas Bag",
+      "amount": 2299,
+      "category": "canvas_bag",
+      "printifyTemplate": "canvas_tote_38x42"
+    }
+  }
+}

@@ -1,0 +1,461 @@
+ID;Kategorie;Name;Beschreibung (Freischaltbedingung);Motiv-Beschreibung;Tier / Rarität;Einsatzorte
+B001;Land;Land: Albanien;Freigeschaltet fuer einen dokumentierten Besuch in Albanien (Stempel-/Fotobeleg im Profil).;Bergzacken mit Bruecken-Bogen darunter;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B002;Land;Land: Andorra;Freigeschaltet fuer einen dokumentierten Besuch in Andorra.;Fachwerk-Giebellinie, schlicht;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B003;Land;Land: Armenien;Freigeschaltet fuer einen dokumentierten Besuch in Armenien.;Jurten-Kuppel mit Bergzacken;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B004;Land;Land: Aserbaidschan;Freigeschaltet fuer einen dokumentierten Besuch in Aserbaidschan.;Jurten-Kuppel mit Bergzacken;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B005;Land;Land: Bosnien und Herzegowina;Freigeschaltet fuer einen dokumentierten Besuch.;Bergzacken mit Bruecken-Bogen darunter;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B006;Land;Land: Bulgarien;Freigeschaltet fuer einen dokumentierten Besuch.;Bergzacken mit Bruecken-Bogen darunter;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B007;Land;Land: Daenemark;Freigeschaltet fuer einen dokumentierten Besuch.;Tannenreihe unter stilisierter Mitternachtssonne;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B008;Land;Land: Estland;Freigeschaltet fuer einen dokumentierten Besuch.;Leuchtturm-Silhouette an Duenenlinie;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B009;Land;Land: Frankreich;Freigeschaltet fuer einen dokumentierten Besuch.;Eiffelturm-Silhouette, drei schlanke Dreiecksstreben;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B010;Land;Land: Deutschland;Freigeschaltet fuer einen dokumentierten Besuch.;Brandenburger-Tor-Saeulenreihe;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B011;Land;Land: Griechenland;Freigeschaltet fuer einen dokumentierten Besuch.;Parthenon-Saeulen unter Dreiecksgiebel;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B012;Land;Land: Island;Freigeschaltet fuer einen dokumentierten Besuch.;Geysir-Fontaene ueber Basaltsaeulen;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B013;Land;Land: Irland;Freigeschaltet fuer einen dokumentierten Besuch.;Klippen-Silhouette mit Wellenlinie;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B014;Land;Land: Italien;Freigeschaltet fuer einen dokumentierten Besuch.;Kolosseum-Bogenreihe, halbrund;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B015;Land;Land: Kosovo;Freigeschaltet fuer einen dokumentierten Besuch.;Bergzacken mit Bruecken-Bogen darunter;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B016;Land;Land: Kroatien;Freigeschaltet fuer einen dokumentierten Besuch.;Stadtmauer-Zinnen ueber Kuestenlinie;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B017;Land;Land: Lettland;Freigeschaltet fuer einen dokumentierten Besuch.;Leuchtturm-Silhouette an Duenenlinie;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B018;Land;Land: Liechtenstein;Freigeschaltet fuer einen dokumentierten Besuch.;Fachwerk-Giebellinie, schlicht;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B019;Land;Land: Litauen;Freigeschaltet fuer einen dokumentierten Besuch.;Leuchtturm-Silhouette an Duenenlinie;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B020;Land;Land: Luxemburg;Freigeschaltet fuer einen dokumentierten Besuch.;Fachwerk-Giebellinie, schlicht;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B021;Land;Land: Malta;Freigeschaltet fuer einen dokumentierten Besuch.;Olivenzweig ueber Kuestenwelle;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B022;Land;Land: Moldau;Freigeschaltet fuer einen dokumentierten Besuch.;Zwiebelturm-Andeutung, einzelne Kuppel;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B023;Land;Land: Monaco;Freigeschaltet fuer einen dokumentierten Besuch.;Olivenzweig ueber Kuestenwelle;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B024;Land;Land: Montenegro;Freigeschaltet fuer einen dokumentierten Besuch.;Bergzacken mit Bruecken-Bogen darunter;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B025;Land;Land: Niederlande;Freigeschaltet fuer einen dokumentierten Besuch.;Windmuehlenfluegel-Kreuz;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B026;Land;Land: Nordmazedonien;Freigeschaltet fuer einen dokumentierten Besuch.;Bergzacken mit Bruecken-Bogen darunter;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B027;Land;Land: Norwegen;Freigeschaltet fuer einen dokumentierten Besuch.;Fjord-V-Form mit steilen Felswaenden;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B028;Land;Land: Oesterreich;Freigeschaltet fuer einen dokumentierten Besuch.;Alpenkette, drei gestaffelte Gipfel;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B029;Land;Land: Polen;Freigeschaltet fuer einen dokumentierten Besuch.;Marktplatz-Giebelreihe, drei Haeuser;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B030;Land;Land: Portugal;Freigeschaltet fuer einen dokumentierten Besuch.;Azulejo-Kachelmuster, vier Felder;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B031;Land;Land: Rumaenien;Freigeschaltet fuer einen dokumentierten Besuch.;Zwiebelturm-Andeutung, einzelne Kuppel;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B032;Land;Land: San Marino;Freigeschaltet fuer einen dokumentierten Besuch.;Olivenzweig ueber Kuestenwelle;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B033;Land;Land: Schweden;Freigeschaltet fuer einen dokumentierten Besuch.;Schaerenkueste, gepunktete Inselkette;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B034;Land;Land: Schweiz;Freigeschaltet fuer einen dokumentierten Besuch.;Matterhorn-Dreieckspitze;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B035;Land;Land: Serbien;Freigeschaltet fuer einen dokumentierten Besuch.;Bergzacken mit Bruecken-Bogen darunter;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B036;Land;Land: Slowakei;Freigeschaltet fuer einen dokumentierten Besuch.;Zwiebelturm-Andeutung, einzelne Kuppel;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B037;Land;Land: Slowenien;Freigeschaltet fuer einen dokumentierten Besuch.;Bergzacken mit Bruecken-Bogen darunter;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B038;Land;Land: Spanien;Freigeschaltet fuer einen dokumentierten Besuch.;Sagrada-Familia-Turmspitzen, drei ungleiche Zacken;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B039;Land;Land: Tschechien;Freigeschaltet fuer einen dokumentierten Besuch.;Bruecken-Turmpaar mit gotischen Spitzen;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B040;Land;Land: Ukraine;Freigeschaltet fuer einen dokumentierten Besuch.;Zwiebelturm-Andeutung, einzelne Kuppel;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B041;Land;Land: Ungarn;Freigeschaltet fuer einen dokumentierten Besuch.;Kettenbruecke-Bogenpaar;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B042;Land;Land: Vereinigtes Koenigreich;Freigeschaltet fuer einen dokumentierten Besuch.;Big-Ben-Turmspitze mit Ziffernblatt-Punkt;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B043;Land;Land: Zypern;Freigeschaltet fuer einen dokumentierten Besuch.;Olivenzweig ueber Kuestenwelle;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B044;Land;Land: Afghanistan;Freigeschaltet fuer einen dokumentierten Besuch.;Jurten-Kuppel mit Bergzacken;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B045;Land;Land: Bahrain;Freigeschaltet fuer einen dokumentierten Besuch.;Halbmond ueber Duenenwelle;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B046;Land;Land: Bangladesch;Freigeschaltet fuer einen dokumentierten Besuch.;Lotusblueten-Kontur, fuenf Blaetter;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B047;Land;Land: Bhutan;Freigeschaltet fuer einen dokumentierten Besuch.;Kloster auf Felsvorsprung, Klippen-Silhouette;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B048;Land;Land: Brunei;Freigeschaltet fuer einen dokumentierten Besuch.;Tempeldach-Schwung mit Palmwedel;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B049;Land;Land: China;Freigeschaltet fuer einen dokumentierten Besuch.;Mauerzinnen-Wellenlinie ueber Huegelkontur;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B050;Land;Land: Georgien;Freigeschaltet fuer einen dokumentierten Besuch.;Kaukasus-Gipfel mit Turmsilhouette davor;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B051;Land;Land: Indien;Freigeschaltet fuer einen dokumentierten Besuch.;Taj-Mahal-Kuppel mit zwei Minaretten;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B052;Land;Land: Indonesien;Freigeschaltet fuer einen dokumentierten Besuch.;Vulkankegel mit Reisterrassen-Linien darunter;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B053;Land;Land: Irak;Freigeschaltet fuer einen dokumentierten Besuch.;Halbmond ueber Duenenwelle;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B054;Land;Land: Israel;Freigeschaltet fuer einen dokumentierten Besuch.;Halbmond ueber Duenenwelle;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B055;Land;Land: Japan;Freigeschaltet fuer einen dokumentierten Besuch.;Fuji-Kegel mit Schneekappe;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B056;Land;Land: Jemen;Freigeschaltet fuer einen dokumentierten Besuch.;Halbmond ueber Duenenwelle;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B057;Land;Land: Jordanien;Freigeschaltet fuer einen dokumentierten Besuch.;Petra-Fassade, Saeulen und Dreiecksgiebel;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B058;Land;Land: Kambodscha;Freigeschaltet fuer einen dokumentierten Besuch.;Angkor-Wat-Turmreihe, fuenf Spitzen;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B059;Land;Land: Kasachstan;Freigeschaltet fuer einen dokumentierten Besuch.;Jurten-Kuppel mit Bergzacken;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B060;Land;Land: Katar;Freigeschaltet fuer einen dokumentierten Besuch.;Halbmond ueber Duenenwelle;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B061;Land;Land: Kirgisistan;Freigeschaltet fuer einen dokumentierten Besuch.;Jurten-Kuppel mit Bergzacken;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B062;Land;Land: Kuwait;Freigeschaltet fuer einen dokumentierten Besuch.;Halbmond ueber Duenenwelle;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B063;Land;Land: Laos;Freigeschaltet fuer einen dokumentierten Besuch.;Tempeldach-Schwung mit Palmwedel;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B064;Land;Land: Libanon;Freigeschaltet fuer einen dokumentierten Besuch.;Halbmond ueber Duenenwelle;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B065;Land;Land: Malaysia;Freigeschaltet fuer einen dokumentierten Besuch.;Zwillingsturm-Silhouette, verbunden durch Steg;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B066;Land;Land: Malediven;Freigeschaltet fuer einen dokumentierten Besuch.;Ueberwasser-Huette auf Wellenlinie;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B067;Land;Land: Mongolei;Freigeschaltet fuer einen dokumentierten Besuch.;Jurten-Kuppel mit Bergzacken;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B068;Land;Land: Myanmar;Freigeschaltet fuer einen dokumentierten Besuch.;Tempeldach-Schwung mit Palmwedel;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B069;Land;Land: Nepal;Freigeschaltet fuer einen dokumentierten Besuch.;Himalaya-Zackenkette mit Gebetsfahnen-Punkten;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B070;Land;Land: Oman;Freigeschaltet fuer einen dokumentierten Besuch.;Halbmond ueber Duenenwelle;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B071;Land;Land: Osttimor;Freigeschaltet fuer einen dokumentierten Besuch.;Tempeldach-Schwung mit Palmwedel;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B072;Land;Land: Pakistan;Freigeschaltet fuer einen dokumentierten Besuch.;Lotusblueten-Kontur, fuenf Blaetter;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B073;Land;Land: Palaestina;Freigeschaltet fuer einen dokumentierten Besuch.;Halbmond ueber Duenenwelle;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B074;Land;Land: Philippinen;Freigeschaltet fuer einen dokumentierten Besuch.;Reisterrassen, konzentrische Kurven;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B075;Land;Land: Saudi-Arabien;Freigeschaltet fuer einen dokumentierten Besuch.;Halbmond ueber Duenenwelle;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B076;Land;Land: Singapur;Freigeschaltet fuer einen dokumentierten Besuch.;Baumstruktur mit Lichterkrone, vereinfacht;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B077;Land;Land: Sri Lanka;Freigeschaltet fuer einen dokumentierten Besuch.;Lotusblueten-Kontur, fuenf Blaetter;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B078;Land;Land: Suedkorea;Freigeschaltet fuer einen dokumentierten Besuch.;Palast-Dach-Schwung, geschwungene Traufe;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B079;Land;Land: Syrien;Freigeschaltet fuer einen dokumentierten Besuch.;Halbmond ueber Duenenwelle;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B080;Land;Land: Tadschikistan;Freigeschaltet fuer einen dokumentierten Besuch.;Jurten-Kuppel mit Bergzacken;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B081;Land;Land: Taiwan;Freigeschaltet fuer einen dokumentierten Besuch.;Pagoden-Silhouette, gestaffelte Daecher;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B082;Land;Land: Thailand;Freigeschaltet fuer einen dokumentierten Besuch.;Wat-Dach-Silhouette, geschwungene Firstlinie;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B083;Land;Land: Turkmenistan;Freigeschaltet fuer einen dokumentierten Besuch.;Jurten-Kuppel mit Bergzacken;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B084;Land;Land: Tuerkei;Freigeschaltet fuer einen dokumentierten Besuch.;Hagia-Sophia-Kuppel mit Halbmond;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B085;Land;Land: Usbekistan;Freigeschaltet fuer einen dokumentierten Besuch.;Jurten-Kuppel mit Bergzacken;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B086;Land;Land: Vereinigte Arabische Emirate;Freigeschaltet fuer einen dokumentierten Besuch.;Wolkenkratzer-Nadel, schlanke Spitze;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B087;Land;Land: Vietnam;Freigeschaltet fuer einen dokumentierten Besuch.;Halong-Bucht-Karstfelsen, gestaffelte Kegel;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B088;Land;Land: Aegypten;Freigeschaltet fuer einen dokumentierten Besuch.;Duenenwelle mit Palme;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B089;Land;Land: Algerien;Freigeschaltet fuer einen dokumentierten Besuch.;Duenenwelle mit Palme;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B090;Land;Land: Angola;Freigeschaltet fuer einen dokumentierten Besuch.;Baobab-Silhouette, knorriger Stamm;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B091;Land;Land: Aequatorialguinea;Freigeschaltet fuer einen dokumentierten Besuch.;Regenwald-Blattkontur, grossflaechig;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B092;Land;Land: Aethiopien;Freigeschaltet fuer einen dokumentierten Besuch.;Savannen-Graslinie mit Akazie;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B093;Land;Land: Benin;Freigeschaltet fuer einen dokumentierten Besuch.;Geometrisches Kente-Musterband;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B094;Land;Land: Botswana;Freigeschaltet fuer einen dokumentierten Besuch.;Baobab-Silhouette, knorriger Stamm;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B095;Land;Land: Burkina Faso;Freigeschaltet fuer einen dokumentierten Besuch.;Geometrisches Kente-Musterband;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B096;Land;Land: Burundi;Freigeschaltet fuer einen dokumentierten Besuch.;Savannen-Graslinie mit Akazie;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B097;Land;Land: Dschibuti;Freigeschaltet fuer einen dokumentierten Besuch.;Savannen-Graslinie mit Akazie;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B098;Land;Land: Elfenbeinkueste;Freigeschaltet fuer einen dokumentierten Besuch.;Geometrisches Kente-Musterband;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B099;Land;Land: Eritrea;Freigeschaltet fuer einen dokumentierten Besuch.;Savannen-Graslinie mit Akazie;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B100;Land;Land: Eswatini;Freigeschaltet fuer einen dokumentierten Besuch.;Baobab-Silhouette, knorriger Stamm;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B101;Land;Land: Gabun;Freigeschaltet fuer einen dokumentierten Besuch.;Regenwald-Blattkontur, grossflaechig;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B102;Land;Land: Gambia;Freigeschaltet fuer einen dokumentierten Besuch.;Geometrisches Kente-Musterband;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B103;Land;Land: Ghana;Freigeschaltet fuer einen dokumentierten Besuch.;Geometrisches Kente-Musterband;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B104;Land;Land: Guinea;Freigeschaltet fuer einen dokumentierten Besuch.;Geometrisches Kente-Musterband;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B105;Land;Land: Guinea-Bissau;Freigeschaltet fuer einen dokumentierten Besuch.;Geometrisches Kente-Musterband;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B106;Land;Land: Kamerun;Freigeschaltet fuer einen dokumentierten Besuch.;Regenwald-Blattkontur, grossflaechig;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B107;Land;Land: Kap Verde;Freigeschaltet fuer einen dokumentierten Besuch.;Geometrisches Kente-Musterband;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B108;Land;Land: Kenia;Freigeschaltet fuer einen dokumentierten Besuch.;Akazienbaum-Silhouette vor Sonnenscheibe;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B109;Land;Land: Komoren;Freigeschaltet fuer einen dokumentierten Besuch.;Savannen-Graslinie mit Akazie;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B110;Land;Land: Kongo;Freigeschaltet fuer einen dokumentierten Besuch.;Regenwald-Blattkontur, grossflaechig;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B111;Land;Land: Demokratische Republik Kongo;Freigeschaltet fuer einen dokumentierten Besuch.;Regenwald-Blattkontur, grossflaechig;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B112;Land;Land: Lesotho;Freigeschaltet fuer einen dokumentierten Besuch.;Baobab-Silhouette, knorriger Stamm;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B113;Land;Land: Liberia;Freigeschaltet fuer einen dokumentierten Besuch.;Geometrisches Kente-Musterband;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B114;Land;Land: Libyen;Freigeschaltet fuer einen dokumentierten Besuch.;Duenenwelle mit Palme;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B115;Land;Land: Madagaskar;Freigeschaltet fuer einen dokumentierten Besuch.;Savannen-Graslinie mit Akazie;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B116;Land;Land: Malawi;Freigeschaltet fuer einen dokumentierten Besuch.;Savannen-Graslinie mit Akazie;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B117;Land;Land: Mali;Freigeschaltet fuer einen dokumentierten Besuch.;Geometrisches Kente-Musterband;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B118;Land;Land: Marokko;Freigeschaltet fuer einen dokumentierten Besuch.;Riad-Bogenfenster, hufeisenfoermig;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B119;Land;Land: Mauretanien;Freigeschaltet fuer einen dokumentierten Besuch.;Geometrisches Kente-Musterband;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B120;Land;Land: Mauritius;Freigeschaltet fuer einen dokumentierten Besuch.;Savannen-Graslinie mit Akazie;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B121;Land;Land: Mosambik;Freigeschaltet fuer einen dokumentierten Besuch.;Savannen-Graslinie mit Akazie;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B122;Land;Land: Namibia;Freigeschaltet fuer einen dokumentierten Besuch.;Baobab-Silhouette, knorriger Stamm;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B123;Land;Land: Niger;Freigeschaltet fuer einen dokumentierten Besuch.;Geometrisches Kente-Musterband;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B124;Land;Land: Nigeria;Freigeschaltet fuer einen dokumentierten Besuch.;Geometrisches Kente-Musterband;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B125;Land;Land: Ruanda;Freigeschaltet fuer einen dokumentierten Besuch.;Savannen-Graslinie mit Akazie;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B126;Land;Land: Sambia;Freigeschaltet fuer einen dokumentierten Besuch.;Baobab-Silhouette, knorriger Stamm;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B127;Land;Land: Sao Tome und Principe;Freigeschaltet fuer einen dokumentierten Besuch.;Regenwald-Blattkontur, grossflaechig;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B128;Land;Land: Senegal;Freigeschaltet fuer einen dokumentierten Besuch.;Geometrisches Kente-Musterband;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B129;Land;Land: Seychellen;Freigeschaltet fuer einen dokumentierten Besuch.;Savannen-Graslinie mit Akazie;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B130;Land;Land: Sierra Leone;Freigeschaltet fuer einen dokumentierten Besuch.;Geometrisches Kente-Musterband;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B131;Land;Land: Simbabwe;Freigeschaltet fuer einen dokumentierten Besuch.;Baobab-Silhouette, knorriger Stamm;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B132;Land;Land: Somalia;Freigeschaltet fuer einen dokumentierten Besuch.;Savannen-Graslinie mit Akazie;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B133;Land;Land: Suedafrika;Freigeschaltet fuer einen dokumentierten Besuch.;Tafelberg-Plateau-Silhouette;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B134;Land;Land: Suedsudan;Freigeschaltet fuer einen dokumentierten Besuch.;Savannen-Graslinie mit Akazie;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B135;Land;Land: Sudan;Freigeschaltet fuer einen dokumentierten Besuch.;Duenenwelle mit Palme;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B136;Land;Land: Tansania;Freigeschaltet fuer einen dokumentierten Besuch.;Kilimandscharo-Doppelgipfel mit Schneekappe;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B137;Land;Land: Togo;Freigeschaltet fuer einen dokumentierten Besuch.;Geometrisches Kente-Musterband;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B138;Land;Land: Tschad;Freigeschaltet fuer einen dokumentierten Besuch.;Regenwald-Blattkontur, grossflaechig;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B139;Land;Land: Tunesien;Freigeschaltet fuer einen dokumentierten Besuch.;Duenenwelle mit Palme;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B140;Land;Land: Uganda;Freigeschaltet fuer einen dokumentierten Besuch.;Savannen-Graslinie mit Akazie;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B141;Land;Land: Zentralafrikanische Republik;Freigeschaltet fuer einen dokumentierten Besuch.;Regenwald-Blattkontur, grossflaechig;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B142;Land;Land: Kanada;Freigeschaltet fuer einen dokumentierten Besuch.;Ahornblatt, geometrisch vereinfacht;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B143;Land;Land: USA;Freigeschaltet fuer einen dokumentierten Besuch.;Freiheitsstatue-Fackel, vereinfachte Flammenform;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B144;Land;Land: Mexiko;Freigeschaltet fuer einen dokumentierten Besuch.;Stufenpyramide, Chichen-Itza-Kontur;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B145;Land;Land: Belize;Freigeschaltet fuer einen dokumentierten Besuch.;Stufenpyramide, klein und schlicht;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B146;Land;Land: Costa Rica;Freigeschaltet fuer einen dokumentierten Besuch.;Regenwaldblatt mit Papageienschwung;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B147;Land;Land: El Salvador;Freigeschaltet fuer einen dokumentierten Besuch.;Stufenpyramide, klein und schlicht;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B148;Land;Land: Guatemala;Freigeschaltet fuer einen dokumentierten Besuch.;Stufenpyramide, klein und schlicht;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B149;Land;Land: Honduras;Freigeschaltet fuer einen dokumentierten Besuch.;Stufenpyramide, klein und schlicht;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B150;Land;Land: Nicaragua;Freigeschaltet fuer einen dokumentierten Besuch.;Stufenpyramide, klein und schlicht;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B151;Land;Land: Panama;Freigeschaltet fuer einen dokumentierten Besuch.;Stufenpyramide, klein und schlicht;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B152;Land;Land: Antigua und Barbuda;Freigeschaltet fuer einen dokumentierten Besuch.;Palme ueber Wellenband;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B153;Land;Land: Bahamas;Freigeschaltet fuer einen dokumentierten Besuch.;Palme ueber Wellenband;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B154;Land;Land: Barbados;Freigeschaltet fuer einen dokumentierten Besuch.;Palme ueber Wellenband;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B155;Land;Land: Dominica;Freigeschaltet fuer einen dokumentierten Besuch.;Palme ueber Wellenband;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B156;Land;Land: Dominikanische Republik;Freigeschaltet fuer einen dokumentierten Besuch.;Palme ueber Wellenband;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B157;Land;Land: Grenada;Freigeschaltet fuer einen dokumentierten Besuch.;Palme ueber Wellenband;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B158;Land;Land: Haiti;Freigeschaltet fuer einen dokumentierten Besuch.;Palme ueber Wellenband;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B159;Land;Land: Jamaika;Freigeschaltet fuer einen dokumentierten Besuch.;Palme ueber Wellenband;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B160;Land;Land: Kuba;Freigeschaltet fuer einen dokumentierten Besuch.;Oldtimer-Silhouette, runde Kotfluegel;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B161;Land;Land: St. Kitts und Nevis;Freigeschaltet fuer einen dokumentierten Besuch.;Palme ueber Wellenband;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B162;Land;Land: St. Lucia;Freigeschaltet fuer einen dokumentierten Besuch.;Palme ueber Wellenband;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B163;Land;Land: St. Vincent und die Grenadinen;Freigeschaltet fuer einen dokumentierten Besuch.;Palme ueber Wellenband;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B164;Land;Land: Trinidad und Tobago;Freigeschaltet fuer einen dokumentierten Besuch.;Palme ueber Wellenband;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B165;Land;Land: Argentinien;Freigeschaltet fuer einen dokumentierten Besuch.;Gletscherzacken ueber Wasserlinie;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B166;Land;Land: Bolivien;Freigeschaltet fuer einen dokumentierten Besuch.;Lama-Silhouette vor Gipfelreihe;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B167;Land;Land: Brasilien;Freigeschaltet fuer einen dokumentierten Besuch.;Christus-Statue, ausgebreitete Arme, vereinfacht;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B168;Land;Land: Chile;Freigeschaltet fuer einen dokumentierten Besuch.;Andenkette, schmale Gipfelreihe;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B169;Land;Land: Ecuador;Freigeschaltet fuer einen dokumentierten Besuch.;Vulkankegel auf Aequatorlinie;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B170;Land;Land: Guyana;Freigeschaltet fuer einen dokumentierten Besuch.;Fluss-Maeander durch Blattwerk;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B171;Land;Land: Kolumbien;Freigeschaltet fuer einen dokumentierten Besuch.;Kaffeeterrassen, wellenfoermige Reihen;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B172;Land;Land: Paraguay;Freigeschaltet fuer einen dokumentierten Besuch.;Gletscherzacke ueber Steppen-Horizont;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B173;Land;Land: Peru;Freigeschaltet fuer einen dokumentierten Besuch.;Machu Picchu Terrassen-Silhouette mit Gipfel;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B174;Land;Land: Suriname;Freigeschaltet fuer einen dokumentierten Besuch.;Fluss-Maeander durch Blattwerk;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B175;Land;Land: Uruguay;Freigeschaltet fuer einen dokumentierten Besuch.;Gletscherzacke ueber Steppen-Horizont;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B176;Land;Land: Venezuela;Freigeschaltet fuer einen dokumentierten Besuch.;Lama-Silhouette vor Gipfelreihe;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B177;Land;Land: Australien;Freigeschaltet fuer einen dokumentierten Besuch.;Opernhaus-Segel-Silhouette;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B178;Land;Land: Fidschi;Freigeschaltet fuer einen dokumentierten Besuch.;Korallenriff-Wellenlinie;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B179;Land;Land: Kiribati;Freigeschaltet fuer einen dokumentierten Besuch.;Atoll-Ringform von oben;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B180;Land;Land: Marshallinseln;Freigeschaltet fuer einen dokumentierten Besuch.;Atoll-Ringform von oben;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B181;Land;Land: Mikronesien;Freigeschaltet fuer einen dokumentierten Besuch.;Atoll-Ringform von oben;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B182;Land;Land: Nauru;Freigeschaltet fuer einen dokumentierten Besuch.;Atoll-Ringform von oben;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B183;Land;Land: Neuseeland;Freigeschaltet fuer einen dokumentierten Besuch.;Fjord-Silhouette mit Bergzacken und Wasserlinie;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B184;Land;Land: Palau;Freigeschaltet fuer einen dokumentierten Besuch.;Atoll-Ringform von oben;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B185;Land;Land: Papua-Neuguinea;Freigeschaltet fuer einen dokumentierten Besuch.;Korallenriff-Wellenlinie;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B186;Land;Land: Salomonen;Freigeschaltet fuer einen dokumentierten Besuch.;Korallenriff-Wellenlinie;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B187;Land;Land: Samoa;Freigeschaltet fuer einen dokumentierten Besuch.;Auslegerkanu-Silhouette auf Wellenlinie;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B188;Land;Land: Tonga;Freigeschaltet fuer einen dokumentierten Besuch.;Auslegerkanu-Silhouette auf Wellenlinie;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B189;Land;Land: Tuvalu;Freigeschaltet fuer einen dokumentierten Besuch.;Auslegerkanu-Silhouette auf Wellenlinie;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B190;Land;Land: Vanuatu;Freigeschaltet fuer einen dokumentierten Besuch.;Korallenriff-Wellenlinie;je nach Sammelstand;Aufnaeher, Gravur, Stempelfeld, Scratch Map
+B191;Region;Skandinavien-Sammler;Freigeschaltet fuer alle nordischen Laender besucht.;Tannenreihe unter Nordlicht-Wellenband;Silber;Aufnaeher, Kapitelseite, Regionsfeld
+B192;Region;Baltikum-Trio;Freigeschaltet fuer Estland, Lettland und Litauen besucht.;drei Leuchttuerme in einer Reihe;Silber;Aufnaeher, Kapitelseite, Regionsfeld
+B193;Region;Balkan-Entdecker;Freigeschaltet fuer mind. 5 Balkanlaender besucht.;Bergzackenkette mit Bruecke;Silber;Aufnaeher, Kapitelseite, Regionsfeld
+B194;Region;Benelux komplett;Freigeschaltet fuer Belgien, Niederlande, Luxemburg besucht.;drei verschraenkte Kreise;Silber;Aufnaeher, Kapitelseite, Regionsfeld
+B195;Region;Alpenueberquerer;Freigeschaltet fuer Schweiz, Oesterreich und ein weiteres Alpenland besucht.;drei gestaffelte Gipfel;Silber;Aufnaeher, Kapitelseite, Regionsfeld
+B196;Region;Karibik-Insulaner;Freigeschaltet fuer mind. 4 karibische Inseln besucht.;Palmenreihe auf Wellenband;Silber;Aufnaeher, Kapitelseite, Regionsfeld
+B197;Region;Anden-Wanderer;Freigeschaltet fuer mind. 3 Andenlaender besucht.;Zackenkette mit Lama-Silhouette;Silber;Aufnaeher, Kapitelseite, Regionsfeld
+B198;Region;Amazonas-Reisender;Freigeschaltet fuer in mind. 2 Amazonaslaendern gewesen.;Fluss-Maeander durch Blattwerk;Silber;Aufnaeher, Kapitelseite, Regionsfeld
+B199;Region;Ostafrika-Safari;Freigeschaltet fuer mind. 3 ostafrikanische Laender besucht.;Akazie vor Sonnenscheibe;Silber;Aufnaeher, Kapitelseite, Regionsfeld
+B200;Region;Westafrika-Entdecker;Freigeschaltet fuer mind. 3 westafrikanische Laender besucht.;geometrisches Musterband;Silber;Aufnaeher, Kapitelseite, Regionsfeld
+B201;Region;Suedostasien-Backpacker;Freigeschaltet fuer mind. 5 suedostasiatische Laender besucht.;Tempeldach mit Palmwedel;Silber;Aufnaeher, Kapitelseite, Regionsfeld
+B202;Region;Zentralasien-Pionier;Freigeschaltet fuer mind. 3 zentralasiatische Laender besucht.;Jurten-Kuppel mit Gipfeln;Silber;Aufnaeher, Kapitelseite, Regionsfeld
+B203;Region;Arabische-Halbinsel-Kenner;Freigeschaltet fuer mind. 3 Golfstaaten besucht.;Halbmond ueber Duenenwelle;Silber;Aufnaeher, Kapitelseite, Regionsfeld
+B204;Region;Himalaya-Bezwinger;Freigeschaltet fuer Nepal, Bhutan oder Indien-Himalayaregion besucht.;Zackenkette mit Gebetsfahnen;Silber;Aufnaeher, Kapitelseite, Regionsfeld
+B205;Region;Ozeanien-Segler;Freigeschaltet fuer Australien, Neuseeland oder eine Pazifikinsel besucht.;Wellenspirale;Silber;Aufnaeher, Kapitelseite, Regionsfeld
+B206;Region;Mittelmeer-Rundreise;Freigeschaltet fuer 5 Mittelmeer-Anrainerstaaten besucht.;Olivenzweig ueber Kuestenwelle;Silber;Aufnaeher, Kapitelseite, Regionsfeld
+B207;Region;Kaukasus-Grenzgaenger;Freigeschaltet fuer Georgien, Armenien oder Aserbaidschan besucht.;Gipfel mit Turmsilhouette;Silber;Aufnaeher, Kapitelseite, Regionsfeld
+B208;Region;Seidenstrasse-Reisender;Freigeschaltet fuer mind. 3 Laender entlang der historischen Seidenstrasse besucht.;Kamel-Silhouette auf Duenenwelle;Silber;Aufnaeher, Kapitelseite, Regionsfeld
+B209;Region;Fjord-Fan;Freigeschaltet fuer Norwegen und Neuseeland besucht.;V-foermige Fjordlinie;Silber;Aufnaeher, Kapitelseite, Regionsfeld
+B210;Region;Wueste-und-Oase;Freigeschaltet fuer Sahara- und Arabien-Wueste besucht.;Duene mit Palmen-Oase;Silber;Aufnaeher, Kapitelseite, Regionsfeld
+B211;Region;Inselhuepfer Mittelmeer;Freigeschaltet fuer 3 Mittelmeerinseln besucht.;drei kleine Inselformen;Silber;Aufnaeher, Kapitelseite, Regionsfeld
+B212;Region;Vulkanroute Pazifik;Freigeschaltet fuer 3 Laender im pazifischen Feuerring besucht.;Vulkankegel mit Rauchlinie;Silber;Aufnaeher, Kapitelseite, Regionsfeld
+B213;Region;Regenwald-Trio;Freigeschaltet fuer Amazonas-, Kongo- und Suedostasien-Regenwald besucht.;drei verschraenkte Blattformen;Silber;Aufnaeher, Kapitelseite, Regionsfeld
+B214;Region;Steppen-Durchquerer;Freigeschaltet fuer Mongolei und ein weiteres Steppenland besucht.;weites Graslinien-Band;Silber;Aufnaeher, Kapitelseite, Regionsfeld
+B215;Region;Polarlicht-Jaeger;Freigeschaltet fuer Nordlicht in mind. 2 Laendern gesehen.;gruenes Wellenband am Nachthimmel;Silber;Aufnaeher, Kapitelseite, Regionsfeld
+B216;Region;Wuestenkoenigreiche;Freigeschaltet fuer Marokko, Jordanien und ein Golfstaat besucht.;Kasbah-Zinnen-Silhouette;Silber;Aufnaeher, Kapitelseite, Regionsfeld
+B217;Region;Korallendreieck;Freigeschaltet fuer Indonesien, Malaysia oder Philippinen mit Riff-Erlebnis.;Korallenaest-Muster;Silber;Aufnaeher, Kapitelseite, Regionsfeld
+B218;Region;Weinregionen-Tour;Freigeschaltet fuer 3 bekannte Weinbauregionen weltweit besucht.;Rebstock-Ranke, geschwungen;Silber;Aufnaeher, Kapitelseite, Regionsfeld
+B219;Region;Teeroute Asien;Freigeschaltet fuer China, Japan und ein weiteres Teeanbauland besucht.;Teeblatt-Kontur, doppelt;Silber;Aufnaeher, Kapitelseite, Regionsfeld
+B220;Region;Kaffeeguertel;Freigeschaltet fuer Kolumbien, Aethiopien oder Vietnam besucht.;Kaffeebohnen-Paar;Silber;Aufnaeher, Kapitelseite, Regionsfeld
+B221;Meilenstein;Meilenstein: Erste Reise;Freigeschaltet fuer: 1 Land/Laender besucht (kumuliert).;Kompass-Nadel mit wachsender Punktreihe rundherum;variabel;Aufnaeher, Gravur, Kapitelmarke
+B222;Meilenstein;Meilenstein: Reise-Trio;Freigeschaltet fuer: 3 Land/Laender besucht (kumuliert).;Kompass-Nadel mit wachsender Punktreihe rundherum;variabel;Aufnaeher, Gravur, Kapitelmarke
+B223;Meilenstein;Meilenstein: Fuenf-Laender-Club;Freigeschaltet fuer: 5 Land/Laender besucht (kumuliert).;Kompass-Nadel mit wachsender Punktreihe rundherum;variabel;Aufnaeher, Gravur, Kapitelmarke
+B224;Meilenstein;Meilenstein: Zehnfach-Reisender;Freigeschaltet fuer: 10 Land/Laender besucht (kumuliert).;Kompass-Nadel mit wachsender Punktreihe rundherum;variabel;Aufnaeher, Gravur, Kapitelmarke
+B225;Meilenstein;Meilenstein: Fernwehsammler;Freigeschaltet fuer: 15 Land/Laender besucht (kumuliert).;Kompass-Nadel mit wachsender Punktreihe rundherum;variabel;Aufnaeher, Gravur, Kapitelmarke
+B226;Meilenstein;Meilenstein: Weltenbummler-Anwaerter;Freigeschaltet fuer: 20 Land/Laender besucht (kumuliert).;Kompass-Nadel mit wachsender Punktreihe rundherum;variabel;Aufnaeher, Gravur, Kapitelmarke
+B227;Meilenstein;Meilenstein: Vielreiser;Freigeschaltet fuer: 25 Land/Laender besucht (kumuliert).;Kompass-Nadel mit wachsender Punktreihe rundherum;variabel;Aufnaeher, Gravur, Kapitelmarke
+B228;Meilenstein;Meilenstein: Dreissig-Laender-Marke;Freigeschaltet fuer: 30 Land/Laender besucht (kumuliert).;Kompass-Nadel mit wachsender Punktreihe rundherum;variabel;Aufnaeher, Gravur, Kapitelmarke
+B229;Meilenstein;Meilenstein: Vierzig-Laender-Club;Freigeschaltet fuer: 40 Land/Laender besucht (kumuliert).;Kompass-Nadel mit wachsender Punktreihe rundherum;variabel;Aufnaeher, Gravur, Kapitelmarke
+B230;Meilenstein;Meilenstein: Halbes-Hundert-Club;Freigeschaltet fuer: 50 Land/Laender besucht (kumuliert).;Kompass-Nadel mit wachsender Punktreihe rundherum;variabel;Aufnaeher, Gravur, Kapitelmarke
+B231;Meilenstein;Meilenstein: Sechzig-und-weiter;Freigeschaltet fuer: 60 Land/Laender besucht (kumuliert).;Kompass-Nadel mit wachsender Punktreihe rundherum;variabel;Aufnaeher, Gravur, Kapitelmarke
+B232;Meilenstein;Meilenstein: Dreiviertelhundert;Freigeschaltet fuer: 75 Land/Laender besucht (kumuliert).;Kompass-Nadel mit wachsender Punktreihe rundherum;variabel;Aufnaeher, Gravur, Kapitelmarke
+B233;Meilenstein;Meilenstein: Jahrhundert-Reisender;Freigeschaltet fuer: 100 Land/Laender besucht (kumuliert).;Kompass-Nadel mit wachsender Punktreihe rundherum;variabel;Aufnaeher, Gravur, Kapitelmarke
+B234;Meilenstein;Meilenstein: 125-Club;Freigeschaltet fuer: 125 Land/Laender besucht (kumuliert).;Kompass-Nadel mit wachsender Punktreihe rundherum;variabel;Aufnaeher, Gravur, Kapitelmarke
+B235;Meilenstein;Meilenstein: Globetrotter-Elite;Freigeschaltet fuer: 150 Land/Laender besucht (kumuliert).;Kompass-Nadel mit wachsender Punktreihe rundherum;variabel;Aufnaeher, Gravur, Kapitelmarke
+B236;Meilenstein;Meilenstein: 175-Klub;Freigeschaltet fuer: 175 Land/Laender besucht (kumuliert).;Kompass-Nadel mit wachsender Punktreihe rundherum;variabel;Aufnaeher, Gravur, Kapitelmarke
+B237;Meilenstein;Meilenstein: Alle 195 Laender;Freigeschaltet fuer: 195 Land/Laender besucht (kumuliert).;Kompass-Nadel mit wachsender Punktreihe rundherum;variabel;Aufnaeher, Gravur, Kapitelmarke
+B238;Meilenstein;Kontinent komplett: Europa;Freigeschaltet fuer: alle Laender Europas besucht.;Europakontur, vereinfachte Linienfuehrung;variabel;Aufnaeher, Gravur, Kapitelmarke
+B239;Meilenstein;Kontinent komplett: Afrika;Freigeschaltet fuer: alle Laender Afrikas besucht.;Afrikakontur, vereinfachte Linienfuehrung;variabel;Aufnaeher, Gravur, Kapitelmarke
+B240;Meilenstein;Kontinent komplett: Asien;Freigeschaltet fuer: alle Laender Asiens besucht.;Asienkontur, vereinfachte Linienfuehrung;variabel;Aufnaeher, Gravur, Kapitelmarke
+B241;Meilenstein;Kontinent komplett: Suedamerika;Freigeschaltet fuer: alle Laender Suedamerikas besucht.;Suedamerikakontur, vereinfachte Linienfuehrung;variabel;Aufnaeher, Gravur, Kapitelmarke
+B242;Meilenstein;Kontinent komplett: Nordamerika;Freigeschaltet fuer: alle Laender Nordamerikas und der Karibik besucht.;Nordamerikakontur, vereinfachte Linienfuehrung;variabel;Aufnaeher, Gravur, Kapitelmarke
+B243;Meilenstein;Kontinent komplett: Ozeanien;Freigeschaltet fuer: alle Laender Ozeaniens besucht.;Ozeanienkontur, vereinfachte Linienfuehrung;variabel;Aufnaeher, Gravur, Kapitelmarke
+B244;Meilenstein;Alle 7 Kontinente;Freigeschaltet fuer: auf allen 7 Kontinenten (inkl. Antarktis-Expedition) gewesen.;sieben kleine Landmassen im Kreis angeordnet;variabel;Aufnaeher, Gravur, Kapitelmarke
+B245;Meilenstein;Erste Rubbelkarte;Freigeschaltet fuer: erstes Feld auf der Scratch Map freigerubbelt.;Kratzspur-Symbol, kurze Diagonale;variabel;Aufnaeher, Gravur, Kapitelmarke
+B246;Meilenstein;Halbe Karte;Freigeschaltet fuer: 50% der Scratch-Map-Flaeche freigerubbelt.;halbgefuelltes Kreissegment;variabel;Aufnaeher, Gravur, Kapitelmarke
+B247;Meilenstein;Karte komplett;Freigeschaltet fuer: 100% der Scratch Map freigerubbelt.;voller Kreis mit Sternchen;variabel;Aufnaeher, Gravur, Kapitelmarke
+B248;Meilenstein;Erster Journal-Eintrag;Freigeschaltet fuer: erste Notiz im Travel Journal geschrieben.;aufgeschlagenes Buch, schlicht;variabel;Aufnaeher, Gravur, Kapitelmarke
+B249;Meilenstein;Zehn Journal-Eintraege;Freigeschaltet fuer: 10 Eintraege im Travel Journal.;Federkiel-Silhouette;variabel;Aufnaeher, Gravur, Kapitelmarke
+B250;Meilenstein;Fuenfzig Journal-Eintraege;Freigeschaltet fuer: 50 Eintraege im Travel Journal.;Federkiel mit Punktereihe;variabel;Aufnaeher, Gravur, Kapitelmarke
+B251;Meilenstein;Passport voll;Freigeschaltet fuer: alle Stempelfelder im Fun Passport belegt.;voll gestempeltes Passfeld-Muster;variabel;Aufnaeher, Gravur, Kapitelmarke
+B252;Meilenstein;Erstes Foto hochgeladen;Freigeschaltet fuer: erstes Reisefoto im Profil hochgeladen.;Kamerablende, vereinfacht;variabel;Aufnaeher, Gravur, Kapitelmarke
+B253;Meilenstein;Hundert Fotos;Freigeschaltet fuer: 100 Reisefotos hochgeladen.;Kamerablende mit Punktekranz;variabel;Aufnaeher, Gravur, Kapitelmarke
+B254;Meilenstein;Ein Jahr dabei;Freigeschaltet fuer: 1 Jahr Mitgliedschaft.;Kalenderblatt mit Kompassnadel;variabel;Aufnaeher, Gravur, Kapitelmarke
+B255;Meilenstein;Drei Jahre dabei;Freigeschaltet fuer: 3 Jahre Mitgliedschaft.;Kalenderblatt mit drei Punkten;variabel;Aufnaeher, Gravur, Kapitelmarke
+B256;Meilenstein;Fuenf Jahre dabei;Freigeschaltet fuer: 5 Jahre Mitgliedschaft.;Kalenderblatt mit Lorbeerzweig;variabel;Aufnaeher, Gravur, Kapitelmarke
+B257;Meilenstein;Erste Bestellung;Freigeschaltet fuer: erstes Produkt im Shop bestellt.;Geschenkband-Schleife, schlicht;variabel;Aufnaeher, Gravur, Kapitelmarke
+B258;Meilenstein;Fuenf Bestellungen;Freigeschaltet fuer: 5 Produkte im Shop bestellt.;Geschenkband mit fuenf Punkten;variabel;Aufnaeher, Gravur, Kapitelmarke
+B259;Meilenstein;Sammelkarte komplett;Freigeschaltet fuer: alle Basis-Laenderbadges einer Region gesammelt.;Regionsrahmen mit Haken;variabel;Aufnaeher, Gravur, Kapitelmarke
+B260;Meilenstein;Soloreisender;Freigeschaltet fuer: 5 Reisen allein dokumentiert.;einzelne Fussspur;variabel;Aufnaeher, Gravur, Kapitelmarke
+B261;Meilenstein;Zu zweit unterwegs;Freigeschaltet fuer: 5 Reisen mit Begleitung dokumentiert.;zwei verschraenkte Fussspuren;variabel;Aufnaeher, Gravur, Kapitelmarke
+B262;Meilenstein;Gruppenabenteuer;Freigeschaltet fuer: eine Reise mit 4+ Personen dokumentiert.;Kreis aus vier Punkten;variabel;Aufnaeher, Gravur, Kapitelmarke
+B263;Meilenstein;Roadtrip-Veteran;Freigeschaltet fuer: 3 dokumentierte Roadtrips.;geschwungene Strassenlinie;variabel;Aufnaeher, Gravur, Kapitelmarke
+B264;Meilenstein;Bahnreisender;Freigeschaltet fuer: 3 dokumentierte Zugreisen.;Schienen-Doppellinie;variabel;Aufnaeher, Gravur, Kapitelmarke
+B265;Meilenstein;Segeltoerns;Freigeschaltet fuer: 2 dokumentierte Bootsreisen.;Segel-Dreieck auf Welle;variabel;Aufnaeher, Gravur, Kapitelmarke
+B266;Meilenstein;Wanderer;Freigeschaltet fuer: 5 dokumentierte Trekkingtouren.;Wanderpfad-Zickzacklinie;variabel;Aufnaeher, Gravur, Kapitelmarke
+B267;Meilenstein;Staedtetrip-Serie;Freigeschaltet fuer: 10 Staedtetrips dokumentiert.;Skyline-Silhouette, drei Bloecke;variabel;Aufnaeher, Gravur, Kapitelmarke
+B268;Meilenstein;Fruehbucher;Freigeschaltet fuer: eine Reise mehr als 6 Monate im Voraus geplant.;Kalenderblatt mit Pfeil nach vorn;variabel;Aufnaeher, Gravur, Kapitelmarke
+B269;Meilenstein;Last-Minute-Spontan;Freigeschaltet fuer: eine Reise innerhalb von 48h gebucht.;Blitzsymbol, schlicht;variabel;Aufnaeher, Gravur, Kapitelmarke
+B270;Meilenstein;Nachhaltig unterwegs;Freigeschaltet fuer: 3 Reisen mit CO2-Ausgleich dokumentiert.;Blatt in Kreisform;variabel;Aufnaeher, Gravur, Kapitelmarke
+B271;Meilenstein;Kulinarik-Entdecker;Freigeschaltet fuer: 10 lokale Gerichte im Journal dokumentiert.;Besteck-Kreuz, schlicht;variabel;Aufnaeher, Gravur, Kapitelmarke
+B272;Meilenstein;Sprachlerner;Freigeschaltet fuer: eine Reise mit dokumentiertem Sprachlern-Fortschritt.;Sprechblase mit Punkt;variabel;Aufnaeher, Gravur, Kapitelmarke
+B273;Meilenstein;Freiwilligenarbeit;Freigeschaltet fuer: eine dokumentierte Volunteering-Reise.;zwei verschraenkte Haende, schlicht;variabel;Aufnaeher, Gravur, Kapitelmarke
+B274;Meilenstein;Wiederkehrer;Freigeschaltet fuer: dasselbe Land dreimal besucht.;Kreis mit drei Umlaufpunkten;variabel;Aufnaeher, Gravur, Kapitelmarke
+B275;Meilenstein;Grenzgaenger;Freigeschaltet fuer: zwei Laendergrenzen an einem Tag ueberquert.;gestrichelte Linie mit Pfeil;variabel;Aufnaeher, Gravur, Kapitelmarke
+B276;Aktivitaet;Erster Freund geworben;Freigeschaltet fuer: einen Freund erfolgreich eingeladen.;zwei Kompassnadeln, verschraenkt;Bronze;Digitales Profil-Badge, optionaler Aufnaeher
+B277;Aktivitaet;Fuenf Freunde geworben;Freigeschaltet fuer: 5 Freunde erfolgreich eingeladen.;fuenf kleine Kompassnadeln im Kreis;Bronze;Digitales Profil-Badge, optionaler Aufnaeher
+B278;Aktivitaet;Erste Bewertung;Freigeschaltet fuer: erste Produktbewertung geschrieben.;Sternform, vereinfacht;Bronze;Digitales Profil-Badge, optionaler Aufnaeher
+B279;Aktivitaet;Zehn Bewertungen;Freigeschaltet fuer: 10 Produktbewertungen geschrieben.;Sternenreihe;Bronze;Digitales Profil-Badge, optionaler Aufnaeher
+B280;Aktivitaet;Community-Beitrag;Freigeschaltet fuer: einen Reisetipp mit der Community geteilt.;Sprechblase mit Wegpunkt;Bronze;Digitales Profil-Badge, optionaler Aufnaeher
+B281;Aktivitaet;Social-Sharer;Freigeschaltet fuer: 3 Reisefotos oeffentlich geteilt.;Verbindungslinien-Netz, klein;Bronze;Digitales Profil-Badge, optionaler Aufnaeher
+B282;Aktivitaet;Newsletter-Abonnent;Freigeschaltet fuer: Newsletter abonniert.;Briefumschlag mit Wegpunkt;Bronze;Digitales Profil-Badge, optionaler Aufnaeher
+B283;Aktivitaet;Profil komplett;Freigeschaltet fuer: Profil zu 100% ausgefuellt.;Haken im Kreis;Bronze;Digitales Profil-Badge, optionaler Aufnaeher
+B284;Aktivitaet;Erster Kommentar;Freigeschaltet fuer: ersten Kommentar unter einem Community-Beitrag verfasst.;Sprechblase, schlicht;Bronze;Digitales Profil-Badge, optionaler Aufnaeher
+B285;Aktivitaet;Hilfreicher Tipp;Freigeschaltet fuer: ein Tipp wurde von 10 Nutzern als hilfreich markiert.;Gluehbirnen-Kontur, schlicht;Bronze;Digitales Profil-Badge, optionaler Aufnaeher
+B286;Aktivitaet;Foto des Monats;Freigeschaltet fuer: Foto wurde als Community-Highlight ausgewaehlt.;Rahmen mit Sternchen-Ecke;Bronze;Digitales Profil-Badge, optionaler Aufnaeher
+B287;Aktivitaet;Jubilaeums-Kaeufer;Freigeschaltet fuer: am Marken-Jubilaeum eingekauft.;Kerzen-Silhouette auf Wegpunkt;Bronze;Digitales Profil-Badge, optionaler Aufnaeher
+B288;Aktivitaet;Geburtstagsreise;Freigeschaltet fuer: eine Reise am eigenen Geburtstag dokumentiert.;Geschenkband mit Kompassnadel;Bronze;Digitales Profil-Badge, optionaler Aufnaeher
+B289;Aktivitaet;Feedback-Geber;Freigeschaltet fuer: an einer Nutzerbefragung teilgenommen.;Sprechblase mit Haken;Bronze;Digitales Profil-Badge, optionaler Aufnaeher
+B290;Aktivitaet;Beta-Tester;Freigeschaltet fuer: ein neues Feature vor Launch getestet.;Zahnrad-Kontur, schlicht;Bronze;Digitales Profil-Badge, optionaler Aufnaeher
+B291;Aktivitaet;Wiederkehrender Kaeufer;Freigeschaltet fuer: 3 separate Bestellungen aufgegeben.;drei verschraenkte Geschenkbaender;Bronze;Digitales Profil-Badge, optionaler Aufnaeher
+B292;Aktivitaet;VIP-Sammler;Freigeschaltet fuer: alle drei Hauptprodukte besessen (Map, Passport, Journal).;drei verschraenkte Kreise;Bronze;Digitales Profil-Badge, optionaler Aufnaeher
+B293;Aktivitaet;Frueher Supporter;Freigeschaltet fuer: in den ersten 3 Monaten nach Launch bestellt.;Kompassnadel mit Startpunkt-Markierung;Bronze;Digitales Profil-Badge, optionaler Aufnaeher
+B294;Aktivitaet;Umfrage-Teilnehmer;Freigeschaltet fuer: an einer Produktumfrage teilgenommen.;Checkliste, drei Haken;Bronze;Digitales Profil-Badge, optionaler Aufnaeher
+B295;Aktivitaet;Verpackungs-Fan;Freigeschaltet fuer: Unboxing-Foto geteilt.;Geschenkband-Schleife mit Kamerablende;Bronze;Digitales Profil-Badge, optionaler Aufnaeher
+B296;Aktivitaet;Streak: 7 Tage aktiv;Freigeschaltet fuer: 7 Tage in Folge in der App aktiv.;sieben Punkte in Reihe;Bronze;Digitales Profil-Badge, optionaler Aufnaeher
+B297;Aktivitaet;Streak: 30 Tage aktiv;Freigeschaltet fuer: 30 Tage in Folge in der App aktiv.;dreissig Punkte im Kreis;Bronze;Digitales Profil-Badge, optionaler Aufnaeher
+B298;Aktivitaet;Nachtaktiv;Freigeschaltet fuer: Journal-Eintrag nach Mitternacht verfasst.;Mond-Sichel, schlicht;Bronze;Digitales Profil-Badge, optionaler Aufnaeher
+B299;Aktivitaet;Fruehaufsteher;Freigeschaltet fuer: Journal-Eintrag vor Sonnenaufgang verfasst.;Sonnen-Halbkreis am Horizont;Bronze;Digitales Profil-Badge, optionaler Aufnaeher
+B300;Aktivitaet;Wetterfest;Freigeschaltet fuer: eine Reise trotz Extremwetter dokumentiert.;Wolke mit Blitz, schlicht;Bronze;Digitales Profil-Badge, optionaler Aufnaeher
+B301;Aktivitaet;Packlisten-Profi;Freigeschaltet fuer: eine vollstaendige Packliste im Journal erstellt.;Koffer-Kontur, schlicht;Bronze;Digitales Profil-Badge, optionaler Aufnaeher
+B302;Aktivitaet;Budget-Tracker;Freigeschaltet fuer: Reisebudget im Journal dokumentiert.;Muenzstapel, drei Kreise;Bronze;Digitales Profil-Badge, optionaler Aufnaeher
+B303;Aktivitaet;Souvenir-Sammler;Freigeschaltet fuer: 5 Souvenirs im Journal katalogisiert.;kleine Schatztruhe, schlicht;Bronze;Digitales Profil-Badge, optionaler Aufnaeher
+B304;Aktivitaet;Kartenleser;Freigeschaltet fuer: eine Route manuell auf der Scratch Map eingezeichnet.;gestrichelte Routenlinie mit Pfeil;Bronze;Digitales Profil-Badge, optionaler Aufnaeher
+B305;Aktivitaet;Nachtzug-Erfahrung;Freigeschaltet fuer: eine Nachtzugreise dokumentiert.;Mond ueber Schienen-Doppellinie;Bronze;Digitales Profil-Badge, optionaler Aufnaeher
+B306;Aktivitaet;Wanderfreund;Freigeschaltet fuer: erste Bewertung mit Fotobeleg.;Kamerablende mit Sternchen;Bronze;Digitales Profil-Badge, optionaler Aufnaeher
+B307;Aktivitaet;Podcast-Hoerer;Freigeschaltet fuer: Marken-Podcast-Folge gehoert (falls vorhanden).;Kopfhoerer-Kontur, schlicht;Bronze;Digitales Profil-Badge, optionaler Aufnaeher
+B308;Aktivitaet;Quiz-Meister;Freigeschaltet fuer: ein Laender-Quiz in der App abgeschlossen.;Fragezeichen im Kompass;Bronze;Digitales Profil-Badge, optionaler Aufnaeher
+B309;Aktivitaet;Foto-Serie;Freigeschaltet fuer: 5 Fotos derselben Reise hochgeladen.;Filmstreifen, vier Felder;Bronze;Digitales Profil-Badge, optionaler Aufnaeher
+B310;Aktivitaet;Rezept-Sammler;Freigeschaltet fuer: ein lokales Rezept im Journal notiert.;Kochloeffel-Kreuz, schlicht;Bronze;Digitales Profil-Badge, optionaler Aufnaeher
+B311;Aktivitaet;Sprachnotiz;Freigeschaltet fuer: eine Audio-Notiz im digitalen Journal hinterlegt.;Schallwellen-Bogen;Bronze;Digitales Profil-Badge, optionaler Aufnaeher
+B312;Aktivitaet;Karten-Kuenstler;Freigeschaltet fuer: eigene Illustration in der App hochgeladen.;Stift mit Wegpunkt;Bronze;Digitales Profil-Badge, optionaler Aufnaeher
+B313;Aktivitaet;Treueprogramm-Start;Freigeschaltet fuer: dem Treueprogramm beigetreten.;Kompassnadel mit Herzspitze, schlicht;Bronze;Digitales Profil-Badge, optionaler Aufnaeher
+B314;Aktivitaet;Wunschliste angelegt;Freigeschaltet fuer: erste Wunschliste mit 3+ Laendern erstellt.;Liste mit drei Punkten;Bronze;Digitales Profil-Badge, optionaler Aufnaeher
+B315;Aktivitaet;Geschenkgeber;Freigeschaltet fuer: ein Produkt an eine andere Person verschenkt.;Geschenkband mit Pfeil nach aussen;Bronze;Digitales Profil-Badge, optionaler Aufnaeher
+B316;Saison/Event;Neujahrsreise;Freigeschaltet fuer: eine Reise ueber den Jahreswechsel dokumentiert.;Feuerwerksfunken um Kompassnadel;Bronze bis Gold;Limited-Edition-Aufnaeher, Saisonseite
+B317;Saison/Event;Sommer-Challenge;Freigeschaltet fuer: 3 Reisen in einem Sommer dokumentiert.;Sonnen-Halbkreis mit drei Strahlen;Bronze bis Gold;Limited-Edition-Aufnaeher, Saisonseite
+B318;Saison/Event;Winterflucht;Freigeschaltet fuer: eine Reise in waermeres Klima im Winter.;Schneeflocke neben Palme;Bronze bis Gold;Limited-Edition-Aufnaeher, Saisonseite
+B319;Saison/Event;Herbstlaub-Tour;Freigeschaltet fuer: eine Reise mit Fokus auf Herbstlandschaft.;Ahornblatt, vereinfacht;Bronze bis Gold;Limited-Edition-Aufnaeher, Saisonseite
+B320;Saison/Event;Fruehlingserwachen;Freigeschaltet fuer: eine Reise zur Kirschblueten- oder Fruehlingszeit.;Blueten-Kontur, fuenf Punkte;Bronze bis Gold;Limited-Edition-Aufnaeher, Saisonseite
+B321;Saison/Event;Valentins-Trip;Freigeschaltet fuer: eine Reise um den 14. Februar dokumentiert.;Herzform, geometrisch reduziert;Bronze bis Gold;Limited-Edition-Aufnaeher, Saisonseite
+B322;Saison/Event;Ostern unterwegs;Freigeschaltet fuer: eine Reise ueber die Osterzeit.;Ei-Kontur mit Streifenmuster;Bronze bis Gold;Limited-Edition-Aufnaeher, Saisonseite
+B323;Saison/Event;Halloween-Abenteuer;Freigeschaltet fuer: eine Reise Ende Oktober dokumentiert.;Kuerbis-Kontur, schlicht;Bronze bis Gold;Limited-Edition-Aufnaeher, Saisonseite
+B324;Saison/Event;Weihnachtsmarkt-Tour;Freigeschaltet fuer: 3 Weihnachtsmaerkte in verschiedenen Staedten besucht.;Stern ueber Marktstand-Kontur;Bronze bis Gold;Limited-Edition-Aufnaeher, Saisonseite
+B325;Saison/Event;Sonnenwende gefeiert;Freigeschaltet fuer: eine Reise zur Sommersonnenwende.;Sonnenscheibe mit vollem Strahlenkranz;Bronze bis Gold;Limited-Edition-Aufnaeher, Saisonseite
+B326;Saison/Event;Karneval erlebt;Freigeschaltet fuer: einen Karneval/Mardi Gras im Ausland erlebt.;Maskenform, geometrisch;Bronze bis Gold;Limited-Edition-Aufnaeher, Saisonseite
+B327;Saison/Event;Neumond-Reise;Freigeschaltet fuer: eine Reise unter dokumentiertem Neumond.;dunkler Kreis mit duennem Ring;Bronze bis Gold;Limited-Edition-Aufnaeher, Saisonseite
+B328;Saison/Event;Vollmond-Wanderung;Freigeschaltet fuer: eine Nachtwanderung bei Vollmond dokumentiert.;voller Kreis mit Strahlenkranz;Bronze bis Gold;Limited-Edition-Aufnaeher, Saisonseite
+B329;Saison/Event;Jahresrueckblick;Freigeschaltet fuer: alle Reisen eines Kalenderjahres dokumentiert.;Kalenderblatt mit Haken;Bronze bis Gold;Limited-Edition-Aufnaeher, Saisonseite
+B330;Saison/Event;Black-Friday-Sammler;Freigeschaltet fuer: am Black Friday ein Produkt erworben.;Geschenkband mit Prozentzeichen-Andeutung;Bronze bis Gold;Limited-Edition-Aufnaeher, Saisonseite
+B331;Saison/Event;Launch-Woche-Kaeufer;Freigeschaltet fuer: in der ersten Launch-Woche eines neuen Produkts bestellt.;Rakete-Kontur, schlicht;Bronze bis Gold;Limited-Edition-Aufnaeher, Saisonseite
+B332;Saison/Event;Jahrestag-Reise;Freigeschaltet fuer: eine Reise zum eigenen Beziehungs-/Freundschaftsjubilaeum.;zwei verschraenkte Herzen, klein;Bronze bis Gold;Limited-Edition-Aufnaeher, Saisonseite
+B333;Saison/Event;Sonnenfinsternis erlebt;Freigeschaltet fuer: eine Sonnenfinsternis im Reiseland dokumentiert.;verdunkelte Sonnenscheibe;Bronze bis Gold;Limited-Edition-Aufnaeher, Saisonseite
+B334;Saison/Event;Nordlicht-Saison;Freigeschaltet fuer: eine Reise gezielt zur Aurora-Saison.;gruenes Wellenband, kompakt;Bronze bis Gold;Limited-Edition-Aufnaeher, Saisonseite
+B335;Saison/Event;Erntedank unterwegs;Freigeschaltet fuer: eine Reise zur Erntezeit dokumentiert.;Aehrenbuendel, schlicht;Bronze bis Gold;Limited-Edition-Aufnaeher, Saisonseite
+B336;Saison/Event;Drachenbootfest;Freigeschaltet fuer: ein asiatisches Sommerfest live erlebt.;Drachenboot-Kontur, vereinfacht;Bronze bis Gold;Limited-Edition-Aufnaeher, Saisonseite
+B337;Saison/Event;Diwali erlebt;Freigeschaltet fuer: Lichterfest in Suedasien miterlebt.;kleine Flammenreihe;Bronze bis Gold;Limited-Edition-Aufnaeher, Saisonseite
+B338;Saison/Event;Songkran erlebt;Freigeschaltet fuer: Wasserfest in Thailand miterlebt.;Wassertropfen-Trio;Bronze bis Gold;Limited-Edition-Aufnaeher, Saisonseite
+B339;Saison/Event;Oktoberfest-Tour;Freigeschaltet fuer: Oktoberfest in Muenchen besucht.;Bierkrug-Kontur, schlicht;Bronze bis Gold;Limited-Edition-Aufnaeher, Saisonseite
+B340;Saison/Event;Silvester-Feuerwerk;Freigeschaltet fuer: Silvesterfeuerwerk in einer fremden Stadt erlebt.;Funkenkranz um Skyline-Andeutung;Bronze bis Gold;Limited-Edition-Aufnaeher, Saisonseite
+B341;Saison/Event;Erste-Schnee-Reise;Freigeschaltet fuer: erste Schneereise des Jahres dokumentiert.;einzelne Schneeflocke;Bronze bis Gold;Limited-Edition-Aufnaeher, Saisonseite
+B342;Saison/Event;Wanderfestival;Freigeschaltet fuer: ein Musik-/Kulturfestival im Ausland besucht.;Klangwellen-Bogen ueber Zeltform;Bronze bis Gold;Limited-Edition-Aufnaeher, Saisonseite
+B343;Saison/Event;Sternschnuppen-Nacht;Freigeschaltet fuer: eine Meteorschauer-Nacht dokumentiert.;kurze Strichspur mit Punkt;Bronze bis Gold;Limited-Edition-Aufnaeher, Saisonseite
+B344;Saison/Event;Tag-und-Nacht-Gleiche;Freigeschaltet fuer: eine Reise zur Aequinoktial-Zeit dokumentiert.;halb Sonne, halb Mond;Bronze bis Gold;Limited-Edition-Aufnaeher, Saisonseite
+B345;Saison/Event;Jubilaeums-Sammler;Freigeschaltet fuer: 5 Jahre in Folge zur gleichen Jahreszeit gereist.;fuenf Punkte im Jahreskreis;Bronze bis Gold;Limited-Edition-Aufnaeher, Saisonseite
+B346;Spezial;Aequator ueberquert;Freigeschaltet fuer: den Aequator physisch ueberquert.;gerade Linie mit Sonnenscheibe mittig;Gold/Raritaet hoch;Limited-Edition-Aufnaeher, Easter-Egg-Seite
+B347;Spezial;Datumsgrenze ueberquert;Freigeschaltet fuer: die internationale Datumsgrenze ueberquert.;gestrichelte Linie mit Uhr-Andeutung;Gold/Raritaet hoch;Limited-Edition-Aufnaeher, Easter-Egg-Seite
+B348;Spezial;Noerdlicher Polarkreis;Freigeschaltet fuer: noerdlich des Polarkreises gewesen.;gestrichelte Kreislinie mit Schneekristall;Gold/Raritaet hoch;Limited-Edition-Aufnaeher, Easter-Egg-Seite
+B349;Spezial;Suedlicher Polarkreis;Freigeschaltet fuer: suedlich des Polarkreises gewesen.;gestrichelte Kreislinie, gespiegelt;Gold/Raritaet hoch;Limited-Edition-Aufnaeher, Easter-Egg-Seite
+B350;Spezial;Hoechster Punkt;Freigeschaltet fuer: auf ueber 4000m Hoehe gewesen.;Berggipfel mit Hoehenlinie;Gold/Raritaet hoch;Limited-Edition-Aufnaeher, Easter-Egg-Seite
+B351;Spezial;Tiefster Punkt;Freigeschaltet fuer: an einem Ort unter Meeresspiegel gewesen.;Wellenlinie mit Abwaertspfeil;Gold/Raritaet hoch;Limited-Edition-Aufnaeher, Easter-Egg-Seite
+B352;Spezial;Vier Jahreszeiten an einem Tag;Freigeschaltet fuer: alle vier Jahreszeiten an einem Reisetag erlebt.;vier Segmente im Kreis;Gold/Raritaet hoch;Limited-Edition-Aufnaeher, Easter-Egg-Seite
+B353;Spezial;Zeitzonen-Springer;Freigeschaltet fuer: 5 Zeitzonen an einem Tag durchquert.;Uhr mit fuenf Strichmarken;Gold/Raritaet hoch;Limited-Edition-Aufnaeher, Easter-Egg-Seite
+B354;Spezial;Vulkan bestiegen;Freigeschaltet fuer: einen aktiven Vulkan bestiegen.;Kegel mit Rauchlinie;Gold/Raritaet hoch;Limited-Edition-Aufnaeher, Easter-Egg-Seite
+B355;Spezial;Wueste durchquert;Freigeschaltet fuer: eine Wueste zu Fuss oder per Fahrzeug durchquert.;Duenenwelle mit gerader Route;Gold/Raritaet hoch;Limited-Edition-Aufnaeher, Easter-Egg-Seite
+B356;Spezial;Regenwald durchwandert;Freigeschaltet fuer: einen tropischen Regenwald durchwandert.;Blattdach-Kontur mit Pfad;Gold/Raritaet hoch;Limited-Edition-Aufnaeher, Easter-Egg-Seite
+B357;Spezial;Insel per Boot erreicht;Freigeschaltet fuer: eine abgelegene Insel nur per Boot erreicht.;kleine Insel mit Bootssymbol;Gold/Raritaet hoch;Limited-Edition-Aufnaeher, Easter-Egg-Seite
+B358;Spezial;Gletscher betreten;Freigeschaltet fuer: einen Gletscher betreten.;Eiskristall-Kontur, sechs Zacken;Gold/Raritaet hoch;Limited-Edition-Aufnaeher, Easter-Egg-Seite
+B359;Spezial;Hoehle erkundet;Freigeschaltet fuer: eine Tropfsteinhoehle besichtigt.;Stalaktit-Silhouette;Gold/Raritaet hoch;Limited-Edition-Aufnaeher, Easter-Egg-Seite
+B360;Spezial;Geisterstadt besucht;Freigeschaltet fuer: eine verlassene Stadt/Siedlung besucht.;leeres Haus-Umriss;Gold/Raritaet hoch;Limited-Edition-Aufnaeher, Easter-Egg-Seite
+B361;Spezial;Insel-Huepfer;Freigeschaltet fuer: 3 Inseln in einer Reise besucht.;drei kleine Inselformen in Reihe;Gold/Raritaet hoch;Limited-Edition-Aufnaeher, Easter-Egg-Seite
+B362;Spezial;Zugstrecke der Extraklasse;Freigeschaltet fuer: eine der grossen Panorama-Zugstrecken gefahren.;Schienen-Doppellinie mit Bergzacken;Gold/Raritaet hoch;Limited-Edition-Aufnaeher, Easter-Egg-Seite
+B363;Spezial;Fischmarkt-Frueh;Freigeschaltet fuer: einen Fischmarkt vor Sonnenaufgang besucht.;Fisch-Kontur mit Sonnen-Halbkreis;Gold/Raritaet hoch;Limited-Edition-Aufnaeher, Easter-Egg-Seite
+B364;Spezial;Nachtmarkt erlebt;Freigeschaltet fuer: einen Nachtmarkt besucht.;Laternen-Reihe, drei Punkte;Gold/Raritaet hoch;Limited-Edition-Aufnaeher, Easter-Egg-Seite
+B365;Spezial;Streetfood-Tour;Freigeschaltet fuer: 5 Streetfood-Staende an einem Tag getestet.;Essstaebchen-Kreuz;Gold/Raritaet hoch;Limited-Edition-Aufnaeher, Easter-Egg-Seite
+B366;Spezial;Heissluftballon;Freigeschaltet fuer: eine Ballonfahrt dokumentiert.;Ballonform mit Korb-Andeutung;Gold/Raritaet hoch;Limited-Edition-Aufnaeher, Easter-Egg-Seite
+B367;Spezial;Tauchgang;Freigeschaltet fuer: einen Tauchgang dokumentiert.;Blase-Trio aufsteigend;Gold/Raritaet hoch;Limited-Edition-Aufnaeher, Easter-Egg-Seite
+B368;Spezial;Schneeschuhwanderung;Freigeschaltet fuer: eine Schneeschuhtour dokumentiert.;Fussspur-Paar im Schnee-Muster;Gold/Raritaet hoch;Limited-Edition-Aufnaeher, Easter-Egg-Seite
+B369;Spezial;Kamelritt;Freigeschaltet fuer: einen Kamelritt in der Wueste dokumentiert.;Kamel-Silhouette, reduziert;Gold/Raritaet hoch;Limited-Edition-Aufnaeher, Easter-Egg-Seite
+B370;Spezial;Huskyschlitten;Freigeschaltet fuer: eine Schlittenhundetour dokumentiert.;Schlitten-Kufe mit Pfotenspuren;Gold/Raritaet hoch;Limited-Edition-Aufnaeher, Easter-Egg-Seite
+B371;Spezial;Bergsee erreicht;Freigeschaltet fuer: einen hochgelegenen Bergsee erreicht.;Wassertropfen ueber Gipfellinie;Gold/Raritaet hoch;Limited-Edition-Aufnaeher, Easter-Egg-Seite
+B372;Spezial;Sanddollar gefunden;Freigeschaltet fuer: ein besonderes Naturfundstueck dokumentiert.;kleiner Kreis mit Sternmuster;Gold/Raritaet hoch;Limited-Edition-Aufnaeher, Easter-Egg-Seite
+B373;Spezial;Leuchtturm bestiegen;Freigeschaltet fuer: einen Leuchtturm bestiegen.;Leuchtturm-Silhouette mit Lichtkegel;Gold/Raritaet hoch;Limited-Edition-Aufnaeher, Easter-Egg-Seite
+B374;Spezial;Weinlese miterlebt;Freigeschaltet fuer: eine Weinlese/Ernte live miterlebt.;Traubenbund, vereinfacht;Gold/Raritaet hoch;Limited-Edition-Aufnaeher, Easter-Egg-Seite
+B375;Spezial;Olivenernte miterlebt;Freigeschaltet fuer: eine Olivenernte live miterlebt.;Olivenzweig mit drei Fruechten;Gold/Raritaet hoch;Limited-Edition-Aufnaeher, Easter-Egg-Seite
+B376;Spezial;Marktflug;Freigeschaltet fuer: einen Rundflug/Sightseeing-Flug gebucht.;kleines Flugzeugsymbol mit Bogenlinie;Gold/Raritaet hoch;Limited-Edition-Aufnaeher, Easter-Egg-Seite
+B377;Spezial;Zugfenster-Traeumer;Freigeschaltet fuer: eine Reise ausschliesslich mit dem Zug dokumentiert.;Fenster-Rahmen mit Landschaftslinie;Gold/Raritaet hoch;Limited-Edition-Aufnaeher, Easter-Egg-Seite
+B378;Spezial;Sternenhimmel-Fotograf;Freigeschaltet fuer: ein Nachthimmel-Foto ohne Lichtverschmutzung hochgeladen.;Sternenkreuz-Trio;Gold/Raritaet hoch;Limited-Edition-Aufnaeher, Easter-Egg-Seite
+B379;Spezial;Gastfamilie erlebt;Freigeschaltet fuer: bei einer lokalen Gastfamilie uebernachtet.;Haus-Kontur mit Herzpunkt;Gold/Raritaet hoch;Limited-Edition-Aufnaeher, Easter-Egg-Seite
+B380;Spezial;Sprachaustausch;Freigeschaltet fuer: ein Wort in 5 verschiedenen Landessprachen im Journal notiert.;Sprechblasen-Kette;Gold/Raritaet hoch;Limited-Edition-Aufnaeher, Easter-Egg-Seite
+B381;Spezial;Handwerksmarkt;Freigeschaltet fuer: ein traditionelles Handwerk live beobachtet.;Hand mit Werkzeug-Andeutung;Gold/Raritaet hoch;Limited-Edition-Aufnaeher, Easter-Egg-Seite
+B382;Spezial;Tempeltour;Freigeschaltet fuer: 3 religioese Staetten in einer Reise besucht.;Tempeldach-Doppellinie;Gold/Raritaet hoch;Limited-Edition-Aufnaeher, Easter-Egg-Seite
+B383;Spezial;Ruinenforscher;Freigeschaltet fuer: eine antike Ruinenstaette besucht.;gebrochene Saeule;Gold/Raritaet hoch;Limited-Edition-Aufnaeher, Easter-Egg-Seite
+B384;Spezial;Fluss-Kreuzfahrt;Freigeschaltet fuer: eine Flusskreuzfahrt dokumentiert.;Wellenband mit Schiffs-Andeutung;Gold/Raritaet hoch;Limited-Edition-Aufnaeher, Easter-Egg-Seite
+B385;Spezial;Wattwanderung;Freigeschaltet fuer: eine Wattwanderung dokumentiert.;Wellenlinie mit Fussspuren;Gold/Raritaet hoch;Limited-Edition-Aufnaeher, Easter-Egg-Seite
+B386;Spezial;Trueffelsuche;Freigeschaltet fuer: eine gefuehrte Trueffelsuche erlebt.;kleine Knolle mit Blattpaar;Gold/Raritaet hoch;Limited-Edition-Aufnaeher, Easter-Egg-Seite
+B387;Spezial;Sanddune-Sandboarding;Freigeschaltet fuer: Sandboarding in der Wueste dokumentiert.;Duenenwelle mit Brett-Andeutung;Gold/Raritaet hoch;Limited-Edition-Aufnaeher, Easter-Egg-Seite
+B388;Spezial;Kanufahrt;Freigeschaltet fuer: eine Kanu-/Kajaktour dokumentiert.;Paddel-Kreuz auf Wellenlinie;Gold/Raritaet hoch;Limited-Edition-Aufnaeher, Easter-Egg-Seite
+B389;Spezial;Fallschirmsprung;Freigeschaltet fuer: einen Fallschirmsprung dokumentiert.;Schirmkuppel-Halbkreis;Gold/Raritaet hoch;Limited-Edition-Aufnaeher, Easter-Egg-Seite
+B390;Spezial;Bungee-Sprung;Freigeschaltet fuer: einen Bungee-Sprung dokumentiert.;gespannte Linie mit Punkt;Gold/Raritaet hoch;Limited-Edition-Aufnaeher, Easter-Egg-Seite
+B391;Spezial;Klettersteig;Freigeschaltet fuer: eine Klettersteigtour dokumentiert.;Zickzacklinie am Felshang;Gold/Raritaet hoch;Limited-Edition-Aufnaeher, Easter-Egg-Seite
+B392;Spezial;Yoga-Retreat;Freigeschaltet fuer: ein Yoga- oder Wellness-Retreat besucht.;Lotussitz-Andeutung, reduziert;Gold/Raritaet hoch;Limited-Edition-Aufnaeher, Easter-Egg-Seite
+B393;Spezial;Kloster-Uebernachtung;Freigeschaltet fuer: in einem Kloster uebernachtet.;einfache Zelle mit Fenster-Kreuz;Gold/Raritaet hoch;Limited-Edition-Aufnaeher, Easter-Egg-Seite
+B394;Spezial;Geheimtipp geteilt;Freigeschaltet fuer: einen unbekannten Ort mit der Community geteilt.;Wegpunkt mit Fragezeichen-Andeutung;Gold/Raritaet hoch;Limited-Edition-Aufnaeher, Easter-Egg-Seite
+B395;Spezial;Rekord-Kilometer;Freigeschaltet fuer: 10.000 dokumentierte Reisekilometer erreicht.;lange gestrichelte Routenlinie;Gold/Raritaet hoch;Limited-Edition-Aufnaeher, Easter-Egg-Seite
+B396;Spezial;Doppel-Kontinent-Tag;Freigeschaltet fuer: an einem Tag zwei Kontinente betreten.;zwei verschraenkte Landmassen-Andeutungen;Gold/Raritaet hoch;Limited-Edition-Aufnaeher, Easter-Egg-Seite
+B397;Spezial;Vollstaendiger Sammler;Freigeschaltet fuer: alle Basis- und Regionsbadges einer Kategorie gesammelt.;Rahmen mit Haken und Sternchen;Gold/Raritaet hoch;Limited-Edition-Aufnaeher, Easter-Egg-Seite
+B398;Hilfe & Rettung;Schutzengel im Ausland;Freigeschaltet fuer: einer/einem anderen Reisenden in einer Notlage geholfen.;Fluegel-Kontur um Wegpunkt;Silber;Aufnaeher, Community-Profilabzeichen
+B399;Hilfe & Rettung;Powerbank-Samariter;Freigeschaltet fuer: den eigenen Akku mit Fremden geteilt.;Blitzsymbol mit zwei Haenden;Silber;Aufnaeher, Community-Profilabzeichen
+B400;Hilfe & Rettung;Lokalguide wider Willen;Freigeschaltet fuer: einem verlorenen Touristen den Weg gezeigt.;Wegweiser mit Fragezeichen daneben;Silber;Aufnaeher, Community-Profilabzeichen
+B401;Hilfe & Rettung;Google-Uebersetzer-Retter;Freigeschaltet fuer: mit Sprachhilfe in einer Notsituation ausgeholfen.;Sprechblasen-Paar, verschraenkt;Silber;Aufnaeher, Community-Profilabzeichen
+B402;Hilfe & Rettung;Erste-Hilfe-Kit-Held;Freigeschaltet fuer: mit eigenem Erste-Hilfe-Set ausgeholfen.;Kreuz-Symbol, schlicht;Silber;Aufnaeher, Community-Profilabzeichen
+B403;Hilfe & Rettung;Pflaster-Diplomat;Freigeschaltet fuer: kleine medizinische Erste Hilfe geleistet.;Pflaster-Kontur, rechteckig;Silber;Aufnaeher, Community-Profilabzeichen
+B404;Hilfe & Rettung;Reisebegleiter auf Zeit;Freigeschaltet fuer: fremde Reisende ein Stueck der Strecke begleitet.;zwei Fussspuren nebeneinander;Silber;Aufnaeher, Community-Profilabzeichen
+B405;Hilfe & Rettung;Verpasster-Zug-Retter;Freigeschaltet fuer: jemandem bei einer verpassten Verbindung geholfen.;Uhr mit Pfeil zurueck;Silber;Aufnaeher, Community-Profilabzeichen
+B406;Hilfe & Rettung;Geldwechsel-Helfer;Freigeschaltet fuer: kleines Bargeld ausgeholfen, wenn jemand knapp war.;Muenze mit Haenden darum;Silber;Aufnaeher, Community-Profilabzeichen
+B407;Hilfe & Rettung;SOS-Netzwerker;Freigeschaltet fuer: Kontakt zu lokaler Hilfe (Botschaft, Polizei, Klinik) vermittelt.;Wegpunkt mit Ausrufezeichen;Silber;Aufnaeher, Community-Profilabzeichen
+B408;Unterkunft;Hostel-Veteran;Freigeschaltet fuer: 10 Hostelnaechte dokumentiert.;Stockbett-Kontur, zwei Linien;Bronze;Aufnaeher, Unterkunftsseite im Journal
+B409;Unterkunft;Couchsurfing-Pionier;Freigeschaltet fuer: erste Couchsurfing-Uebernachtung dokumentiert.;Sofa-Kontur, schlicht;Bronze;Aufnaeher, Unterkunftsseite im Journal
+B410;Unterkunft;Baumhaus-Schlaefer;Freigeschaltet fuer: eine Nacht im Baumhaus verbracht.;Baumkrone mit kleinem Haus darin;Bronze;Aufnaeher, Unterkunftsseite im Journal
+B411;Unterkunft;Zeltplatz-Romantiker;Freigeschaltet fuer: 5 Naechte im Zelt dokumentiert.;Zelt-Dreieck, schlicht;Bronze;Aufnaeher, Unterkunftsseite im Journal
+B412;Unterkunft;Unter freiem Himmel geschlafen;Freigeschaltet fuer: eine Nacht ohne Zeltdach dokumentiert.;Sternenkreuz-Trio ueber liegender Linie;Bronze;Aufnaeher, Unterkunftsseite im Journal
+B413;Unterkunft;Hausboot-Kapitaen;Freigeschaltet fuer: eine Nacht auf einem Hausboot verbracht.;Boots-Kontur mit Welle;Bronze;Aufnaeher, Unterkunftsseite im Journal
+B414;Unterkunft;Kapselhotel-Erfahrung;Freigeschaltet fuer: in einem Kapselhotel uebernachtet.;Kapsel-Rechteck, abgerundet;Bronze;Aufnaeher, Unterkunftsseite im Journal
+B415;Unterkunft;Iglu-Naechtler;Freigeschaltet fuer: eine Nacht in einer Iglu oder Eissuite verbracht.;Iglu-Halbkreis mit Eiskristall;Bronze;Aufnaeher, Unterkunftsseite im Journal
+B416;Unterkunft;Luxus-Ueberraschung;Freigeschaltet fuer: einmal ein 5-Sterne-Zimmer gebucht.;Stern-Kranz, fuenf Punkte;Bronze;Aufnaeher, Unterkunftsseite im Journal
+B417;Unterkunft;Airbnb-Stammgast;Freigeschaltet fuer: 10 Airbnb-Aufenthalte dokumentiert.;Haus-Kontur mit Herzspitze im Dach;Bronze;Aufnaeher, Unterkunftsseite im Journal
+B418;Scam-Alarm;Nicht-Reingefallen;Freigeschaltet fuer: einen Touristenbetrug rechtzeitig erkannt.;Ausrufezeichen im Schild-Umriss;Silber;Aufnaeher, Warnhinweis-Icon in der App
+B419;Scam-Alarm;Taxi-Taktiker;Freigeschaltet fuer: erfolgreich einen ueberteuerten Taxipreis verhandelt.;Taxi-Kontur mit Preisschild-Andeutung;Silber;Aufnaeher, Warnhinweis-Icon in der App
+B420;Scam-Alarm;Der-falsche-Polizist-erkannt;Freigeschaltet fuer: einen Fake-Amtsperson-Trick durchschaut.;Schild-Umriss mit Fragezeichen;Silber;Aufnaeher, Warnhinweis-Icon in der App
+B421;Scam-Alarm;Ring-des-Misstrauens;Freigeschaltet fuer: einen Strassen-Geschenk-Trick durchschaut.;Kreis mit durchgestrichener Linie;Silber;Aufnaeher, Warnhinweis-Icon in der App
+B422;Scam-Alarm;Wechselkurs-Wachhund;Freigeschaltet fuer: einen unfairen Geldwechsel erkannt und vermieden.;Muenze mit Lupen-Andeutung;Silber;Aufnaeher, Warnhinweis-Icon in der App
+B423;Scam-Alarm;Rechnung-Doppelt-Geprueft;Freigeschaltet fuer: eine falsch aufgerundete Restaurantrechnung entdeckt.;Quittung-Kontur mit Haken;Silber;Aufnaeher, Warnhinweis-Icon in der App
+B424;Scam-Alarm;Zu-schoen-um-wahr;Freigeschaltet fuer: ein unrealistisches Sofortangebot erkannt und abgelehnt.;Ausrufezeichen im Sternchen-Rahmen;Silber;Aufnaeher, Warnhinweis-Icon in der App
+B425;Scam-Alarm;Gepaeck-Wache;Freigeschaltet fuer: Gepaeck nie unbeaufsichtigt gelassen, Reise lang.;Koffer-Kontur mit Schloss-Andeutung;Silber;Aufnaeher, Warnhinweis-Icon in der App
+B426;Scam-Alarm;Foto-Vorsicht;Freigeschaltet fuer: einen Kostenfallen-Fototrick (spontanes Tier-/Kostuemfoto) erkannt.;Kamerablende mit Ausrufezeichen;Silber;Aufnaeher, Warnhinweis-Icon in der App
+B427;Scam-Alarm;Skeptische Reisende;Freigeschaltet fuer: 5 potenzielle Betrugsversuche im Journal dokumentiert und geteilt.;Schild-Umriss mit Haken;Silber;Aufnaeher, Warnhinweis-Icon in der App
+B428;Vielreisende;Flughafen-Stammgast;Freigeschaltet fuer: 10 Fluege in einem Kalenderjahr dokumentiert.;Flugzeug-Silhouette mit Wegpunkt-Kranz;Gold;Aufnaeher, Statusabzeichen im Profil
+B429;Vielreisende;Koffer-Nomade;Freigeschaltet fuer: mehr Naechte im Ausland als zuhause in einem Jahr.;Koffer-Kontur mit Sternenkranz;Gold;Aufnaeher, Statusabzeichen im Profil
+B430;Vielreisende;Zeitzonen-Jongleur;Freigeschaltet fuer: 5 Zeitzonenwechsel innerhalb eines Monats.;Uhr mit fuenf Strichmarken im Kreis;Gold;Aufnaeher, Statusabzeichen im Profil
+B431;Vielreisende;Reise-Junkie;Freigeschaltet fuer: 3 Reisen gleichzeitig in Planung.;drei verschraenkte Wegpunkte;Gold;Aufnaeher, Statusabzeichen im Profil
+B432;Vielreisende;Kurztrip-Meister;Freigeschaltet fuer: 5 Wochenendtrips in einem Jahr dokumentiert.;Kalenderblatt mit Flugzeug-Andeutung;Gold;Aufnaeher, Statusabzeichen im Profil
+B433;Vielreisende;Vielflieger-Veteran;Freigeschaltet fuer: 50.000 dokumentierte Flugkilometer erreicht.;Flugzeug-Silhouette mit langer gestrichelter Route;Gold;Aufnaeher, Statusabzeichen im Profil
+B434;Vielreisende;Dauerpendler;Freigeschaltet fuer: 3 Monate am Stueck unterwegs dokumentiert.;Kofferrad-Kontur mit Bewegungslinien;Gold;Aufnaeher, Statusabzeichen im Profil
+B435;Vielreisende;Immer-Startklar;Freigeschaltet fuer: Handgepaeck-only-Reise dokumentiert.;kleiner Rucksack-Umriss;Gold;Aufnaeher, Statusabzeichen im Profil
+B436;Vielreisende;Buchungs-Blitz;Freigeschaltet fuer: 3 Reisen innerhalb einer Woche gebucht.;Blitzsymbol ueber Kalenderblatt;Gold;Aufnaeher, Statusabzeichen im Profil
+B437;Vielreisende;Vielreisenden-Elite;Freigeschaltet fuer: 10 Reisen in einem Jahr dokumentiert.;Kompassnadel mit zehn Punkten im Kranz;Gold;Aufnaeher, Statusabzeichen im Profil
+B438;Merch & Shop;Erstes Merch-Teil;Freigeschaltet fuer: das erste Produkt (z.B. Aufnaeher, Journal) im Shop bestellt.;Geschenkband mit Rucksack-Silhouette, schlicht;Bronze;Aufnaeher, Kapitelmarke im Travel Journal
+B439;Merch & Shop;Komplett-Ausgestattet;Freigeschaltet fuer: Map, Passport und Journal gemeinsam erworben.;Drei verschraenkte Kreise mit Stern;Silber;Aufnaeher, Kapitelmarke im Travel Journal
+B440;Merch & Shop;Limited-Edition-Jaeger;Freigeschaltet fuer: ein limitiertes Saison-Produkt gesichert.;Sanduhr mit funkelndem Rand, geometrisch;Gold;Limited-Edition-Aufnaeher, Easter-Egg-Seite im Journal
+B441;Community & Gruppen;Gruppen-Organizer;Freigeschaltet fuer: ein Treffen oder eine Reise fuer mind. 5 Personen organisiert.;Megafon mit 5 Punkten, vereinfacht;Silber;Aufnaeher, Community-Profilabzeichen
+B442;Community & Gruppen;Stammgast-Treffen;Freigeschaltet fuer: Teilnahme an 3 offiziellen Scratch-n-Travel Gruppentreffen.;Drei verschraenkte Personen-Silhouetten;Bronze;Aufnaeher, Community-Profilabzeichen
+B443;Community & Gruppen;Community-Leader;Freigeschaltet fuer: eine eigene lokale Reisegruppe gegruendet und geleitet.;Krone ueber Wegpunkt, schlicht;Gold;Aufnaeher, Community-Profilabzeichen
+B444;VIP & Treue;VIP-Mitglied;Freigeschaltet fuer: VIP-Status (z.B. Family & Pet Pro) erreicht oder abonniert.;Diamant mit Kompassnadel, geometrisch;Gold;Digitales Profil-Badge, exklusive Kapitelmarke
+B445;VIP & Treue;Beta-Insider;Freigeschaltet fuer: exklusiven Zugang zu neuen Features vor dem offiziellen Launch erhalten.;Zahnrad mit Beta-Schriftzug, schlicht;Silber;Digitales Profil-Badge
+B446;Hobby-Matcher;Hobby-Connect;Freigeschaltet fuer: sich mind. 1x mit jemandem fuer ein geteiltes Hobby (z.B. Surfen, Wandern) getroffen.;Zwei verschraenkte Hobby-Icons (z.B. Welle und Berg);Silber;Aufnaeher, Kapitelmarke im Travel Journal
+B447;Hobby-Matcher;Foodie-Tandem;Freigeschaltet fuer: gemeinsam mit einem Community-Match ein lokales Gericht probiert.;Besteck-Kreuz mit zwei Punkten, schlicht;Bronze;Aufnaeher, Kapitelmarke im Travel Journal
+B448;Hobby-Matcher;Abenteuer-Partner;Freigeschaltet fuer: eine Aktivitaet (z.B. Klettern, Tauchen) mit einem Community-Match absolviert.;Kletterhaken mit Seil, vereinfacht;Silber;Aufnaeher, Kapitelmarke im Travel Journal
+B449;Orte mit Seele;Geheimtipp-Entdecker;Freigeschaltet fuer: eine versteckte Location (z.B. geheime Klippenquelle, Kiez-Baeckerei) besucht und geteilt.;Schluessel mit leuchtendem Punkt, geometrisch;Gold;Limited-Edition-Aufnaeher, Easter-Egg-Seite im Journal
+B450;Orte mit Seele;Monsterwellen-Zeuge;Freigeschaltet fuer: eine epische Naturerscheinung (z.B. Monsterwellen, extremes Wetter) live erlebt.;Welle mit Blitzsymbol, dynamisch;Gold;Limited-Edition-Aufnaeher, Easter-Egg-Seite im Journal
+B451;Orte mit Seele;Seelenort-Besucher;Freigeschaltet fuer: 3 Orte mit besonderer Geschichte und "Seele" dokumentiert.;Herzform in Landschaftskontur, schlicht;Silber;Aufnaeher, Kapitelmarke im Travel Journal
+B452;Tools & Engagement;Checklisten-Profi;Freigeschaltet fuer: eine Reise-Checkliste (z.B. Familie oder Hund) heruntergeladen und vollstaendig abgehakt.;Klemmbrett mit Haken, vereinfacht;Bronze;Digitales Profil-Badge, optionaler Aufnaeher
+B453;Tools & Engagement;Erfahrungs-Teiler;Freigeschaltet fuer: einen detaillierten Reisebericht oder Guide fuer die Community geschrieben.;Federkiel mit Sprechblase, schlicht;Silber;Aufnaeher, Community-Profilabzeichen
+B454;Tools & Engagement;AI-Concierge-Nutzer;Freigeschaltet fuer: den Smart Travel AI Concierge erfolgreich fuer die Reiseplanung genutzt.;Roboter-Kopf mit Kompassnadel, geometrisch;Bronze;Digitales Profil-Badge
+B455;Tools & Engagement;Routen-Optimierer;Freigeschaltet fuer: eine KI-generierte Route angepasst und erfolgreich abgeschlossen.;Gestrichelte Linie mit Stern, schlicht;Silber;Aufnaeher, Kapitelmarke im Travel Journal
+B456;Tools & Engagement;Scam-Radar-Waechter;Freigeschaltet fuer: eine Touristenfalle oder einen Betrugsversuch erkannt und in der App gemeldet.;Schild mit Ausrufezeichen, vereinfacht;Silber;Aufnaeher, Warnhinweis-Icon in der App
+B457;Tools & Engagement;GPX-Export-Profi;Freigeschaltet fuer: eine Community-Route als GPX fuer Komoot oder Maps.me exportiert.;Wegpunkt mit Download-Pfeil, schlicht;Bronze;Digitales Profil-Badge
+B458;Orte mit Seele;Local-Guide-Siegel;Freigeschaltet fuer: 5 eigene Geheimtipps von der Community als "hilfreich" verifiziert.;Verifizierungs-Haken mit Stern, geometrisch;Gold;Aufnaeher, Community-Profilabzeichen
+B459;Community & Gruppen;Give-to-Get-Held;Freigeschaltet fuer: einen echten Geheimtipp oder eine Warnung geteilt, die anderen Reisenden geholfen hat.;Zwei verschraenkte Haende mit Herz, schlicht;Silber;Aufnaeher, Community-Profilabzeichen
+B460;Hobby-Matcher;Tierfreundlicher Begleiter;Freigeschaltet fuer: ein Treffen mit einem Hundehalter (z.B. Dog SUP, Wald-Trail) absolviert.;Pfotenabdruck neben Wegpunkt, schlicht;Bronze;Aufnaeher, Kapitelmarke im Travel Journal

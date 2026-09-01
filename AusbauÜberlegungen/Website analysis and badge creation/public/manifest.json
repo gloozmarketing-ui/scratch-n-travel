@@ -1,0 +1,19 @@
+{
+  "name": "Scratch'n'Travel — Luxury Social Travel & Secret Spots",
+  "short_name": "Scratch'n'Travel",
+  "description": "Verifizierte Geheimtipps, 130-Hobby WanderBond DNA, 1–5 Schwierigkeitsskala & 460+ Sammler-Badges.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0C1825",
+  "theme_color": "#0C1825",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["travel", "lifestyle", "navigation"]
+}

@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="de" class="theme-obsidian">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Scratch'n'Travel — App Dashboard & Social Layer</title>
+  <title>Scratch'n'Travel â€” App Dashboard & Social Layer</title>
   
   <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg">
   <link rel="manifest" href="manifest.json">
@@ -92,30 +92,30 @@
 
       <!-- Centered Navigation Links -->
       <ul class="nav-center-links">
-        <li><a href="index.html" data-i18n="nav_back">← Übersicht</a></li>
+        <li><a href="index.html" data-i18n="nav_back">â† Ãœbersicht</a></li>
         <li><a href="#explorer" class="active" data-i18n="nav_explorer">City Explorer</a></li>
-        <li><a href="#hobbymatch" data-i18n="nav_hobbymatch">Hobby Match (130) 🧬</a></li>
-        <li><a href="#flugrechner" data-i18n="nav_flightcalc">Flugrechner 🐕</a></li>
-        <li><a href="#scratch-passport" data-i18n="nav_scratchbook">Reisepass 📖</a></li>
+        <li><a href="#hobbymatch" data-i18n="nav_hobbymatch">Hobby Match (130) ðŸ§¬</a></li>
+        <li><a href="#flugrechner" data-i18n="nav_flightcalc">Flugrechner ðŸ•</a></li>
+        <li><a href="#scratch-passport" data-i18n="nav_scratchbook">Reisepass ðŸ“–</a></li>
       </ul>
 
       <!-- Right Utility Actions Cluster -->
       <div class="nav-actions">
         <!-- Luxury 3-Theme Switcher -->
-        <div class="theme-selector-bar" title="Wähle dein bevorzugtes Design">
+        <div class="theme-selector-bar" title="WÃ¤hle dein bevorzugtes Design">
           <button class="theme-btn active" data-theme="obsidian" onclick="window.themeManager.setTheme('obsidian')">
-            ✨
+            âœ¨
           </button>
           <button class="theme-btn" data-theme="cream" onclick="window.themeManager.setTheme('cream')">
-            🌿
+            ðŸŒ¿
           </button>
           <button class="theme-btn" data-theme="forest" onclick="window.themeManager.setTheme('forest')">
-            🌲
+            ðŸŒ²
           </button>
         </div>
 
         <!-- Custom Sleek Multilingual Dropdown -->
-        <button class="scratch-wallet-badge" onclick="window.scratchWallet.open()" title="Deine Rubbel-Karten">🪙 0</button>
+        <button class="scratch-wallet-badge" onclick="window.scratchWallet.open()" title="Deine Rubbel-Karten">ðŸª™ 0</button>
         <div id="langDropdownContainer"></div>
 
         <!-- User Status Badge -->
@@ -131,24 +131,24 @@
         <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
           <span class="badge badge-emerald">Aktive Region</span>
           <select id="cityBrainSelector" style="padding: 6px 12px; border-radius: var(--radius-sm); border: 1px solid var(--border-line); background: var(--bg-surface); color: var(--text-main); font-size: 0.88rem; font-weight: 700;" onchange="window.cityBrain.setCity(this.value)">
-            <option value="Lissabon" selected>🇵🇹 Lissabon & Sintra</option>
-            <option value="Algarve">🇵🇹 Algarve (Faro, Lagos & Sagres)</option>
-            <option value="Barcelona">🇪🇸 Barcelona & Costa Brava</option>
-            <option value="Rom">🇮🇹 Rom & Latium-Küste</option>
-            <option value="Paris">🇫🇷 Paris & Seine-Umland</option>
-            <option value="Berlin">🇩🇪 Berlin & Brandenburger Seen</option>
+            <option value="Lissabon" selected>ðŸ‡µðŸ‡¹ Lissabon & Sintra</option>
+            <option value="Algarve">ðŸ‡µðŸ‡¹ Algarve (Faro, Lagos & Sagres)</option>
+            <option value="Barcelona">ðŸ‡ªðŸ‡¸ Barcelona & Costa Brava</option>
+            <option value="Rom">ðŸ‡®ðŸ‡¹ Rom & Latium-KÃ¼ste</option>
+            <option value="Paris">ðŸ‡«ðŸ‡· Paris & Seine-Umland</option>
+            <option value="Berlin">ðŸ‡©ðŸ‡ª Berlin & Brandenburger Seen</option>
           </select>
         </div>
-        <h1 style="font-size: 2rem;">Willkommen in Lissabon & Umgebung 🇵🇹</h1>
-        <p style="font-size: 0.95rem;">Entdecke verifizierte Geheimtipps von Einheimischen, hundefreundliche Strände & WanderBond Hobby-Partner.</p>
+        <h1 style="font-size: 2rem;">Willkommen in Lissabon & Umgebung ðŸ‡µðŸ‡¹</h1>
+        <p style="font-size: 0.95rem;">Entdecke verifizierte Geheimtipps von Einheimischen, hundefreundliche StrÃ¤nde & WanderBond Hobby-Partner.</p>
       </div>
 
       <div style="display: flex; gap: 10px; flex-wrap: wrap;">
         <button id="gpsLocateBtn" class="btn btn-secondary" style="font-size: 0.85rem;" onclick="window.hazardSimEngine.findNearbySpots()">
-          📍 Spots in meiner Nähe
+          ðŸ“ Spots in meiner NÃ¤he
         </button>
         <button class="btn btn-primary" style="font-size: 0.85rem;" onclick="window.hermesGuardian.openShareModal()">
-          + Story Beitragen (VIP 0 €)
+          + Story Beitragen (VIP 0 â‚¬)
         </button>
       </div>
     </div>
@@ -162,10 +162,10 @@
     <div class="filter-bar">
       <span style="font-weight: 600; font-size: 0.9rem; margin-right: 8px;">Filter:</span>
       <button class="filter-btn active" data-filter="all">Alle Spots</button>
-      <button class="filter-btn" data-filter="secret">🔐 Secret Spots</button>
-      <button class="filter-btn" data-filter="pet">🐶 Hundefreundlich</button>
-      <button class="filter-btn" data-filter="family">👶 Kinderfreundlich</button>
-      <button class="filter-btn" data-filter="food">🍲 Lokale Küche</button>
+      <button class="filter-btn" data-filter="secret">ðŸ” Secret Spots</button>
+      <button class="filter-btn" data-filter="pet">ðŸ¶ Hundefreundlich</button>
+      <button class="filter-btn" data-filter="family">ðŸ‘¶ Kinderfreundlich</button>
+      <button class="filter-btn" data-filter="food">ðŸ² Lokale KÃ¼che</button>
     </div>
 
     <!-- Spots Grid -->
@@ -174,28 +174,28 @@
       <div class="glass-card spot-card" data-tags="secret pet family">
         <div>
           <div class="spot-header" style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-            <span class="badge badge-gold">🔐 Geheimtipp</span>
-            <span class="badge badge-emerald">🐶 + 👶 Willkommen</span>
+            <span class="badge badge-gold">ðŸ” Geheimtipp</span>
+            <span class="badge badge-emerald">ðŸ¶ + ðŸ‘¶ Willkommen</span>
           </div>
           <h3 class="spot-title">Praia da Ursa & Klippenpfad</h3>
           <p style="font-size: 0.9rem; color: var(--text-muted);">
-            Wunderschöner, naturbelassener Sandstrand abseits der Touristenbusse. Feiner Sand für Kinder, weitläufiger Auslauf für Hunde.
+            WunderschÃ¶ner, naturbelassener Sandstrand abseits der Touristenbusse. Feiner Sand fÃ¼r Kinder, weitlÃ¤ufiger Auslauf fÃ¼r Hunde.
           </p>
 
           <div class="secret-blur-overlay" id="blur-spot1" style="background: rgba(0,0,0,0.3); border-radius: 8px; padding: 14px; text-align: center; margin: 12px 0;">
-            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 8px;">🔒 Exakte Koordinaten & Anfahrt verschwommen</p>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 8px;">ðŸ”’ Exakte Koordinaten & Anfahrt verschwommen</p>
             <button class="btn btn-primary" style="padding: 8px 16px; font-size: 0.85rem;" onclick="openUnlockModal('spot1', 'Praia da Ursa')">
-              Ehrenkodex akzeptieren & Freischalten 🔑
+              Ehrenkodex akzeptieren & Freischalten ðŸ”‘
             </button>
           </div>
 
           <div id="reveal-spot1" style="display: none; background: rgba(16,185,129,0.1); border: 1px solid var(--emerald-primary); padding: 12px; border-radius: var(--radius-sm); margin: 12px 0;">
-            <p style="color: var(--text-main); font-size: 0.85rem;"><strong>📍 Freigeschaltet:</strong> 38.7903° N, 9.4925° W (Parkplatz am Ende der N247, dann 15 Min. schattiger Fußweg).</p>
+            <p style="color: var(--text-main); font-size: 0.85rem;"><strong>ðŸ“ Freigeschaltet:</strong> 38.7903Â° N, 9.4925Â° W (Parkplatz am Ende der N247, dann 15 Min. schattiger FuÃŸweg).</p>
           </div>
         </div>
 
         <div style="font-size: 0.8rem; color: var(--text-dim); border-top: 1px solid var(--border-line); padding-top: 12px; margin-top: 12px;">
-          Verifiziert von: João (Local) • 4.9 ★ (28 Bewertungen)
+          Verifiziert von: JoÃ£o (Local) â€¢ 4.9 â˜… (28 Bewertungen)
         </div>
       </div>
 
@@ -203,21 +203,21 @@
       <div class="glass-card spot-card" data-tags="family food">
         <div>
           <div class="spot-header" style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-            <span class="badge badge-cyan">👶 Kinder-Tipp</span>
-            <span class="badge badge-emerald">🍲 Rezept & Picknick</span>
+            <span class="badge badge-cyan">ðŸ‘¶ Kinder-Tipp</span>
+            <span class="badge badge-emerald">ðŸ² Rezept & Picknick</span>
           </div>
-          <h3 class="spot-title">Jardim da Estrela & Café Picknick</h3>
+          <h3 class="spot-title">Jardim da Estrela & CafÃ© Picknick</h3>
           <p style="font-size: 0.9rem; color: var(--text-muted);">
-            Wunderschöner Park mit schattigen Mammutbäumen, großem Spielplatz, Ententeich und kinderfreundlichem Kiosk mit frischen Pastéis.
+            WunderschÃ¶ner Park mit schattigen MammutbÃ¤umen, groÃŸem Spielplatz, Ententeich und kinderfreundlichem Kiosk mit frischen PastÃ©is.
           </p>
 
           <div style="background: rgba(0,0,0,0.15); padding: 12px; border-radius: var(--radius-sm); margin: 16px 0;">
-            <p style="font-size: 0.85rem; color: var(--text-main);"><strong>✨ Highlight:</strong> Stufenfreie Wege für Kinderwagen, eingezäunter Spielbereich.</p>
+            <p style="font-size: 0.85rem; color: var(--text-main);"><strong>âœ¨ Highlight:</strong> Stufenfreie Wege fÃ¼r Kinderwagen, eingezÃ¤unter Spielbereich.</p>
           </div>
         </div>
 
         <div style="font-size: 0.8rem; color: var(--text-dim); border-top: 1px solid var(--border-line); padding-top: 12px; margin-top: 12px;">
-          Verifiziert von: Maria (Local Mama) • 5.0 ★ (42 Bewertungen)
+          Verifiziert von: Maria (Local Mama) â€¢ 5.0 â˜… (42 Bewertungen)
         </div>
       </div>
 
@@ -225,21 +225,21 @@
       <div class="glass-card spot-card" data-tags="pet food">
         <div>
           <div class="spot-header" style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-            <span class="badge badge-emerald">🐶 Hunde erlaubt</span>
-            <span class="badge badge-cyan">🍲 Trad. Tavern</span>
+            <span class="badge badge-emerald">ðŸ¶ Hunde erlaubt</span>
+            <span class="badge badge-cyan">ðŸ² Trad. Tavern</span>
           </div>
           <h3 class="spot-title">Tasca O Galo (Alfama)</h3>
           <p style="font-size: 0.9rem; color: var(--text-muted);">
-            Familiengeführte Kiez-Tasca. Der Wirt bringt unaufgefordert einen Frische-Wassernapf für den Hund und serviert fangfrischen Bacalhau.
+            FamiliengefÃ¼hrte Kiez-Tasca. Der Wirt bringt unaufgefordert einen Frische-Wassernapf fÃ¼r den Hund und serviert fangfrischen Bacalhau.
           </p>
 
           <div style="background: rgba(0,0,0,0.15); padding: 12px; border-radius: var(--radius-sm); margin: 16px 0;">
-            <p style="font-size: 0.85rem; color: var(--text-main);"><strong>✨ Highlight:</strong> Hunde auf der Außenterrasse und im Innenbereich ausdrücklich willkommen.</p>
+            <p style="font-size: 0.85rem; color: var(--text-main);"><strong>âœ¨ Highlight:</strong> Hunde auf der AuÃŸenterrasse und im Innenbereich ausdrÃ¼cklich willkommen.</p>
           </div>
         </div>
 
         <div style="font-size: 0.8rem; color: var(--text-dim); border-top: 1px solid var(--border-line); padding-top: 12px; margin-top: 12px;">
-          Verifiziert von: Tiago (Local) • 4.8 ★ (19 Bewertungen)
+          Verifiziert von: Tiago (Local) â€¢ 4.8 â˜… (19 Bewertungen)
         </div>
       </div>
     </div>
@@ -248,15 +248,15 @@
   <!-- Section 2: WanderBond 130 Hobby-DNA Match & Meetups -->
   <section id="hobbymatch" class="container" style="padding: 50px 0 20px;">
     <div style="text-align: center; max-width: 700px; margin: 0 auto 30px;">
-      <span class="badge badge-cyan">🧬 WanderBond 130 Matching Engine</span>
+      <span class="badge badge-cyan">ðŸ§¬ WanderBond 130 Matching Engine</span>
       <h2 style="margin-top: 10px;">Hobby-DNA & Reise-Treffen</h2>
-      <p>Finde Locals und Reisende mit gemeinsamen Interessen für Aktivitäten vor Ort — ohne Dating-Zwang.</p>
+      <p>Finde Locals und Reisende mit gemeinsamen Interessen fÃ¼r AktivitÃ¤ten vor Ort â€” ohne Dating-Zwang.</p>
     </div>
 
     <!-- Interactive DNA 130 Hobby Selector -->
     <div style="background: var(--bg-card); border: 1px solid var(--border-line); border-radius: 20px; padding: 24px; margin: 24px 0; text-align: center;">
       <span style="font-size: 0.95rem; font-weight: 800; color: var(--text-main); display: block; margin-bottom: 12px;">
-        130 Hobby-DNA Konfigurator (Wähle deine Leidenschaften):
+        130 Hobby-DNA Konfigurator (WÃ¤hle deine Leidenschaften):
       </span>
       <div id="hobbyPillContainer"></div>
     </div>
@@ -269,12 +269,12 @@
   <section id="scratch-passport" class="container" style="padding: 50px 0;">
     <div class="passport-booklet">
       <div class="passport-header-emblem">
-        <span style="font-size: 2.8rem;">⚜️</span>
+        <span style="font-size: 2.8rem;">âšœï¸</span>
         <h2 style="font-size: 1.8rem; color: var(--sand-gold); margin-top: 4px; letter-spacing: 0.08em; text-transform: uppercase;">
           Official Travel Passport & Scratchbook
         </h2>
         <p style="font-size: 0.85rem; color: var(--text-muted);">
-          Dokument-Nr: <strong style="color: var(--text-main);">ST-2026-PT-8842</strong> • Status: <strong style="color: var(--emerald-primary);">VIP PRO TRAVELER</strong> • Karma: <strong>98 Pt.</strong>
+          Dokument-Nr: <strong style="color: var(--text-main);">ST-2026-PT-8842</strong> â€¢ Status: <strong style="color: var(--emerald-primary);">VIP PRO TRAVELER</strong> â€¢ Karma: <strong>98 Pt.</strong>
         </p>
       </div>
 
@@ -282,9 +282,9 @@
       <div class="scratch-map-container" style="height: 380px;">
         <div class="scratch-map-bg">
           <div style="text-align: center; color: var(--text-main);">
-            <h3 style="font-size: 1.6rem; color: var(--sand-gold); margin-bottom: 8px;">🗺️ Portugal & Europa Freigelegt!</h3>
+            <h3 style="font-size: 1.6rem; color: var(--sand-gold); margin-bottom: 8px;">ðŸ—ºï¸ Portugal & Europa Freigelegt!</h3>
             <p style="font-size: 0.9rem; max-width: 480px; margin: 0 auto; color: var(--text-muted);">
-              📍 Freigeschaltete Secrets: Praia da Ursa (Sintra), Tasca O Galo (Alfama), Nazaré Big Waves, Berlengas Riffe & Arrábida Flachwasser.
+              ðŸ“ Freigeschaltete Secrets: Praia da Ursa (Sintra), Tasca O Galo (Alfama), NazarÃ© Big Waves, Berlengas Riffe & ArrÃ¡bida Flachwasser.
             </p>
           </div>
         </div>
@@ -298,17 +298,17 @@
           <button class="btn btn-secondary" style="padding: 6px 12px; font-size: 0.8rem;" onclick="window.scratchPassport.revealAll()">Aufdecken</button>
           <button class="btn btn-secondary" style="padding: 6px 12px; font-size: 0.8rem;" onclick="window.scratchPassport.resetMap()">Neu Versiegeln</button>
           <button class="btn btn-secondary" style="padding: 6px 14px; font-size: 0.8rem; border-color: var(--sand-gold); color: var(--sand-gold);" onclick="window.hazardSimEngine.simulatePartnerCheckin()">
-            🔏 Spot-Check-in (Neuer Stempel)
+            ðŸ” Spot-Check-in (Neuer Stempel)
           </button>
           <button class="btn btn-primary" style="padding: 6px 16px; font-size: 0.8rem;" onclick="window.scratchPassport.openPODOrderModal()">
-            📖 Als Druck-Journal Bestellen (POD / Etsy)
+            ðŸ“– Als Druck-Journal Bestellen (POD / Etsy)
           </button>
         </div>
       </div>
 
       <!-- Official Visa Stamps Collection -->
       <h3 style="margin-top: 32px; font-size: 1.2rem; color: var(--text-main); border-bottom: 1px dashed var(--border-line); padding-bottom: 8px;">
-        🔏 Offizielle Visa-Stempel & Entdeckungs-Siegel
+        ðŸ” Offizielle Visa-Stempel & Entdeckungs-Siegel
       </h3>
       <div class="passport-stamps-grid" id="passportStampsGrid"></div>
     </div>
@@ -316,19 +316,19 @@
 
   <!-- Section 4: Comprehensive Airline Pet Calculator (16+ Airlines) -->
   
-  <!-- Section: B2B Host & Business Portal (0% Provision für Vermieter & Cafés) -->
+  <!-- Section: B2B Host & Business Portal (0% Provision fÃ¼r Vermieter & CafÃ©s) -->
   <section id="host-portal" class="container" style="padding: 60px 0;">
     <div style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 16px; margin-bottom: 32px;">
       <div>
-        <span class="badge badge-gold">🌟 B2B Host & Partner Portal</span>
-        <h2 style="margin-top: 10px; font-size: 2rem;">Vermiete Apartments, Cafés & Aktivitäten mit 0% Provision</h2>
+        <span class="badge badge-gold">ðŸŒŸ B2B Host & Partner Portal</span>
+        <h2 style="margin-top: 10px; font-size: 2rem;">Vermiete Apartments, CafÃ©s & AktivitÃ¤ten mit 0% Provision</h2>
         <p style="font-size: 0.95rem; color: var(--text-muted); max-width: 680px;">
-          Erreiche gezielt Reisende über den <strong>130 Hobby-DNA Matcher</strong> (z.B. Hundestrände, Surfspots, traditionelle Kulinarik). Behalte 100% deiner Einnahmen ohne 15–20% Airbnb/Booking.com-Gebühren.
+          Erreiche gezielt Reisende Ã¼ber den <strong>130 Hobby-DNA Matcher</strong> (z.B. HundestrÃ¤nde, Surfspots, traditionelle Kulinarik). Behalte 100% deiner Einnahmen ohne 15â€“20% Airbnb/Booking.com-GebÃ¼hren.
         </p>
       </div>
       <div>
         <button class="btn btn-primary" style="padding: 12px 24px; font-size: 0.9rem;" onclick="window.hostPortal.openRegisterModal()">
-          🌟 Als Gastgeber / Betrieb Eintragen →
+          ðŸŒŸ Als Gastgeber / Betrieb Eintragen â†’
         </button>
       </div>
     </div>
@@ -339,9 +339,9 @@
 
   <section id="flugrechner" class="container" style="padding: 50px 0;">
     <div class="glass-card" style="max-width: 850px; margin: 0 auto;">
-      <span class="badge badge-cyan">🛫 Haustier-Flug-Rechner v2.5</span>
+      <span class="badge badge-cyan">ðŸ›« Haustier-Flug-Rechner v2.5</span>
       <h2 style="margin-top: 8px;">Darf dein Hund / deine Katze in die Kabine?</h2>
-      <p style="font-size: 0.95rem; margin-bottom: 20px;">Detaillierte Prüfung für 16+ europäische & internationale Fluggesellschaften.</p>
+      <p style="font-size: 0.95rem; margin-bottom: 20px;">Detaillierte PrÃ¼fung fÃ¼r 16+ europÃ¤ische & internationale Fluggesellschaften.</p>
 
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px;">
         <div>
@@ -369,10 +369,10 @@
             <option value="tuifly">TUI fly (Max. 8 kg Kabine + Fracht)</option>
             <option value="turkish">Turkish Airlines (Max. 8 kg Kabine + Fracht)</option>
             <option value="norwegian">Norwegian (Max. 8 kg Kabine Schengen)</option>
-            <option value="emirates">Emirates (❌ Nur Frachtraum / Keine Kabine)</option>
-            <option value="ryanair">Ryanair (❌ STRIKT VERBOTEN)</option>
-            <option value="easyjet">EasyJet (❌ STRIKT VERBOTEN)</option>
-            <option value="wizzair">Wizz Air (❌ STRIKT VERBOTEN)</option>
+            <option value="emirates">Emirates (âŒ Nur Frachtraum / Keine Kabine)</option>
+            <option value="ryanair">Ryanair (âŒ STRIKT VERBOTEN)</option>
+            <option value="easyjet">EasyJet (âŒ STRIKT VERBOTEN)</option>
+            <option value="wizzair">Wizz Air (âŒ STRIKT VERBOTEN)</option>
           </select>
         </div>
       </div>
@@ -384,9 +384,9 @@
   <!-- Section 5: Interactive Dynamic Checklists -->
   <section id="checklisten" class="container" style="padding: 40px 0 50px;">
     <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; margin-bottom: 24px;">
-      <h2 style="margin: 0;">📋 Reise-Checklisten für Familien & Haustiere</h2>
+      <h2 style="margin: 0;">ðŸ“‹ Reise-Checklisten fÃ¼r Familien & Haustiere</h2>
       <button class="btn btn-secondary" onclick="window.familyPetEngine.printChecklist()" style="font-size: 0.85rem;">
-        📥 Als PDF / Drucken 🖨️
+        ðŸ“¥ Als PDF / Drucken ðŸ–¨ï¸
       </button>
     </div>
 
@@ -394,7 +394,7 @@
       <!-- Family Checklist -->
       <div class="checklist-box">
         <div style="font-size: 1.15rem; font-weight: 800; color: var(--text-main); margin-bottom: 16px;">
-          <span>👶 Kinder & Familie Checkliste</span>
+          <span>ðŸ‘¶ Kinder & Familie Checkliste</span>
         </div>
         <div id="family-checklist-box"></div>
       </div>
@@ -402,7 +402,7 @@
       <!-- Pet Checklist -->
       <div class="checklist-box">
         <div style="font-size: 1.15rem; font-weight: 800; color: var(--text-main); margin-bottom: 16px;">
-          <span>🐶 Hunde & Haustiere Checkliste</span>
+          <span>ðŸ¶ Hunde & Haustiere Checkliste</span>
         </div>
         <div id="pet-checklist-box"></div>
       </div>
@@ -412,21 +412,21 @@
   <!-- Secret Unlock Pledge Modal Overlay -->
   <div class="modal-overlay" id="unlockModal">
     <div class="modal-content">
-      <button class="modal-close" onclick="closeUnlockModal()">×</button>
-      <span class="badge badge-gold">🔐 Local Etiquette Pledge</span>
-      <h3 style="margin-top: 12px;" id="modalSpotTitle">Secret Spot Enthüllen</h3>
+      <button class="modal-close" onclick="closeUnlockModal()">Ã—</button>
+      <span class="badge badge-gold">ðŸ” Local Etiquette Pledge</span>
+      <h3 style="margin-top: 12px;" id="modalSpotTitle">Secret Spot EnthÃ¼llen</h3>
       <p style="font-size: 0.9rem; margin-top: 8px;">
-        Dieser Ort wird von Einheimischen gepflegt und geschützt. Um die genauen Koordinaten freizuschalten, erkläre dich mit den Regeln einverstanden:
+        Dieser Ort wird von Einheimischen gepflegt und geschÃ¼tzt. Um die genauen Koordinaten freizuschalten, erklÃ¤re dich mit den Regeln einverstanden:
       </p>
 
       <div style="margin: 20px 0; background: rgba(0,0,0,0.15); padding: 16px; border-radius: var(--radius-sm); font-size: 0.85rem;">
-        <p style="margin-bottom: 8px;">🌿 <strong>Leave No Trace:</strong> Hinterlasse keinen Müll.</p>
-        <p style="margin-bottom: 8px;">🐕 <strong>Haustier-Etikette:</strong> Kot sofort entfernen & Anleinpflicht beachten.</p>
-        <p>🔇 <strong>Ruhe & Respekt:</strong> Keine laute Musik oder Massen-Instagramming.</p>
+        <p style="margin-bottom: 8px;">ðŸŒ¿ <strong>Leave No Trace:</strong> Hinterlasse keinen MÃ¼ll.</p>
+        <p style="margin-bottom: 8px;">ðŸ• <strong>Haustier-Etikette:</strong> Kot sofort entfernen & Anleinpflicht beachten.</p>
+        <p>ðŸ”‡ <strong>Ruhe & Respekt:</strong> Keine laute Musik oder Massen-Instagramming.</p>
       </div>
 
       <button class="btn btn-primary" style="width: 100%;" onclick="confirmEtiquettePledge()">
-        Ich verspreche es & Koordinaten Freischalten 🔑
+        Ich verspreche es & Koordinaten Freischalten ðŸ”‘
       </button>
     </div>
   </div>
@@ -434,21 +434,21 @@
   <!-- Share Experience Modal -->
   <div class="modal-overlay" id="shareExperienceModal">
     <div class="modal-content" style="max-width: 600px;">
-      <button class="modal-close" onclick="window.hermesGuardian.closeShareModal()">×</button>
-      <span class="badge badge-emerald">🎁 Give-to-Get Exchange</span>
+      <button class="modal-close" onclick="window.hermesGuardian.closeShareModal()">Ã—</button>
+      <span class="badge badge-emerald">ðŸŽ Give-to-Get Exchange</span>
       <h3 style="margin-top: 12px;">Erfahrungsbericht teilen & Pro-Status freischalten</h3>
       <p style="font-size: 0.88rem; color: var(--text-muted); margin: 6px 0 16px;">
         Teile einen echten Geheimtipp, eine Restaurant-Empfehlung oder eine Warnung vor einer Touristenfalle.
       </p>
 
       <div style="display: flex; flex-direction: column; gap: 12px;">
-        <input type="text" id="expAuthor" placeholder="Dein Name oder Pseudonym (z.B. Alex aus Köln)" style="padding: 10px 14px; border-radius: var(--radius-sm); border: 1px solid var(--border-line); background: var(--bg-input); color: var(--text-main);">
+        <input type="text" id="expAuthor" placeholder="Dein Name oder Pseudonym (z.B. Alex aus KÃ¶ln)" style="padding: 10px 14px; border-radius: var(--radius-sm); border: 1px solid var(--border-line); background: var(--bg-input); color: var(--text-main);">
         <input type="text" id="expCity" placeholder="Stadt / Region (z.B. Lissabon, Algarve, Porto)" style="padding: 10px 14px; border-radius: var(--radius-sm); border: 1px solid var(--border-line); background: var(--bg-input); color: var(--text-main);">
         <input type="text" id="expTitle" placeholder="Titel deines Tipps (z.B. Bester Hundestrand ohne Touristen)" style="padding: 10px 14px; border-radius: var(--radius-sm); border: 1px solid var(--border-line); background: var(--bg-input); color: var(--text-main);">
         <textarea id="expStory" rows="4" placeholder="Beschreibe deine Erfahrung, Besonderheiten, Preise oder Wegbeschreibung..." style="padding: 10px 14px; border-radius: var(--radius-sm); border: 1px solid var(--border-line); background: var(--bg-input); color: var(--text-main); font-family: inherit; font-size: 0.9rem;"></textarea>
 
         <div style="background: rgba(16, 185, 129, 0.1); border: 1px solid var(--emerald-primary); padding: 10px; border-radius: var(--radius-sm); font-size: 0.78rem; color: var(--text-main);">
-          🛡️ <strong>Sicherheitsschutz:</strong> Beiträge werden in Echtzeit auf Sicherheit und authentischen Reise-Vibe geprüft. Kein Spam, keine Beleidigungen.
+          ðŸ›¡ï¸ <strong>Sicherheitsschutz:</strong> BeitrÃ¤ge werden in Echtzeit auf Sicherheit und authentischen Reise-Vibe geprÃ¼ft. Kein Spam, keine Beleidigungen.
         </div>
 
         <button class="btn btn-primary" style="width: 100%; margin-top: 8px;" onclick="
@@ -463,7 +463,7 @@
             alert('Bitte gib mindestens einen Titel und deinen Erfahrungsbericht ein.');
           }
         ">
-          Erfahrung Veröffentlichen & VIP Aktivieren ✨
+          Erfahrung VerÃ¶ffentlichen & VIP Aktivieren âœ¨
         </button>
       </div>
     </div>
@@ -472,7 +472,7 @@
   <!-- Footer -->
   <footer class="site-footer">
     <div class="container">
-      <p>© 2026 Scratch'n'Travel App — All rights reserved.</p>
+      <p>Â© 2026 Scratch'n'Travel App â€” All rights reserved.</p>
     </div>
   </footer>
 
@@ -519,5 +519,6 @@
   <script src="assets/js/local-verification-engine.js"></script>
   <script src="assets/js/map-safety-badge-pins.js"></script>
   <script src="assets/js/auth-subscription-engine.js"></script>
+  <script src="assets/js/merch-shop-engine.js"></script>
 </body>
 </html>

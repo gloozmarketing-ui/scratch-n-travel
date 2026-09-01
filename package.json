@@ -4,6 +4,9 @@
   "description": "Social Travel Platform for Families, Pets, Local Secrets & Digital Scratchbooks",
   "main": "index.html",
   "scripts": {
+    "dev": "npm --prefix \"AusbauÜberlegungen/Website analysis and badge creation\" run dev",
+    "build": "npm --prefix \"AusbauÜberlegungen/Website analysis and badge creation\" run build",
+    "preview": "npm --prefix \"AusbauÜberlegungen/Website analysis and badge creation\" run preview",
     "start": "npx serve .",
     "seed": "node scripts/hermes_travel_seeder.js"
   },

@@ -1,0 +1,10 @@
+{
+  "description": "This web application allows users to explore travel destinations, earn unique badges for achievements, and enhance their travel planning experience.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}
