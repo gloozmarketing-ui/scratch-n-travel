@@ -3,9 +3,7 @@
   "name": "scratch-n-travel",
   "cleanUrls": true,
   "trailingSlash": false,
-  "installCommand": "npm install --prefix 'AusbauÜberlegungen/Website analysis and badge creation'",
-  "buildCommand": "npm run build --prefix 'AusbauÜberlegungen/Website analysis and badge creation'",
-  "outputDirectory": "AusbauÜberlegungen/Website analysis and badge creation/dist",
+  "outputDirectory": "dist",
   "headers": [
     {
       "source": "/(.*)",
@@ -17,6 +15,19 @@
         {
           "key": "X-Frame-Options",
           "value": "SAMEORIGIN"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/index.html",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-cache, no-store, must-revalidate"
         }
       ]
     }
@@ -35,7 +46,7 @@
       "destination": "/api/stripe-webhook.js"
     },
     {
-      "source": "/(.*)",
+      "source": "/((?!api/.*).*)",
       "destination": "/index.html"
     }
   ]
