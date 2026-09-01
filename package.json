@@ -2,12 +2,12 @@
   "name": "scratch-n-travel",
   "version": "1.0.0",
   "description": "Social Travel Platform for Families, Pets, Local Secrets & Digital Scratchbooks",
-  "main": "index.html",
+  "main": "dist/index.html",
   "scripts": {
     "dev": "npm --prefix \"AusbauÜberlegungen/Website analysis and badge creation\" run dev",
-    "build": "npm --prefix \"AusbauÜberlegungen/Website analysis and badge creation\" run build",
+    "build": "node -e \"const { execSync } = require('child_process'); const fs = require('fs'); execSync('npm install', { cwd: 'AusbauÜberlegungen/Website analysis and badge creation', stdio: 'inherit' }); execSync('npm run build', { cwd: 'AusbauÜberlegungen/Website analysis and badge creation', stdio: 'inherit' }); fs.cpSync('AusbauÜberlegungen/Website analysis and badge creation/dist', 'dist', { recursive: true });\"",
     "preview": "npm --prefix \"AusbauÜberlegungen/Website analysis and badge creation\" run preview",
-    "start": "npx serve .",
+    "start": "npx serve dist",
     "seed": "node scripts/hermes_travel_seeder.js"
   },
   "keywords": [
