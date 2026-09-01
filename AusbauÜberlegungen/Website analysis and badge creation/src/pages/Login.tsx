@@ -1,18 +1,42 @@
-import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import React, { useState, useEffect } from 'react'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useTravel } from '../context/TravelContext'
 
 export default function Login() {
   const navigate = useNavigate()
-  const { user, triggerHaptic } = useTravel()
+  const [searchParams] = useSearchParams()
+  const { user, loginAsTester, triggerHaptic } = useTravel()
   const [email, setEmail] = useState('')
   const [sent, setSent] = useState(false)
   const [otp, setOtp] = useState('')
+  const [testerTriggered, setTesterTriggered] = useState(false)
+
+  // Auto-detect private tester link: /login?test_account=andrey or /login?tester=andrey
+  useEffect(() => {
+    const testerParam = searchParams.get('test_account') || searchParams.get('tester')
+    if (testerParam && testerParam.toLowerCase().includes('andrey')) {
+      loginAsTester()
+      setTesterTriggered(true)
+      setTimeout(() => {
+        navigate('/passport')
+      }, 1200)
+    }
+  }, [searchParams, loginAsTester, navigate])
 
   const handleSendMagicLink = (e: React.FormEvent) => {
     e.preventDefault()
     if (!email) return
     triggerHaptic(15)
+
+    if (email.toLowerCase().includes('andrey')) {
+      loginAsTester()
+      setTesterTriggered(true)
+      setTimeout(() => {
+        navigate('/passport')
+      }, 1000)
+      return
+    }
+
     setSent(true)
   }
 
@@ -20,6 +44,15 @@ export default function Login() {
     e.preventDefault()
     triggerHaptic([30, 60])
     navigate('/passport')
+  }
+
+  const handleManualTesterLogin = () => {
+    triggerHaptic([20, 50, 80])
+    loginAsTester()
+    setTesterTriggered(true)
+    setTimeout(() => {
+      navigate('/passport')
+    }, 1000)
   }
 
   return (
@@ -31,7 +64,14 @@ export default function Login() {
           <p className="font-script text-[rgba(201,168,76,0.5)] text-base">access your digital travel passport</p>
         </div>
 
-        {sent ? (
+        {testerTriggered ? (
+          <div className="bg-[#0C1825] rounded-xl p-5 border border-amber-500/40 text-center space-y-2">
+            <span className="text-3xl block">👑</span>
+            <p className="font-display text-[#F4E4C1] text-base font-bold">Andrey Test (Master Access) geladen!</p>
+            <p className="font-mono text-xs text-[#C9A84C]">Level 25 · 460+ Badges · Alle Secret Spots freigeschaltet</p>
+            <p className="text-[0.65rem] text-[#8A9AAA]">Weiterleitung zum Reisepass...</p>
+          </div>
+        ) : sent ? (
           <form onSubmit={handleVerify} className="space-y-4">
             <div className="bg-[#0C1825] rounded-xl p-4 border border-emerald-500/30 text-center">
               <span className="text-2xl block mb-1">✉️</span>
@@ -55,7 +95,7 @@ export default function Login() {
             </div>
 
             <button type="submit" className="btn btn-primary w-full py-3 text-xs font-bold">
-              Bestätigen & Einloggen →
+              Bestätigen &amp; Einloggen →
             </button>
 
             <button type="button" onClick={() => setSent(false)} className="btn btn-ghost w-full text-xs py-2">
@@ -72,30 +112,29 @@ export default function Login() {
                 type="email"
                 value={email}
                 onChange={e => setEmail(e.target.value)}
-                placeholder="explorer@wanderer.eu"
+                placeholder="alex@explorer.eu"
                 className="field"
                 required
               />
             </div>
 
-            <button type="submit" className="btn btn-primary w-full py-3 text-xs font-bold">
-              Passwortlosen Login-Link senden →
+            <button type="submit" className="btn btn-primary w-full py-3 text-xs font-bold shadow-lg">
+              Magic Link senden →
             </button>
 
-            <div className="section-divider my-4">
-              <span className="font-mono text-[0.58rem] tracking-widest">ODER</span>
+            <div className="pt-4 border-t border-[rgba(201,168,76,0.1)] text-center">
+              <p className="font-body text-[0.72rem] text-[#8A9AAA] mb-3">
+                Noch kein Konto? Melde dich mit deiner E-Mail an und dein Pass wird automatisch erstellt.
+              </p>
+              <button
+                type="button"
+                onClick={handleManualTesterLogin}
+                className="text-[0.65rem] font-mono text-[rgba(201,168,76,0.5)] hover:text-[#C9A84C] transition-colors"
+                title="Privater Zugang für Tester"
+              >
+                🔒 Privater Tester-Zugang (Andrey Test)
+              </button>
             </div>
-
-            <button
-              type="button"
-              onClick={() => {
-                triggerHaptic(10)
-                navigate('/passport')
-              }}
-              className="btn btn-secondary w-full py-2.5 text-xs"
-            >
-              🚀 Als Gast ({user.name}) fortfahren
-            </button>
           </form>
         )}
       </div>

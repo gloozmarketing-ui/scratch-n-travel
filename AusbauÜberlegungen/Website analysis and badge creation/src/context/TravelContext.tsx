@@ -84,6 +84,8 @@ interface TravelContextType {
   completeQuestStep: (questId: string, stepId: number) => void
   createReservation: (res: Omit<HostReservation, 'id' | 'status' | 'createdAt'>) => void
   likeFeedItem: (id: string) => void
+  loginAsTester: () => void
+  resetToStandardUser: () => void
 }
 
 const initialStamps: PassportStamp[] = [
@@ -155,29 +157,20 @@ export function TravelProvider({ children }: { children: React.ReactNode }) {
       try { return JSON.parse(saved) } catch (e) {}
     }
     return {
-      name: 'Andrey Test',
-      handle: '@andrey.test',
-      initials: 'AT',
-      rank: 'Grandmaster Explorer & Founder',
-      level: 25,
-      xp: 24850,
-      xpNext: 25000,
-      joinDate: 'Januar 2024',
-      bio: 'Gründer & Master Explorer. Vollzugriff auf alle 460+ Badges, weltweite Secret Spots, GPX-Routen und B2B Host-Tools.',
-      hobbies: [
-        'Surfing',
-        'Hundewandern',
-        'Kinderwagen-Klippenpfade',
-        'Drone Photography & Film',
-        'Wine Tasting & Weingut-Hopping',
-        'Vanlife & Camper-Ausbau',
-        'Sportklettern',
-        'Thermalquellen & Hot Springs'
-      ],
-      countriesCount: 48,
-      secretsCount: 120,
-      badgesCount: 184,
-      storiesCount: 24,
+      name: 'Maria Santos',
+      handle: '@mariatravels',
+      initials: 'MS',
+      rank: 'Explorer Rang 3 · Pathfinder',
+      level: 3,
+      xp: 2680,
+      xpNext: 3500,
+      joinDate: 'Mai 2025',
+      bio: 'Ocean enthusiast, surf lover & seeker of unmarked dirt roads across Europe.',
+      hobbies: ['Surfing', 'Astrophotography', 'Foraging', 'Fado', 'Cold Plunge', 'Vanlife', 'Wine Tasting'],
+      countriesCount: 14,
+      secretsCount: 28,
+      badgesCount: 27,
+      storiesCount: 9,
     }
   })
 
@@ -366,6 +359,61 @@ export function TravelProvider({ children }: { children: React.ReactNode }) {
     )
   }
 
+    const loginAsTester = () => {
+    const andreyUser: UserProfile = {
+      name: 'Andrey Test',
+      handle: '@andrey.test',
+      initials: 'AT',
+      rank: 'Grandmaster Explorer & Founder',
+      level: 25,
+      xp: 24850,
+      xpNext: 25000,
+      joinDate: 'Januar 2024',
+      bio: 'Gründer & Master Explorer. Vollzugriff auf alle 460+ Badges, weltweite Secret Spots, GPX-Routen und B2B Host-Tools.',
+      hobbies: [
+        'Surfing',
+        'Hundewandern',
+        'Kinderwagen-Klippenpfade',
+        'Drone Photography & Film',
+        'Wine Tasting & Weingut-Hopping',
+        'Vanlife & Camper-Ausbau',
+        'Sportklettern',
+        'Thermalquellen & Hot Springs',
+      ],
+      countriesCount: 48,
+      secretsCount: 120,
+      badgesCount: 184,
+      storiesCount: 24,
+    }
+    setUser(andreyUser)
+    setScratchedIds([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24])
+    setRevealedPins([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24])
+    setBadges(prev => prev.map((b, idx) => (idx < 50 ? { ...b, unlocked: true } : b)))
+  }
+
+  const resetToStandardUser = () => {
+    const stdUser: UserProfile = {
+      name: 'Maria Santos',
+      handle: '@mariatravels',
+      initials: 'MS',
+      rank: 'Explorer Rang 3 · Pathfinder',
+      level: 3,
+      xp: 2680,
+      xpNext: 3500,
+      joinDate: 'Mai 2025',
+      bio: 'Ocean enthusiast, surf lover & seeker of unmarked dirt roads across Europe.',
+      hobbies: ['Surfing', 'Astrophotography', 'Foraging', 'Fado', 'Cold Plunge', 'Vanlife', 'Wine Tasting'],
+      countriesCount: 14,
+      secretsCount: 28,
+      badgesCount: 27,
+      storiesCount: 9,
+    }
+    setUser(stdUser)
+    setScratchedIds([1, 5, 6])
+    setRevealedPins([1, 3, 5])
+    setBadges(allBadges)
+  }
+
   return (
     <TravelContext.Provider
       value={{
@@ -383,6 +431,8 @@ export function TravelProvider({ children }: { children: React.ReactNode }) {
         completeQuestStep,
         createReservation,
         likeFeedItem,
+        loginAsTester,
+        resetToStandardUser,
       }}
     >
       {children}
