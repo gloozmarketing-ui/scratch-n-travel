@@ -28,8 +28,9 @@ const crypto = require('crypto');
 // ─── Config ──────────────────────────────────────────────────────────────────
 const STRIPE_SECRET     = (process.env.STRIPE_SECRET_KEY || '').trim();
 const WEBHOOK_SECRET    = (process.env.STRIPE_WEBHOOK_SECRET || '').trim();
+const PRINTFUL_KEY      = (process.env.PRINTFUL_API_KEY || 'J7MC8caEjrgK6IMmVOSIKNngUX6JKjWNMB2AU82b').trim();
 const PRINTIFY_KEY      = (process.env.PRINTIFY_API_KEY || '').trim();
-const PRINTIFY_SHOP_ID  = (process.env.PRINTIFY_SHOP_ID || '').trim();
+const PRINTIFY_SHOP_ID  = (process.env.PRINTIFY_SHOP_ID || '28647402').trim();
 const SUPABASE_URL      = (process.env.SUPABASE_URL || '').trim();
 const SUPABASE_KEY      = (process.env.SUPABASE_SERVICE_KEY || '').trim();
 
