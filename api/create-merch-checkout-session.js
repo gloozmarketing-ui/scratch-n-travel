@@ -106,6 +106,25 @@ module.exports = async function handler(req, res) {
       'shipping_address_collection[allowed_countries][7]': 'ES',
       'shipping_address_collection[allowed_countries][8]': 'PT',
       'allow_promotion_codes': 'true',
+
+      // Real Shipping Options calculated by Stripe
+      'shipping_options[0][shipping_rate_data][type]': 'fixed_amount',
+      'shipping_options[0][shipping_rate_data][fixed_amount][amount]': '390',
+      'shipping_options[0][shipping_rate_data][fixed_amount][currency]': 'eur',
+      'shipping_options[0][shipping_rate_data][display_name]': 'Standard Versand (Klimaneutral & Tracking)',
+      'shipping_options[0][shipping_rate_data][delivery_estimate][minimum][unit]': 'business_day',
+      'shipping_options[0][shipping_rate_data][delivery_estimate][minimum][value]': '3',
+      'shipping_options[0][shipping_rate_data][delivery_estimate][maximum][unit]': 'business_day',
+      'shipping_options[0][shipping_rate_data][delivery_estimate][maximum][value]': '5',
+
+      'shipping_options[1][shipping_rate_data][type]': 'fixed_amount',
+      'shipping_options[1][shipping_rate_data][fixed_amount][amount]': '790',
+      'shipping_options[1][shipping_rate_data][fixed_amount][currency]': 'eur',
+      'shipping_options[1][shipping_rate_data][display_name]': 'Express Kurier (Prio-Fertigung & Versand)',
+      'shipping_options[1][shipping_rate_data][delivery_estimate][minimum][unit]': 'business_day',
+      'shipping_options[1][shipping_rate_data][delivery_estimate][minimum][value]': '1',
+      'shipping_options[1][shipping_rate_data][delivery_estimate][maximum][unit]': 'business_day',
+      'shipping_options[1][shipping_rate_data][delivery_estimate][maximum][value]': '2',
       success_url: successUrl || `${origin}/app.html?merch=success&session={CHECKOUT_SESSION_ID}`,
       cancel_url: cancelUrl || `${origin}/app.html#merch`
     };

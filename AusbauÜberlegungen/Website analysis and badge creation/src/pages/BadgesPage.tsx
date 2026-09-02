@@ -346,6 +346,24 @@ export default function BadgesPage() {
                     )}
                   </div>
 
+                  {/* Shipping & Promo Breakdown */}
+                  <div className="bg-[#0C1825] p-3 rounded-xl border border-[rgba(201,168,76,0.2)] mb-3 space-y-1 text-[0.68rem] font-mono">
+                    <div className="flex items-center justify-between text-[#F4E4C1]">
+                      <span>📦 Standardversand (DE/EU):</span>
+                      <span className="text-[#C9A84C] font-bold">€ 3,90</span>
+                    </div>
+                    <div className="flex items-center justify-between text-[#8A9AAA]">
+                      <span>⚡ Express-Kurier (1-2 Tage):</span>
+                      <span>€ 7,90</span>
+                    </div>
+                    <div className="text-emerald-400 font-bold pt-1 border-t border-[rgba(201,168,76,0.1)]">
+                      ✓ Kostenloser Versand ab € 60,- Bestellwert
+                    </div>
+                    <div className="text-[#C9A84C] text-[0.62rem] pt-0.5">
+                      🎁 Inklusive 10% eSIM-Rabattcode <strong>SCRATCH10</strong> auf der Rechnung
+                    </div>
+                  </div>
+
                   <div className="space-y-2">
                     <button
                       onClick={() =>
@@ -358,7 +376,7 @@ export default function BadgesPage() {
                       disabled={orderSubmitting}
                       className="btn btn-primary w-full text-xs py-2.5 font-bold shadow-lg"
                     >
-                      {orderSubmitting ? 'Verbinde mit Stripe...' : '🛍️ Als gestickten Aufnäher bestellen (€ 14,90)'}
+                      {orderSubmitting ? 'Verbinde mit Stripe...' : '🛍️ Jetzt bestellen (€ 14,90 + Versand)'}
                     </button>
                     <button onClick={() => setSelectedBadge(null)} className="btn btn-ghost w-full text-xs py-2">
                       Schließen

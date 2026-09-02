@@ -1,0 +1,16 @@
+POD SKILLS:
+hermes skills install clawhub/yunlv-pod-templates
+hermes skills install clawhub/clawver-print-on-demand
+hermes skills install clawhub/index-cards
+hermes skills install clawhub/yunlv-pod-agent
+
+printful:
+hermes skills install clawhub/printful-management
+hermes skills install clawhub/clawver-print-on-demand
+
+idee bei der Anmeldung unser merch werben 
+und Gutschein auf E-Sim geben
+
+
+kontolage:
+defi:hermes skills install clawhub/liquidity-monitor

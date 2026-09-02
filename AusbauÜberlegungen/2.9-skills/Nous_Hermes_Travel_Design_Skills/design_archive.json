@@ -1,0 +1,23 @@
+{
+  "version": "1.0",
+  "products": [],
+  "genome_dimensions": [
+    "emotional_core",
+    "palette_family",
+    "tonal_structure",
+    "contrast_strategy",
+    "typography_family",
+    "composition",
+    "focal_geometry",
+    "gaze_direction",
+    "viewpoint",
+    "pattern_system",
+    "travel_vocabulary",
+    "image_treatment",
+    "material_treatment",
+    "badge_integration",
+    "easter_egg_method",
+    "garment_placement",
+    "production_method"
+  ]
+}
