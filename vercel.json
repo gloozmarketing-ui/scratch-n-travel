@@ -1,6 +1,5 @@
 {
   "version": 2,
-  "name": "scratch-n-travel",
   "cleanUrls": true,
   "trailingSlash": false,
   "outputDirectory": "dist",
