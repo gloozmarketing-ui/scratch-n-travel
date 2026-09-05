@@ -1,7 +1,5 @@
 {
   "version": 2,
-  "cleanUrls": true,
-  "trailingSlash": false,
   "outputDirectory": "dist",
   "headers": [
     {
@@ -14,7 +12,12 @@
         {
           "key": "X-Frame-Options",
           "value": "SAMEORIGIN"
-        },
+        }
+      ]
+    },
+    {
+      "source": "/assets/(.*)",
+      "headers": [
         {
           "key": "Cache-Control",
           "value": "public, max-age=31536000, immutable"
@@ -33,19 +36,11 @@
   ],
   "rewrites": [
     {
-      "source": "/api/create-checkout-session",
-      "destination": "/api/create-checkout-session.js"
+      "source": "/api/:path*",
+      "destination": "/api/:path*"
     },
     {
-      "source": "/api/create-merch-checkout-session",
-      "destination": "/api/create-merch-checkout-session.js"
-    },
-    {
-      "source": "/api/stripe-webhook",
-      "destination": "/api/stripe-webhook.js"
-    },
-    {
-      "source": "/((?!api/.*).*)",
+      "source": "/(.*)",
       "destination": "/index.html"
     }
   ]
