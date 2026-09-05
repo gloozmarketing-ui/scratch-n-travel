@@ -18,7 +18,7 @@ const STRIPE_CONFIG = {
   // Can also be toggled live in browser via window.toggleStripeMode()
   enabled: localStorage.getItem('scratch_stripe_mode') === 'true' ? true : false,
 
-  publishableKey: window.STRIPE_PUBLISHABLE_KEY || 'pk_test_TYooMQauvdEDq54NiTphI7jx',
+  publishableKey: window.STRIPE_PUBLISHABLE_KEY || 'pk_test_51UCHlrPr79DRHChBdChfu5kt7ew11SJJJwdHTAIR1B2pbuLrXTbA7yFR4C00XEhroOlaMfzPUTdixCqLqY1uV7jm0009cs2KzM',
 
   plans: {
     free: {
@@ -51,7 +51,7 @@ const STRIPE_CONFIG = {
       livePrice: '7,99 €',
       livePeriod: '/ Monat',
       liveDescription: 'Voller Zugang zu allen Secret Spots, KI Concierge & Scratchbook',
-      priceId: 'price_1P_pro_monthly',
+      priceId: 'price_1UCI67Q0PwiqtVjY6sN3Ha5w',
       paymentLink: 'https://buy.stripe.com/test_pro_family_monthly',
       ctaBeta: 'VIP Beta-Zugang sichern (0 €) 🎉',
       ctaLive: 'Pro Freischalten (7,99 €) 💳',
@@ -74,7 +74,7 @@ const STRIPE_CONFIG = {
       livePrice: '29 €',
       livePeriod: '/ Monat',
       liveDescription: 'Hervorgehobenes Profil für tier- & familienfreundliche Betriebe',
-      priceId: 'price_1P_biz_monthly',
+      priceId: 'price_1UCI6AQ0PwiqtVjYRqQK6R1a',
       paymentLink: 'https://buy.stripe.com/test_host_business_monthly',
       ctaBeta: 'Pionier-Host werden (0 €) 🚀',
       ctaLive: 'Business Registrieren (29 €) 💳',

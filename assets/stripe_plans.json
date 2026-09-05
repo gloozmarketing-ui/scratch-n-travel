@@ -1,0 +1,75 @@
+﻿{
+  "updatedAt": "2026-09-05T13:51:00.000Z",
+  "organization": "Scratch'n'Travel",
+  "live": {
+    "productManagementKey": "ENV:STRIPE_SECRET_KEY",
+    "prices": {
+      "explorer_pro": {
+        "planKey": "explorer_pro",
+        "name": "Scratch'n'Travel Explorer Pro",
+        "productId": "prod_VChV5sggCZkJb4",
+        "monthlyPriceId": "price_1UCI67Q0PwiqtVjY6sN3Ha5w",
+        "monthlyAmount": 900,
+        "yearlyPriceId": "price_1UCI68Q0PwiqtVjYMQvISeSJ",
+        "yearlyAmount": 7900,
+        "currency": "eur"
+      },
+      "family_club": {
+        "planKey": "family_club",
+        "name": "Scratch'n'Travel Family & Friends Club",
+        "productId": "prod_VChVR0mTcQkwym",
+        "monthlyPriceId": "price_1UCI69Q0PwiqtVjYfOqZIxrP",
+        "monthlyAmount": 1900,
+        "yearlyPriceId": "price_1UCI69Q0PwiqtVjY67EReFGE",
+        "yearlyAmount": 15900,
+        "currency": "eur"
+      },
+      "b2b_host": {
+        "planKey": "b2b_host",
+        "name": "Scratch'n'Travel Local Host / Partner B2B",
+        "productId": "prod_VChVqL5wtRsilN",
+        "monthlyPriceId": "price_1UCI6AQ0PwiqtVjYRqQK6R1a",
+        "monthlyAmount": 2900,
+        "yearlyPriceId": "price_1UCI6AQ0PwiqtVjYCnY5kbii",
+        "yearlyAmount": 24900,
+        "currency": "eur"
+      }
+    }
+  },
+  "test": {
+    "publishableKey": "pk_test_51UCHlrPr79DRHChBdChfu5kt7ew11SJJJwdHTAIR1B2pbuLrXTbA7yFR4C00XEhroOlaMfzPUTdixCqLqY1uV7jm0009cs2KzM",
+    "secretKey": "ENV:STRIPE_TEST_SECRET_KEY",
+    "prices": {
+      "explorer_pro": {
+        "planKey": "explorer_pro",
+        "name": "Scratch'n'Travel Explorer Pro",
+        "productId": "prod_VChV1BCweBT6WF",
+        "monthlyPriceId": "price_1UCI64Pr79DRHChBudsedP4u",
+        "monthlyAmount": 900,
+        "yearlyPriceId": "price_1UCI65Pr79DRHChBf1sWqpAX",
+        "yearlyAmount": 7900,
+        "currency": "eur"
+      },
+      "family_club": {
+        "planKey": "family_club",
+        "name": "Scratch'n'Travel Family & Friends Club",
+        "productId": "prod_VChVUdSEHXsm7I",
+        "monthlyPriceId": "price_1UCI65Pr79DRHChBKxaPLMNO",
+        "monthlyAmount": 1900,
+        "yearlyPriceId": "price_1UCI66Pr79DRHChB72B7QWjH",
+        "yearlyAmount": 15900,
+        "currency": "eur"
+      },
+      "b2b_host": {
+        "planKey": "b2b_host",
+        "name": "Scratch'n'Travel Local Host / Partner B2B",
+        "productId": "prod_VChVxzApImf0B2",
+        "monthlyPriceId": "price_1UCI66Pr79DRHChBPkYxuCrq",
+        "monthlyAmount": 2900,
+        "yearlyPriceId": "price_1UCI67Pr79DRHChBxgVeA2L6",
+        "yearlyAmount": 24900,
+        "currency": "eur"
+      }
+    }
+  }
+}
