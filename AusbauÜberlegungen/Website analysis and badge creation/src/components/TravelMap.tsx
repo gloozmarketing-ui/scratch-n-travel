@@ -32,14 +32,20 @@ export default function TravelMap({ pins, height = '420px' }: TravelMapProps) {
     const map = L.map(mapContainerRef.current, {
       center: [38.75, -9.2],
       zoom: 9,
+      minZoom: 3,
+      maxZoom: 16,
+      maxBounds: [[-85, -180], [85, 180]],
+      maxBoundsViscosity: 1.0,
       zoomControl: false,
     })
 
     // Custom Obsidian Dark Tiles from CartoDB Dark Matter
     L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
       attribution: 'Tiles &copy; Esri &mdash; DeLorme, NAVTEQ',
-      
-      maxZoom: 19,
+      minZoom: 3,
+      maxZoom: 16,
+      noWrap: true,
+      bounds: [[-85, -180], [85, 180]],
     }).addTo(map)
 
     L.control.zoom({ position: 'bottomright' }).addTo(map)
