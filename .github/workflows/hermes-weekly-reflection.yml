@@ -1,0 +1,31 @@
+name: Hermes Weekly Self-Reflection & Competitor Intelligence
+
+on:
+  schedule:
+    - cron: '0 4 * * 1' # Runs every Monday at 04:00 UTC
+  workflow_dispatch:     # Allows manual trigger anytime from GitHub UI
+
+jobs:
+  weekly-reflection:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Run Hermes Autonomous Reflection Engine
+        run: node scripts/hermes_weekly_reflection.js
+
+      - name: Commit & Push Updated Reflection Digest
+        run: |
+          git config --global user.name "Hermes Governance Bot"
+          git config --global user.email "hermes-bot@kontolage.de"
+          git add HERMES_WEEKLY_REFLECTION_REPORT.json HERMES_WEEKLY_REFLECTION_DIGEST.md
+          git diff --quiet && git diff --staged --quiet || (git commit -m "chore(hermes): automated weekly self-reflection & competitor audit [skip ci]" && git push)
