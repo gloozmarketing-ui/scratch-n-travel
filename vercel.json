@@ -34,11 +34,14 @@
       ]
     }
   ],
+  "functions": {
+    "api/create-checkout-session.js": { "maxDuration": 10 },
+    "api/create-merch-checkout-session.js": { "maxDuration": 10 },
+    "api/stripe-webhook.js": { "maxDuration": 30 },
+    "api/pod-orders.js": { "maxDuration": 30 },
+    "api/hermes-concierge.js": { "maxDuration": 15 }
+  },
   "rewrites": [
-    {
-      "source": "/api/:path*",
-      "destination": "/api/:path*"
-    },
     {
       "source": "/(.*)",
       "destination": "/index.html"
