@@ -1,5 +1,5 @@
 # Hermes Weekly Self-Reflection & Competitor Intelligence Digest
-**Projekt**: Scratch'n'Travel | **Datum**: 7.9.2026 | **Status**: HEALTHY
+**Projekt**: Scratch'n'Travel | **Datum**: 14.9.2026 | **Status**: HEALTHY
 
 ---
 
