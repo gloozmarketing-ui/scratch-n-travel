@@ -2,8 +2,10 @@ node_modules/
 .env
 .DS_Store
 *.log
-verschiedene webseit versionen/
 .vercel
 
-assets/index-*.js
-assets/index-*.css
+# Ignore legacy scratch folders but keep active production app
+verschiedene webseit versionen/*
+!verschiedene webseit versionen/04.09.2026/
+verschiedene webseit versionen/04.09.2026/node_modules/
+verschiedene webseit versionen/04.09.2026/dist/

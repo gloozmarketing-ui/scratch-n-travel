@@ -1,13 +1,13 @@
-name: Scratch'n'Travel Hermes â€” Automated Country & Secret Spots Seeder
+name: Scratch'n'Travel Hermes — Daily Autonomous Secret Spots & Social Growth Autopilot
 
 on:
   schedule:
-    # Jeden Montag und Donnerstag um 07:00 Uhr UTC
-    - cron: '0 7 * * 1,4'
-  workflow_dispatch: # Manuelles Ausführen im GitHub Dashboard
+    # Täglich um 06:00 Uhr UTC (08:00 Uhr MESZ)
+    - cron: '0 6 * * *'
+  workflow_dispatch: # Manuelles Ausführen im GitHub Actions Dashboard
 
 jobs:
-  seed-destinations:
+  daily-hermes-autopilot:
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -26,10 +26,28 @@ jobs:
       - name: Install Dependencies
         run: npm install
 
-      - name: Run Hermes Travel Seeder
-        run: node scripts/hermes_travel_seeder.js --cron
+      - name: Run Hermes Daily Secret Spots Seeder (10 Neue Spots weltweit)
+        run: node scripts/hermes_daily_spots_generator.js
         env:
-          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          REQUESTY_API_KEY: ${{ secrets.REQUESTY_API_KEY }}
+          ZENMUX_API_KEY: ${{ secrets.ZENMUX_API_KEY }}
+          CEREBRAS_API_KEY: ${{ secrets.CEREBRAS_API_KEY }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+
+      - name: Run Hermes Social Growth & Ads Engine (5-Kanal Viral Autopilot)
+        run: node scripts/hermes_social_growth_engine.js
+        env:
+          REQUESTY_API_KEY: ${{ secrets.REQUESTY_API_KEY }}
+          ZENMUX_API_KEY: ${{ secrets.ZENMUX_API_KEY }}
+          GROWTH_WEBHOOK_URL: ${{ secrets.GROWTH_WEBHOOK_URL }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+
+      - name: Run Hermes City Brain Seeder
+        run: node scripts/hermes_travel_seeder.js --cron || true
+        env:
+          REQUESTY_API_KEY: ${{ secrets.REQUESTY_API_KEY }}
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
 
@@ -42,10 +60,11 @@ jobs:
       - name: Sync Dist Artifacts
         run: |
           cp -r "verschiedene webseit versionen/04.09.2026/dist/"* dist/
+          cp "verschiedene webseit versionen/04.09.2026/dist/index.html" index.html
 
-      - name: Commit & Push New Destinations
+      - name: Commit & Push Daily Spots & Social Campaigns
         run: |
-          git config --global user.name "Hermes Travel Scout"
+          git config --global user.name "Hermes Travel & Growth Engine"
           git config --global user.email "hermes@scratchntravel.com"
           git add -A
-          git diff --quiet && git diff --staged --quiet || (git commit -m "feat(hermes): auto-seed new secret spots, local eateries and tours [skip ci]" && git push)
+          git diff --quiet && git diff --staged --quiet || (git commit -m "feat(hermes): daily 10 verified secret spots, authentic food & viral growth campaign [skip ci]" && git push origin main)
