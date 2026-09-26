@@ -48,14 +48,23 @@ export interface RoutePhoto {
   caption: string
   createdAt: string
   /**
-   * Wann das Foto oeffentlich wird. Der Client filtert hart danach, aber
-   * massgeblich ist dieRLS-Policy: ohne `visible_at <= now()` liefert die
-   * Tabelle nichts. Beides ist noetig, sonst sieht jeder die Verzoegerung
-   * im Quelltext.
+   * Wann das Foto oeffentlich wird.
+   *
+   * Zweck der Frist ist der Schutz des *Quest-Folgers*: sie verhindert, dass
+   * aus dem Veroeffentlichungsmuster geschlossen wird, wo sich gerade jemand
+   * aufhält. Deshalb ist `visibleAt` clientseitig UND in der RLS-Policy
+   * erzwungen — ein reiner Client-Filter waere umgehbar.
    */
   visibleAt: string
-  /** Wurden Gesichter verschwommen? Bei true ist das Foto fuer Soziales gedacht. */
+  /** Wurden Gesichter verschwommen? */
   facesBlurred: boolean
+  /**
+   * Sind Personen erkennbar? Dann laeuft ab `expiresAt` ein harter Ablauf —
+   * langlebiges Personenmaterial ist das eigentliche Risiko, nicht die Wartezeit.
+   */
+  hasPerson: boolean
+  /** Null bei personenfreien Fotos. */
+  expiresAt: string | null
   status: 'in_ delay' | 'visible' | 'flagged' | 'removed'
 }
 

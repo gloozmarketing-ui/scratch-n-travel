@@ -955,14 +955,30 @@ CREATE TABLE IF NOT EXISTS route_photos (
   visible_at    timestamptz NOT NULL DEFAULT (now() + interval '6 hours'),
   exif_stripped boolean NOT NULL DEFAULT false,
   faces_blurred boolean NOT NULL DEFAULT false,
+  -- Der Autor bestaetigt beim Upload, ob Personen erkennbar sind. Wenn ja,
+  -- faellt das Foto nach PERSON_PHOTO_TTL_STALZES automatisch weg — das ist
+  -- der Schutz fuer den Quest-Folger, der sich selbst zeigt. Langlebiges
+  -- Personenmaterial ist der eigentliche Grund, warum Strandfotos riskant
+  -- sind; die 6-Stunden-Frist allein loest das nicht.
+  has_person boolean NOT NULL DEFAULT false,
+  -- Wann ein Personenfoto ungueltig wird. NULL bei personenfreien Fotos.
+  expires_at timestamptz,
   status        text NOT NULL DEFAULT 'in_delay'
                 CHECK (status IN ('in_delay', 'visible', 'flagged', 'removed')),
-  created_at    timestamptz NOT NULL DEFAULT now()
+  created_at    timestamptz NOT NULL DEFAULT now(),
+  -- Personenfotos brauchen ein Ablaufdatum, personenfreie nicht.
+  CONSTRAINT route_photos_person_ttl CHECK (
+    (has_person AND expires_at IS NOT NULL) OR (NOT has_person)
+  )
 );
 
 CREATE INDEX IF NOT EXISTS route_photos_route_idx ON route_photos (route_id, stop_id);
 CREATE INDEX IF NOT EXISTS route_photos_pending_idx ON route_photos (visible_at)
   WHERE status = 'in_delay';
+
+-- Index auf expires_at, damit der Ablauf-Job keine Vollscan faehrt.
+CREATE INDEX IF NOT EXISTS route_photos_expiry_idx ON route_photos (expires_at)
+  WHERE expires_at IS NOT NULL;
 
 -- ── Vertrauenspruefung fuer die Veroeffentlichung ──────────────────────────
 -- Laeuft SECURITY DEFINER, damit sie profiles lesen darf, ohne dem Aufrufer
@@ -1067,20 +1083,30 @@ CREATE POLICY route_stops_delete ON route_stops FOR DELETE
   USING (EXISTS (SELECT 1 FROM routes r
                   WHERE r.id = route_id AND r.author_id = auth.uid()));
 
--- Eigenen Fortschritt darf man sehen; fremden nur die Zaehler der
--- veroeffentlichten Route, damit niemand nachverfolgen kann, wer gerade
--- an welchem Ort ist.
+-- Eigenen Fortschritt darf man sehen.
+--
+-- WICHTIG: Es gibt hier bewusst KEINE oeffentliche Policy fuer fremden
+-- Fortschritt. Eine frueher vorhandene Regel gab pro Folger die Station und
+-- `visited_at` aus — damit liesse sich rekonstruieren, wann jemand wo war.
+-- Genau das ist die Ortungsspur, die die Fotoverzoegerung verhindern soll:
+-- Ein Beobachter haette nur eine Stunde nach "Station 4 abgehakt" eine
+-- Route abfragen muessen, um zu wissen, wo der Mensch ist.
+--
+-- Nach aussen sichtbar ist deshalb ausschliesslich der *Zaehler* in
+-- routes.completions — keine Person, keine Zeit, keine Station.
 DROP POLICY IF EXISTS route_progress_own ON route_progress;
 CREATE POLICY route_progress_own ON route_progress FOR SELECT
   USING (traveler_id = auth.uid());
 
-DROP POLICY IF EXISTS route_progress_public ON route_progress;
-CREATE POLICY route_progress_public ON route_progress FOR SELECT
-  USING (EXISTS (SELECT 1 FROM routes r WHERE r.id = route_id AND r.published));
-
 DROP POLICY IF EXISTS route_progress_insert ON route_progress;
 CREATE POLICY route_progress_insert ON route_progress FOR INSERT
   WITH CHECK (traveler_id = auth.uid());
+
+-- Ein Abhaken muss auch wieder rueckgaengig zu machen sein, sonst ist ein
+-- Fehlklick fuer immer im Reisepass.
+DROP POLICY IF EXISTS route_progress_delete ON route_progress;
+CREATE POLICY route_progress_delete ON route_progress FOR DELETE
+  USING (traveler_id = auth.uid());
 
 -- Bewertungen sind oeffentlich lesbar, schreibbar nur die eigene Stimme.
 DROP POLICY IF EXISTS route_votes_select ON route_votes;
@@ -1240,23 +1266,129 @@ CREATE TRIGGER route_completion_count
 -- Supabase raeumt keine Zeilen auf: ohne diesen planbaren Weg bleiben Fotos
 -- dauerhaft in_delay. Die RLS blockt sie korrekt, aber sichtbar werden sie
 -- nie. Einmal pro Stunde per pg_cron aufrufen.
+--
+-- Zwei Arbeitsgaenge in einer Funktion:
+--   1. Freischalten, wenn die Schutzfrist abgelaufen ist.
+--   2. Entfernen, wenn das Ablaufdatum erreicht ist — Personenfotos sollen
+--      nicht unbegrenzt liegen bleiben.
 CREATE OR REPLACE FUNCTION public.publish_due_route_photos()
 RETURNS integer LANGUAGE plpgsql SECURITY DEFINER SET search_path = public AS $$
 DECLARE n int;
 BEGIN
+  -- Erst zurueckziehen, dann freischalten. Sonst wuerde ein abgelaufenes
+  -- Personenfoto im selben Lauf noch kurz sichtbar.
+  UPDATE route_photos
+     SET status = 'removed'
+   WHERE status IN ('in_delay', 'visible')
+     AND expires_at IS NOT NULL
+     AND expires_at <= now();
+
   UPDATE route_photos
      SET status = 'visible'
    WHERE status = 'in_delay'
      AND visible_at <= now()
      AND exif_stripped;
+
   GET DIAGNOSTICS n = ROW_COUNT;
   RETURN n;
 END $$;
 
 COMMENT ON FUNCTION public.publish_due_route_photos() IS
-  'Einmal pro Stunde per pg_cron aufrufen: SELECT public.publish_due_route_photos();';
+  'Einmal pro Stunde per pg_cron: SELECT public.publish_due_route_photos(); '
+  'Schaltet faellige Fotos frei und raeumt abgelaufene Personenfotos ab.';
 
--- ── Konsistenzpruefungen ───────────────────────────────────────────────────
+-- Sichtbarkeit fuer die Sign-URL-Ausstellung. Die einzige Stelle, die
+-- entscheidet, ob ein Foto ueberhaupt ausgeliefert werden darf.
+CREATE OR REPLACE FUNCTION public.route_photo_is_visible(p_photo uuid)
+RETURNS boolean LANGUAGE sql STABLE SECURITY DEFINER SET search_path = public AS $$
+  SELECT EXISTS (
+    SELECT 1 FROM route_photos
+     WHERE id = p_photo
+       AND status = 'visible'
+       AND exif_stripped
+       AND visible_at <= now()
+       AND (expires_at IS NULL OR expires_at > now())
+  );
+$$;
+
+COMMENT ON FUNCTION public.route_photo_is_visible(uuid) IS
+  'Einzige Freigabestelle fuer signierte URLs. RLS schuetzt die Metadaten, '
+  'dieser Check schuetzt die Bilddaten.';
+
+-- ── Zeitplan ───────────────────────────────────────────────────────────────
+-- Ohne diesen Job bleiben Fotos dauerhaft in in_delay: die RLS blockt sie
+-- korrekt, aber sichtbar werden sie nie. Der Nutzer wuerde nur ein
+-- Schatzkasten-Symbol sehen und nie ein Bild.
+--
+-- Wichtig: Der Job laeuft bewusst SELTEN (stuendlich), nicht minuetlich. Bei
+-- einer Frist von 6 Stunden aendert ein 10-Minuten-Takt nichts, erzeugt aber
+-- 360 Rows-Schreibvorgaenge pro Tag ohne Nutzen.
+--
+-- pg_cron ist auf Supabase ueber die Dashboard-Erweiterung aktivierbar. Die
+-- beiden folgenden Zeilen laufen nur, wenn die Erweiterung vorhanden ist —
+-- deshalb der Guard, damit das Schema nicht an der Installation scheitert.
+DO $$
+BEGIN
+  IF EXISTS (SELECT 1 FROM pg_available_extensions WHERE name = 'pg_cron') THEN
+    CREATE EXTENSION IF NOT EXISTS pg_cron;
+
+    IF NOT EXISTS (SELECT 1 FROM cron.job WHERE jobname = 'snt-publish-route-photos') THEN
+      PERFORM cron.schedule(
+        'snt-publish-route-photos',
+        '7 * * * *',
+        $$SELECT public.publish_due_route_photos()$$
+      );
+    END IF;
+
+    RAISE NOTICE 'pg_cron eingerichtet: Foto-Freischaltung stuendlich.';
+  ELSE
+    RAISE WARNING
+      'pg_cron ist nicht verfuegbar. Bitte im Supabase-Dashboard aktivieren, '
+      'sonst werden Fotos nach der Schutzfrist nie sichtbar.';
+  END IF;
+END $$;
+
+-- ── Storage ────────────────────────────────────────────────────────────────
+-- Der Bucket ist PRIVAT. Das ist keine Feinheit: bei einem oeffentlichen
+-- Bucket waere die ganze Verzoegerung umsonst, denn dann koennte jeder die
+-- Datei direkt ueber ihre URL abrufen, ohne die route_photos-Policy zu
+-- beruehren. Die RLS auf route_photos schuetzt nur die Metadaten, nicht
+-- die Bilddaten selbst.
+--
+-- Zugriff laeuft deshalb ausschliesslich ueber kurzlebige signierte URLs,
+-- die der Server erst nach Pruefung der Sichtbarkeit ausstellt.
+INSERT INTO storage.buckets (id, name, public)
+VALUES ('route-photos', 'route-photos', false)
+ON CONFLICT (id) DO NOTHING;
+
+-- Hochladen: eigener Pfad, JPEG/PNG/WebP, Groessengrenze. Der Pfad muss
+-- dem Muster <user-id>/<uuid>.<ext> entsprechen — nur so ist im Download-
+-- Policy sichergestellt, dass niemand in den Ordner eines anderen schreibt.
+DROP POLICY IF EXISTS route_photos_storage_insert ON storage.objects;
+CREATE POLICY route_photos_storage_insert ON storage.objects FOR INSERT
+  WITH CHECK (
+    bucket_id = 'route-photos'
+    AND (storage.foldername(name))[1] = auth.uid()::text
+    AND (storage.foldername(name))[2] IS NOT NULL
+    AND lower(storage.extension(name)) IN ('jpg', 'jpeg', 'png', 'webp')
+    AND (metadata->>'size')::bigint < 12582912
+  );
+
+-- Lesen ueber Storage ist verboten. Bilder werden ausschliesslich ueber
+-- signierte URLs ausgeliefert, die der Server nach Fristpruefung erzeugt.
+-- Eine SELECT-Policy auf storage.objects wuerde die Verzoegerung aushebeln.
+DROP POLICY IF EXISTS route_photos_storage_read ON storage.objects;
+CREATE POLICY route_photos_storage_read ON storage.objects FOR SELECT
+  USING (bucket_id = 'route-photos' AND false);
+
+-- Loeschen nur eigener Objekte, und nur solange das Foto noch geschuetzt
+-- ist. Danach ist das Objekt ohnehin nur noch temporaer.
+DROP POLICY IF EXISTS route_photos_storage_delete ON storage.objects;
+CREATE POLICY route_photos_storage_delete ON storage.objects FOR DELETE
+  USING (
+    bucket_id = 'route-photos'
+    AND (storage.foldername(name))[1] = auth.uid()::text
+  );
 -- Veroeffentlichen nur mit mindestens einem bestaetigten Ort: die Anti-Wegwerf-
 -- Regel, doppelt abgesichert (Policy fragt die Funktion ab, Constraint prueft
 -- die gespeicherte Zahl). Die zweite Regel verhindert leere Routen.

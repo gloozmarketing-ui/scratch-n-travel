@@ -1,25 +1,46 @@
 /**
  * Sicherheitsregeln fuer Reisefotos.
  *
- * Hintergrund: Ein Foto am Tatort kann die Person mit der Kamera identifi-
- * zieren, auch wenn das Gesicht nicht zu sehen ist. An Stränden, Aussichts-
- * punkten und Massnahmenplätzen ist das ein reales Risiko. Zwei Massnahmen
- * greifen daher zusammen — und keine der beiden allein waere ausreichend:
+ * ── Wovor schuetzt die Verzoegerung wirklich? ──────────────────────────────
+ * Der Schutz gilt dem *Quest-Folger*, nicht dem Fotografierenden.
  *
- *   1. `EXIF` wird *entfernt*, nicht nur versteckt. EXIF enthaelt GPS, Gerät
- *      und Zeitstempel. Ohne diesen Schritt bleibt das Foto auch bei ver-
- *      zoegerter Veroeffentlichung verknuepfbar.
- *   2. `visibleAt` verzoegert die Veroeffentlichung. Das schuetzt vor Men-
- *      schen, die beim Fotografieren zusehen — nicht vor der Plattform.
+ * Ein Folger ist jemand, der einer fremden Route folgt und unterwegs
+ * Stationen abhakt. Sein Standort ist sein groesstes Risiko: Wer weiss,
+ * dass jemand gerade Station 4 von 7 erreicht, weiss auch ungefaehr, wo
+ * dieser Mensch ist — und an einem abgelegenen Strand koennte das
+ * folgenloes sein. Ein Foto, das sofort sichtbar wird, verraet genau das:
+ * "Hier ist jemand, gerade jetzt, bei dieser Station."
  *
- * Die in `PHOTO_DELAY_MINUTES` gewaehlten 6 Stunden sind bewusst laenger als
- * das urspruenglich gewuenschte "20-30 Minuten": ein Zeitfenster, in dem man
- * nur noch auf die Freischaltung wartet, erzeugt bei Autor:innen den Eindruck
- * eines Fehlers. Sechs Stunden reichen gegen Sichtbeobachter am Ort und
- * erlauben dennoch, dass Abends fotografierte Fotos am selben Tag kommen.
+ * Deshalb ist die Frist kein Dekor und kein Anstandspolitk-Feature, sondern
+ * ein Schutzfenster gegen Ortung. Sie muss kurz genug sein, um nutzbar zu
+ * bleiben, und lang genug, damit ein Vor-Ort-Beobachter aus dem
+ * Veroeffentlichungsmuster keine Rueckschluesse auf Anwesenheit ziehen kann.
+ * Sechs Stunden sind dafuer die kuerzere, aber noch wirksame Grenze.
+ *
+ * ── Was die Verzoegerung ausdruecklich NICHT leistet ───────────────────────
+ * Sie anonymisiert nicht. Sie verhindert nicht, dass jemand an der
+ * Station auf ein wartendes Gesicht trifft. Sie schuetzt nicht vor der
+ * Person, die das Foto sieht, sondern vor dem *Muster*, das die
+ * Veroeffentlichung erzeugt. Wer echten Personenschutz braucht, braucht
+ * eine sichtbare Haartuch-Regel ("Fotos mit Personen fallen nach 24 Std
+ * automatisch weg") — die ist als naechster Schritt vorgemerkt.
+ *
+ * ── Warum zusaetzlich EXIF entfernen? ──────────────────────────────────────
+ * EXIF traegt GPS, Geraet und Zeitstempel. Ohne diesen Schritt bleibt das
+ * Foto auch nach der Frist exakt rückverfolgbar auf eine Person und einen
+ * Ort — die Verzoegerung waere dann nur Alibi.
  */
 
 export const PHOTO_DELAY_MINUTES = 360
+
+/**
+ * Ab dieser Dauer faellt ein Foto mit erkennbaren Personen automatisch weg.
+ * Bewusst *nicht* nur ein Rate-Hinweis, sondern eine harte Regel: langlebige
+ * Gesichter sind der Grund, warum Strandfotos gefährlich sind. Wer ein
+ * Personenfoto teilen will, muss es beim Upload bestaetigen — dann ist die
+ * Verantwortung dokumentiert.
+ */
+export const PERSON_PHOTO_TTL_HOURS = 24
 
 /**
  * EXIF entgegen den ueblichen Mustern entfernen.
@@ -105,10 +126,38 @@ export async function preparePhotoForUpload(file: File): Promise<PreparedPhoto> 
  * Absichtlich clientseitig *und* in der RLS-Policy: hier, damit die UI nichts
  * anzeigt, was noch nicht da ist; dort, damit die Verzoegerung nicht
  * umgangen werden kann, indem jemand die API direkt anspricht.
+ *
+ * Deckt die drei Faelle ab, in denen ein Foto nicht ausgeliefert wird:
+ *   - Schutzfrist (`visibleAt`) noch nicht abgelaufen
+ *   - von der Moderation zurueckgezogen
+ *   - Personenfoto nach Ablaufdatum entfernt
  */
-export function isPhotoVisible(visibleAt: string, now = Date.now()): boolean {
-  const at = new Date(visibleAt).getTime()
-  return Number.isFinite(at) && at <= now
+export function isPhotoVisible(photo: RoutePhotoLike, now = Date.now()): boolean {
+  if (photo.status === 'flagged' || photo.status === 'removed') return false
+
+  const at = new Date(photo.visibleAt).getTime()
+  if (!Number.isFinite(at) || at > now) return false
+
+  // Abgelaufene Personenfotos sind entfernt, auch wenn die Frist schon vorbei ist.
+  if (photo.expiresAt) {
+    const exp = new Date(photo.expiresAt).getTime()
+    if (Number.isFinite(exp) && exp <= now) return false
+  }
+  return true
+}
+
+/** Nur die Felder, die fuer die Sichtbarkeit noetig sind. */
+export interface RoutePhotoLike {
+  visibleAt: string
+  expiresAt?: string | null
+  status?: string
+}
+
+/** Kurzer Hinweistext fuer abgelaufene Personenfotos. */
+export function isPhotoExpired(photo: RoutePhotoLike, now = Date.now()): boolean {
+  if (!photo.expiresAt) return false
+  const exp = new Date(photo.expiresAt).getTime()
+  return Number.isFinite(exp) && exp <= now
 }
 
 /** Bound fuer das Storage-Upload: 12 MB nach dem EXIF-Strip. */

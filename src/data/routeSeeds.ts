@@ -18,6 +18,7 @@ const photo = (
   authorHandle: string,
   caption: string,
   hoursAgo: number,
+  hasPerson = false,
 ): RoutePhoto => ({
   id,
   routeId,
@@ -28,6 +29,12 @@ const photo = (
   createdAt: new Date(Date.now() - hoursAgo * 3600_000).toISOString(),
   visibleAt: new Date(Date.now() - (hoursAgo - 6) * 3600_000).toISOString(),
   facesBlurred: true,
+  hasPerson,
+  // Nur Personenfotos bekommen ein Ablaufdatum — genau so erzwingt es der
+  // CHECK-Constraint in schema.sql.
+  expiresAt: hasPerson
+    ? new Date(Date.now() + 24 * 3600_000).toISOString()
+    : null,
   status: hoursAgo >= 6 ? 'visible' : 'in_ delay',
 })
 

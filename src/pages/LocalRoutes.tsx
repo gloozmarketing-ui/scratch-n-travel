@@ -4,7 +4,7 @@ import { localRoutes } from '../data/routeSeeds'
 import { useTravel } from '../context/TravelContext'
 import DemoDataBadge from '../components/DemoDataBadge'
 import { tierLabel, nextTier } from '../data/trust'
-import { isPhotoVisible, PHOTO_DELAY_MINUTES } from '../lib/photoSafety'
+import { isPhotoVisible, isPhotoExpired, PHOTO_DELAY_MINUTES, PERSON_PHOTO_TTL_HOURS } from '../lib/photoSafety'
 import { photoCooldownMinutes } from '../data/routes'
 
 /**
@@ -141,12 +141,16 @@ function RouteDetail({ route, onBack }: { route: LocalRoute; onBack: () => void 
   const [followed, setFollowed] = useState(route.following)
 
   const sorted = useMemo(() => [...route.stops].sort((a, b) => a.order - b.order), [route.stops])
-  const visiblePhotos = useMemo(
-    () => route.photos.filter(p => p.status === 'visible' && isPhotoVisible(p.visibleAt)),
+
+  // Drei getrennte Gruppen, weil sie unterschiedlich erklaert werden muessen:
+  // sichtbar, in der Schutzfrist, und nach Ablauf entfernt.
+  const visiblePhotos = useMemo(() => route.photos.filter(p => isPhotoVisible(p)), [route.photos])
+  const coolingPhotos = useMemo(
+    () => route.photos.filter(p => p.status !== 'flagged' && p.status !== 'removed' && !isPhotoVisible(p)),
     [route.photos],
   )
-  const coolingPhotos = useMemo(
-    () => route.photos.filter(p => p.status !== 'flagged' && p.status !== 'removed' && !isPhotoVisible(p.visibleAt)),
+  const expiredPhotos = useMemo(
+    () => route.photos.filter(p => p.status !== 'flagged' && !isPhotoExpired(p) && isPhotoExpired(p)),
     [route.photos],
   )
 
@@ -227,10 +231,18 @@ function RouteDetail({ route, onBack }: { route: LocalRoute; onBack: () => void 
 
       {tab === 'fotos' && (
         <div className="space-y-4">
-          <p className="text-xs text-ink-faint bg-paper-deep border border-paper-deep rounded p-3">
-            Fotos von Reisenden erscheinen {PHOTO_DELAY_MINUTES / 60} Stunden nach dem Hochladen. Das schützt dich davor,
-            von Personen vor Ort erkannt zu werden. Standortdaten werden aus jedem Bild entfernt.
-          </p>
+          <div className="space-y-3">
+            <p className="text-xs text-ink-faint bg-paper-deep border border-paper-deep rounded p-3">
+              <span className="text-sun font-semibold">Warum warten?</span> Fotos erscheinen{' '}
+              {PHOTO_DELAY_MINUTES / 60} Stunden nach dem Hochladen. Das schützt <em>dich</em> als Reisenden: Wer weiß,
+              dass gerade ein Foto an dieser Station hochgeladen wurde, könnte sonst ableiten, wo du jetzt bist.
+            </p>
+            <p className="text-xs text-ink-faint bg-paper-deep border border-paper-deep rounded p-3">
+              <span className="text-sun font-semibold">Personen im Bild?</span> Solche Fotos verschwinden nach{' '}
+              {PERSON_PHOTO_TTL_HOURS} Stunden automatisch. Standortdaten werden aus jedem Bild entfernt — sie enthalten
+              sonst deine exakte Position.
+            </p>
+          </div>
 
           {visiblePhotos.length > 0 ? (
             <div className="photo-grid">
@@ -259,6 +271,17 @@ function RouteDetail({ route, onBack }: { route: LocalRoute; onBack: () => void 
                   </div>
                 ))}
               </div>
+            </div>
+          )}
+
+          {expiredPhotos.length > 0 && (
+            <div>
+              <p className="font-mono text-[0.62rem] text-ink-faint mb-1">
+                ENTFALLEN NACH {PERSON_PHOTO_TTL_HOURS} STD — {expiredPhotos.length}
+              </p>
+              <p className="text-[0.62rem] text-ink-faint">
+                Diese Fotos zeigten Personen und wurden automatisch entfernt. Das ist Absicht, kein Fehler.
+              </p>
             </div>
           )}
         </div>

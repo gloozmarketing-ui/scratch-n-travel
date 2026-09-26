@@ -54,7 +54,23 @@ async function query(path, options = {}) {
 
 async function main() {
   if (!URL || !ANON) {
+    console.error('')
     console.error('FEHLER: SUPABASE_URL und SUPABASE_ANON_KEY muessen gesetzt sein.')
+    console.error('')
+    console.error('Diese Tests laufen bewusst nur gegen eine ECHTE Instanz. Sie')
+    console.error('pruefen, dass Regeln greifen, die niemand umgehen darf — das')
+    console.error('laesst sich nicht aus dem Quelltext ableiten, nur aus dem')
+    console.error('Verhalten der Datenbank.')
+    console.error('')
+    console.error('Ablauf:')
+    console.error('  1. supabase/schema.sql im SQL-Editor ausfuehren')
+    console.error('  2. PowerShell:')
+    console.error('     $env:SUPABASE_URL="https://<projekt>.supabase.co"')
+    console.error('     $env:SUPABASE_ANON_KEY="<anon key>"')
+    console.error('     node scripts/test_rls.js')
+    console.error('')
+    console.error('ACHTUNG: Der Test schreibt bewusst nichts dauerhaft an. Er')
+    console.error('versucht nur Lesezugriffe und erwartete Schreibfehler.')
     process.exit(2)
   }
 
@@ -96,12 +112,23 @@ async function main() {
   )
 
   // ── 3. Fremder Fortschritt bleibt privat ──────────────────────────────────
-  console.log('\n[3] Datensparsamkeit')
-  const progress = await query('route_progress?select=route_id,stop_id,traveler_id')
+  // Kernregel gegen Ortung: Es darf niemand sehen, WELCHE Station ein
+  // Folger abgehakt hat und WANN. Nur der eigene Zaehler ist oeffentlich.
+  // Ein frueherer Entwurf gab Station + visited_at aus — damit haette man
+  // den Aufenthaltsort eines Reisenden rekonstruieren koennen.
+  console.log('\n[3] Ortungsschutz')
+  const progress = await query('route_progress?select=route_id,stop_id,traveler_id,visited_at')
   check(
     'route_progress ist ohne Session leer',
     Array.isArray(progress.body) && progress.body.length === 0,
     `${progress.body?.length} Zeilen sichtbar`,
+  )
+
+  const progressCount = await query('route_progress?select=route_id')
+  check(
+    'auch die reine Anzahl fremder Besuche bleibt verborgen',
+    Array.isArray(progressCount.body) && progressCount.body.length === 0,
+    `${progressCount.body?.length} Zeilen sichtbar`,
   )
 
   const completions = await query('route_completions?select=route_id,traveler_id')
@@ -109,6 +136,24 @@ async function main() {
     'route_completions gibt fremde Abschluesse nicht preis',
     Array.isArray(completions.body) && completions.body.length === 0,
     `${completions.body?.length} Zeilen sichtbar`,
+  )
+
+  // Der Zaehler in routes.completions muss dagegen lesbar bleiben, sonst
+  // waere die Route fuer niemanden interessant.
+  const counter = await query('routes?published=eq.true&select=id,completions&limit=1')
+  check(
+    'der Abschlusszaehler selbst ist oeffentlich lesbar',
+    counter.status === 200,
+    `HTTP ${counter.status}`,
+  )
+
+  // ── 3b. Personenfotos verschwinden nach Ablauf ───────────────────────────
+  console.log('\n[3b] Personenfoto-Ablauf')
+  const expired = await query('route_photos?expires_at=lt.2099-01-01T00:00:00Z&select=id')
+  check(
+    'abgelaufene Fotos werden nicht ausgeliefert',
+    Array.isArray(expired.body) && expired.body.length === 0,
+    `${expired.body?.length} Zeilen sichtbar`,
   )
 
   // ── 4. Anonyme duerfen nicht schreiben ────────────────────────────────────
@@ -167,6 +212,25 @@ async function main() {
   } else {
     console.log('  SKIP  keine veroeffentlichte Route zum Testen vorhanden')
   }
+
+  // ── 6. Storage ist privat ─────────────────────────────────────────────────
+  // Ohne diesen Test waere die ganze Verzoegerung umsonst: bei einem
+  // oeffentlichen Bucket laesst sich jede Datei direkt ueber ihre URL
+  // abrufen, ohne route_photos zu beruehren.
+  console.log('\n[6] Storage')
+  const objects = await query('objects?bucket_id=eq.route-photos&select=name')
+  check(
+    'Bucket-Objekte sind ohne Session nicht auflistbar',
+    Array.isArray(objects.body) && objects.body.length === 0,
+    `${objects.body?.length} Objekte sichtbar`,
+  )
+
+  const anyBucket = await query('objects?select=name,id&limit=1')
+  check(
+    'kein Objekt aus route-photos ist ueber storage lesbar',
+    anyBucket.status === 200 ? (Array.isArray(anyBucket.body) && anyBucket.body.length === 0) : true,
+    anyBucket.status === 200 ? `${anyBucket.body?.length} Objekte sichtbar` : `HTTP ${anyBucket.status} (Zugriff verweigert)`,
+  )
 
   // ── Ergebnis ──────────────────────────────────────────────────────────────
   console.log(`\n=== ${passed} bestanden, ${failed} fehlgeschlagen ===`)
