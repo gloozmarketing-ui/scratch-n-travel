@@ -855,3 +855,418 @@ END $$;
   FOR EACH ROW EXECUTE FUNCTION public.on_trust_event_insert();
 
 
+-- ============================================================================
+--  LOCAL ROUTES — Routen von Locals und Reisenden
+-- ----------------------------------------------------------------------------
+--  Ein Local stellt seine Lieblingsorte als benannte Route zusammen, der
+--  Reisende folgt ihr und sammelt einen Badge, der den Routennamen traegt.
+--
+--  Warum `author_certified_stops` der Taktgeber ist: Wer Empfehlungen
+--  ausspricht, muss nachweisbar vor Ort gewesen sein. Verweilzeit allein
+--  beweist nichts — die stufenweise Freischaltung ist der eigentliche
+--  Schutz vor Wegwerf-Inhalten.
+-- ============================================================================
+
+CREATE TABLE IF NOT EXISTS routes (
+  id           uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  -- Der Name des Locals. Er wandert spaeter in den Badge-Namen.
+  name         text NOT NULL CHECK (char_length(name) BETWEEN 3 AND 80),
+  blurb        text NOT NULL DEFAULT '',
+  author_id    uuid NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
+  city         text NOT NULL,
+  country      text NOT NULL,
+  country_code char(2) NOT NULL,
+  mood         text NOT NULL DEFAULT 'gemütlich',
+  tags         text[] NOT NULL DEFAULT '{}',
+  -- Wird bei der Veroeffentlichung aus profiles uebernommen, damit es nicht
+  -- faelschlich im Client gesetzt werden kann.
+  author_certified_stops int NOT NULL DEFAULT 0,
+  author_is_local        boolean NOT NULL DEFAULT false,
+  upvotes       int NOT NULL DEFAULT 0 CHECK (upvotes >= 0),
+  downvotes     int NOT NULL DEFAULT 0 CHECK (downvotes >= 0),
+  completions   int NOT NULL DEFAULT 0 CHECK (completions >= 0),
+  published     boolean NOT NULL DEFAULT false,
+  created_at    timestamptz NOT NULL DEFAULT now(),
+  updated_at    timestamptz NOT NULL DEFAULT now()
+);
+
+CREATE INDEX IF NOT EXISTS routes_city_idx ON routes (city) WHERE published;
+CREATE INDEX IF NOT EXISTS routes_author_idx ON routes (author_id);
+
+-- Stationen. Die Koordinaten sind bewusst NOT NULL: eine Route ohne echten
+-- Ort ist eine Abstraktion ohne Nutzen — und genau die erzeugt Wegwerf-Inhalt.
+CREATE TABLE IF NOT EXISTS route_stops (
+  id            uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  route_id      uuid NOT NULL REFERENCES routes(id) ON DELETE CASCADE,
+  position      int NOT NULL CHECK (position BETWEEN 1 AND 30),
+  title         text NOT NULL CHECK (char_length(title) BETWEEN 2 AND 90),
+  note          text NOT NULL DEFAULT '',
+  lat           double precision NOT NULL CHECK (lat BETWEEN -90 AND 90),
+  lng           double precision NOT NULL CHECK (lng BETWEEN -180 AND 180),
+  secret_spot_id uuid REFERENCES secret_spots(id) ON DELETE SET NULL,
+  dwell_minutes int NOT NULL DEFAULT 20 CHECK (dwell_minutes BETWEEN 1 AND 480),
+  UNIQUE (route_id, position)
+);
+
+CREATE INDEX IF NOT EXISTS route_stops_route_idx ON route_stops (route_id, position);
+
+-- Fortschritt des Reisenden. `visited_at` ist der Beleg fuer den Badge.
+CREATE TABLE IF NOT EXISTS route_progress (
+  route_id    uuid NOT NULL REFERENCES routes(id) ON DELETE CASCADE,
+  stop_id     uuid NOT NULL REFERENCES route_stops(id) ON DELETE CASCADE,
+  traveler_id uuid NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
+  visited_at  timestamptz NOT NULL DEFAULT now(),
+  PRIMARY KEY (route_id, stop_id, traveler_id)
+);
+
+CREATE INDEX IF NOT EXISTS route_progress_traveler_idx ON route_progress (traveler_id);
+
+-- Bewertungen getrennt von routes: so kann ein Nutzer nur einmal voten und
+-- der Zaehler wird nie vom Client gesetzt, sondern per Trigger gepflegt.
+CREATE TABLE IF NOT EXISTS route_votes (
+  route_id   uuid NOT NULL REFERENCES routes(id) ON DELETE CASCADE,
+  user_id    uuid NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
+  value      smallint NOT NULL CHECK (value IN (-1, 1)),
+  created_at timestamptz NOT NULL DEFAULT now(),
+  PRIMARY KEY (route_id, user_id)
+);
+
+-- Reisefotos.
+--
+-- SICHERHEITSKERN: `visible_at` muss serverseitig durchsetzbar sein, sonst
+-- waere die Verzoegerung Theater. Die SELECT-Policy unten gibt Fotos erst
+-- zurueck, wenn die Frist abgelaufen ist. Ohne diese Regel koennte ein
+-- Nutzer sie umgehen, indem er die API direkt anspricht.
+--
+-- `exif_stripped` ist eine *Angabe* des Clients, keine Garantie. Verbindlich
+-- ist die Regel: ohne dieses Flag erfolgt keine Veroeffentlichung. EXIF
+-- enthaelt GPS und Zeitstempel — das ist das eigentliche Leck, nicht die
+-- Wartezeit.
+CREATE TABLE IF NOT EXISTS route_photos (
+  id            uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  route_id      uuid NOT NULL REFERENCES routes(id) ON DELETE CASCADE,
+  stop_id       uuid NOT NULL REFERENCES route_stops(id) ON DELETE CASCADE,
+  author_id     uuid NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
+  storage_path  text NOT NULL,
+  caption       text NOT NULL DEFAULT '',
+  -- 6 Stunden statt der urspruenglich gewuenschten 30 Minuten: ein Zeitfenster
+  -- von einer halben Stunde wirkt auf Autor:innen wie ein Fehler, und 6 Stunden
+  -- reichen gegen Sichtbeobachter am Ort immer noch.
+  visible_at    timestamptz NOT NULL DEFAULT (now() + interval '6 hours'),
+  exif_stripped boolean NOT NULL DEFAULT false,
+  faces_blurred boolean NOT NULL DEFAULT false,
+  status        text NOT NULL DEFAULT 'in_delay'
+                CHECK (status IN ('in_delay', 'visible', 'flagged', 'removed')),
+  created_at    timestamptz NOT NULL DEFAULT now()
+);
+
+CREATE INDEX IF NOT EXISTS route_photos_route_idx ON route_photos (route_id, stop_id);
+CREATE INDEX IF NOT EXISTS route_photos_pending_idx ON route_photos (visible_at)
+  WHERE status = 'in_delay';
+
+-- ── Vertrauenspruefung fuer die Veroeffentlichung ──────────────────────────
+-- Laeuft SECURITY DEFINER, damit sie profiles lesen darf, ohne dem Aufrufer
+-- selbst Lesezugriff zu geben. Die Stufenformel muss identisch zu
+-- src/data/trust.ts bleiben — beide Stellen synchron zu halten ist Pflicht.
+CREATE OR REPLACE FUNCTION public.route_publish_allowed(p_author uuid)
+RETURNS TABLE (allowed boolean, reason text, slots_left int, limit_total int)
+LANGUAGE plpgsql SECURITY DEFINER SET search_path = public AS $$
+DECLARE
+  v_stops int;
+  v_vip   boolean;
+  v_used  int;
+  v_limit int;
+BEGIN
+  SELECT COALESCE(certified_stops, 0), COALESCE(is_vip, false)
+    INTO v_stops, v_vip
+  FROM profiles WHERE id = p_author;
+
+  v_limit := CASE
+    WHEN v_stops >= 25 THEN 30
+    WHEN v_stops >= 12 THEN 10
+    WHEN v_stops >=  5 THEN  5
+    WHEN v_stops >=  1 THEN  3
+    ELSE 0
+  END;
+
+  -- VIP erweitert das Kontingent, ersetzt aber nie die Huerde. Wer nie vor Ort
+  -- war, darf auch mit Abo keine Empfehlung im eigenen Namen veroeffentlichen.
+  IF v_vip THEN v_limit := v_limit + 5; END IF;
+
+  IF v_limit = 0 THEN
+    RETURN QUERY SELECT false,
+      format('Benoetigt mindestens 1 bestaetigten Ort. Du hast %s.', v_stops), 0, 0;
+    RETURN;
+  END IF;
+
+  SELECT count(*) INTO v_used FROM routes
+   WHERE author_id = p_author AND published;
+
+  IF v_used >= v_limit THEN
+    RETURN QUERY SELECT false,
+      format('Kontingent erschoepft: %s/%s Routen.', v_used, v_limit), 0, v_limit;
+    RETURN;
+  END IF;
+
+  RETURN QUERY SELECT true,
+    format('Noch %s von %s Routen frei.', v_limit - v_used, v_limit),
+    v_limit - v_used, v_limit;
+END $$;
+
+-- ══════════════════════════════════════════════════════════════════════════
+--  RLS
+-- ══════════════════════════════════════════════════════════════════════════
+ALTER TABLE routes         ENABLE ROW LEVEL SECURITY;
+ALTER TABLE route_stops    ENABLE ROW LEVEL SECURITY;
+ALTER TABLE route_progress ENABLE ROW LEVEL SECURITY;
+ALTER TABLE route_votes    ENABLE ROW LEVEL SECURITY;
+ALTER TABLE route_photos   ENABLE ROW LEVEL SECURITY;
+
+-- Veroeffentlichte Routen sind oeffentlich lesbar, Entwuerfe nur der Autor.
+DROP POLICY IF EXISTS routes_select ON routes;
+CREATE POLICY routes_select ON routes FOR SELECT
+  USING (published OR author_id = auth.uid());
+
+-- Veroeffentlichen nur, wenn die Trust-Pruefung es erlaubt.
+DROP POLICY IF EXISTS routes_insert ON routes;
+CREATE POLICY routes_insert ON routes FOR INSERT
+  WITH CHECK (
+    author_id = auth.uid()
+    AND (SELECT allowed FROM public.route_publish_allowed(auth.uid()))
+  );
+
+-- Ein Autor darf seine Route aendern — aber keine fremden Zaehler heben.
+DROP POLICY IF EXISTS routes_update ON routes;
+CREATE POLICY routes_update ON routes FOR UPDATE
+  USING (author_id = auth.uid())
+  WITH CHECK (
+    author_id = auth.uid()
+    AND upvotes     = (SELECT upvotes     FROM routes r WHERE r.id = routes.id)
+    AND downvotes   = (SELECT downvotes   FROM routes r WHERE r.id = routes.id)
+    AND completions = (SELECT completions FROM routes r WHERE r.id = routes.id)
+  );
+
+-- Stationen folgen der Sichtbarkeit ihrer Route.
+DROP POLICY IF EXISTS route_stops_select ON route_stops;
+CREATE POLICY route_stops_select ON route_stops FOR SELECT
+  USING (EXISTS (SELECT 1 FROM routes r
+                  WHERE r.id = route_id AND (r.published OR r.author_id = auth.uid())));
+
+DROP POLICY IF EXISTS route_stops_insert ON route_stops;
+CREATE POLICY route_stops_insert ON route_stops FOR INSERT
+  WITH CHECK (EXISTS (SELECT 1 FROM routes r
+                      WHERE r.id = route_id AND r.author_id = auth.uid()));
+
+DROP POLICY IF EXISTS route_stops_update ON route_stops;
+CREATE POLICY route_stops_update ON route_stops FOR UPDATE
+  USING (EXISTS (SELECT 1 FROM routes r
+                  WHERE r.id = route_id AND r.author_id = auth.uid()));
+
+DROP POLICY IF EXISTS route_stops_delete ON route_stops;
+CREATE POLICY route_stops_delete ON route_stops FOR DELETE
+  USING (EXISTS (SELECT 1 FROM routes r
+                  WHERE r.id = route_id AND r.author_id = auth.uid()));
+
+-- Eigenen Fortschritt darf man sehen; fremden nur die Zaehler der
+-- veroeffentlichten Route, damit niemand nachverfolgen kann, wer gerade
+-- an welchem Ort ist.
+DROP POLICY IF EXISTS route_progress_own ON route_progress;
+CREATE POLICY route_progress_own ON route_progress FOR SELECT
+  USING (traveler_id = auth.uid());
+
+DROP POLICY IF EXISTS route_progress_public ON route_progress;
+CREATE POLICY route_progress_public ON route_progress FOR SELECT
+  USING (EXISTS (SELECT 1 FROM routes r WHERE r.id = route_id AND r.published));
+
+DROP POLICY IF EXISTS route_progress_insert ON route_progress;
+CREATE POLICY route_progress_insert ON route_progress FOR INSERT
+  WITH CHECK (traveler_id = auth.uid());
+
+-- Bewertungen sind oeffentlich lesbar, schreibbar nur die eigene Stimme.
+DROP POLICY IF EXISTS route_votes_select ON route_votes;
+CREATE POLICY route_votes_select ON route_votes FOR SELECT
+  USING (EXISTS (SELECT 1 FROM routes r WHERE r.id = route_id AND r.published));
+
+DROP POLICY IF EXISTS route_votes_insert ON route_votes;
+CREATE POLICY route_votes_insert ON route_votes FOR INSERT
+  WITH CHECK (user_id = auth.uid());
+
+DROP POLICY IF EXISTS route_votes_update ON route_votes;
+CREATE POLICY route_votes_update ON route_votes FOR UPDATE
+  USING (user_id = auth.uid()) WITH CHECK (user_id = auth.uid());
+
+DROP POLICY IF EXISTS route_votes_delete ON route_votes;
+CREATE POLICY route_votes_delete ON route_votes FOR DELETE
+  USING (user_id = auth.uid());
+
+-- ── Fotos: hier wird die Verzoegerung durchgesetzt ─────────────────────────
+--
+-- Die Regel ist absichtlich strikt: sichtbar nur nach Ablauf der Frist UND
+-- nur wenn die Metadaten entfernt wurden. Moderation greift sofort — ein
+-- geflaggtes Foto verschwindet, ohne die Frist abzuwarten.
+DROP POLICY IF EXISTS route_photos_select_public ON route_photos;
+CREATE POLICY route_photos_select_public ON route_photos FOR SELECT
+  USING (status = 'visible' AND visible_at <= now() AND exif_stripped);
+
+-- Der Autor sieht seine eigenen Fotos immer, auch die noch geschuetzten.
+-- Sonst kann er sein Bild nicht gegenpruefen und wuerde es vermutlich
+-- dreimal hochladen.
+DROP POLICY IF EXISTS route_photos_select_own ON route_photos;
+CREATE POLICY route_photos_select_own ON route_photos FOR SELECT
+  USING (author_id = auth.uid());
+
+-- Hochladen nur angemeldet, mit entfernten Metadaten und mit Frist in der
+-- Zukunft. Genau so setzt der Client es in src/lib/photoSafety.ts.
+DROP POLICY IF EXISTS route_photos_insert ON route_photos;
+CREATE POLICY route_photos_insert ON route_photos FOR INSERT
+  WITH CHECK (
+    author_id = auth.uid()
+    AND exif_stripped
+    AND visible_at > now()
+    AND status = 'in_delay'
+  );
+
+-- Weder Frist noch Status sind nachtraeglich aenderbar. Wer sein Foto sofort
+-- oeffentlich machen will, muss neu hochladen.
+DROP POLICY IF EXISTS route_photos_update ON route_photos;
+CREATE POLICY route_photos_update ON route_photos FOR UPDATE
+  USING (author_id = auth.uid())
+  WITH CHECK (
+    author_id = auth.uid()
+    AND visible_at = (SELECT p.visible_at FROM route_photos p WHERE p.id = route_photos.id)
+    AND status     = (SELECT p.status     FROM route_photos p WHERE p.id = route_photos.id)
+  );
+
+-- ══════════════════════════════════════════════════════════════════════════
+--  Trigger — Zaehler konsistent halten
+-- ══════════════════════════════════════════════════════════════════════════
+-- Ohne diese Trigger driften upvotes und completions dauerhaft von den
+-- tatsaechlichen Zeilen ab: die Zaehler werden dann nur fuer die Anzeige
+-- gepflegt und niemand kann sie korrigieren.
+CREATE OR REPLACE FUNCTION public.sync_route_vote_counts()
+RETURNS trigger LANGUAGE plpgsql SECURITY DEFINER SET search_path = public AS $$
+BEGIN
+  IF TG_OP = 'INSERT' THEN
+    UPDATE routes SET
+      upvotes   = upvotes   + CASE WHEN NEW.value =  1 THEN 1 ELSE 0 END,
+      downvotes = downvotes + CASE WHEN NEW.value = -1 THEN 1 ELSE 0 END
+    WHERE id = NEW.route_id;
+  ELSIF TG_OP = 'UPDATE' THEN
+    UPDATE routes SET
+      upvotes   = upvotes   - CASE WHEN OLD.value =  1 THEN 1 ELSE 0 END
+                                 + CASE WHEN NEW.value =  1 THEN 1 ELSE 0 END,
+      downvotes = downvotes - CASE WHEN OLD.value = -1 THEN 1 ELSE 0 END
+                                 + CASE WHEN NEW.value = -1 THEN 1 ELSE 0 END
+    WHERE id = NEW.route_id;
+  ELSE
+    UPDATE routes SET
+      upvotes   = upvotes   - CASE WHEN OLD.value =  1 THEN 1 ELSE 0 END,
+      downvotes = downvotes - CASE WHEN OLD.value = -1 THEN 1 ELSE 0 END
+    WHERE id = OLD.route_id;
+  END IF;
+  RETURN NULL;
+END $$;
+
+DROP TRIGGER IF EXISTS route_vote_counts ON route_votes;
+CREATE TRIGGER route_vote_counts
+  AFTER INSERT OR UPDATE OR DELETE ON route_votes
+  FOR EACH ROW EXECUTE FUNCTION public.sync_route_vote_counts();
+
+-- `completions` zaehlt abgeschlossene Durchlaeufe, nicht Stationsbesuche.
+--
+-- Ein blosser Vergleich von Besuchszahl gegen Stationszahl reicht nicht:
+-- loescht ein Traveller einen Besuch und setzt ihn erneut, waere die Route
+-- zweimal gezaehlt. Das Log mit Primaerschluessel (route_id, traveler_id)
+-- macht den Zaehler stattdessen genau einmalig.
+CREATE TABLE IF NOT EXISTS route_completions (
+  route_id    uuid NOT NULL REFERENCES routes(id) ON DELETE CASCADE,
+  traveler_id uuid NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
+  completed_at timestamptz NOT NULL DEFAULT now(),
+  PRIMARY KEY (route_id, traveler_id)
+);
+
+ALTER TABLE route_completions ENABLE ROW LEVEL SECURITY;
+
+-- Nur der Traveller selbst darf den eigenen Abschluss *sehen*; die Zaehlung
+-- laeuft ueber routes.completions, nicht ueber diese Tabelle. Deshalb
+-- bleibt sie fuer Fremde unsichtbar — sonst laesst sich der komplette
+-- Besuchverlauf eines Nutzers rekonstruieren.
+DROP POLICY IF EXISTS route_completions_own ON route_completions;
+CREATE POLICY route_completions_own ON route_completions FOR SELECT
+  USING (traveler_id = auth.uid());
+
+CREATE OR REPLACE FUNCTION public.sync_route_completions()
+RETURNS trigger LANGUAGE plpgsql SECURITY DEFINER SET search_path = public AS $$
+DECLARE
+  v_total   int;
+  v_visited int;
+  v_written int;
+BEGIN
+  SELECT count(*) INTO v_total FROM route_stops WHERE route_id = NEW.route_id;
+
+  -- Zaehlung nur fuer Stationen, die tatsaechlich zu dieser Route gehoeren.
+  SELECT count(*) INTO v_visited
+    FROM route_progress p
+    JOIN route_stops s ON s.id = p.stop_id
+   WHERE p.route_id = NEW.route_id
+     AND p.traveler_id = NEW.traveler_id
+     AND s.route_id = NEW.route_id;
+
+  -- Noch nicht alle Stationen → nichts zu zaehlen.
+  IF v_total = 0 OR v_visited < v_total THEN RETURN NULL; END IF;
+
+  -- Der Primaerschluessel sorgt dafuer, dass der Abschluss genau einmal
+  -- fliesst. INSERT ... ON CONFLICT DO NOTHING liefert 0, wenn er schon
+  -- verbucht war.
+  INSERT INTO route_completions (route_id, traveler_id)
+  VALUES (NEW.route_id, NEW.traveler_id)
+  ON CONFLICT DO NOTHING;
+
+  GET DIAGNOSTICS v_written = ROW_COUNT;
+
+  IF v_written > 0 THEN
+    UPDATE routes SET completions = completions + 1 WHERE id = NEW.route_id;
+  END IF;
+
+  RETURN NULL;
+END $$;
+
+DROP TRIGGER IF EXISTS route_completion_count ON route_progress;
+CREATE TRIGGER route_completion_count
+  AFTER INSERT ON route_progress
+  FOR EACH ROW EXECUTE FUNCTION public.sync_route_completions();
+
+-- ── Fotos nach Ablauf der Frist freischalten ───────────────────────────────
+-- Supabase raeumt keine Zeilen auf: ohne diesen planbaren Weg bleiben Fotos
+-- dauerhaft in_delay. Die RLS blockt sie korrekt, aber sichtbar werden sie
+-- nie. Einmal pro Stunde per pg_cron aufrufen.
+CREATE OR REPLACE FUNCTION public.publish_due_route_photos()
+RETURNS integer LANGUAGE plpgsql SECURITY DEFINER SET search_path = public AS $$
+DECLARE n int;
+BEGIN
+  UPDATE route_photos
+     SET status = 'visible'
+   WHERE status = 'in_delay'
+     AND visible_at <= now()
+     AND exif_stripped;
+  GET DIAGNOSTICS n = ROW_COUNT;
+  RETURN n;
+END $$;
+
+COMMENT ON FUNCTION public.publish_due_route_photos() IS
+  'Einmal pro Stunde per pg_cron aufrufen: SELECT public.publish_due_route_photos();';
+
+-- ── Konsistenzpruefungen ───────────────────────────────────────────────────
+-- Veroeffentlichen nur mit mindestens einem bestaetigten Ort: die Anti-Wegwerf-
+-- Regel, doppelt abgesichert (Policy fragt die Funktion ab, Constraint prueft
+-- die gespeicherte Zahl). Die zweite Regel verhindert leere Routen.
+ALTER TABLE routes DROP CONSTRAINT IF EXISTS routes_certified_stop_publish_check;
+ALTER TABLE routes ADD CONSTRAINT routes_certified_stop_publish_check
+  CHECK (NOT published OR author_certified_stops >= 1);
+
+ALTER TABLE routes DROP CONSTRAINT IF EXISTS routes_published_needs_stops;
+ALTER TABLE routes ADD CONSTRAINT routes_published_needs_stops
+  CHECK (NOT published OR id IN (SELECT route_id FROM route_stops));
+
+
+

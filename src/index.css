@@ -405,7 +405,272 @@ button, a, input, textarea, select {
 .tier-new    { color: var(--ink-faint); }
 .tier-member { color: var(--lagoon); }
 .tier-trusted{ color: var(--leaf); }
-.tier-anchor { color: var(--sun); }
+/* ============================================================================
+   Schatzkarte — Routen-Ansicht
+   ----------------------------------------------------------------------------
+   Ziel: die Karte soll sich wie eine von Hand zusammengestellte Reisekarte
+   anfuehlen, nicht wie Piratenfolklore. Kein Pergament-Font, keine
+   Schatzkisten-Icons — nur Papier, Kartenstriche und ein handgezeichneter
+   Verlauf zwischen den Stationen.
+
+   Wichtig: alle Farben kommen aus den Theme-Tokens. Die Karte muss in Light
+   und Dark gleich gut funktionieren, sonst bricht die Design-Migration von
+   eben wieder. --map-paper ist deshalb als eigene Ableitung definiert und
+   nicht als fixes Hex.
+   ============================================================================ */
+
+.map-scroll {
+  --map-paper: var(--paper);
+  --map-paper-edge: var(--paper-deep);
+  --map-grid: var(--sun);
+  --map-route: var(--sun);
+  --map-stop-done: var(--lagoon);
+  --map-stop-open: var(--ink-ghost);
+  --map-ink: var(--ink-soft);
+
+  position: relative;
+  background-color: var(--map-paper);
+  border: 1px solid var(--map-paper-edge);
+  border-radius: 6px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04), inset 0 0 60px rgba(0, 0, 0, 0.03);
+  overflow: hidden;
+}
+
+/* Gitterlinien als eigener Layer mit niedriger Deckkraft: dient der
+   Orientierung, darf aber den Text nicht konkurrenzieren. */
+.map-scroll::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--map-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--map-grid) 1px, transparent 1px);
+  background-size: 44px 44px, 44px 44px;
+  background-position: -1px -1px;
+  opacity: 0.09;
+  pointer-events: none;
+}
+
+[data-theme='dark'] .map-scroll {
+  --map-route: var(--sun-bright);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4), inset 0 0 70px rgba(0, 0, 0, 0.35);
+}
+
+[data-theme='dark'] .map-scroll::before { opacity: 0.07; }
+
+/* ── Abgerissene Kante ─────────────────────────────────────────────────────
+   Der Fortschritt "reisst" ein Stueck aus der Karte heraus.
+
+   Wichtig: `inset: 0` statt `top/bottom` und `right: 0`, damit der Streifen
+   ueber die volle Hoehe geht und nicht ueber den Intext hinausragt. Er muss
+   zudem *hinter* dem Inhalt liegen (kein z-index), sonst verdeckt er die
+   Stationen am rechten Rand — bei drei Stationen lag der dritte Punkt
+   sichtbar im abgerissenen Bereich.
+   ---------------------------------------------------------------------------- */
+.map-torn { position: relative; }
+
+.map-torn::after {
+  content: '';
+  position: absolute;
+  inset: 0 0 0 auto;
+  width: var(--torn-w, 0px);
+  /* Kein z-index: der Streifen bleibt hinter Stationen und Text. Damit das
+     funktioniert, muessen die Karteninhalte selbst positioniert sein. */
+  background: var(--paper);
+  /* Gezackte Kante, damit es wie gerissen und nicht wie abgeschnitten wirkt. */
+  clip-path: polygon(
+    0% 0%, 100% 3%, 18% 8%, 92% 14%, 26% 21%, 84% 27%, 14% 34%,
+    96% 41%, 22% 48%, 88% 55%, 30% 62%, 78% 69%, 18% 76%, 94% 83%,
+    28% 90%, 86% 96%, 0% 100%
+  );
+  pointer-events: none;
+}
+
+/* Karteninhalte ueber dem Streifen halten. */
+.map-torn > * { position: relative; z-index: 1; }
+
+/* ── Kartenbeschriftung ──────────────────────────────────────────────────── */
+.map-coords {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.62rem;
+  color: var(--ink-faint);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.tier-anchor { color: var(--ink-faint); }
+
+/* ── Stationen ──────────────────────────────────────────────────────────────
+   Offene Station: hohler Rohrfeder-Punkt. Erledigte: gefuellt in Lagune.
+   Der Kontrast traegt die Bedeutung, nicht die Farbe allein — dashed vs.
+   solid bleibt auch fuer Farbenblindheit unterscheidbar.
+   ---------------------------------------------------------------------------- */
+.map-stop {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 1.5px dashed var(--map-stop-open);
+  background: var(--map-paper);
+  color: var(--ink-faint);
+  font-family: var(--font-mono, monospace);
+  font-size: 0.68rem;
+  font-weight: 700;
+  transition: transform 0.15s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+.map-stop:hover { transform: scale(1.12); }
+
+.map-stop[data-state='done'] {
+  border-style: solid;
+  border-color: var(--map-stop-done);
+  background: var(--map-stop-done);
+  color: var(--paper);
+}
+
+.map-stop[data-state='next'] {
+  border-color: var(--map-route);
+  color: var(--map-route);
+  box-shadow: 0 0 0 4px var(--sun-wash);
+}
+
+/* SVG-Variante des Stationspunkts.
+   Eigene Klasse, weil die div-Regeln oben auf einem <circle> nicht
+   greifen: width/height/background/box-shadow sind dort bedeutungslos, der
+   Kreis wuerde sonst schwarz gefuellt gerendert. Bei SVG gilt fill/stroke.
+   Der hellere Ring fuer 'next' macht die naechste Station erkennbar, ohne
+   Farbe allein zu beanspruchen. */
+.map-node {
+  fill: var(--map-paper);
+  stroke: var(--map-stop-open);
+  stroke-width: 1.5;
+  stroke-dasharray: 3 2.5;
+  transition: fill 0.2s ease, stroke 0.2s ease;
+}
+
+.map-node[data-state='done'] {
+  fill: var(--map-stop-done);
+  stroke: var(--map-stop-done);
+  stroke-dasharray: none;
+  stroke-width: 1.5;
+}
+
+/* Doppelter Ring statt Schattenwurf — im SVG gibt es keinen box-shadow,
+   und der zweite Kreis erhaelt denselben optischen Effekt. */
+.map-node[data-state='next'] {
+  fill: var(--map-paper);
+  stroke: var(--map-route);
+  stroke-dasharray: none;
+  stroke-width: 2.5;
+}
+
+.map-node[data-state='next'] + .map-halo {
+  fill: none;
+  stroke: var(--map-route);
+  stroke-width: 1;
+  opacity: 0.35;
+}
+
+
+/* ── Verlauf zwischen den Stationen ──────────────────────────────────────────
+   Bewusst handgezeichnet: eine leicht geschwungene Linie statt einer
+   geraden, damit sie wie mit dem Finger auf die Karte gemalt wirkt.
+   ---------------------------------------------------------------------------- */
+.map-path {
+  fill: none;
+  stroke: var(--map-route);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-dasharray: 7 5;
+  opacity: 0.75;
+}
+
+.map-path[data-complete='true'] {
+  stroke-dasharray: none;
+  opacity: 1;
+  stroke-width: 2.5;
+}
+
+/* ── Siegel des Locals ─────────────────────────────────────────────────────
+   Kleines Wachsiegel neben dem Routennamen. Rein dekorativ, traegt aber die
+   Idee "von einem Menschen gemacht, nicht generiert".
+   ---------------------------------------------------------------------------- */
+.route-seal {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1.5px solid var(--sun);
+  background: var(--sun-wash);
+  color: var(--sun);
+  font-family: var(--font-display, serif);
+  font-size: 1.05rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+[data-theme='dark'] .route-seal { color: var(--sun-bright); }
+
+/* ── Verzoegerte Fotos ─────────────────────────────────────────────────────
+   Platzhalter, solange die Frist laeuft. Erklaerlich statt leer: ein leeres
+   Feld wirkt kaputt, ein erklaertes wirkt wie eine Regel.
+   ---------------------------------------------------------------------------- */
+.photo-pending {
+  position: relative;
+  display: grid;
+  place-items: center;
+  aspect-ratio: 1;
+  border: 1px dashed var(--ink-ghost);
+  border-radius: 8px;
+  background: var(--paper-deep);
+  color: var(--ink-faint);
+  font-family: var(--font-mono, monospace);
+  font-size: 0.6rem;
+  text-align: center;
+  padding: 0.5rem;
+  line-height: 1.5;
+}
+
+.photo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+  gap: 0.5rem;
+}
+
+.photo-grid img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid var(--paper-deep);
+}
+
+/* ── Vertrauensstufe ────────────────────────────────────────────────────────
+   Fortschritt zur naechsten Stufe als schmale Leiste, damit die Route
+   erklaert, warum jemand (noch) keine Route veroeffentlichen darf.
+   ---------------------------------------------------------------------------- */
+.trust-meter {
+  height: 4px;
+  border-radius: 999px;
+  background: var(--paper-deep);
+  overflow: hidden;
+}
+
+.trust-meter > div {
+  height: 100%;
+  background: var(--sun);
+  border-radius: 999px;
+  transition: width 0.4s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .map-stop, .trust-meter > div { transition: none; }
+  .map-stop:hover { transform: none; }
+}
+
+
 
 /* ═══════════ FORTSCHRITT ═══════════ */
 

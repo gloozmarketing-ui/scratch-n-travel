@@ -15,6 +15,7 @@ import Host from './pages/Host'
 import Pricing from './pages/Pricing'
 import Login from './pages/Login'
 import WanderBond from './pages/WanderBond'
+import LocalRoutes from './pages/LocalRoutes'
 import NotFound from './pages/NotFound'
 
 // --- Community (neu) ---
@@ -39,6 +40,7 @@ export const router = createBrowserRouter([
       { path: 'passport',      Component: Passport },
       { path: 'stories',       Component: Stories },
       { path: 'tours',         Component: Tours },
+      { path: 'local-routes',  Component: LocalRoutes },
       { path: 'badges',        Component: BadgesPage },
       { path: 'profile',       Component: Profile },
       { path: 'checklists',    Component: Checklists },

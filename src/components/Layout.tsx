@@ -42,6 +42,7 @@ const navGroups = [
       { path: '/', icon: '🏠', label: 'Start' },
       { path: '/explore', icon: '🗺️', label: 'Geheimtipps' },
       { path: '/stories', icon: '📍', label: 'Erzählungen' },
+      { path: '/local-routes', icon: '🗺️', label: 'Local-Routen' },
       { path: '/tours', icon: '🥾', label: 'Touren' },
     ],
   },
