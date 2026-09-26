@@ -1,39 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Nur Routen, die es tatsaechlich gibt und die indexiert werden sollen.
+  /app.html und die /magazin/-URLs sind Legacy und existieren nicht mehr.
+  Gesperrte Bereiche stehen in robots.txt (Disallow).
+-->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://scratchntravel.com/</loc>
-    <lastmod>2026-08-21</lastmod>
-    <changefreq>daily</changefreq>
+    <lastmod>2026-09-26</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://scratchntravel.com/app.html</loc>
-    <lastmod>2026-08-21</lastmod>
+    <loc>https://scratchntravel.com/explore</loc>
+    <lastmod>2026-09-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://scratchntravel.com/people</loc>
+    <lastmod>2026-09-26</lastmod>
     <changefreq>daily</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://scratchntravel.com/magazin/die-10-besten-surfspots-in-portugal.html</loc>
-    <lastmod>2026-08-21</lastmod>
-    <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://scratchntravel.com/magazin/mit-kindern-reisen-15-tipps.html</loc>
-    <lastmod>2026-08-21</lastmod>
-    <changefreq>weekly</changefreq>
+    <loc>https://scratchntravel.com/meetups</loc>
+    <lastmod>2026-09-26</lastmod>
+    <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://scratchntravel.com/magazin/digital-nomad-guide-lissabon.html</loc>
-    <lastmod>2026-08-21</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <loc>https://scratchntravel.com/safety</loc>
+    <lastmod>2026-09-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://scratchntravel.com/magazin/extreme-sports-nazare-big-waves-guide.html</loc>
-    <lastmod>2026-08-21</lastmod>
+    <loc>https://scratchntravel.com/stories</loc>
+    <lastmod>2026-09-26</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://scratchntravel.com/tours</loc>
+    <lastmod>2026-09-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://scratchntravel.com/impressum</loc>
+    <lastmod>2026-09-26</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://scratchntravel.com/datenschutz</loc>
+    <lastmod>2026-09-26</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://scratchntravel.com/terms</loc>
+    <lastmod>2026-09-26</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
   </url>
 </urlset>

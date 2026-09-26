@@ -1,21 +1,110 @@
 <!doctype html>
-<html lang="en">
+<html lang="de">
   <head>
-    
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Figma Make App</title>
+
+    <!-- Theme VOR dem ersten Paint setzen, damit nichts aufblitzt -->
+    <script>
+      (function () {
+        try {
+          var stored = localStorage.getItem('snt-theme');
+          var mode = (stored === 'light' || stored === 'dark') ? stored : 'system';
+          var dark = mode === 'dark' ||
+            (mode === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+          document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+        } catch (e) {
+          document.documentElement.setAttribute('data-theme', 'light');
+        }
+      })();
+    </script>
+    <!-- Zoom bleibt erlaubt (WCAG 1.4.4): kein user-scalable=no, kein maximum-scale -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Scratch'n'Travel — Reisegefährten finden, die deine Reise teilen</title>
     
-    <meta name="description" content="This web application allows users to explore travel destinations, earn unique badges for achievements, and enhance their travel planning experience.">
-    <meta name="robots" content="noindex, nofollow">
-    <meta property="og:title" content="Figma Make App">
-    <meta property="og:description" content="This web application allows users to explore travel destinations, earn unique badges for achievements, and enhance their travel planning experience.">
-    <script type="module" crossorigin src="/assets/index-CHcFiRDP.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-DVLPz4ws.css">
+    <!-- Meta & Canonical SEO -->
+    <meta name="description" content="Finde unterwegs nette Menschen mit deinen Interessen: Kulturaustausch, gemeinsame Hobbys, kleine Meetups. Verifizierte Geheimtipps von Locals — ehrlich und ohne Anmeldung zum Stoebern." />
+    <meta name="keywords" content="Reisegefährten, Hobby Matching, Kulturaustausch, Meetups unterwegs, Secret Spots, Locals, Community Reisen, Solo Traveller" />
+    <meta name="author" content="Scratch'n'Travel Team" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <link rel="canonical" href="https://scratchntravel.com/" />
+    <meta name="color-scheme" content="light dark" />
+    <!-- Browser-UI-Farbe: Tag = warmes Papier, Nacht = Lagerfeuer -->
+    <meta name="theme-color" content="#FAF5EC" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#16120D" media="(prefers-color-scheme: dark)" />
+    
+    <!-- OpenGraph / Social Meta -->
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="de_DE" />
+    <meta property="og:site_name" content="Scratch'n'Travel" />
+    <meta property="og:title" content="Scratch'n'Travel — Reisegefährten finden, die deine Reise teilen" />
+    <meta property="og:description" content="Unterwegs Menschen mit deinen Interessen finden: Kulturaustausch, gemeinsame Hobbys, kleine Meetups. Verifizierte Geheimtipps von Locals — ehrlich und ohne Anmeldung zum Stöbern." />
+    <meta property="og:url" content="https://scratchntravel.com/" />
+    <meta property="og:image" content="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1200&h=630&fit=crop&auto=format" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Scratch'n'Travel — Reisegefährten finden, die deine Reise teilen" />
+    <meta name="twitter:description" content="Unterwegs Menschen mit deinen Interessen finden: Kulturaustausch, gemeinsame Hobbys, kleine Meetups. Verifizierte Geheimtipps von Locals." />
+    <meta name="twitter:image" content="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1200&h=630&fit=crop&auto=format" />
+    
+    <!-- PWA & Mobile Web App -->
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/favicon.svg" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Scratch'n'Travel" />
+    
+    <!-- Fonts: werden in src/index.css per @import geladen (Fraunces, Nunito Sans, Caveat).
+         Hier bewusst kein zweiter Link, sonst werden alte Fonts doppelt geladen. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- Schema.org JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebApplication",
+          "@id": "https://scratchntravel.com/#webapp",
+          "name": "Scratch'n'Travel",
+          "url": "https://scratchntravel.com",
+          "applicationCategory": "TravelApplication",
+          "operatingSystem": "All",
+          "browserRequirements": "Requires JavaScript. Requires HTML5.",
+          "description": "Community-Plattform für Reisegefährten: Hobby-Matching, kleine Meetups und verifizierte Geheimtipps von Locals.",
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "EUR"
+          }
+        },
+        {
+          "@type": "Organization",
+          "@id": "https://scratchntravel.com/#organization",
+          "name": "Scratch'n'Travel",
+          "url": "https://scratchntravel.com",
+          "logo": "https://scratchntravel.com/favicon.svg"
+        }
+      ]
+    }
+    </script>
+      <meta name="google-site-verification" content="ad062dfe6cb025cf" />
   </head>
-  <body>
-    
+  <body class="antialiased overflow-x-hidden">
     <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
     
+    <!-- Service Worker Registration -->
+    <script>
+      if ('serviceWorker' in navigator && window.location.protocol === 'https:') {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js').catch(err => console.log('SW registration error', err));
+        });
+      }
+    </script>
   </body>
 </html>

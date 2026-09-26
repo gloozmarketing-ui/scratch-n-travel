@@ -4,7 +4,7 @@
  * Functions:
  * 1. Generates XML Sitemap (sitemap.xml) for all routes & destinations
  * 2. Generates robots.txt with search-engine crawling instructions
- * 3. Injects Schema.org JSON-LD structured data into index.html & app.html
+ * 3. Injects Schema.org JSON-LD structured data into index.html
  * 4. Generates high-converting SEO Travel Magazin Content Clusters
  * 5. Runs Core Web Vitals & Googlebot Performance audit
  */
@@ -16,7 +16,7 @@ const SITE_BASE_URL = process.env.SITE_URL || 'https://scratchntravel.com';
 function generateSitemap() {
   const pages = [
     { url: '/', priority: '1.0', changefreq: 'daily' },
-    { url: '/app.html', priority: '0.9', changefreq: 'daily' },
+    { url: '/', priority: '1.0', changefreq: 'weekly' },
     { url: '/magazin/die-10-besten-surfspots-in-portugal.html', priority: '0.8', changefreq: 'weekly' },
     { url: '/magazin/mit-kindern-reisen-15-tipps.html', priority: '0.8', changefreq: 'weekly' },
     { url: '/magazin/digital-nomad-guide-lissabon.html', priority: '0.8', changefreq: 'weekly' },
@@ -155,7 +155,7 @@ function generateContentArticles() {
       <a href="../index.html" style="font-size: 1.25rem; font-weight: 800; color: var(--emerald-primary); text-decoration: none; display: flex; align-items: center; gap: 8px;">
         <span>🪙 Scratch'n'Travel</span>
       </a>
-      <a href="../app.html" class="btn btn-primary" style="padding: 6px 16px; font-size: 0.85rem;">App Starten 🚀</a>
+      <a href="../" class="btn btn-primary" style="padding: 6px 16px; font-size: 0.85rem;">App Starten 🚀</a>
     </div>
   </header>
 

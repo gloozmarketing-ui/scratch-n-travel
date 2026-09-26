@@ -1,0 +1,670 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..700&family=Nunito+Sans:ital,wght@0,300..900;1,300..700&family=Caveat:wght@400..700&display=swap');
+@import 'tailwindcss';
+
+/* ═══════════════════════════════════════════════════════════════════════
+   SCRATCH'N'TRAVEL — DESIGN-SYSTEM
+   ───────────────────────────────────────────────────────────────────────
+   Idee: Reise-Tagebuch, nicht Dashboard.
+   Tag:   warmes Papier, Sonnenlicht, weiche Kanten
+   Nacht: Lagerfeuer, warmes Schwarz, Kerzenlicht
+
+   Alles läuft über CSS-Variablen. Keine Seite darf eine Farbe hartcodieren.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+:root {
+  /* ── Tag-Modus: warmes Papier ── */
+  --paper:        #FAF5EC;   /* Seitenhintergrund */
+  --paper-deep:   #F2EADC;   /* abgesetzte Flächen, Table-Head */
+  --card:         #FFFDF8;   /* Karten */
+  --card-hover:   #FFFFFF;
+
+  --ink:          #23302A;   /* Haupttext — tiefes Waldgrün statt Schwarz */
+  --ink-soft:     #4A5A52;   /* Fließtext */
+  --ink-faint:    #7C8A82;   /* Nebentext, Platzhalter */
+  --ink-ghost:    #A6B1AB;   /* Disabled, Zähler */
+
+  --line:         #E2D8C6;   /* Rahmen */
+  --line-soft:    #EEE6D8;   /* sehr dezente Trennlinien */
+
+  --sun:          #B07D24;   /* Primärakzent: Sonnenlicht */
+  --sun-bright:   #D19A3A;
+  --sun-wash:     rgba(176, 125, 36, 0.09);
+
+  --lagoon:       #1F6F6A;   /* Sekundär: Lagune */
+  --lagoon-wash:  rgba(31, 111, 106, 0.09);
+
+  --terracotta:   #B85C38;   /* Warnung, Dringlichkeit */
+  --terracotta-wash: rgba(184, 92, 56, 0.09);
+
+  --leaf:         #4A7C3F;   /* Erfolg, Sicherheit */
+  --leaf-wash:    rgba(74, 124, 63, 0.10);
+
+  --shadow-sm:    0 1px 2px rgba(51, 44, 32, 0.05);
+  --shadow:       0 2px 8px rgba(51, 44, 32, 0.07), 0 1px 2px rgba(51, 44, 32, 0.04);
+  --shadow-lg:    0 12px 32px rgba(51, 44, 32, 0.10), 0 2px 8px rgba(51, 44, 32, 0.05);
+
+  --radius-sm:    8px;
+  --radius:       14px;
+  --radius-lg:    20px;
+  --radius-xl:    28px;
+
+  --scrim: rgba(51, 44, 32, 0.42);
+
+  color-scheme: light;
+}
+
+/* ── Nacht-Modus: Lagerfeuer ── */
+[data-theme='dark'] {
+  --paper:        #16120D;
+  --paper-deep:   #1E1913;
+  --card:         #241E17;
+  --card-hover:   #2B241C;
+
+  --ink:          #F2E8D8;
+  --ink-soft:     #D3C7B4;
+  --ink-faint:    #9C9083;
+  --ink-ghost:    #6B6257;
+
+  --line:         #3A322A;
+  --line-soft:    #2C2620;
+
+  --sun:          #E0A94A;
+  --sun-bright:   #F0C070;
+  --sun-wash:     rgba(224, 169, 74, 0.12);
+
+  --lagoon:       #5FB3A8;
+  --lagoon-wash:  rgba(95, 179, 168, 0.12);
+
+  --terracotta:   #E08360;
+  --terracotta-wash: rgba(224, 131, 96, 0.13);
+
+  --leaf:         #8FBF7C;
+  --leaf-wash:    rgba(143, 191, 124, 0.13);
+
+  --shadow-sm:    0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow:       0 2px 10px rgba(0, 0, 0, 0.35);
+  --shadow-lg:    0 16px 40px rgba(0, 0, 0, 0.45);
+
+  --scrim: rgba(12, 9, 6, 0.62);
+
+  color-scheme: dark;
+}
+
+/* ── Tailwind-Theme-Brücke ── */
+@theme inline {
+  --color-paper: var(--paper);
+  --color-paper-deep: var(--paper-deep);
+  --color-card: var(--card);
+  --color-card-hover: var(--card-hover);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-ink-faint: var(--ink-faint);
+  --color-ink-ghost: var(--ink-ghost);
+  --color-line: var(--line);
+  --color-line-soft: var(--line-soft);
+  --color-sun: var(--sun);
+  --color-sun-bright: var(--sun-bright);
+  --color-lagoon: var(--lagoon);
+  --color-terracotta: var(--terracotta);
+  --color-leaf: var(--leaf);
+
+  /* Washes als echte Farben, damit /10, /20 usw. funktionieren.
+     Ohne diese Definition wäre bg-sun-wash/20 ungültig. */
+  --color-sun-wash: var(--sun-wash);
+  --color-lagoon-wash: var(--lagoon-wash);
+  --color-terracotta-wash: var(--terracotta-wash);
+  --color-leaf-wash: var(--leaf-wash);
+
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-body: 'Nunito Sans', system-ui, sans-serif;
+  --font-hand: 'Caveat', cursive;
+  --font-mono: ui-monospace, 'SF Mono', 'Cascadia Code', monospace;
+
+  --radius-card: var(--radius);
+}
+
+/* ═══════════ BASIS ═══════════ */
+
+* { -webkit-tap-highlight-color: transparent; }
+
+html, body, #root { height: 100%; }
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: 'Nunito Sans', system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.65;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Weiche, warme Übergänge beim Theme-Wechsel */
+.page, .card, .topbar, .sidebar, .bottomnav,
+button, a, input, textarea, select {
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease,
+    color 0.3s ease,
+    box-shadow 0.25s ease;
+}
+
+::selection { background: var(--sun-wash); color: var(--ink); }
+
+/* Fokus: sichtbar, aber ruhig */
+:focus-visible {
+  outline: 2px solid var(--sun);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* ═══════════ TYPOGRAFIE ═══════════ */
+
+.font-display { font-family: 'Fraunces', Georgia, serif; }
+.font-body    { font-family: 'Nunito Sans', system-ui, sans-serif; }
+.font-hand    { font-family: 'Caveat', cursive; }
+.font-mono    { font-family: ui-monospace, 'SF Mono', monospace; }
+
+/* Früher: DM Mono + tracking für alles. Jetzt: das Mono bleibt den Daten
+   vorbehalten (GPS, Zähler, IDs) — so wirkt es wie ein Datenblatt,
+   nicht wie ein Terminal. */
+.label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+.value-mono {
+  font-family: ui-monospace, 'SF Mono', monospace;
+  font-size: 0.75rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-faint);
+}
+
+/* Handschriftliche Akzente — wie eine Notiz im Reisepass */
+.journal {
+  font-family: 'Caveat', cursive;
+  font-size: 1.35rem;
+  color: var(--ink-faint);
+  line-height: 1.3;
+}
+
+/* ═══════════ TEXTUR: Papierkorn, kein Raster ═══════════ */
+/* Das alte map-grid war ein 44px-Raster und las sich als "Dashboard".
+   Jetzt: nur noch ein sehr feines Papierkorn. */
+
+.paper-grain::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.35;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+}
+
+[data-theme='dark'] .paper-grain::before { opacity: 0.5; }
+
+/* ═══════════ KARTEN ═══════════ */
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+}
+
+.card:hover {
+  background: var(--card-hover);
+  border-color: var(--sun);
+  box-shadow: var(--shadow);
+  transform: translateY(-1px);
+}
+
+/* Karte mit farbigem Rand — für Hervorhebungen */
+.card-accent {
+  position: relative;
+  overflow: hidden;
+}
+.card-accent::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  background: var(--sun);
+}
+
+/* Karte, die sich wie ein Papierfetzen anfühlt */
+.card-paper {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  position: relative;
+}
+.card-paper::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0.5;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23p)' opacity='0.03'/%3E%3C/svg%3E");
+}
+
+/* ═══════════ BUTTONS ═══════════ */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.65rem 1.25rem;
+  border-radius: var(--radius-sm);
+  font-family: 'Nunito Sans', sans-serif;
+  font-weight: 700;
+  font-size: 0.9rem;
+  line-height: 1.2;
+  cursor: pointer;
+  border: 1px solid transparent;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+.btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.btn-primary {
+  background: var(--sun);
+  color: #FFFDF8;
+  box-shadow: var(--shadow-sm);
+}
+[data-theme='dark'] .btn-primary { color: #16120D; }
+.btn-primary:hover:not(:disabled) {
+  background: var(--sun-bright);
+  box-shadow: var(--shadow);
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background: transparent;
+  border-color: var(--sun);
+  color: var(--sun);
+}
+.btn-secondary:hover:not(:disabled) { background: var(--sun-wash); }
+
+.btn-ghost {
+  background: transparent;
+  border-color: var(--line);
+  color: var(--ink-soft);
+}
+.btn-ghost:hover:not(:disabled) {
+  background: var(--paper-deep);
+  color: var(--ink);
+  border-color: var(--sun);
+}
+
+.btn-quiet {
+  background: transparent;
+  border: none;
+  color: var(--ink-faint);
+  padding: 0.4rem 0.6rem;
+}
+.btn-quiet:hover { color: var(--sun); background: var(--sun-wash); }
+
+.btn-danger {
+  background: transparent;
+  border-color: var(--terracotta);
+  color: var(--terracotta);
+}
+.btn-danger:hover:not(:disabled) { background: var(--terracotta-wash); }
+
+/* ═══════════ FORMULARFELDER ═══════════ */
+
+.field {
+  width: 100%;
+  padding: 0.65rem 0.9rem;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  color: var(--ink);
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.field::placeholder { color: var(--ink-ghost); }
+.field:focus {
+  border-color: var(--sun);
+  box-shadow: 0 0 0 3px var(--sun-wash);
+}
+
+.label-input {
+  display: block;
+  margin-bottom: 0.3rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+/* ═══════════ NAVIGATION ═══════════ */
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.55rem 0.75rem;
+  border-radius: var(--radius-sm);
+  color: var(--ink-soft);
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.18s ease;
+  position: relative;
+}
+.nav-item:hover { background: var(--paper-deep); color: var(--ink); }
+.nav-item.active {
+  background: var(--sun-wash);
+  color: var(--sun);
+}
+.nav-item.active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 60%;
+  background: var(--sun);
+  border-radius: 0 2px 2px 0;
+}
+
+/* ═══════════ ABZEICHEN ═══════════ */
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.2rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  background: var(--paper-deep);
+  color: var(--ink-soft);
+  border: 1px solid transparent;
+}
+.chip-sun   { background: var(--sun-wash);   color: var(--sun);        border-color: var(--sun); }
+.chip-leaf  { background: var(--leaf-wash);  color: var(--leaf);       border-color: var(--leaf); }
+.chip-lagoon{ background: var(--lagoon-wash);color: var(--lagoon);     border-color: var(--lagoon); }
+.chip-warn  { background: var(--terracotta-wash); color: var(--terracotta); border-color: var(--terracotta); }
+
+/* Vertrauensstufen — ruhig, nicht als Qualitätssiegel */
+.tier-new    { color: var(--ink-faint); }
+.tier-member { color: var(--lagoon); }
+.tier-trusted{ color: var(--leaf); }
+.tier-anchor { color: var(--sun); }
+
+/* ═══════════ FORTSCHRITT ═══════════ */
+
+.progress-track {
+  height: 6px;
+  background: var(--paper-deep);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--sun), var(--sun-bright));
+  border-radius: 3px;
+  transition: width 0.6s ease;
+}
+
+/* ═══════════ SCROLLBAR ═══════════ */
+
+* { scrollbar-width: thin; scrollbar-color: var(--line) transparent; }
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--line); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-ghost); }
+
+/* ═══════════ HILFSKLASSEN ═══════════ */
+
+.text-ink        { color: var(--ink); }
+.text-soft       { color: var(--ink-soft); }
+.text-faint      { color: var(--ink-faint); }
+.text-ghost      { color: var(--ink-ghost); }
+.text-sun        { color: var(--sun); }
+.text-leaf       { color: var(--leaf); }
+.text-lagoon      { color: var(--lagoon); }
+.text-terracotta { color: var(--terracotta); }
+
+.bg-paper      { background: var(--paper); }
+.bg-paper-deep { background: var(--paper-deep); }
+.bg-card       { background: var(--card); }
+
+.border-line     { border-color: var(--line); }
+.border-line-soft{ border-color: var(--line-soft); }
+
+.divider { height: 1px; background: var(--line-soft); border: none; }
+
+/* Dezente Verlaufstrenner zwischen Sektionen — wie Papierkanten */
+.section-break {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--line), transparent);
+  border: none;
+}
+
+/* ═══════════ ANIMATIONEN ═══════════ */
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes drift {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-5px); }
+}
+@keyframes spinSlow {
+  to { transform: rotate(360deg); }
+}
+@keyframes shimmerSweep {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+@keyframes breathe {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.55; }
+}
+
+.fade-up     { animation: fadeUp 0.45s ease both; }
+.drift       { animation: drift 4s ease-in-out infinite; }
+.spin-slow   { animation: spinSlow 24s linear infinite; }
+.breathe     { animation: breathe 2.6s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ═══════════ DRUCK ═══════════ */
+@media print {
+  .sidebar, .bottomnav, .topbar, .no-print { display: none !important; }
+  body { background: #fff; color: #000; }
+}
+/* ═══════════ RESPONSIVE GRUNDGERÜST ═══════════ */
+/* Diese Klassen existieren, weil Tailwinds `md:hidden` gegen ein
+   Inline-`display` verliert. Wer `display` inline setzt, braucht das hier. */
+
+.sidebar-wrap { display: none; }
+
+/* Flex-Kinder brauchen min-height:0, sonst schiebt der Inhalt den
+   Scrollbereich aus dem Container und die letzte Nav-Gruppe
+   wird abgeschnitten (das passierte bei der "Sicherheit"-Gruppe). */
+.sidebar-inner { min-height: 0; }
+.sidebar-nav {
+  min-height: 0;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+  -webkit-overflow-scrolling: touch;
+}
+
+.drawer-mobile,
+.topbar-mobile,
+.bottomnav { display: none; }
+
+@media (max-width: 767px) {
+  .drawer-mobile { display: block; }
+  .topbar-mobile {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .bottomnav { display: block; }
+}
+
+@media (min-width: 768px) {
+  .sidebar-wrap { display: block; }
+  /* Auf grossen Bildschirmen sitzt der Theme-Schalter oben rechts. */
+  .topbar-desktop { display: flex; }
+}
+
+@media (max-width: 1023px) {
+  .topbar-desktop { display: none; }
+}
+
+.topbar-desktop {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.7rem 1.5rem;
+  background: var(--paper);
+  border-bottom: 1px solid var(--line-soft);
+  backdrop-filter: blur(8px);
+}
+
+/* ═══════════ LEGACY-KLASSEN ═══════════ */
+/* Von den Altseiten (Passport, Badges, Explore, …) weiterhin referenziert.
+   Vor dem Theme-Rewrite existierten sie nicht — dadurch waren diese
+   Elemente unsichtbar bzw. unformatiert. */
+
+.gold-gradient {
+  background: linear-gradient(135deg, var(--sun), var(--sun-bright));
+  color: var(--paper-deep);
+}
+.gold-text    { color: var(--sun); }
+.gold-border  { border-color: var(--sun); }
+.gold-glow    { box-shadow: 0 0 24px var(--sun-wash); }
+
+/* Trennlinie mit Welle — wie ein Kreuzvermerk im Reisepass */
+.section-divider {
+  height: 1px;
+  border: 0;
+  background: linear-gradient(90deg, transparent, var(--line), transparent);
+  margin: 2rem 0;
+}
+
+/* Fortschritt (XP, Badges) */
+.xp-bar {
+  height: 0.6rem;
+  background: var(--ink-ghost);
+  opacity: 0.18;
+  border-radius: 999px;
+  overflow: hidden;
+}
+.xp-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--terracotta), var(--sun));
+  border-radius: 999px;
+  transition: width 0.7s ease;
+}
+
+/* Koordinaten: echte Daten, daher Mono — das ist der einzige Grund,
+   an dem das Terminal-Gefühl gewollt ist. */
+.coord {
+  font-family: ui-monospace, 'SF Mono', monospace;
+  font-size: 0.7rem;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.04em;
+  color: var(--ink-faint);
+}
+
+.btn-parchment {
+  font-family: 'Fraunces', Georgia, serif;
+  font-weight: 600;
+  padding: 0.6rem 1.1rem;
+  border-radius: var(--radius);
+  background: var(--card);
+  border: 1px solid var(--line);
+  color: var(--ink);
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+.btn-parchment:hover:not(:disabled) {
+  background: var(--card-hover);
+  border-color: var(--sun);
+}
+
+/* Passport-Stempel */
+.cartouche {
+  border: 2px solid var(--sun);
+  border-radius: var(--radius);
+  padding: 0.9rem 1.1rem;
+  background: var(--sun-wash);
+}
+
+/* ═══════════ LEAFLET ═══════════ */
+/* Leaflet bringt eigene, rein helle Styles mit. Ohne diese Overrides
+   war die Karte im Dunkel-Modus ein weißer Fremdkörper. */
+
+.leaflet-container {
+  background: var(--paper-deep);
+  font-family: 'Nunito Sans', system-ui, sans-serif;
+}
+
+.leaflet-popup-content-wrapper,
+.leaflet-popup-tip {
+  background: var(--card);
+  color: var(--ink);
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--line);
+}
+
+.leaflet-popup-content {
+  margin: 0.75rem 0.9rem;
+  color: var(--ink);
+}
+
+.leaflet-popup-close-button {
+  color: var(--ink-faint) !important;
+}
+.leaflet-popup-close-button:hover {
+  color: var(--ink) !important;
+}
+
+.leaflet-control-zoom a {
+  background: var(--card);
+  color: var(--ink);
+  border-color: var(--line);
+}
+.leaflet-control-zoom a:hover {
+  background: var(--paper-deep);
+  color: var(--ink);
+}
+
+.leaflet-control-attribution {
+  background: var(--card) !important;
+  color: var(--ink-faint) !important;
+  font-size: 0.6rem;
+}
+.leaflet-control-attribution a {
+  color: var(--ink-soft) !important;
+}
+
+.custom-leaflet-pin { background: transparent; border: 0; }

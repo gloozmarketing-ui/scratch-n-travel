@@ -26,6 +26,9 @@ const https = require('https');
 const crypto = require('crypto');
 
 // ─── Config ──────────────────────────────────────────────────────────────────
+// SICHERHEIT: Kein Key und keine Shop-ID ist hier hinterlegt. Alles kommt
+// aus der Umgebung. Ohne Konfiguration bricht die Merchandise-Erfüllung bewusst
+// ab, statt mit einem fremden Account eine Bestellung auszulösen.
 const STRIPE_SECRET     = (process.env.STRIPE_SECRET_KEY || '').trim();
 const WEBHOOK_SECRET    = (process.env.STRIPE_WEBHOOK_SECRET || '').trim();
 const PRINTFUL_KEY      = (process.env.PRINTFUL_API_KEY || '').trim();

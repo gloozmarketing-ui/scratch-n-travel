@@ -9,13 +9,13 @@ module.exports = async (req, res) => {
   }
 
   const { priceId, planId, customerEmail } = req.body;
-  const siteUrl = process.env.SITE_URL || 'https://gloozmarketing-ui.github.io/scratch-n-travel';
+  const siteUrl = process.env.SITE_URL || 'https://scratchntravel.com';
 
   if (!process.env.STRIPE_SECRET_KEY) {
     return res.status(200).json({
       status: 'beta_mode',
       message: 'System ist im sicheren Beta-Modus (0 € Early Access). Kein Live-Key erforderlich.',
-      url: `${siteUrl}/app.html?beta_vip=true&tier=${planId}`
+      url: `${siteUrl}/passport?beta_vip=true&tier=${planId}`
     });
   }
 
@@ -25,7 +25,9 @@ module.exports = async (req, res) => {
       line_items: [{ price: priceId, quantity: 1 }],
       mode: 'subscription',
       customer_email: customerEmail || undefined,
-      success_url: `${siteUrl}/app.html?session_id={CHECKOUT_SESSION_ID}&tier=${planId}&status=success`,
+      // /app.html existiert im Vite-Build nicht — nach dem Kauf
+      // wuerde der Kunde auf einer 404-Seite landen.
+      success_url: `${siteUrl}/passport?session_id={CHECKOUT_SESSION_ID}&tier=${planId}&status=success`,
       cancel_url: `${siteUrl}/index.html#preise`,
       metadata: { planId }
     });

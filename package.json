@@ -1,13 +1,16 @@
 {
   "name": "scratch-n-travel",
-  "version": "1.0.0",
-  "description": "Social Travel Platform for Families, Pets, Local Secrets & Digital Scratchbooks",
+  "version": "2.0.0",
+  "description": "Community-Plattform: Secret Spots, Hobby-Matching, Meetups und Trust & Safety",
+  "private": true,
+  "type": "module",
   "main": "dist/index.html",
   "scripts": {
-    "dev": "npm --prefix \"Ausbau\u00dcberlegungen/Website analysis and badge creation\" run dev",
-    "build": "node scripts/build_app.js",
-    "preview": "npm --prefix \"Ausbau\u00dcberlegungen/Website analysis and badge creation\" run preview",
+    "dev": "vite --host 0.0.0.0",
+    "build": "vite build",
+    "preview": "vite preview",
     "start": "npx serve dist",
+    "typecheck": "tsc --noEmit",
     "seed": "node scripts/hermes_travel_seeder.js"
   },
   "keywords": [
@@ -15,11 +18,30 @@
     "family-travel",
     "pet-friendly-travel",
     "local-secrets",
-    "travel-scratchbook"
+    "travel-scratchbook",
+    "community",
+    "meetup"
   ],
   "author": "Scratch'n'Travel Team",
   "license": "MIT",
   "dependencies": {
-    "@supabase/supabase-js": "^2.45.0"
+    "@supabase/supabase-js": "^2.112.4",
+    "@types/canvas-confetti": "^1.9.0",
+    "canvas-confetti": "^1.9.4",
+    "leaflet": "^1.9.4",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-router-dom": "^7.18.3"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.0.0",
+    "@types/leaflet": "^1.9.22",
+    "@types/node": "^22.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "@vitejs/plugin-react": "^6.0.0",
+    "tailwindcss": "^4.0.0",
+    "typescript": "^5.7.0",
+    "vite": "^8.0.5"
   }
 }

@@ -1,8 +1,19 @@
 node_modules/
 .env
+.env.*
+!.env.example
 .DS_Store
 *.log
 .vercel
+
+# Build-Artefakte gehören NICHT ins Repo.
+# Vorher waren 54 dist/-Dateien versioniert — jedes Deployment erzeugte
+# einen Diff über hunderte Hash-Dateien. Vercel baut selbst.
+dist/
+
+# Lokale QA-Artefakte
+shots*/
+*.local
 
 # Ignore legacy scratch folders but keep active production app
 verschiedene webseit versionen/*

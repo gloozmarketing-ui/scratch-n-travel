@@ -125,8 +125,10 @@ module.exports = async function handler(req, res) {
       'shipping_options[1][shipping_rate_data][delivery_estimate][minimum][value]': '1',
       'shipping_options[1][shipping_rate_data][delivery_estimate][maximum][unit]': 'business_day',
       'shipping_options[1][shipping_rate_data][delivery_estimate][maximum][value]': '2',
-      success_url: successUrl || `${origin}/app.html?merch=success&session={CHECKOUT_SESSION_ID}`,
-      cancel_url: cancelUrl || `${origin}/app.html#merch`
+      // /app.html existiert im Vite-Build nicht mehr — der Kunde
+      // wuerde nach dem Kauf auf einer 404-Seite landen.
+      success_url: successUrl || `${origin}/passport?merch=success&session={CHECKOUT_SESSION_ID}`,
+      cancel_url: cancelUrl || `${origin}/pricing#merch`
     };
 
     // Add line items

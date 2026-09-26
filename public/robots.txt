@@ -1,0 +1,17 @@
+# Scratch'n'Travel — robots.txt
+# Die Plattform ist eine Community: Öffentliche Inhalte sollen indexierbar sein,
+# private Bereiche, API-Endpunkte und interne Werkzeuge nicht.
+
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /growth
+Disallow: /host
+Disallow: /admin
+Disallow: /chat
+
+# Crawl-Budget schonen
+Crawl-delay: 1
+
+# Sitemap liegt auf der Produktionsdomain
+Sitemap: https://scratchntravel.com/sitemap.xml

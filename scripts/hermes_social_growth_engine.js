@@ -86,7 +86,7 @@ function httpRequest(urlStr, method = 'POST', headers = {}, bodyObj = null, time
 // Multi-Provider LLM Caller
 async function callAIEngine(prompt, systemPrompt) {
   // Provider 1: Requesty (Nemotron / Gemma 4)
-  const reqKey = process.env.REQUESTY_API_KEY || '';
+  const reqKey = (process.env.REQUESTY_API_KEY || '').trim();
   if (reqKey) {
     try {
       const res = await httpRequest('https://router.requesty.ai/v1/chat/completions', 'POST', {
@@ -110,7 +110,7 @@ async function callAIEngine(prompt, systemPrompt) {
   }
 
   // Provider 2: Zenmux (GLM / Dots3)
-  const zenKey = process.env.ZENMUX_API_KEY || '';
+  const zenKey = (process.env.ZENMUX_API_KEY || '').trim();
   if (zenKey) {
     try {
       const res = await httpRequest('https://zenmux.ai/api/v1/chat/completions', 'POST', {

@@ -2,17 +2,22 @@
  * Scratch'n'Travel — Hermes AI Autonomous Multi-Provider Router & Concierge
  * Supports: Zenmux, Requesty, Cerebras, Vercel AI Gateway, Cloudflare, Ollama (Local/Cloud),
  * with Fail-Closed Safety Filter & Autonomous Deterministic Fallback
+ *
+ * SECURITY: No API key is ever hardcoded here. Keys are read from environment
+ * variables only. A provider without a key is SKIPPED, never called with an
+ * empty key. If no provider is configured the endpoint fails closed with 503.
  */
 
 const https = require('https');
 const http = require('http');
 
 // Configured Providers & Models
+// NOTE: `key` is intentionally resolved from env only. Never add a literal fallback.
 const PROVIDERS = {
   zenmux: {
     name: 'Zenmux AI',
     baseUrl: 'https://zenmux.ai/api/v1/chat/completions',
-    key: process.env.ZENMUX_API_KEY || '',
+    key: process.env.ZENMUX_API_KEY || null,
     defaultModel: 'dots-studio/dots3-note-prev',
     models: [
       'dots-studio/dots3-note-prev',
@@ -25,7 +30,7 @@ const PROVIDERS = {
   requesty: {
     name: 'Requesty Router',
     baseUrl: 'https://router.requesty.ai/v1/chat/completions',
-    key: process.env.REQUESTY_API_KEY || '',
+    key: process.env.REQUESTY_API_KEY || null,
     defaultModel: 'nvidia/nemotron-3.5-lightning-30b-a3b',
     models: [
       'nvidia/nemotron-3.5-lightning-30b-a3b',
@@ -38,7 +43,7 @@ const PROVIDERS = {
   cerebras: {
     name: 'Cerebras Inference',
     baseUrl: 'https://api.cerebras.ai/v1/chat/completions',
-    key: process.env.CEREBRAS_API_KEY || '',
+    key: process.env.CEREBRAS_API_KEY || null,
     defaultModel: 'gemma-4-31b',
     models: [
       'gemma-4-31b',
@@ -49,7 +54,7 @@ const PROVIDERS = {
   vercel: {
     name: 'Vercel AI Gateway',
     baseUrl: 'https://ai-gateway.vercel.sh/v1/chat/completions',
-    key: process.env.VERCEL_AI_KEY || '',
+    key: process.env.VERCEL_AI_KEY || null,
     defaultModel: 'inclusionai/ling-3.0-flash-vl-free',
     models: [
       'inclusionai/ling-3.0-flash-vl-free',
@@ -61,7 +66,7 @@ const PROVIDERS = {
   cloudflare: {
     name: 'Cloudflare Workers AI',
     baseUrl: 'https://api.cloudflare.com/client/v4',
-    key: process.env.CLOUDFLARE_API_TOKEN || '',
+    key: process.env.CLOUDFLARE_API_TOKEN || null,
     defaultModel: '@cf/meta/llama-3.1-8b-instruct',
     models: [
       '@cf/meta/llama-3.1-8b-instruct',
@@ -71,7 +76,7 @@ const PROVIDERS = {
   ollama: {
     name: 'Ollama Engine',
     localUrl: 'http://localhost:11434/api/chat',
-    cloudKey: process.env.OLLAMA_CLOUD_KEY || '',
+    cloudKey: process.env.OLLAMA_CLOUD_KEY || null,
     defaultModel: 'hermes3:latest',
     models: [
       'hermes3:latest',
@@ -84,6 +89,7 @@ const PROVIDERS = {
     ]
   }
 };
+
 
 const SYSTEM_PROMPT = `Du bist Hermes, der autonome KI-Reise-Concierge für Scratch'n'Travel.
 Deine Mission: Reisenden authentische Geheimtipps (Secret Spots), abgelegene Natur- und Küstenerlebnisse, Surf-/Wellenkonditionen und lokale Geschichtserzählungen (Oral History) zu vermitteln.
@@ -267,51 +273,54 @@ module.exports = async (req, res) => {
 
     if (selectedProvider !== 'auto' && PROVIDERS[selectedProvider]) {
       const p = PROVIDERS[selectedProvider];
+      // Only add explicitly requested providers that actually have a key
+      if (p.id === 'ollama' || p.key) {
+        fallbackPlan.push({
+          id: selectedProvider,
+          name: p.name,
+          baseUrl: p.baseUrl,
+          key: p.key,
+          model: selectedModel || p.defaultModel
+        });
+      }
+    }
+
+    // Always add healthy providers as fallbacks (skip any without a key)
+    const addProvider = (id, model) => {
+      const p = PROVIDERS[id];
+      if (!p || !p.key) return;
       fallbackPlan.push({
-        id: selectedProvider,
+        id,
         name: p.name,
         baseUrl: p.baseUrl,
         key: p.key,
-        model: selectedModel || p.defaultModel
+        model
+      });
+    };
+
+    addProvider('requesty', selectedModel && selectedProvider === 'requesty' ? selectedModel : PROVIDERS.requesty.defaultModel);
+    addProvider('zenmux', selectedModel && selectedProvider === 'zenmux' ? selectedModel : PROVIDERS.zenmux.defaultModel);
+    addProvider('cerebras', PROVIDERS.cerebras.defaultModel);
+    addProvider('vercel', PROVIDERS.vercel.defaultModel);
+    addProvider('cloudflare', PROVIDERS.cloudflare.defaultModel);
+
+    // Local Ollama is always attempted last (no key required, may not exist)
+    fallbackPlan.push({
+      id: 'ollama',
+      name: PROVIDERS.ollama.name,
+      model: PROVIDERS.ollama.defaultModel
+    });
+
+    // Fail closed: no remote provider configured AND no local ollama wanted.
+    // We still allow the local-ollama attempt, so only bail if the caller
+    // explicitly disabled it.
+    if (fallbackPlan.length === 0) {
+      return res.status(503).json({
+        success: false,
+        error: 'AI_NOT_CONFIGURED',
+        message: 'Kein KI-Provider konfiguriert. Bitte VITE/Server-Umgebungsvariablen prüfen.'
       });
     }
-
-    // Always add healthy providers as fallbacks
-    fallbackPlan.push(
-      {
-        id: 'requesty',
-        name: PROVIDERS.requesty.name,
-        baseUrl: PROVIDERS.requesty.baseUrl,
-        key: PROVIDERS.requesty.key,
-        model: selectedModel && selectedProvider === 'requesty' ? selectedModel : PROVIDERS.requesty.defaultModel
-      },
-      {
-        id: 'zenmux',
-        name: PROVIDERS.zenmux.name,
-        baseUrl: PROVIDERS.zenmux.baseUrl,
-        key: PROVIDERS.zenmux.key,
-        model: selectedModel && selectedProvider === 'zenmux' ? selectedModel : PROVIDERS.zenmux.defaultModel
-      },
-      {
-        id: 'cerebras',
-        name: PROVIDERS.cerebras.name,
-        baseUrl: PROVIDERS.cerebras.baseUrl,
-        key: PROVIDERS.cerebras.key,
-        model: PROVIDERS.cerebras.defaultModel
-      },
-      {
-        id: 'vercel',
-        name: PROVIDERS.vercel.name,
-        baseUrl: PROVIDERS.vercel.baseUrl,
-        key: PROVIDERS.vercel.key,
-        model: PROVIDERS.vercel.defaultModel
-      },
-      {
-        id: 'ollama',
-        name: PROVIDERS.ollama.name,
-        model: PROVIDERS.ollama.defaultModel
-      }
-    );
 
     let outputText = null;
     let successfulProvider = null;
