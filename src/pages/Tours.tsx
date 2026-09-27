@@ -25,6 +25,8 @@ export default function Tours() {
   const [filterDiff, setFilterDiff] = useState<DiffFilter>('all')
   const [isSubmitOpen, setIsSubmitOpen] = useState(false)
   const [extraTours, setExtraTours] = useState<CommunityTour[]>([])
+  /** Lokale Likes der aktuellen Sitzung (Serverzustand folgt mit dem Backend). */
+  const [likedIds, setLikedIds] = useState<number[]>([])
   const allTours = useMemo(() => [...extraTours, ...tours], [extraTours])
 
   const filtered = useMemo(() => allTours.filter(t => {
@@ -59,6 +61,11 @@ export default function Tours() {
   }
 
   const diffOptions: DiffFilter[] = ['all', 1, 2, 3, 4, 5]
+
+  function toggleLike(t: CommunityTour) {
+    triggerHaptic(12)
+    setLikedIds(prev => (prev.includes(t.id) ? prev.filter(id => id !== t.id) : [...prev, t.id]))
+  }
 
   return (
     <div>
@@ -159,8 +166,12 @@ export default function Tours() {
                     <span>🗺️</span>
                     <span>Maps</span>
                   </a>
-                  <button className="btn btn-ghost text-xs py-2 px-3">
-                    ❤️ {t.likes}
+                  <button
+                    onClick={() => toggleLike(t)}
+                    aria-pressed={likedIds.includes(t.id)}
+                    className={`btn text-xs py-2 px-3 ${likedIds.includes(t.id) ? 'btn-primary' : 'btn-ghost'}`}
+                  >
+                    {likedIds.includes(t.id) ? '❤️' : '🤍'} {t.likes + (likedIds.includes(t.id) ? 1 : 0)}
                   </button>
                 </div>
               </div>

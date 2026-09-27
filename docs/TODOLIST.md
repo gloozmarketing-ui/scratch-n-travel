@@ -52,6 +52,45 @@
 
 ---
 
+# ✅ JETZT VS. SPÄTER (v1-Scope, Stand 2026-09-27)
+
+> **v1** = die App darf öffentlich gehen: echte Nutzer können sich anmelden,
+> Inhalte einstellen, melden, sich sicher bewegen — und ein paar Euros zahlen.
+> Alles andere ist **bewusst Später**. Diese Liste ersetzt die alten Wochenpläne
+> als oberste Referenz; darunter steht weiterhin, *wie* es gemacht wird.
+
+## 🔥 JETZT (Pflicht bis v1)
+
+- [ ] **Supabase live** — Projekt anlegen, `supabase/schema.sql` ausführen,
+      `VITE_SUPABASE_URL` + `VITE_SUPABASE_ANON_KEY` in `.env` und Vercel
+      (**SNT-331, SNT-332**) — blockiert alles Live-Testbare
+- [ ] **RLS-Tests gegen echte Instanz** (`node scripts/test_rls.js`, **SNT-333**)
+- [ ] **`pg_cron` aktivieren** — sonst bleiben Fotos dauerhaft `in_delay` (**SNT-334**)
+- [ ] **Merch-POD:** Ersatz-Linie entscheiden → Keys → echte IDs → Musterbestellung
+      (**SNT-360…365**, Details `docs/POD_ORDERBARKEIT.md`)
+- [ ] **Fiktions-Fixes abschließen:** Fake-Scarcity, erfundene Reviews,
+      falsche Login-Versprechen (**SNT-110…115**)
+- [ ] **Rechtstexte juristisch prüfen lassen** (**SNT-220**) — vor dem ersten echten Nutzer
+- [ ] **UI-Audit grün halten:** `npm run check:ui` (tote Buttons ✅ SNT-370…372,
+      nächste Seiten mit Demo-Daten/Platzhaltern abarbeiten)
+- [ ] **Verify:** `npm run check:all` + `npm run build` = 0 · manueller
+      Rundgang über alle 22 Routen · ein echter Login → Reload → Logout
+
+## ⏳ SPÄTER (bewusst geparkt — kein v1-Blocker)
+
+| Bereich | Karten | Warum später |
+|---|---|---|
+| **Orts-Chat** | SNT-340…346 | Sicherheits-ADR offen; braucht Live-Backend + Kanal-Token; kein Kern-Flow |
+| **Route-Editor (Bearbeiten nach dem Erstellen)** | neu, noch nicht kariert | Erst nach stabilem Auth + RLS; Erstellen funktioniert heute |
+| **Geo-/Safety-Check-in-UI** | Basis in `src/lib/community.ts` steht | Präsenz-ADR offen (Orts-Chat-Ableitung) |
+| **Signed-URL-Fotos** | Folge SNT-350ff | Storage-Policies erst mit Live-Instanz prüfbar |
+| **Stripe-Abo (Supporter / Local Pro)** | SNT-508, SNT-509 | Kein Abo ohne echte Nutzerbasis; Merch reicht für v1 |
+| **Newsletter** | SNT-507 | Kein Abonnent ohne Traffic |
+| **Meetup-Rekrutierung + Redaktionsplan** | SNT-314, SNT-315, SNT-501…510 | Phase 3+, braucht Community-Masse |
+| **P2-System (Perf, CI, Observability)** | SNT-401…412 | Solange `check:all` + Build grün sind, kein Blocker |
+
+---
+
 # 📅 WOCHE 2 — Fundament
 
 ## 📦 Repository aufräumen

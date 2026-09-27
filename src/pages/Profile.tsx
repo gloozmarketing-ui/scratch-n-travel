@@ -11,6 +11,8 @@ export default function Profile() {
   const [bioInput, setBioInput] = useState(user.bio)
   const [handleInput, setHandleInput] = useState(user.handle)
   const [savedSuccess, setSavedSuccess] = useState(false)
+  /** Steuert, für welche Reservierung die Details aufgeklappt sind. */
+  const [openResId, setOpenResId] = useState<string | null>(null)
 
   const unlockedBadges = badges.filter(b => b.unlocked)
   const xpPct = Math.min(100, Math.round((user.xp / user.xpNext) * 100))
@@ -235,7 +237,23 @@ export default function Profile() {
                       📍 {r.city} · 📅 {r.date} um {r.time} · 👥 {r.guests} Gäste
                     </p>
                   </div>
-                  <button className="btn btn-ghost text-xs py-1.5 px-3">Details</button>
+                  <button
+                    onClick={() => {
+                      triggerHaptic(10)
+                      setOpenResId(prev => (prev === r.id ? null : r.id))
+                    }}
+                    aria-expanded={openResId === r.id}
+                    className="btn btn-ghost text-xs py-1.5 px-3"
+                  >
+                    {openResId === r.id ? 'Schließen' : 'Details'}
+                  </button>
+                  {openResId === r.id && (
+                    <div className="w-full mt-2 pt-3 border-t border-sun/40 font-mono text-[0.68rem] text-ink-faint space-y-1">
+                      <p>👤 {r.guestName} · 📧 {r.email}</p>
+                      <p>🏷️ {r.category} · 🕓 angelegt am {r.createdAt}</p>
+                      {r.notes && <p>📝 {r.notes}</p>}
+                    </div>
+                  )}
                 </div>
               ))
             )}

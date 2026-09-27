@@ -1,6 +1,6 @@
 # KANBAN — Scratch'n'Travel
 
-> **Stand:** 2026-09-25 · **Commit:** `27ba277`
+> **Stand:** 2026-09-27 · **Commit:** `6bfcb07`
 > **Quelle:** `PROJEKT_AUDIT_2026-09-25.md` → `IMPLEMENTATION_PLAN.md`
 > **Regel:** Eine Karte wandert nur nach rechts, wenn ihr **VERIFY** erfüllt ist. Nicht nach Gefühl.
 
@@ -21,11 +21,11 @@
 
 | Spalte | Karten | Aufwand |
 |---|---|---|
-| 📋 **BACKLOG** | 72 | ~124 h |
+| 📋 **BACKLOG** | 102 | ~147 h |
 | 🚧 **IN PROGRESS** | 0 | — |
 | 👀 **REVIEW** | 0 | — |
-| ✅ **DONE** | 0 | — |
-| ⛔ **BLOCKED** | 4 | — |
+| ✅ **DONE** (Befunde 2026-09-27) | 12 | — |
+| ⛔ **BLOCKED** | 6 | — |
 | 🗑️ **WONTFIX / DROP** | 5 | — |
 
 ---
@@ -130,6 +130,29 @@
 | SNT-334 | 🔴 `pg_cron` im Dashboard aktivieren, sonst bleiben Fotos dauerhaft `in_delay` | 10 min | 👤 V | SNT-331 |
 
 
+### 🔴 P0 — Merch/POD: Die geplante Ware gibt es nicht (2026-09-27)
+
+> **Befund:** Flaggschiff 1 (Scratch-Off-Map mit Kratzfolie) und Flaggschiff 2
+> (Pass-Booklet 125 × 88 mit Goldfolie) sind bei **keinem** POD-Anbieter
+> on-demand (MOQ 1) lieferbar — 68travel produziert Kratzposter nur ab
+> 250 Stück. Alle Blueprint-/Variant-IDs im Stripe-Webhook sind Platzhalter.
+> Recherche mit Quellen + Ersatzvorschlag „Passport Edition":
+> **`docs/POD_ORDERBARKEIT.md`**
+
+| Karte | Task | Aufwand | Verantw. | Abhängig von |
+|---|---|---|---|---|
+| SNT-360 | ⏳ **Entscheidung:** Ersatz-Linie (Reise-Poster A2 + Reisetagebuch „Passport Edition") statt Folienware | 15 min | 👤 V | `POD_ORDERBARKEIT.md` |
+| SNT-361 | ⏳ Entscheidung: Provider — Empfehlung **Printify** (Fallback Prodigi) | 15 min | 👤 V | SNT-360 |
+| SNT-362 | ⏳ Produktname ohne Fremdmarken („Scratch Map®" / „Scratch the World®") | 30 min | 👤 V | SNT-360 |
+| SNT-363 | 🔑 `PRINTIFY_API_KEY` + `PRINTIFY_SHOP_ID` besorgen | 15 min | 👤 V | SNT-361 |
+| SNT-364 | 🔧 Echte Blueprint-/Variant-IDs in `PRINTIFY_PRODUCT_MAP` statt Platzhalter | 1 h | 👤 A | SNT-363 |
+| SNT-365 | 🧪 Musterbestellung (1 Patch + 1 Poster) + Qualitätscheck | 2 h + Versand | 👤 V | SNT-364 |
+| SNT-366 | 💳 Stripe-Katalog/Preise an Ersatz-Linie anpassen (`assets/merch_stripe_catalog.json`) | 1 h | 👤 A | SNT-360, SNT-365 |
+| SNT-367 | 🧾 Versandkosten + USt + GPSR für Merch geprüft | 1 h | 👤 V | SNT-366 |
+
+**Phase-0-Aufwand Merch: ~6 h** (davon ~2,5 h Wartezeit auf Musterware)
+
+
 ### 🟠 P1 — Orts-Chat (Entscheidung offen, siehe ADR)
 
 > **Sicherheitsentscheidung:** `src/pages/Chat.tsx` schließt Gruppen-Chats bewusst aus
@@ -164,6 +187,20 @@
 | SNT-357 | ✅ `test_photo_safety.js` (19 Tests + Gegenprobe) | Der Gegenprobe-Abschnitt führt die alten Logiken bewusst aus: fällt er nicht auf, ist der Test blind. |
 | SNT-358 | ✅ `npm run check:all` = typecheck + schema + photo | CI-tauglicher Sammelbefehl. |
 
+
+
+### ✅ Behoben am 2026-09-27 — UI-Audit (tote Buttons)
+
+> Werkzeug: `npm run check:ui` → `scripts/audit_ui.js`. Prüft alle `.tsx` in
+> `src/pages` + `src/components` (36 Dateien) auf (1) Buttons ohne `onClick`,
+> (2) Link-Ziele ohne Route in `src/routes.ts`, (3) `href="#"`-Platzhalter.
+> Exit-Code 1 bei Befund → in `check:all` eingebunden.
+
+| Karte | Task | Befund |
+|---|---|---|
+| SNT-370 | ✅ `scripts/audit_ui.js` + `npm run check:ui` an `check:all` | Danach: tote Links **0**, Platzhalter-Hrefs **0**, tote Buttons **0** |
+| SNT-371 | ✅ Tours: Like-Button ❤️ ohne `onClick` | Der Zähler ließ sich nie verändern — jetzt `toggleLike()` mit lokalem Zustand, `aria-pressed` und Sichtbarkeit ❤️/🤍 |
+| SNT-372 | ✅ Profile: „Details" der Reservierung ohne `onClick` | Klapp jetzt Gast, E-Mail, Kategorie, Anlegedatum und Notiz auf (`aria-expanded`); typecheck grün |
 
 
 ### 🟢 P2 — System gesund
@@ -221,6 +258,8 @@
 | Karte | Blockiert durch | Notiz |
 |---|---|---|
 | SNT-207 | SNT-210 | `.env` enthält **keine** Supabase-Variablen — nur Stripe + AI-Keys |
+| SNT-331…334 | 🔑 Nutzer: Supabase-Projekt + URL/Anon-Key | Ohne `SUPABASE_URL`/`ANON_KEY` kein Live-Test — App läuft im Demo-Modus |
+| SNT-360…365 | ⏳ Nutzer: POD-Entscheidung + Printify-Keys | Ersatz-Linie, Provider und Musterbestellung brauchen freigegebene Entscheidung |
 | SNT-201 | SNT-202, SNT-203 | Umzug muss vor dem Build vereinheitlicht werden |
 | SNT-301 | SNT-208 | Ohne `auth.uid()` kein `created_by` |
 | SNT-501+ | Phase 0 komplett | Vor Phase 4 muss alles in Phase 0–3 grün und messbar sein |
@@ -243,12 +282,15 @@
 
 | Priorität | Karten | Aufwand |
 |---|---|---|
-| 🔴 P0 | 15 | ~11 h |
-| 🟡 P1 | 20 | ~31 h |
+| 🔴 P0 Blocker | 15 | ~11 h |
+| 🔴 P0 Schema (SNT-320…334) | 15 (4 offen: SNT-331…334) | ~1,5 h offen |
+| 🔴 P0 Merch/POD (SNT-360…367) | 8 | ~6 h |
+| 🟡 P1 (inkl. Orts-Chat SNT-340…346) | 27 | ~46 h |
 | 🟢 P2 (Community) | 15 | ~28 h + 5 h manuell |
 | 🟢 P2 (System) | 12 | ~22 h |
 | ⚪ P3 | 10 | ~32 h + 10 h/Woche |
-| **Gesamt** | **72** | **~124 h + Community-Zeit** |
+| **Offen gesamt** | **102** | **~147 h + Community-Zeit** |
+| ✅ Behoben 2026-09-27 (SNT-350…358, 370…372) | 12 | — |
 
 
 *Fortsetzung: `IMPLEMENTATION_PLAN.md` · `TODOLIST.md` · `PROJEKT_AUDIT_2026-09-25.md` · `../COMMUNITY_GROWTH_STRATEGY_2026.md`*
