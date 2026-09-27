@@ -51,15 +51,27 @@ export const PERSON_PHOTO_TTL_HOURS = 24
  * nur bei JPEG, und JPEG ist das, was Kameras liefern. PNG wird unver-
  * aendert zurueckgegeben, mit gesetztem Hinweis fuer den Aufrufer.
  */
-export async function stripExif(file: File): Promise<{ blob: Blob; stripped: boolean }> {
+export type ExifResult =
+  | { blob: Blob; stripped: true }
+  | { blob: null; stripped: false; reason: string }
+
+export async function stripExif(file: File): Promise<ExifResult> {
   if (file.type !== 'image/jpeg') {
-    return { blob: file, stripped: false }
+    return {
+      blob: null,
+      stripped: false,
+      reason: file.type.startsWith('image/')
+        ? 'Nur JPEG wird unterstuetzt. PNG und WebP tragen ebenfalls Standortdaten '
+          + 'und werden deshalb abgelehnt statt unkontrolliert hochgeladen. '
+          + 'Exportiere das Foto einmal als JPEG.'
+        : 'Bitte waehle ein Bild aus.',
+    }
   }
   try {
     const buffer = await file.arrayBuffer()
     const view = new DataView(buffer)
     if (view.byteLength < 4 || view.getUint16(0) !== 0xffd8) {
-      return { blob: file, stripped: false }
+      return { blob: null, stripped: false, reason: 'Die Datei ist kein gueltiges JPEG.' }
     }
 
     // JPEG ist eine Kette von Markern (0xFF + Typ + Laenge). Wir ueberspringen
@@ -88,11 +100,18 @@ export async function stripExif(file: File): Promise<{ blob: Blob; stripped: boo
       }
       offset += 2 + size
     }
-    return { blob: file, stripped: false }
+    return {
+      blob: null,
+      stripped: false,
+      reason: 'In diesem JPEG wurden keine Standortdaten gefunden. Aus '
+        + 'Sicherheitsgruenden werden nur Fotos mit entfernten Metadaten veroeffentlicht.',
+    }
   } catch {
-    // Entfernen ist optional. Ein Fehler darf den Upload nicht verhindern —
-    // die Verzoegerung greift in jedem Fall.
-    return { blob: file, stripped: false }
+    return {
+      blob: null,
+      stripped: false,
+      reason: 'Die Datei konnte nicht gelesen werden. Bitte versuche es erneut.',
+    }
   }
 }
 
@@ -105,18 +124,41 @@ export interface PreparedPhoto {
   notice: string
 }
 
-export async function preparePhotoForUpload(file: File): Promise<PreparedPhoto> {
-  const { blob, stripped } = await stripExif(file)
+/** Fehlschlag mit begruendetem Grund — kein stilles Durchreichen. */
+export interface RejectedPhoto {
+  ok: false
+  reason: string
+}
+
+export type PrepareResult = (PreparedPhoto & { ok: true }) | RejectedPhoto
+
+/**
+ * Bereitet einen Upload vor.
+ *
+ * Rueckgabe ist bewusst ein Ergebnis-Objekt statt eines Ergebnisses mit
+ * `stripped: false`: wenn die Metadaten nicht entfernt werden konnten, darf der
+ * Aufrufer den Upload gar nicht erst anbieten. Ein stilles `stripped: false`
+ * fuehrte dazu, dass das Bild in der DB landete und die RLS es zurueckhielt —
+ * fuer den Nutzer ein Schatzkasten ohne Bild und ohne erklaerbaren Grund.
+ */
+export async function preparePhotoForUpload(file: File): Promise<PrepareResult> {
+  const result = await stripExif(file)
+
+  if (!result.stripped || !result.blob) {
+    return { ok: false, reason: result.reason }
+  }
+
   const visibleAt = new Date(Date.now() + PHOTO_DELAY_MINUTES * 60_000).toISOString()
   const base = file.name.replace(/\.[^.]+$/, '').replace(/[^a-zA-Z0-9_-]/g, '_')
+  const hours = PHOTO_DELAY_MINUTES / 60
+
   return {
-    blob,
+    ok: true,
+    blob: result.blob,
     fileName: `${base}_${Date.now()}.jpg`,
     visibleAt,
-    exifStripped: stripped,
-    notice: stripped
-      ? `Standortdaten aus dem Foto entfernt. Sichtbar in ${PHOTO_DELAY_MINUTES / 60} Std.`
-      : `Sichtbar in ${PHOTO_DELAY_MINUTES / 60} Std.`,
+    exifStripped: true,
+    notice: `Standortdaten aus dem Foto entfernt. Sichtbar in ${hours} Std.`,
   }
 }
 
@@ -133,8 +175,17 @@ export async function preparePhotoForUpload(file: File): Promise<PreparedPhoto> 
  *   - Personenfoto nach Ablaufdatum entfernt
  */
 export function isPhotoVisible(photo: RoutePhotoLike, now = Date.now()): boolean {
-  if (photo.status === 'flagged' || photo.status === 'removed') return false
+  // SICHERHEITSKERN: Fuer die oeffentliche Anzeige muss der Status *exakt*
+  // 'visible' sein. Die frueherere Logik liess ein Foto zu, das noch im Status
+  // 'in_delay' stand, sobald `visibleAt` abgelaufen war (`status !== 'flagged'
+  // && status !== 'removed'`). Damit waere die 6-Stunden-Frist nur noch eine
+  // Zeitangabe und keine Sperre — der Cron-Job, der ueberhaupt erst auf
+  // 'visible' schaltet, haette keinen Sicherheitswert mehr.
+  if (photo.status !== 'visible') return false
 
+  // Zusaetzlich die Frist pruefen: falls der Cron-Job laenger als eine Stunde
+  // nicht gelaufen ist, bleibt ein bereits freigeschaltetes Foto hier sichtbar —
+  // das ist genau die gewollte Ausnahme, sonst waeren Fotos stundenlang unsichtbar.
   const at = new Date(photo.visibleAt).getTime()
   if (!Number.isFinite(at) || at > now) return false
 
@@ -181,4 +232,12 @@ export function isPhotoExpired(photo: RoutePhotoLike, now = Date.now()): boolean
 /** Bound fuer das Storage-Upload: 12 MB nach dem EXIF-Strip. */
 export const PHOTO_MAX_BYTES = 12 * 1024 * 1024
 
-export const PHOTO_ACCEPT = 'image/jpeg,image/png,image/webp'
+/**
+ * Nur JPEG. Bewusst *nicht* `image/png,image/webp`: `stripExif()` kann
+ * ausschliesslich JPEG bereinigen. Wer im Dateidialog PNG/WebP angeboten
+ * bekommt, waehlt sie aus und sieht dann erst beim Upload eine Absage — das
+ * ist schlechter, als die Auswahl von Anfang an auf JPEG zu begrenzen.
+ *
+ * Wird `stripExif()` einmal erweitert, muss dieses `accept` mitwachsen.
+ */
+export const PHOTO_ACCEPT = 'image/jpeg'

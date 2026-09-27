@@ -32,6 +32,13 @@ export interface Profile {
   verification_kind: string | null
   is_local: boolean
   karma_points: number
+  /**
+   * Anzahl serverseitig bestaetigter Orte. Treibt die Stufe in src/data/trust.ts.
+   * Wird NIEMALS vom Client geschrieben — updateProfile() filtert das Feld weg.
+   */
+  certified_stops: number
+  /** VIP erweitert das Routen-Kontingent, ersetzt aber nie die Ortsverifizierung. */
+  is_vip: boolean
   reports_received?: number
   reports_ignored?: number
   last_seen_at: string | null
@@ -172,7 +179,11 @@ export async function getProfile(userId: string): Promise<Profile | null> {
 
 export async function updateProfile(userId: string, patch: Partial<Profile>): Promise<void> {
   if (!supabase) throw new Error('Nur mit Supabase-Konfiguration verfügbar.')
-  // Sicherheitskritische Felder werden NIEMALS vom Client geschrieben.
+  // Sicherheitskritische Felder werden NIEMALS vom Client geschrieben. Die
+  // RLS-Policy `profiles_update_own` erzwingt das fuer `role` bereits; fuer die
+  // uebrigen Felder gibt es keine serverseitige Sperre, deshalb filtert die
+  // Datenschicht sie hier. Ein erfolgreicher Schreibversuch wuerde sonst
+  // stillschweigend eine erfundene Vertrauensstufe erzeugen.
   const {
     trust_tier: _tier,
     is_verified: _verified,
@@ -180,6 +191,9 @@ export async function updateProfile(userId: string, patch: Partial<Profile>): Pr
     karma_points: _karma,
     reports_received: _received,
     reports_ignored: _ignored,
+    // Neu: dieselbe Begruendung fuer die Ortsverifizierung und VIP.
+    certified_stops: _stops,
+    is_vip: _vip,
     ...safe
   } = patch
 

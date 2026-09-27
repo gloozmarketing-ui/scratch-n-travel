@@ -29,7 +29,8 @@ const DEMO_PEOPLE: PersonMatch[] = [
       city: 'Lissabon', country: 'Portugal', languages: ['pt', 'en', 'de'],
       has_kids: false, has_pets: true, pet_types: ['dog'],
       trust_tier: 'anchor', is_verified: true, verification_kind: 'email', is_local: true,
-      karma_points: 142, last_seen_at: null, created_at: '2026-08-01T10:00:00Z',
+      karma_points: 142, certified_stops: 28, is_vip: false,
+      last_seen_at: null, created_at: '2026-08-01T10:00:00Z',
     },
   },
   {
@@ -43,7 +44,8 @@ const DEMO_PEOPLE: PersonMatch[] = [
       city: 'Lissabon', country: 'Portugal', languages: ['de', 'en'],
       has_kids: false, has_pets: false, pet_types: [],
       trust_tier: 'trusted', is_verified: false, verification_kind: null, is_local: false,
-      karma_points: 58, last_seen_at: null, created_at: '2026-09-02T10:00:00Z',
+      karma_points: 58, certified_stops: 7, is_vip: false,
+      last_seen_at: null, created_at: '2026-09-02T10:00:00Z',
     },
   },
   {
@@ -57,7 +59,8 @@ const DEMO_PEOPLE: PersonMatch[] = [
       city: 'Lissabon', country: 'Portugal', languages: ['ja', 'en', 'de'],
       has_kids: false, has_pets: false, pet_types: [],
       trust_tier: 'member', is_verified: false, verification_kind: null, is_local: false,
-      karma_points: 12, last_seen_at: null, created_at: '2026-09-10T10:00:00Z',
+      karma_points: 12, certified_stops: 2, is_vip: false,
+      last_seen_at: null, created_at: '2026-09-10T10:00:00Z',
     },
   },
 ]

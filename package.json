@@ -12,7 +12,8 @@
     "start": "npx serve dist",
     "typecheck": "tsc --noEmit",
     "check:schema": "node scripts/check_schema.js",
-    "check:all": "npm run typecheck && npm run check:schema",
+    "test:photo": "node scripts/test_photo_safety.js",
+    "check:all": "npm run typecheck && npm run check:schema && npm run test:photo",
     "seed": "node scripts/hermes_travel_seeder.js"
   },
   "keywords": [

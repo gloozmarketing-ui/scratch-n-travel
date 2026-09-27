@@ -2,6 +2,7 @@ import React, { useMemo, useState } from 'react'
 import { LocalRoute, routeProgress, isRouteComplete, routeBadgeName, formatRouteDuration, routeDurationMinutes } from '../data/routes'
 import { localRoutes } from '../data/routeSeeds'
 import { useTravel } from '../context/TravelContext'
+import { useAuth } from '../context/AuthContext'
 import DemoDataBadge from '../components/DemoDataBadge'
 import { tierLabel, nextTier, canPublishRoute } from '../data/trust'
 import {
@@ -149,13 +150,28 @@ function RouteDetail({ route, onBack }: { route: LocalRoute; onBack: () => void 
 
   // Drei getrennte Gruppen, weil sie unterschiedlich erklaert werden muessen:
   // sichtbar, in der Schutzfrist, und nach Ablauf entfernt.
+  //
+  // Die Gruppen sind disjunkt und decken zusammen alle Fotos ab. Das war
+  // vorher nicht der Fall: `expiredPhotos` filterte auf
+  // `status !== 'flagged' && !isPhotoExpired(p) && isPhotoExpired(p)` — der
+  // letzte Ausdruck negiert den vorherigen, die Liste war also immer leer.
+  // Ausserdem lag ein Foto mit Status 'in_delay' gleichzeitig in
+  // `coolingPhotos` UND (nach Ablauf der Frist) in `visiblePhotos`.
   const visiblePhotos = useMemo(() => route.photos.filter(p => isPhotoVisible(p)), [route.photos])
-  const coolingPhotos = useMemo(
-    () => route.photos.filter(p => p.status !== 'flagged' && p.status !== 'removed' && !isPhotoVisible(p)),
+
+  // Abgelaufen: Personenfoto nach TTL. Wird VOR 'cooling' geprueft, sonst
+  // wuerde ein abgelaufenes Personenfoto als "noch geschuetzt" erscheinen —
+  // es ist aber gar nicht mehr geschuetzt, sondern einfach weg.
+  const expiredPhotos = useMemo(
+    () => route.photos.filter(p => p.status !== 'flagged' && p.status !== 'removed' && isPhotoExpired(p)),
     [route.photos],
   )
-  const expiredPhotos = useMemo(
-    () => route.photos.filter(p => p.status !== 'flagged' && !isPhotoExpired(p) && isPhotoExpired(p)),
+
+  // In der Schutzfrist: weder sichtbar noch abgelaufen, nicht entfernt.
+  const coolingPhotos = useMemo(
+    () => route.photos.filter(
+      p => p.status !== 'flagged' && p.status !== 'removed' && !isPhotoExpired(p) && !isPhotoVisible(p),
+    ),
     [route.photos],
   )
 
@@ -296,7 +312,8 @@ function RouteDetail({ route, onBack }: { route: LocalRoute; onBack: () => void 
 }
 
 export default function LocalRoutesPage() {
-  const { triggerHaptic, user } = useTravel()
+  const { triggerHaptic } = useTravel()
+  const { user, profile, isDemo, isConfigured, loading: authLoading } = useAuth()
   const [routes] = useState<LocalRoute[]>(localRoutes)
   const [open, setOpen] = useState<LocalRoute | null>(null)
   const [city, setCity] = useState('Alle')
@@ -311,16 +328,44 @@ export default function LocalRoutesPage() {
 
   if (open) return <RouteDetail route={open} onBack={() => { triggerHaptic(10); setOpen(null) }} />
 
-  // Die Stufe wird aus echten Ortsbestaetigungen abgeleitet, nicht aus einer
-  // geratenen Zahl — sonst waere die Anzeige nur Theater gegenueber dem
-  // Nutzer. Dummy: 6 bestaetigte Orte, bis der Auth-Context den Wert liefert.
-  const certifiedStops = 6
-  const prog = nextTier(certifiedStops)
-  const vip = (user as { isVip?: boolean } | undefined)?.isVip === true
+  // ── Echte Zahlen statt Dummy ────────────────────────────────────────────────
+  //
+  // `certifiedStops` und `is_vip` kommen aus `profiles` und werden
+  // ausschliesslich serverseitig gepflegt. Ohne Backend gibt es keine echten
+  // Werte — dann ist 0 die ehrliche Angabe, NICHT eine erfundene Zahl, die
+  // dem Nutzer eine Stufe und Routen-Slots verspricht, die er nicht hat.
+  const certifiedStops = profile?.certified_stops ?? 0
+  const vip = profile?.is_vip === true
 
-  // Dieselbe Pruefung, die auch die RLS erzwingt. Wird hier aufgerufen, damit
-  // die Sperre begruendet wird, statt den Klick ins Leere laufen zu lassen.
-  const verdict = canPublishRoute({ certifiedStops, publishedRouteCount: 2, vip })
+  // Anzahl veroeffentlichter Routen: die Server-Funktion
+  // `route_publish_allowed()` ist die Wahrheit. Ohne Backend zaehlen wir die
+  // lokalen Seeds, damit die Anzeige nicht faelschlich "0 frei" sagt.
+  const publishedRouteCount = isConfigured ? 0 : routes.length
+
+  const prog = nextTier(certifiedStops)
+  const verdict = canPublishRoute({ certifiedStops, publishedRouteCount, vip })
+
+  const signedIn = Boolean(user)
+
+  function handleCreate() {
+    triggerHaptic(15)
+    if (!isConfigured) {
+      setNotice(
+        'Für eigene Routen braucht es das Backend. Setze VITE_SUPABASE_URL und '
+        + 'VITE_SUPABASE_ANON_KEY in der .env.',
+      )
+      return
+    }
+    if (!signedIn) {
+      setNotice('Bitte melde dich an, um eine eigene Route zu veröffentlichen.')
+      return
+    }
+    setNotice(
+      verdict.allowed
+        ? 'Der Routen-Editor ist der nächste Schritt — Stationserfassung mit Karte und Fotofrist.'
+        : verdict.reason,
+    )
+  }
 
   return (
     <div>
@@ -350,12 +395,7 @@ export default function LocalRoutesPage() {
             </p>
           </div>
           <button
-            onClick={() => {
-              triggerHaptic(15)
-              setNotice(verdict.allowed
-                ? 'Der Routen-Editor ist der nächste Schritt — Stationserfassung mit Karte und Fotofrist.'
-                : verdict.reason)
-            }}
+            onClick={handleCreate}
             className={`btn text-xs py-2 px-3 font-bold ${verdict.allowed ? 'btn-primary' : 'btn-ghost'}`}
             title={verdict.reason}
           >
