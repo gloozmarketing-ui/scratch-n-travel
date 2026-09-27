@@ -147,6 +147,24 @@
 | SNT-346 | 🖥️ UI nach Muster `Chat.tsx` (`TrustBadge`, `ReportDialog`) | 4 h | 👤 A | SNT-344 |
 
 
+### ✅ Behoben am 2026-09-27 — Fotologik & Vertrauensanzeige
+
+> Commit `3c65a31`. Drei Fehler, die jeweils *stillschweigend* den Schutz
+> aufgehoben haben, plus erfundene Zahlen in der UI.
+
+| Karte | Task | Befund |
+|---|---|---|
+| SNT-350 | ✅ `isPhotoVisible` verlangt jetzt `status === 'visible'` | Vorher: `status !== 'flagged' && status !== 'removed'` — ein Foto im Status `in_delay` wurde nach Fristablauf sichtbar. Die 6-Stunden-Sperre war damit nur noch eine Zeitangabe. |
+| SNT-351 | ✅ `expiredPhotos` auf `isPhotoExpired(p)` korrigiert | Vorher: `!isPhotoExpired(p) && isPhotoExpired(p)` — Widerspruch, Liste immer leer. Abgelaufene Personenfotos fielen zusätzlich in „noch geschützt". |
+| SNT-352 | ✅ Drei Foto-Gruppen sind jetzt disjunkt | Vorher lag ein Foto gleichzeitig in `coolingPhotos` und `visiblePhotos`. |
+| SNT-353 | ✅ PNG/WebP werden abgelehnt statt durchgereicht | Vorher: `stripExif` gab sie unverändert mit `stripped: false` zurück, `preparePhotoForUpload` meldete trotzdem Sichtbarkeit und benannte die Datei `.jpg`. Ergebnis: Upload, den die RLS zurückhält — Schatzkasten ohne Bild. |
+| SNT-354 | ✅ `PHOTO_ACCEPT` auf JPEG beschränkt | Dialog bietet nur noch an, was bereinigt werden kann. |
+| SNT-355 | ✅ `certifiedStops`/`is_vip` kommen aus `profiles` | Vorher fest verdrahtet: `6` und `2`. Ein Nutzer bekam eine Stufe und Slots versprochen, die er nicht hatte. |
+| SNT-356 | ✅ `updateProfile()` filtert `certified_stops`/`is_vip` | Dieselben Felder sind clientseitig nicht schreibbar — sonst erfindet sich der Client eine Vertrauensstufe. |
+| SNT-357 | ✅ `test_photo_safety.js` (19 Tests + Gegenprobe) | Der Gegenprobe-Abschnitt führt die alten Logiken bewusst aus: fällt er nicht auf, ist der Test blind. |
+| SNT-358 | ✅ `npm run check:all` = typecheck + schema + photo | CI-tauglicher Sammelbefehl. |
+
+
 
 ### 🟢 P2 — System gesund
 
