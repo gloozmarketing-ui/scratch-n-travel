@@ -1,6 +1,6 @@
 # KANBAN — Scratch'n'Travel
 
-> **Stand:** 2026-09-27 · **Commit:** `6bfcb07`
+> **Stand:** 2026-09-27 · **Commit:** `4713377`
 > **Quelle:** `PROJEKT_AUDIT_2026-09-25.md` → `IMPLEMENTATION_PLAN.md`
 > **Regel:** Eine Karte wandert nur nach rechts, wenn ihr **VERIFY** erfüllt ist. Nicht nach Gefühl.
 
@@ -21,11 +21,11 @@
 
 | Spalte | Karten | Aufwand |
 |---|---|---|
-| 📋 **BACKLOG** | 102 | ~147 h |
+| 📋 **BACKLOG** | 100 | ~146,5 h |
 | 🚧 **IN PROGRESS** | 0 | — |
 | 👀 **REVIEW** | 0 | — |
-| ✅ **DONE** (Befunde 2026-09-27) | 12 | — |
-| ⛔ **BLOCKED** | 6 | — |
+| ✅ **DONE** (Befunde 2026-09-27) | 14 | — |
+| ⛔ **BLOCKED** | 4 | — |
 | 🗑️ **WONTFIX / DROP** | 5 | — |
 
 ---
@@ -141,9 +141,9 @@
 
 | Karte | Task | Aufwand | Verantw. | Abhängig von |
 |---|---|---|---|---|
-| SNT-360 | ⏳ **Entscheidung:** Ersatz-Linie (Reise-Poster A2 + Reisetagebuch „Passport Edition") statt Folienware | 15 min | 👤 V | `POD_ORDERBARKEIT.md` |
-| SNT-361 | ⏳ Entscheidung: Provider — Empfehlung **Printify** (Fallback Prodigi) | 15 min | 👤 V | SNT-360 |
-| SNT-362 | ⏳ Produktname ohne Fremdmarken („Scratch Map®" / „Scratch the World®") | 30 min | 👤 V | SNT-360 |
+| SNT-360 | ✅ Entscheidung (2026-09-27): **Ersatz-Linie „Passport Edition"** — Reise-Poster A2 + Reisetagebuch A5 + Patch + T-Shirt + Tote + Vinyl-Sticker; Folienware (Scratch-Map, Goldfoil-Buchlet) entfällt | — | 👤 V | `POD_ORDERBARKEIT.md` |
+| SNT-361 | ✅ Entscheidung (2026-09-27): **Printify** als Provider (Fallback Prodigi) | — | 👤 V | SNT-360 |
+| SNT-362 | ⏳ Produktname ohne Fremdmarken („Scratch Map®" / „Scratch the World®") — Restlabels in Katalog/Webhook bei SNT-366 mitprüfen | 30 min | 👤 V | SNT-360 ✅ |
 | SNT-363 | 🔑 `PRINTIFY_API_KEY` + `PRINTIFY_SHOP_ID` besorgen | 15 min | 👤 V | SNT-361 |
 | SNT-364 | 🔧 Echte Blueprint-/Variant-IDs in `PRINTIFY_PRODUCT_MAP` statt Platzhalter | 1 h | 👤 A | SNT-363 |
 | SNT-365 | 🧪 Musterbestellung (1 Patch + 1 Poster) + Qualitätscheck | 2 h + Versand | 👤 V | SNT-364 |

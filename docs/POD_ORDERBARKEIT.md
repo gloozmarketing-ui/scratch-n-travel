@@ -8,6 +8,14 @@
 > Flaggschiffe (Scratch-Off-Map mit Folie, Pass-Booklet mit Goldfolie)
 > sind **bei keinem POD-Anbieter lieferbar** — Empfehlung unten.
 
+## 📌 Entscheidung (2026-09-27)
+
+| Punkt | Entscheidung |
+|---|---|
+| **Ersatz-Linie** | ✅ Angenommen: „Passport Edition" = Reise-Poster A2 + Reisetagebuch A5, ergänzt um Patch, T-Shirt, Tote, Vinyl-Sticker. Folienware wird nicht geführt (SNT-360 ✅). |
+| **Provider** | ✅ **Printify** (EU-Druck, breitestes Netz, Mockup-API), Fallback Prodigi (SNT-361 ✅). |
+| **Nächste Schritte** | `PRINTIFY_API_KEY` + `PRINTIFY_SHOP_ID` (SNT-363) → echte Blueprint-/Variant-IDs (SNT-364) → Musterbestellung (SNT-365) → Stripe-Katalog angleichen (SNT-366). |
+
 ---
 
 ## 1. Was aktuell im Katalog liegt

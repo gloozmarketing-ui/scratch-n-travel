@@ -66,8 +66,9 @@
       (**SNT-331, SNT-332**) — blockiert alles Live-Testbare
 - [ ] **RLS-Tests gegen echte Instanz** (`node scripts/test_rls.js`, **SNT-333**)
 - [ ] **`pg_cron` aktivieren** — sonst bleiben Fotos dauerhaft `in_delay` (**SNT-334**)
-- [ ] **Merch-POD:** Ersatz-Linie entscheiden → Keys → echte IDs → Musterbestellung
-      (**SNT-360…365**, Details `docs/POD_ORDERBARKEIT.md`)
+- [ ] **Merch-POD:** Entscheidung ✅ (Ersatz-Linie „Passport Edition" + Printify,
+      SNT-360/361) → offen: Printify-Keys → echte IDs → Musterbestellung
+      (**SNT-363…365**, Details `docs/POD_ORDERBARKEIT.md`)
 - [ ] **Fiktions-Fixes abschließen:** Fake-Scarcity, erfundene Reviews,
       falsche Login-Versprechen (**SNT-110…115**)
 - [ ] **Rechtstexte juristisch prüfen lassen** (**SNT-220**) — vor dem ersten echten Nutzer
