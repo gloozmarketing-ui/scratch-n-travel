@@ -61,6 +61,12 @@ CREATE TABLE IF NOT EXISTS profiles (
     verification_kind   VARCHAR(30),                     -- email | phone | id_document | selfie
     is_local            BOOLEAN DEFAULT FALSE,           -- wohnt tatsächlich in der Stadt
     karma_points        INT DEFAULT 0,
+    -- Ortsverifizierung. Wird ausschliesslich serverseitig befuellt — aus
+    -- bestaetigten Check-ins oder einer Moderationspruefung. public.
+    -- route_publish_allowed() liest genau diese beiden Spalten; ohne sie
+    -- waere die Veroeffentlichungsregel wirkungslos.
+    certified_stops     INT DEFAULT 0 CHECK (certified_stops >= 0),
+    is_vip              BOOLEAN DEFAULT FALSE,
     reports_received    INT DEFAULT 0,
     reports_ignored     INT DEFAULT 0,
     last_seen_at        TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
@@ -76,7 +82,11 @@ CREATE INDEX IF NOT EXISTS idx_profiles_created_at ON profiles(created_at DESC);
 CREATE TABLE IF NOT EXISTS hobbies (
     id          SERIAL PRIMARY KEY,
     slug        VARCHAR(60) UNIQUE NOT NULL,
-
+    -- Die drei folgenden Spalten werden in TEIL 9 befuellt.
+    label_de    VARCHAR(80) NOT NULL,
+    category    VARCHAR(40) NOT NULL DEFAULT 'sonstiges',
+    icon        VARCHAR(8)  NOT NULL DEFAULT '📍'
+);
 -- 1.3 User ↔ Hobby (Many-to-Many) — das Matching läuft hierüber
 CREATE TABLE IF NOT EXISTS profile_hobbies (
     user_id     UUID NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
@@ -154,9 +164,19 @@ CREATE TABLE IF NOT EXISTS follows (
 );
 
 -- 1.7 Blocklist (Sicherheit) ---------------------------------------------
+-- Blockierte Nutzer sehen sich nicht: keine Nachrichten, keine Beitraege,
+-- keine Follows. Die Liste ist symmetrisch gepflegt, damit ein Block fuer
+-- beide Seiten gilt — sonst koennte der Blockierte den Blockierenden
+-- weiterhin anschreiben.
 CREATE TABLE IF NOT EXISTS blocks (
     blocker_id UUID NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
+    blocked_id UUID NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (blocker_id, blocked_id),
+    CONSTRAINT no_self_block CHECK (blocker_id <> blocked_id)
+);
 
+CREATE INDEX IF NOT EXISTS idx_blocks_blocked ON blocks(blocked_id);
 
 -- ============================================================================
 -- TEIL 2 — Community: Meetups & Nachrichten
@@ -215,7 +235,28 @@ CREATE TABLE IF NOT EXISTS conversation_members (
     user_id         UUID NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
     last_read_at    TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (conversation_id, user_id)
+);
 
+CREATE INDEX IF NOT EXISTS idx_conversation_members_user
+  ON conversation_members(user_id);
+
+-- 2.4 Nachrichten -----------------------------------------------------------
+-- Die Nachricht gehoert einer Unterhaltung, nicht einem Nutzer direkt. So
+-- laesst sich die Sichtbarkeit ueber die Teilnehmerliste steuern, ohne jede
+-- Nachricht einzeln pruefen zu muessen.
+CREATE TABLE IF NOT EXISTS messages (
+    id              UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    conversation_id UUID NOT NULL REFERENCES conversations(id) ON DELETE CASCADE,
+    sender_id       UUID NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
+    body            TEXT NOT NULL CHECK (char_length(body) BETWEEN 1 AND 2000),
+    created_at      TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    -- Soft Delete: eine entfernte Nachricht bleibt als Zeile erhalten, damit
+    -- die Reihenfolge im Chat nicht springt.
+    deleted_at      TIMESTAMP WITH TIME ZONE
+);
+
+CREATE INDEX IF NOT EXISTS idx_messages_conversation
+  ON messages(conversation_id, created_at);
 
 -- ============================================================================
 -- TEIL 3 — Trust & Safety
@@ -447,10 +488,25 @@ CREATE TABLE IF NOT EXISTS travel_checklists (
 );
 -- 'draft' | 'reviewed' | 'published'
 -- Nur 'published' darf in der App als gesichert erscheinen.
+-- ---------- hermes_city_brains ----------
+-- Der KI-Stadtratgeber. WICHTIG: Diese Tabelle ist der einzige Ort im Schema,
+-- an dem KI-Inhalte liegen. Ein KI-Ort darf niemals als local_verified
+-- erscheinen — deshalb traegt die Tabelle einen eigenen Status, und die
+-- App zeigt ausschliesslich 'published' als gesichert an.
 CREATE TABLE IF NOT EXISTS hermes_city_brains (
     id           UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     city         VARCHAR(100) UNIQUE NOT NULL,
     country      VARCHAR(100),
+    summary      TEXT NOT NULL DEFAULT '',
+    spots        JSONB NOT NULL DEFAULT '[]'::jsonb,
+    safety_notes JSONB NOT NULL DEFAULT '[]'::jsonb,
+    local_food   JSONB NOT NULL DEFAULT '[]'::jsonb,
+    -- 'draft' | 'reviewed' | 'published'
+    status       VARCHAR(20) NOT NULL DEFAULT 'draft'
+                  CHECK (status IN ('draft', 'reviewed', 'published')),
+    created_at   TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at   TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
 
 -- ---------- meetups ----------
 DROP POLICY IF EXISTS meetups_select_authenticated ON meetups;
@@ -910,13 +966,27 @@ CREATE TABLE IF NOT EXISTS route_stops (
 
 CREATE INDEX IF NOT EXISTS route_stops_route_idx ON route_stops (route_id, position);
 
+-- Fuer die composite FK unten: ein Stop muss eindeutig ueber (id, route_id)
+-- ansprechbar sein. Ohne diesen UNIQUE-Constraint akzeptiert Postgres die
+-- Verknuepfung nicht.
+ALTER TABLE route_stops DROP CONSTRAINT IF EXISTS route_stops_id_route_key;
+ALTER TABLE route_stops ADD CONSTRAINT route_stops_id_route_key UNIQUE (id, route_id);
+
 -- Fortschritt des Reisenden. `visited_at` ist der Beleg fuer den Badge.
 CREATE TABLE IF NOT EXISTS route_progress (
   route_id    uuid NOT NULL REFERENCES routes(id) ON DELETE CASCADE,
   stop_id     uuid NOT NULL REFERENCES route_stops(id) ON DELETE CASCADE,
   traveler_id uuid NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
   visited_at  timestamptz NOT NULL DEFAULT now(),
-  PRIMARY KEY (route_id, stop_id, traveler_id)
+  PRIMARY KEY (route_id, stop_id, traveler_id),
+  -- SICHERHEITSKERN: Ohne diese Verknuepfung koennte jemand den Fortschritt auf
+  -- Route A mit einer Station aus Route B buchen. Der Abhaengigkeits-Zaehler
+  -- in sync_route_completions() filtert das zwar, aber die Zeile selbst waere
+  -- fremd — und genau das ist der Weg, ueber den Besuchsverlauf fremder
+  -- Stationen sichtbar wuerde. Die composite FK erzwingt serverseitig, dass
+  -- stop_id zur angegebenen route_id gehoert.
+  CONSTRAINT route_progress_stop_belongs_to_route
+    FOREIGN KEY (stop_id, route_id) REFERENCES route_stops(id, route_id) ON DELETE CASCADE
 );
 
 CREATE INDEX IF NOT EXISTS route_progress_traveler_idx ON route_progress (traveler_id);
@@ -1052,14 +1122,29 @@ CREATE POLICY routes_insert ON routes FOR INSERT
   );
 
 -- Ein Autor darf seine Route aendern — aber keine fremden Zaehler heben.
+--
+-- WICHTIG: Der Vergleich der Zaehler laeuft ueber eine SECURITY-DEFINER-
+-- Funktion. Ein direktes `(SELECT upvotes FROM routes r WHERE r.id = routes.id)`
+-- in der Policy wuerde beim Pruefen der WITH-Klausel erneut die Policy anwenden
+-- — Postgres bricht solche Konstruktionen mit "infinite recursion detected in
+-- policy" ab. Die Funktion umgeht das, weil SECURITY DEFINER die RLS-Pruefung
+-- fuer diesen einen Lesevorgang aufhebt.
+CREATE OR REPLACE FUNCTION public.route_counters_unchanged(
+  p_route uuid, p_upvotes int, p_downvotes int, p_completions int
+) RETURNS boolean
+LANGUAGE sql STABLE SECURITY DEFINER SET search_path = public AS $$
+  SELECT p_upvotes   = r.upvotes
+     AND p_downvotes = r.downvotes
+     AND p_completions = r.completions
+    FROM routes r WHERE r.id = p_route;
+$$;
+
 DROP POLICY IF EXISTS routes_update ON routes;
 CREATE POLICY routes_update ON routes FOR UPDATE
   USING (author_id = auth.uid())
   WITH CHECK (
     author_id = auth.uid()
-    AND upvotes     = (SELECT upvotes     FROM routes r WHERE r.id = routes.id)
-    AND downvotes   = (SELECT downvotes   FROM routes r WHERE r.id = routes.id)
-    AND completions = (SELECT completions FROM routes r WHERE r.id = routes.id)
+    AND public.route_counters_unchanged(id, upvotes, downvotes, completions)
   );
 
 -- Stationen folgen der Sichtbarkeit ihrer Route.
@@ -1154,13 +1239,25 @@ CREATE POLICY route_photos_insert ON route_photos FOR INSERT
 
 -- Weder Frist noch Status sind nachtraeglich aenderbar. Wer sein Foto sofort
 -- oeffentlich machen will, muss neu hochladen.
+--
+-- Auch hier gilt: der Vergleich laeuft ueber SECURITY DEFINER. Ein direktes
+-- `(SELECT visible_at FROM route_photos p WHERE p.id = route_photos.id)` in
+-- der WITH-Klausel wuerde dieselbe Policy erneut ausloesen und Postgres bricht
+-- es mit "infinite recursion detected in policy for relation route_photos" ab.
+CREATE OR REPLACE FUNCTION public.route_photo_timing_unchanged(
+  p_photo uuid, p_visible_at timestamptz, p_status text
+) RETURNS boolean
+LANGUAGE sql STABLE SECURITY DEFINER SET search_path = public AS $$
+  SELECT p_visible_at = f.visible_at AND p_status = f.status
+    FROM route_photos f WHERE f.id = p_photo;
+$$;
+
 DROP POLICY IF EXISTS route_photos_update ON route_photos;
 CREATE POLICY route_photos_update ON route_photos FOR UPDATE
   USING (author_id = auth.uid())
   WITH CHECK (
     author_id = auth.uid()
-    AND visible_at = (SELECT p.visible_at FROM route_photos p WHERE p.id = route_photos.id)
-    AND status     = (SELECT p.status     FROM route_photos p WHERE p.id = route_photos.id)
+    AND public.route_photo_timing_unchanged(id, visible_at, status)
   );
 
 -- ══════════════════════════════════════════════════════════════════════════
@@ -1333,10 +1430,13 @@ BEGIN
     CREATE EXTENSION IF NOT EXISTS pg_cron;
 
     IF NOT EXISTS (SELECT 1 FROM cron.job WHERE jobname = 'snt-publish-route-photos') THEN
+      -- Der Job-Text nutzt bewusst einfache Anfuehrungszeichen, KEINE Dollar-
+      -- Quotes. Verschachtelte $$ innerhalb eines DO $$ -Blocks schliessen den
+      -- umgebenden Block vorzeitig und brechen den Parser.
       PERFORM cron.schedule(
         'snt-publish-route-photos',
         '7 * * * *',
-        $$SELECT public.publish_due_route_photos()$$
+        'SELECT public.publish_due_route_photos()'
       );
     END IF;
 
@@ -1389,16 +1489,80 @@ CREATE POLICY route_photos_storage_delete ON storage.objects FOR DELETE
     bucket_id = 'route-photos'
     AND (storage.foldername(name))[1] = auth.uid()::text
   );
--- Veroeffentlichen nur mit mindestens einem bestaetigten Ort: die Anti-Wegwerf-
--- Regel, doppelt abgesichert (Policy fragt die Funktion ab, Constraint prueft
--- die gespeicherte Zahl). Die zweite Regel verhindert leere Routen.
+-- "Veroeffentlicht nur mit mindestens einem bestaetigten Ort" bleibt ein echter
+-- CHECK, weil er keine Subquery braucht. "Veroeffentlicht nur mit mindestens
+-- einer Station" braucht eine Subquery — und CHECK-Constraints duerfen in
+-- Postgres KEINE Subqueries enthalten. Deshalb steht dafuer ein Trigger.
 ALTER TABLE routes DROP CONSTRAINT IF EXISTS routes_certified_stop_publish_check;
 ALTER TABLE routes ADD CONSTRAINT routes_certified_stop_publish_check
   CHECK (NOT published OR author_certified_stops >= 1);
 
+-- stations_anzahl spiegelt route_stops. Der Trigger haelt beide synchron, damit
+-- die Regel ohne Subquery auskommt: published <= stations_anzahl.
+ALTER TABLE routes DROP COLUMN IF EXISTS stations_anzahl;
+ALTER TABLE routes ADD COLUMN stations_anzahl int NOT NULL DEFAULT 0;
+
 ALTER TABLE routes DROP CONSTRAINT IF EXISTS routes_published_needs_stops;
 ALTER TABLE routes ADD CONSTRAINT routes_published_needs_stops
-  CHECK (NOT published OR id IN (SELECT route_id FROM route_stops));
+  CHECK (NOT published OR stations_anzahl >= 1);
+
+-- Pflege von stations_anzahl. Ohne diesen Trigger waere die Regel oben umgehbar:
+-- ein Autor koennte published setzen, ohne je eine Station anzulegen.
+CREATE OR REPLACE FUNCTION public.sync_route_station_count()
+RETURNS trigger LANGUAGE plpgsql SECURITY DEFINER SET search_path = public AS $$
+BEGIN
+  -- Beim Einfuegen einer Station zaehlen...
+  IF TG_OP = 'INSERT' AND NEW.published THEN
+    UPDATE routes SET stations_anzahl = stations_anzahl + 1
+     WHERE id = NEW.route_id AND published;
+  -- ...beim Loeschen wieder zurueck.
+  ELSIF TG_OP = 'DELETE' AND OLD.published THEN
+    UPDATE routes SET stations_anzahl = GREATEST(stations_anzahl - 1, 0)
+     WHERE id = OLD.route_id;
+  -- Beim Aendern der Route alle betroffenen Routen neu zaehlen.
+  ELSIF TG_OP = 'UPDATE' THEN
+    IF OLD.published OR NEW.published THEN
+      UPDATE routes r SET stations_anzahl = (
+        SELECT count(*) FROM route_stops s WHERE s.route_id = r.id
+      ) WHERE r.id IN (OLD.route_id, NEW.route_id);
+    END IF;
+  END IF;
+  RETURN NULL;
+END $$;
+
+DROP TRIGGER IF EXISTS route_station_count_ins ON route_stops;
+CREATE TRIGGER route_station_count_ins
+  AFTER INSERT ON route_stops
+  FOR EACH ROW EXECUTE FUNCTION public.sync_route_station_count();
+
+DROP TRIGGER IF EXISTS route_station_count_del ON route_stops;
+CREATE TRIGGER route_station_count_del
+  AFTER DELETE ON route_stops
+  FOR EACH ROW EXECUTE FUNCTION public.sync_route_station_count();
+
+DROP TRIGGER IF EXISTS route_station_count_upd ON route_stops;
+CREATE TRIGGER route_station_count_upd
+  AFTER UPDATE ON route_stops
+  FOR EACH ROW EXECUTE FUNCTION public.sync_route_station_count();
+
+-- Ab hier zaehlt der Trigger: wer eine Route veroeffentlichen will, muss
+-- vorher Stationen anlegen. published=true auf einer leeren Route schlaegt
+-- fehl, weil der BEFORE-INSERT-Trigger von routes das vorher prueft.
+CREATE OR REPLACE FUNCTION public.guard_route_publish()
+RETURNS trigger LANGUAGE plpgsql SECURITY DEFINER SET search_path = public AS $$
+BEGIN
+  IF NEW.published AND NOT EXISTS (SELECT 1 FROM route_stops s WHERE s.route_id = NEW.id) THEN
+    RAISE EXCEPTION
+      'Route "%" kann nicht ohne Station veroeffentlicht werden.', NEW.name
+      USING ERRCODE = 'check_violation';
+  END IF;
+  RETURN NEW;
+END $$;
+
+DROP TRIGGER IF EXISTS route_publish_guard ON routes;
+CREATE TRIGGER route_publish_guard
+  BEFORE INSERT OR UPDATE OF published ON routes
+  FOR EACH ROW EXECUTE FUNCTION public.guard_route_publish();
 
 
 

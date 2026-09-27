@@ -11,6 +11,8 @@
     "preview": "vite preview",
     "start": "npx serve dist",
     "typecheck": "tsc --noEmit",
+    "check:schema": "node scripts/check_schema.js",
+    "check:all": "npm run typecheck && npm run check:schema",
     "seed": "node scripts/hermes_travel_seeder.js"
   },
   "keywords": [

@@ -104,6 +104,49 @@
 | SNT-315 | 📄 `docs/MEETUP_001_REPORT.md` schreiben | 1 h | 👤 V | SNT-314 |
 
 
+### 🔴 P0 — Schema war nie ausführbar (gefunden 2026-09-27)
+
+> **Befund:** `supabase/schema.sql` brach bereits in Zeile 76 mit einem Syntaxfehler ab.
+> Weil der Fehler so früh liegt, wurde **nichts** danach ausgeführt — keine RLS-Policy,
+> kein pg_cron, keine Routen-Tabelle. Das erklärt den Demo-Modus der Live-Version.
+> `npm run check:schema` fängt das statisch ab, ersetzt aber keine echte Instanz.
+
+| Karte | Task | Aufwand | Verantw. | Abhängig von |
+|---|---|---|---|---|
+| SNT-320 | ✅ `hobbies` vervollständigt (fehlten `label_de`, `category`, `icon`, `);`) | — | 👤 A | — |
+| SNT-321 | ✅ `blocks` vervollständigt (fehlten `blocked_id`, PK, Constraint) | — | 👤 A | — |
+| SNT-322 | ✅ `conversation_members` vervollständigt + `messages` angelegt | — | 👤 A | — |
+| SNT-323 | ✅ `hermes_city_brains` vervollständigt (fehlten `status`, `local_food`) | — | 👤 A | — |
+| SNT-324 | ✅ CHECK-mit-Subquery (`routes_published_needs_stops`) → `stations_anzahl` + Trigger | — | 👤 A | — |
+| SNT-325 | ✅ Verschachteltes `$$` im `pg_cron`-Block entfernt | — | 👤 A | — |
+| SNT-326 | ✅ Rekursive `routes_update`-Policy → `SECURITY DEFINER`-Helper | — | 👤 A | — |
+| SNT-327 | ✅ Rekursive `route_photos_update`-Policy → `SECURITY DEFINER`-Helper | — | 👤 A | — |
+| SNT-328 | ✅ `route_progress` mit composite FK auf `(stop_id, route_id)` | — | 👤 A | — |
+| SNT-329 | ✅ `profiles.certified_stops` + `is_vip` ergänzt (Funktion las fehlende Spalten) | — | 👤 A | — |
+| SNT-330 | 🧪 `npm run check:schema` als npm-Script + `scripts/check_schema.js` | — | 👤 A | — |
+| SNT-331 | 🔴 **Supabase-Projekt anlegen + `schema.sql` ausführen** | 30 min | 👤 V | SNT-320…330 |
+| SNT-332 | 🔴 `VITE_SUPABASE_URL` + `VITE_SUPABASE_ANON_KEY` in `.env` **und** Vercel | 15 min | 👤 V | SNT-331 |
+| SNT-333 | 🔴 `node scripts/test_rls.js` mit echten Credentials | 30 min | 👤 A | SNT-332 |
+| SNT-334 | 🔴 `pg_cron` im Dashboard aktivieren, sonst bleiben Fotos dauerhaft `in_delay` | 10 min | 👤 V | SNT-331 |
+
+
+### 🟠 P1 — Orts-Chat (Entscheidung offen, siehe ADR)
+
+> **Sicherheitsentscheidung:** `src/pages/Chat.tsx` schließt Gruppen-Chats bewusst aus
+> ("Der Haupthebel für Belästigung sind offene Räume"). Der Orts-Chat hebt das auf und
+> muss das explizit dokumentieren. **Keine Echtzeit-Präsenz, keine Entfernungsanzeige.**
+
+| Karte | Task | Aufwand | Verantw. | Abhängig von |
+|---|---|---|---|---|
+| SNT-340 | 📄 ADR: Gruppen-Chat ja/nein, Radius 5 km statt 30 km | 1 h | 👤 V | — |
+| SNT-341 | 📄 `docs/ADR_ORTSCHAT.md` schreiben | 1 h | 👤 A | SNT-340 |
+| SNT-342 | 🗄️ `place_channels` + `chat_posts` + `chat_consent` (additive Migration) | 3 h | 👤 A | SNT-332, SNT-341 |
+| SNT-343 | 🔐 Geo-RPC (`SECURITY DEFINER`) vergibt kurzlebiges Kanal-Token | 2 h | 👤 A | SNT-342 |
+| SNT-344 | 🔐 RLS: öffentlich lesen, Schreiben nur mit Token, Antwortende brauchen Trust | 2 h | 👤 A | SNT-343 |
+| SNT-345 | 🧪 Missbrauchstests: Radius, Rate-Limit, Block, Report | 2 h | 👤 A | SNT-344 |
+| SNT-346 | 🖥️ UI nach Muster `Chat.tsx` (`TrustBadge`, `ReportDialog`) | 4 h | 👤 A | SNT-344 |
+
+
 
 ### 🟢 P2 — System gesund
 

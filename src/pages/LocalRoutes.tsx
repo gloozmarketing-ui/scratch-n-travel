@@ -3,9 +3,14 @@ import { LocalRoute, routeProgress, isRouteComplete, routeBadgeName, formatRoute
 import { localRoutes } from '../data/routeSeeds'
 import { useTravel } from '../context/TravelContext'
 import DemoDataBadge from '../components/DemoDataBadge'
-import { tierLabel, nextTier } from '../data/trust'
-import { isPhotoVisible, isPhotoExpired, PHOTO_DELAY_MINUTES, PERSON_PHOTO_TTL_HOURS } from '../lib/photoSafety'
-import { photoCooldownMinutes } from '../data/routes'
+import { tierLabel, nextTier, canPublishRoute } from '../data/trust'
+import {
+  isPhotoVisible,
+  isPhotoExpired,
+  photoCooldownMinutes,
+  PHOTO_DELAY_MINUTES,
+  PERSON_PHOTO_TTL_HOURS,
+} from '../lib/photoSafety'
 
 /**
  * Die Schatzkarte ist ein SVG, kein Leaflet-Overlay.
@@ -291,11 +296,12 @@ function RouteDetail({ route, onBack }: { route: LocalRoute; onBack: () => void 
 }
 
 export default function LocalRoutesPage() {
-  const { triggerHaptic } = useTravel()
+  const { triggerHaptic, user } = useTravel()
   const [routes] = useState<LocalRoute[]>(localRoutes)
   const [open, setOpen] = useState<LocalRoute | null>(null)
   const [city, setCity] = useState('Alle')
   const [localOnly, setLocalOnly] = useState(false)
+  const [notice, setNotice] = useState<string | null>(null)
 
   const cities = useMemo(() => ['Alle', ...new Set(localRoutes.map(r => r.city))], [])
   const filtered = useMemo(
@@ -305,7 +311,16 @@ export default function LocalRoutesPage() {
 
   if (open) return <RouteDetail route={open} onBack={() => { triggerHaptic(10); setOpen(null) }} />
 
-  const prog = nextTier(6)
+  // Die Stufe wird aus echten Ortsbestaetigungen abgeleitet, nicht aus einer
+  // geratenen Zahl — sonst waere die Anzeige nur Theater gegenueber dem
+  // Nutzer. Dummy: 6 bestaetigte Orte, bis der Auth-Context den Wert liefert.
+  const certifiedStops = 6
+  const prog = nextTier(certifiedStops)
+  const vip = (user as { isVip?: boolean } | undefined)?.isVip === true
+
+  // Dieselbe Pruefung, die auch die RLS erzwingt. Wird hier aufgerufen, damit
+  // die Sperre begruendet wird, statt den Klick ins Leere laufen zu lassen.
+  const verdict = canPublishRoute({ certifiedStops, publishedRouteCount: 2, vip })
 
   return (
     <div>
@@ -330,14 +345,38 @@ export default function LocalRoutesPage() {
             <div className="trust-meter mt-2">
               <div style={{ width: `${prog.progress * 100}%` }} />
             </div>
+            <p className="text-[0.65rem] text-ink-faint mt-2 font-mono">
+              {verdict.slotsLeft} von {verdict.limit ?? prog.current.routeLimit} Routen-Slots frei
+            </p>
           </div>
           <button
-            onClick={() => { triggerHaptic(15); alert('Der Routen-Editor folgt im nächsten Schritt.') }}
-            className="btn btn-primary text-xs py-2 px-3 font-bold"
+            onClick={() => {
+              triggerHaptic(15)
+              setNotice(verdict.allowed
+                ? 'Der Routen-Editor ist der nächste Schritt — Stationserfassung mit Karte und Fotofrist.'
+                : verdict.reason)
+            }}
+            className={`btn text-xs py-2 px-3 font-bold ${verdict.allowed ? 'btn-primary' : 'btn-ghost'}`}
+            title={verdict.reason}
           >
-            + Eigene Route ({prog.current.routeLimit} frei)
+            + Eigene Route
           </button>
         </div>
+
+        {/* Kein alert(): ein Browser-Dialog bricht den Flow und ist auf Mobil
+            unbrauchbar. Der Hinweis erscheint inline und verschwindet wieder. */}
+        {notice && (
+          <div
+            role="status"
+            className="flex items-start gap-2 text-xs text-ink-soft bg-sun-wash border border-sun rounded p-3"
+          >
+            <span className="text-sun font-semibold shrink-0">ⓘ</span>
+            <span className="flex-1">{notice}</span>
+            <button onClick={() => setNotice(null)} className="text-ink-faint hover:text-ink shrink-0" aria-label="Hinweis schließen">
+              ✕
+            </button>
+          </div>
+        )}
 
         <div className="flex gap-3 flex-wrap items-center">
           <div className="flex gap-1.5 flex-wrap">

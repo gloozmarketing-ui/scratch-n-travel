@@ -113,7 +113,7 @@ export function nextTier(count: number): {
   }
 }
 
-/** Kleinster Weg zur naechsten Stufe in Bezug auf *Anzahl Orte*. */
+/** Zentrales Ergebnis der Freigabepruefung fuer eine Route. */
 export interface TrustVerdict {
   allowed: boolean
   tier: TrustTier
@@ -121,6 +121,9 @@ export interface TrustVerdict {
   reason: string
   /** Verbleibende freie Routen-Slots. */
   slotsLeft: number
+  /** Das Gesamtkontingent. Die UI zeigt "x von y frei" — ohne dieses Feld
+   *  waere die Anzeige nicht nachvollziehbar. */
+  limit: number
   /** Falls VIP: um wie viele Slots erweitert. */
   vipBonus: number
 }
@@ -151,6 +154,7 @@ export function canPublishRoute(args: {
       tier,
       reason: `Benoetigt mindestens 1 bestaetigten Ort. Du hast ${args.certifiedStops}.`,
       slotsLeft: 0,
+      limit,
       vipBonus,
     }
   }
@@ -158,10 +162,13 @@ export function canPublishRoute(args: {
     return {
       allowed: false,
       tier,
+      // Der VIP-Hinweis erscheint nur, wenn es VIP ueberhaupt gibt — sonst
+      // wiesse der gesperrte Nutzer nicht, woran er scheitert.
       reason: args.vip
         ? `Kontingent erschoepft: ${args.publishedRouteCount}/${limit} Routen.`
         : `Kontingent erschoepft: ${args.publishedRouteCount}/${limit} Routen. VIP +${vipBonus} Slots.`,
       slotsLeft: 0,
+      limit,
       vipBonus,
     }
   }
@@ -170,6 +177,7 @@ export function canPublishRoute(args: {
     tier,
     reason: `Freigabe als ${tier.name}. Noch ${slotsLeft} von ${limit} Routen frei.`,
     slotsLeft,
+    limit,
     vipBonus,
   }
 }

@@ -35,7 +35,7 @@ const photo = (
   expiresAt: hasPerson
     ? new Date(Date.now() + 24 * 3600_000).toISOString()
     : null,
-  status: hoursAgo >= 6 ? 'visible' : 'in_ delay',
+  status: hoursAgo >= 6 ? 'visible' : 'in_delay',
 })
 
 export const localRoutes: LocalRoute[] = [

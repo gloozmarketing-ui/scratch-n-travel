@@ -153,6 +153,24 @@ export interface RoutePhotoLike {
   status?: string
 }
 
+/**
+ * Verbleibende Schutzfrist in Minuten. Null, sobald das Foto sichtbar ist.
+ *
+ * Bewusst neben `isPhotoVisible` und nicht in data/routes.ts: es ist eine
+ * Anzeigeregel, dieselbe Kategorie wie die beiden anderen. Hier stand vorher
+ * eine zweite, aeltere Fassung — wer nach `photoCooldownMinutes` gesucht hat,
+ * musste raten, welche gilt.
+ */
+export function photoCooldownMinutes(
+  photo: RoutePhotoLike,
+  now = Date.now(),
+): number | null {
+  const at = new Date(photo.visibleAt).getTime()
+  if (!Number.isFinite(at)) return null
+  const left = Math.ceil((at - now) / 60000)
+  return left > 0 ? left : null
+}
+
 /** Kurzer Hinweistext fuer abgelaufene Personenfotos. */
 export function isPhotoExpired(photo: RoutePhotoLike, now = Date.now()): boolean {
   if (!photo.expiresAt) return false

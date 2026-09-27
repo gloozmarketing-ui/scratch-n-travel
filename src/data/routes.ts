@@ -65,7 +65,7 @@ export interface RoutePhoto {
   hasPerson: boolean
   /** Null bei personenfreien Fotos. */
   expiresAt: string | null
-  status: 'in_ delay' | 'visible' | 'flagged' | 'removed'
+  status: 'in_delay' | 'visible' | 'flagged' | 'removed'
 }
 
 export interface LocalRoute {
@@ -138,15 +138,4 @@ export function formatRouteDuration(minutes: number): string {
   if (h === 0) return `${m} Min`
   if (m === 0) return `${h} Std`
   return `${h} Std ${m} Min`
-}
-
-/**
- * Verbleibende Verzoegerung fuer die Anzeige. Gibt null zurueck, sobald das
- * Foto sichtbar ist.
- */
-export function photoCooldownMinutes(photo: RoutePhoto, now = Date.now()): number | null {
-  const at = new Date(photo.visibleAt).getTime()
-  if (!Number.isFinite(at)) return null
-  const left = Math.ceil((at - now) / 60000)
-  return left > 0 ? left : null
 }
