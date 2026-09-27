@@ -12,15 +12,29 @@
 const ROOT_DIR = path.resolve(__dirname, '..');
 const SITE_BASE_URL = process.env.SITE_URL || 'https://scratchntravel.com';
 
-// 1. Generate sitemap.xml
+// 1. Generate sitemap.xml (Routen gespiegelt aus src/routes.ts — nur indexierbare;
+//    /profile, /host, /chat, /login bleiben bewusst draussen, s. public/robots.txt)
 function generateSitemap() {
   const pages = [
-    { url: '/', priority: '1.0', changefreq: 'daily' },
     { url: '/', priority: '1.0', changefreq: 'weekly' },
-    { url: '/magazin/die-10-besten-surfspots-in-portugal.html', priority: '0.8', changefreq: 'weekly' },
-    { url: '/magazin/mit-kindern-reisen-15-tipps.html', priority: '0.8', changefreq: 'weekly' },
-    { url: '/magazin/digital-nomad-guide-lissabon.html', priority: '0.8', changefreq: 'weekly' },
-    { url: '/magazin/extreme-sports-nazare-big-waves-guide.html', priority: '0.8', changefreq: 'weekly' }
+    { url: '/explore', priority: '0.8', changefreq: 'weekly' },
+    { url: '/people', priority: '0.8', changefreq: 'daily' },
+    { url: '/meetups', priority: '0.8', changefreq: 'daily' },
+    { url: '/safety', priority: '0.5', changefreq: 'monthly' },
+    { url: '/stories', priority: '0.6', changefreq: 'weekly' },
+    { url: '/tours', priority: '0.6', changefreq: 'weekly' },
+    { url: '/scratch', priority: '0.7', changefreq: 'weekly' },
+    { url: '/passport', priority: '0.7', changefreq: 'weekly' },
+    { url: '/local-routes', priority: '0.6', changefreq: 'weekly' },
+    { url: '/badges', priority: '0.6', changefreq: 'weekly' },
+    { url: '/wanderbond', priority: '0.6', changefreq: 'weekly' },
+    { url: '/pricing', priority: '0.7', changefreq: 'monthly' },
+    { url: '/radar', priority: '0.6', changefreq: 'weekly' },
+    { url: '/checklists', priority: '0.5', changefreq: 'weekly' },
+    { url: '/ai', priority: '0.6', changefreq: 'weekly' },
+    { url: '/impressum', priority: '0.3', changefreq: 'yearly' },
+    { url: '/datenschutz', priority: '0.3', changefreq: 'yearly' },
+    { url: '/terms', priority: '0.3', changefreq: 'yearly' }
   ];
 
   const now = new Date().toISOString().split('T')[0];
@@ -38,34 +52,35 @@ function generateSitemap() {
 
   xml += '</urlset>\n';
 
-  const sitemapPath = path.join(ROOT_DIR, 'sitemap.xml');
+  // Wichtig: public/ ist Vites publicDir — nur dort landet die Datei im dist/.
+  const sitemapPath = path.join(ROOT_DIR, 'public', 'sitemap.xml');
   fs.writeFileSync(sitemapPath, xml, 'utf8');
   console.log('✅ Generated sitemap.xml with ' + pages.length + ' indexed URLs');
 }
 
-// 2. Generate robots.txt
+// 2. Generate robots.txt (identisch zu public/robots.txt — handgepflegt als Quelle)
 function generateRobotsTxt() {
-  const robots = `# Scratch'n'Travel Robots Configuration
+  const robots = `# Scratch'n'Travel — robots.txt
+# Die Plattform ist eine Community: Öffentliche Inhalte sollen indexierbar sein,
+# private Bereiche, API-Endpunkte und interne Werkzeuge nicht.
+
 User-agent: *
 Allow: /
 Disallow: /api/
-Disallow: /scratch/
-Disallow: /private/
+Disallow: /growth
+Disallow: /host
+Disallow: /admin
+Disallow: /chat
+Disallow: /profile
 
-# AI Crawlers & Search Engines
-User-agent: Googlebot
-Allow: /
+# Crawl-Budget schonen
+Crawl-delay: 1
 
-User-agent: Bingbot
-Allow: /
-
-User-agent: Applebot
-Allow: /
-
+# Sitemap liegt auf der Produktionsdomain
 Sitemap: ${SITE_BASE_URL}/sitemap.xml
 `;
 
-  const robotsPath = path.join(ROOT_DIR, 'robots.txt');
+  const robotsPath = path.join(ROOT_DIR, 'public', 'robots.txt');
   fs.writeFileSync(robotsPath, robots, 'utf8');
   console.log('✅ Generated robots.txt');
 }
@@ -245,12 +260,7 @@ function injectJsonLd() {
             "priceCurrency": "EUR",
             "name": "Business Partner & Host Tier (/Mo)"
           }
-        ],
-        "aggregateRating": {
-          "@type": "AggregateRating",
-          "ratingValue": "4.9",
-          "reviewCount": "2847"
-        }
+        ]
       },
       {
         "@type": "FAQPage",

@@ -20,6 +20,19 @@ npm run dev        # http://localhost:5173
 
 `dist/` ist bewusst **nicht** im Repo — Vercel baut selbst.
 
+## Deployments (Prod vs. Staging)
+
+| Ziel | Baut | Quelle |
+|---|---|---|
+| **Produktion** `scratch-n-travel.vercel.app` | `vercel build` (Root-Vite-Projekt) | `.github/workflows/deploy.yml` |
+| **Staging/Mirror** `scratch-n-travel-six.vercel.app` | `verschiedene webseit versionen/04.09.2026/` (Figma-Make-Legacy) | eigene Vercel-Project-Einstellung — bewusst `noindex` (`X-Robots-Tag` + `robots: index: false`) |
+
+Wichtig: `scratch_hermes_cron.yml` baut seit 2026-09-27 **nichts** mehr — er
+kopierte früher den Legacy-Build nach Root-`index.html`/`dist/` und überschrieb
+damit täglich die Produktion (Titel „Figma Make App", `noindex`,
+`robots.txt Disallow: /`). Alles, was ausgeliefert wird, liegt in `public/`
+(`robots.txt`, `sitemap.xml`, `sw.js`, `manifest.json`, Google-Verifizierung).
+
 ## Umgebungsvariablen
 
 `.env.example` kopieren nach `.env`. Ohne Supabase läuft die App im

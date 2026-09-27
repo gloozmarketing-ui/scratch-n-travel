@@ -51,16 +51,11 @@ jobs:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
 
-      - name: Build Web Application
-        working-directory: ./verschiedene webseit versionen/04.09.2026
-        run: |
-          npm install
-          npm run build
-
-      - name: Sync Dist Artifacts
-        run: |
-          cp -r "verschiedene webseit versionen/04.09.2026/dist/"* dist/
-          cp "verschiedene webseit versionen/04.09.2026/dist/index.html" index.html
+      # SNT-104/105: Hier wurde früher der Legacy-Build (04.09.2026) erzeugt und
+      # per `cp` über Root-`index.html` + `dist/` geschoben. Das hat die
+      # Produktion täglich mit dem Figma-Make-Default überschrieben
+      # ("Figma Make App", noindex, robots.txt "Disallow: /").
+      # Produktion baut ausschliesslich via deploy.yml (`vercel build`).
 
       - name: Commit & Push Daily Spots & Social Campaigns
         run: |

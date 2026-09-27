@@ -1,6 +1,6 @@
 # KANBAN — Scratch'n'Travel
 
-> **Stand:** 2026-09-27 · **Commit:** `4713377`
+> **Stand:** 2026-09-27 · **Commits:** `4713377` → `2238efb` → SEO/Robots (SNT-104…107)
 > **Quelle:** `PROJEKT_AUDIT_2026-09-25.md` → `IMPLEMENTATION_PLAN.md`
 > **Regel:** Eine Karte wandert nur nach rechts, wenn ihr **VERIFY** erfüllt ist. Nicht nach Gefühl.
 
@@ -21,10 +21,10 @@
 
 | Spalte | Karten | Aufwand |
 |---|---|---|
-| 📋 **BACKLOG** | 100 | ~146,5 h |
+| 📋 **BACKLOG** | 96 | ~145 h |
 | 🚧 **IN PROGRESS** | 0 | — |
 | 👀 **REVIEW** | 0 | — |
-| ✅ **DONE** (Befunde 2026-09-27) | 14 | — |
+| ✅ **DONE** (Befunde 2026-09-27) | 18 | — |
 | ⛔ **BLOCKED** | 4 | — |
 | 🗑️ **WONTFIX / DROP** | 5 | — |
 
@@ -39,12 +39,8 @@
 | SNT-101 | 🔐 API-Keys widerrufen + aus Code entfernen | 1 h | 👤 V | — |
 | SNT-102 | 📄 `.env.example` anlegen (10 Variablen) | 15 min | 👤 A | — |
 | SNT-103 | 🚫 `503 AI_NOT_CONFIGURED` statt 500 bei fehlenden Keys | 1 h | 👤 A | SNT-101 |
-| SNT-104 | 🌐 `04.09.2026/index.html`: echte SEO-Metas statt Figma-Placeholder | 1 h | 👤 A | — |
-| SNT-105 | 🤖 `site.json` `robots.index` korrigieren | 10 min | 👤 A | SNT-104 |
-| SNT-106 | 🏷️ Staging (`-six`) auf `X-Robots-Tag: noindex` | 20 min | 👤 A | SNT-104 |
-| SNT-107 | 📖 `robots.txt`: `Disallow: /` → `Allow: /` (+ `/api/`, `/growth/` sperren) | 15 min | 👤 A | — |
 | SNT-108 | 🌐 Domain-Entscheidung: `scratchntravel.com` kaufen oder Vercel-URL nutzen | 30 min | 👤 V | — |
-| SNT-109 | 🔗 `sitemap.xml` + `canonical` + `og:url` konsistent | 45 min | 👤 A | SNT-108 |
+| SNT-109 | 🔗 `sitemap.xml` (✅ 19 URLs, routen-synchron) + `canonical`/`og:url` (✅ in `index.html`) konsistent halten — Rest nur noch bei Domainentscheidung ≠ `scratchntravel.com` | 45 min | 👤 A | SNT-108 |
 | SNT-110 | 🎭 `tours[]`: erfundene Reviews/Ratings flaggen oder entfernen | 2 h | 👤 A | — |
 | SNT-111 | 🎰 `cities[]`: Fake-Scarcity (`total`/`taken`) entfernen | 30 min | 👤 A | — |
 | SNT-112 | 🤖 `community_extender.js`: 4 erzwungene Felder korrigieren | 1,5 h | 👤 A | — |
@@ -52,7 +48,7 @@
 | SNT-114 | 🧪 `GrowthStudio`: Mallorca-Headline dynamisch | 30 min | 👤 A | — |
 | SNT-115 | 🔐 `Login.tsx`: falsche DSGVO-/Verschlüsselungs-Versprechen entfernen | 20 min | 👤 A | — |
 
-**Phase-0-Aufwand gesamt: ~11 h**
+**Phase-0-Aufwand gesamt: ~9 h** (SNT-104…107 erledigt: −1,75 h)
 
 ---
 
@@ -169,6 +165,23 @@
 | SNT-345 | 🧪 Missbrauchstests: Radius, Rate-Limit, Block, Report | 2 h | 👤 A | SNT-344 |
 | SNT-346 | 🖥️ UI nach Muster `Chat.tsx` (`TrustBadge`, `ReportDialog`) | 4 h | 👤 A | SNT-344 |
 
+
+### ✅ Behoben am 2026-09-27 — SEO/Robots (SNT-104 … 107)
+
+> **Befund:** Zwei Deployments, aber das falsche gewinnt: `scratch_hermes_cron.yml`
+> baute täglich das Legacy-Figma-Setup (`verschiedene webseit versionen/04.09.2026/`)
+> und kopierte dessen `index.html` nach Root — die Produktion trug damit
+> „Figma Make App", `noindex` und `robots.txt: Disallow: /`. Zusätzlich lagen
+> `sitemap.xml`, `sw.js`, `manifest.json` und die Google-Verifizierung außerhalb
+> von `public/` — ein sauberer `vite build` hätte sie nie ausgeliefert.
+
+| Karte | Task | Befund |
+|---|---|---|
+| SNT-104 | ✅ Echte SEO-Metas im Legacy-Build + Cron-Fix | `.figma/make/site.json` hatte kein `title`/`language` — der Figma-Plugin-Fallback „Figma Make App" landete live. Jetzt: echter Title, Description, `language: "de"`, OG-Bild. Die Cron-Build-/Kopierschritte (`Build Web Application` + `Sync Dist Artifacts`), die Prod täglich überschrieben, sind entfernt. |
+| SNT-105 | ✅ `site.json` `robots.index` | Bewusst `false` belassen (= Staging-Intent, absichtlich noindex). Korrigiert ist, dass **Produktion** diesen Build nicht mehr bekommt (Cron-Fix). |
+| SNT-106 | ✅ Staging `X-Robots-Tag: noindex` | Neu: `04.09.2026/vercel.json` — `X-Robots-Tag: noindex, nofollow` für alle Pfade (plus `nosniff`, `SAMEORIGIN`, `Referrer-Policy`, SPA-Rewrite). |
+| SNT-107 | ✅ `robots.txt` | `public/robots.txt`: `Allow: /` ✓; gesperrt `/api/`, `/growth`, `/host`, `/admin`, `/chat`, `/profile` (neu); `Sitemap:`-Zeile ✓. Liegt nach Build in `dist/robots.txt`. |
+| Infrastructure | ✅ Artefakte nach `public/` verschoben | `sitemap.xml`, `sw.js`, `googlead062dfe6cb025cf.html` via `git mv` nach `public/`; `public/manifest.json` neu (Vite-`publicDir` = einzige Auslieferungsquelle). `hermes_seo_growth_engine.js` schreibt jetzt ebenfalls nach `public/`, erzeugt die echten 19 Routen (statt Legacy-`/magazin/`) und erfindet keine `aggregateRating` mehr. |
 
 ### ✅ Behoben am 2026-09-27 — Fotologik & Vertrauensanzeige
 

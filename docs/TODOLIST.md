@@ -37,18 +37,25 @@
 ## 🌙 Tag 2 — Auslieferung + SEO
 
 ### 🌐 Zwei Deployments (SNT-104 … 106)
-- [ ] `04.09.2026/index.html` — Figma-Platzhalter durch echte Meta-Tags ersetzen
-- [ ] `.figma/make/site.json` — `"robots": { "index": false }` korrigieren/entfernen
-- [ ] `vercel.json` — Staging (`-six`) mit `X-Robots-Tag: noindex`
-- [ ] `AGENTS.md` + README — Rollen von Prod und Staging dokumentieren
-- [ ] **Verify:** Beide URLs liefern Titel, `lang="de"`, kein `noindex`
+- [x] `04.09.2026` — Figma-Platzhalter durch echte Meta-Tags ersetzt
+      (via `.figma/make/site.json`: Title, Description, `language: "de"`; der
+      Cron-Fix stoppt das tägliche Überschreiben von Prod)
+- [x] `.figma/make/site.json` — `robots.index: false` bleibt bewusst (Staging),
+      Produktion bekommt diesen Build nicht mehr (SNT-105 ✅)
+- [x] `04.09.2026/vercel.json` — Staging (`-six`) mit `X-Robots-Tag: noindex`
+- [x] `README.md` + `.agents/AGENTS.md` — Rollen von Prod und Staging dokumentiert
+- [ ] **Verify:** Prod-URL liefert Titel, `lang="de"`, kein `noindex`;
+      Staging `-six` (nach Deploy) liefert Titel + `X-Robots-Tag: noindex`
 
 ### 📖 robots + Domain (SNT-107 … 109)
-- [ ] `robots.txt` (Root + `dist/`): `Disallow: /` → `Allow: /`, `/api/` + `/growth/` sperren
-- [ ] **Entscheidung:** `scratchntravel.com` kaufen ODER Vercel-URL als kanonisch
-- [ ] `sitemap.xml`, `canonical`, `og:url` konsistent ziehen
-- [ ] Search Console mit Token `ad062dfe6cb025cf` bestätigen
-- [ ] **Verify:** `robots.txt` zeigt `Allow: /`; Domain antwortet mit 200
+- [x] `robots.txt`: `Allow: /` + Sperren für `/api/`, `/growth`, `/host`,
+      `/admin`, `/chat`, `/profile` (Quelle `public/robots.txt` → `dist/`)
+- [ ] **Entscheidung:** `scratchntravel.com` kaufen ODER Vercel-URL als kanonisch (SNT-108)
+- [x] `sitemap.xml` (19 URLs, routen-synchron), `canonical`, `og:url` —
+      alles konsistent auf `https://scratchntravel.com/`
+- [ ] Search Console mit Token `ad062dfe6cb025cf` bestätigen (nach Domain-Entscheidung)
+- [ ] **Verify:** `dist/robots.txt` zeigt `Allow: /`; `dist/sitemap.xml` +
+      `dist/sw.js` + `dist/manifest.json` vorhanden; Domain antwortet mit 200
 
 ---
 

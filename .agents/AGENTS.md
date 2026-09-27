@@ -61,7 +61,9 @@ Deine Mission für Kontenlage: Bereitstellung einer **unabhängigen, faktenbasie
 - **Lokaler Workspace**: `G:\Scratch´nTravel`
 - **GitHub Repository**: `https://github.com/gloozmarketing-ui/scratch-n-travel.git`
 - **Original Production Domain**: `https://scratch-n-travel.vercel.app` (Vercel-Deployment via GitHub Actions `.github/workflows/deploy.yml` mit `VERCEL_TOKEN`)
-- **CLI Mirror Domain**: `https://scratch-n-travel-six.vercel.app` (Vercel CLI Projekt `scratch-n-travel`)
+- **CLI Mirror Domain**: `https://scratch-n-travel-six.vercel.app` (Vercel CLI Projekt `scratch-n-travel` = Legacy-Figma-Build `verschiedene webseit versionen/04.09.2026/`, bewusst `noindex` via `X-Robots-Tag` + `site.json`)
+- **Deploy-Rollen**: Nur `deploy.yml` baut Produktion (`vercel build` aus Repo-Root); `scratch_hermes_cron.yml` baut seit 2026-09-27 nichts mehr (SNT-104/105 — früher tägliches Überschreiben von Prod mit dem Legacy-Build)
+- **SEO-Basis**: `public/robots.txt` + `public/sitemap.xml` (19 URLs) sind die Quelle; `dist/` entsteht ausschließlich aus `public/` (SNT-107/109)
 - **Autonome Hermes Engine**: `merch_pod_designer`, `nous-hermes-travel-design`, `hermes-weekly-reflection`
 
 ### 3. FUDI Health (Ernährungs-, Blutzucker- & Fitness-App)

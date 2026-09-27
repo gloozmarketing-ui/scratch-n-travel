@@ -9,6 +9,7 @@ Disallow: /growth
 Disallow: /host
 Disallow: /admin
 Disallow: /chat
+Disallow: /profile
 
 # Crawl-Budget schonen
 Crawl-delay: 1
