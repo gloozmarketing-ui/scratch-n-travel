@@ -5,6 +5,10 @@
 > **Regel:** Eine Karte wandert nur nach rechts, wenn ihr **VERIFY** erfüllt ist. Nicht nach Gefühl.
 > **2026-09-30:** SNT-101 Code-Teil erledigt — Hardcoded Keys aus 14 Commits entfernt
 > (filter-branch), Push Protection grün, Deploy `4c26c94` live verifiziert.
+> **2026-09-30 (2):** API-500-Fix `04a10f9` — Root-`type: module` ließ alle CommonJS-
+> Functions vor dem Handler crashten (`FUNCTION_INVOCATION_FAILED`); `api/package.json`
+> (`"type": "commonjs"`) + Lazy-Stripe-Require. Alle 6 Endpunkte live verifiziert
+> (405/400/200, kein 500er). UI-Audit „Keine Befunde", Build ✅.
 > **Offen (Owner):** Keys bei Zenmux/Requesty/Cerebras/Vercel/Cloudflare/Printful **widerrufen**.
 
 ## Legende

@@ -85,8 +85,11 @@
 - [ ] **Rechtstexte juristisch prüfen lassen** (**SNT-220**) — vor dem ersten echten Nutzer
 - [ ] **UI-Audit grün halten:** `npm run check:ui` (tote Buttons ✅ SNT-370…372,
       nächste Seiten mit Demo-Daten/Platzhaltern abarbeiten)
-- [ ] **Verify:** `npm run check:all` + `npm run build` = 0 · manueller
-      Rundgang über alle 22 Routen · ein echter Login → Reload → Logout
+- [x] **Verify (2026-09-30):** `npm run build` = ✅ (2.9 s) · `check:ui` „Keine
+      Befunde" (36 Dateien) · **alle 23 Routen HTTP 200** live · **alle 6
+      `/api/*`-Endpunkte** liefern 405/400/200 (Fix `04a10f9`, vorher alles 500)
+- [ ] **Verify offen:** `npm run check:all` · manueller Rundgang im Browser ·
+      echter Login → Reload → Logout (blocked durch **SNT-331/332**: Supabase live)
 
 ## ⏳ SPÄTER (bewusst geparkt — kein v1-Blocker)
 
