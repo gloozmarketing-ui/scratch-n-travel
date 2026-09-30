@@ -1,8 +1,11 @@
 # KANBAN — Scratch'n'Travel
 
-> **Stand:** 2026-09-27 · **Commits:** `4713377` → `2238efb` → SEO/Robots (SNT-104…107)
+> **Stand:** 2026-09-30 · **Commits:** `4713377` → `2238efb` → SEO/Robots (SNT-104…107) → `4c26c94` (Secrets aus Historie, Deploy verifiziert)
 > **Quelle:** `PROJEKT_AUDIT_2026-09-25.md` → `IMPLEMENTATION_PLAN.md`
 > **Regel:** Eine Karte wandert nur nach rechts, wenn ihr **VERIFY** erfüllt ist. Nicht nach Gefühl.
+> **2026-09-30:** SNT-101 Code-Teil erledigt — Hardcoded Keys aus 14 Commits entfernt
+> (filter-branch), Push Protection grün, Deploy `4c26c94` live verifiziert.
+> **Offen (Owner):** Keys bei Zenmux/Requesty/Cerebras/Vercel/Cloudflare/Printful **widerrufen**.
 
 ## Legende
 
@@ -36,9 +39,9 @@
 
 | Karte | Task | Aufwand | Verantw. | Abhängig von |
 |---|---|---|---|---|
-| SNT-101 | 🔐 API-Keys widerrufen + aus Code entfernen | 1 h | 👤 V | — |
-| SNT-102 | 📄 `.env.example` anlegen (10 Variablen) | 15 min | 👤 A | — |
-| SNT-103 | 🚫 `503 AI_NOT_CONFIGURED` statt 500 bei fehlenden Keys | 1 h | 👤 A | SNT-101 |
+| SNT-101 | 🔐 API-Keys widerrufen + aus Code entfernen | 1 h | 👤 V | — · **Code ✅ 2026-09-30**, Widerruf offen |
+| SNT-102 | 📄 `.env.example` anlegen (10 Variablen) | 15 min | 👤 A | ✅ erledigt |
+| SNT-103 | 🚫 `503 AI_NOT_CONFIGURED` statt 500 bei fehlenden Keys | 1 h | 👤 A | SNT-101 · ✅ erledigt (`hermes-concierge.js:318`) |
 | SNT-108 | 🌐 Domain-Entscheidung: `scratchntravel.com` kaufen oder Vercel-URL nutzen | 30 min | 👤 V | — |
 | SNT-109 | 🔗 `sitemap.xml` (✅ 19 URLs, routen-synchron) + `canonical`/`og:url` (✅ in `index.html`) konsistent halten — Rest nur noch bei Domainentscheidung ≠ `scratchntravel.com` | 45 min | 👤 A | SNT-108 |
 | SNT-110 | 🎭 `tours[]`: erfundene Reviews/Ratings flaggen oder entfernen | 2 h | 👤 A | — |

@@ -44,8 +44,11 @@
       Produktion bekommt diesen Build nicht mehr (SNT-105 ✅)
 - [x] `04.09.2026/vercel.json` — Staging (`-six`) mit `X-Robots-Tag: noindex`
 - [x] `README.md` + `.agents/AGENTS.md` — Rollen von Prod und Staging dokumentiert
-- [ ] **Verify:** Prod-URL liefert Titel, `lang="de"`, kein `noindex`;
-      Staging `-six` (nach Deploy) liefert Titel + `X-Robots-Tag: noindex`
+- [x] **Verify (2026-09-30):** Prod-URL liefert Titel „Reisegefährten finden…",
+      `lang="de"`, kein `noindex`; Staging `-six` liefert Titel „Figma Make App"
+      + `X-Robots-Tag`/Meta-noindex ✅
+- [x] **Verify (2026-09-30):** Live-`robots.txt` = `Allow: /` mit Sperren,
+      `sitemap.xml` = 19 URLs ✅ (Deploy `4c26c94`)
 
 ### 📖 robots + Domain (SNT-107 … 109)
 - [x] `robots.txt`: `Allow: /` + Sperren für `/api/`, `/growth`, `/host`,
@@ -54,8 +57,9 @@
 - [x] `sitemap.xml` (19 URLs, routen-synchron), `canonical`, `og:url` —
       alles konsistent auf `https://scratchntravel.com/`
 - [ ] Search Console mit Token `ad062dfe6cb025cf` bestätigen (nach Domain-Entscheidung)
-- [ ] **Verify:** `dist/robots.txt` zeigt `Allow: /`; `dist/sitemap.xml` +
-      `dist/sw.js` + `dist/manifest.json` vorhanden; Domain antwortet mit 200
+- [x] **Verify (2026-09-30):** Prod-`robots.txt` zeigt `Allow: /` ✅;
+      `sitemap.xml` (19 URLs), `sw.js`, `manifest.json` live vorhanden ✅;
+      Domainentscheidung (SNT-108) weiterhin offen
 
 ---
 
