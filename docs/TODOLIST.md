@@ -1,27 +1,41 @@
 # TODOLISTEN — Scratch'n'Travel
 
-> **Stand:** 2026-09-25 · **Begleitend zu:** `KANBAN.md` · `IMPLEMENTATION_PLAN.md`
+> **Stand:** 2026-09-30 · **Begleitend zu:** `KANBAN.md` · `IMPLEMENTATION_PLAN.md`
 > **Regel:** Nur die oberste Liste ist diese Woche relevant. Alles darunter ist **bewusst geparkt**.
+> **Reihenfolge dieser Woche:** ① Owner-Entscheidungen (Keys, Domain, Supabase) → ② Agent-Fixes → ③ Verify.
 
 ---
 
 # 🔥 DIESE WOCHE (2 Tage) — Blocker
 
-## 🌅 Tag 1 — Sicherheit + Wahrheit
+## 🌅 Tag 1 — Owner-Aufgaben (die nur du machen kannst)
 
-### 🔐 Keys (SNT-101 … 103)
+### 🔐 Keys widerrufen (SNT-101 Rest) — Code erledigt, Widerruf OFFEN
+> Der Code und die Git-Historie sind bereinigt (`4c26c94`). Solange die alten Keys
+> aber noch bei den Providern leben, bleiben sie ein offenes Risiko.
 - [ ] **Zenmux-Key widerrufen** (Dashboard → API Keys → Revoke) — Key `sk-ai-v1-1938…`
 - [ ] **Requesty-Key widerrufen** — Key `rqsty-sk-uLnI…`
 - [ ] **Cerebras-Key widerrufen** — Key `csk-rxmmx…`
 - [ ] **Vercel-AI-Gateway-Key widerrufen** — Key `vck_63nL…`
-- [ ] Neue Keys erzeugen, in **GitHub Secrets** + **Vercel Env** eintragen
-- [ ] `api/hermes-concierge.js` Z. 15, 28, 41, 52: `|| '…'` → `|| null`
-- [ ] Provider-Skip: fehlender Key → Provider wird übersprungen
-- [ ] Alle Keys weg → `503 { error: 'AI_NOT_CONFIGURED' }`
-- [ ] `.env.example` mit 10 Variablen anlegen
-- [ ] **Verify:** Grep auf Key-Muster ergibt **0 Treffer**
+- [ ] **Cloudflare-Token widerrufen** — Key `cfut_3sgz…`
+- [ ] **Printful-Key widerrufen** — Key `J7MC8caE…` (lag in `api/stripe-webhook.js`)
+- [ ] **Neue Keys erzeugen** → **Vercel Env** eintragen (GitHub Secrets nur bei CI-Bedarf)
+- [ ] **Verify:** `POST /api/hermes-concierge` mit `{"prompt":"test"}` → `provider` ≠ `hermes_deterministic`
 
-### 🤖 Fiktion entfernen (SNT-110 … 115)
+### 🗄️ Supabase live schalten (SNT-331/332) — blockiert ALLES Live-Testbare
+- [ ] Supabase-Projekt anlegen → `supabase/schema.sql` im SQL-Editor ausführen
+- [ ] `VITE_SUPABASE_URL` + `VITE_SUPABASE_ANON_KEY` in `.env` **und** Vercel-Env
+- [ ] Deploy neu auslösen
+- [ ] **Verify:** Login-Maske erscheint (nicht mehr Demo-Hinweis); `node scripts/test_rls.js` (**SNT-333**)
+- [ ] **`pg_cron` aktivieren** (**SNT-334**) — sonst bleiben Fotos dauerhaft `in_delay`
+
+### 🌐 Domain-Entscheidung (SNT-108)
+- [ ] `scratchntravel.com` kaufen **ODER** Vercel-URL als kanonisch festlegen
+- [ ] Danach: Search Console mit Token `ad062dfe6cb025cf` bestätigen + sitemap einreichen
+
+## 🌙 Tag 2 — Agent-Aufgaben (ich kann sie machen, wenn du gibst)
+
+### 🎭 Fiktion entfernen (SNT-110 … 115)
 - [ ] `tours[]` — 10 Einträge prüfen, `demo: true` setzen oder entfernen
 - [ ] `cities[]` — `total`/`taken` raus (Fake-Scarcity = § 5 UWG)
 - [ ] `hermes_community_extender.js`:
@@ -34,36 +48,27 @@
 - [ ] `Login.tsx` — „DSGVO compliant" / „Encrypted locally" raus
 - [ ] **Verify:** Greps greifen nicht mehr; `/tours`, `/pricing`, `/badges` manuell geprüft
 
-## 🌙 Tag 2 — Auslieferung + SEO
+### 🎁 Merch-POD vorbereiten (SNT-363/364) — braucht deine Keys aus Tag 1
+- [ ] `PRINTIFY_API_KEY` + `PRINTIFY_SHOP_ID` aus Vercel-Env eintragen (nach SNT-363)
+- [ ] Echte Blueprint-/Variant-IDs in `PRINTIFY_PRODUCT_MAP` (SNT-364)
+- [ ] Produktname ohne Fremdmarken (SNT-362)
 
-### 🌐 Zwei Deployments (SNT-104 … 106)
-- [x] `04.09.2026` — Figma-Platzhalter durch echte Meta-Tags ersetzt
-      (via `.figma/make/site.json`: Title, Description, `language: "de"`; der
-      Cron-Fix stoppt das tägliche Überschreiben von Prod)
-- [x] `.figma/make/site.json` — `robots.index: false` bleibt bewusst (Staging),
-      Produktion bekommt diesen Build nicht mehr (SNT-105 ✅)
-- [x] `04.09.2026/vercel.json` — Staging (`-six`) mit `X-Robots-Tag: noindex`
-- [x] `README.md` + `.agents/AGENTS.md` — Rollen von Prod und Staging dokumentiert
-- [x] **Verify (2026-09-30):** Prod-URL liefert Titel „Reisegefährten finden…",
-      `lang="de"`, kein `noindex`; Staging `-six` liefert Titel „Figma Make App"
-      + `X-Robots-Tag`/Meta-noindex ✅
-- [x] **Verify (2026-09-30):** Live-`robots.txt` = `Allow: /` mit Sperren,
-      `sitemap.xml` = 19 URLs ✅ (Deploy `4c26c94`)
+### ✅ Verify-Rundgang (T-006)
+- [ ] `npm run check:all` = 0
+- [ ] 23-Routen-Rundgang im Browser, Konsole leer
+- [ ] Login → Reload → Logout (sobald Supabase aus Tag 1 steht)
 
-### 📖 robots + Domain (SNT-107 … 109)
-- [x] `robots.txt`: `Allow: /` + Sperren für `/api/`, `/growth`, `/host`,
-      `/admin`, `/chat`, `/profile` (Quelle `public/robots.txt` → `dist/`)
-- [ ] **Entscheidung:** `scratchntravel.com` kaufen ODER Vercel-URL als kanonisch (SNT-108)
-- [x] `sitemap.xml` (19 URLs, routen-synchron), `canonical`, `og:url` —
-      alles konsistent auf `https://scratchntravel.com/`
-- [ ] Search Console mit Token `ad062dfe6cb025cf` bestätigen (nach Domain-Entscheidung)
-- [x] **Verify (2026-09-30):** Prod-`robots.txt` zeigt `Allow: /` ✅;
-      `sitemap.xml` (19 URLs), `sw.js`, `manifest.json` live vorhanden ✅;
-      Domainentscheidung (SNT-108) weiterhin offen
+## ✅ Bereits erledigt (Referenz, 2026-09-30)
+- [x] Code + Historie secret-bereinigt (`4c26c94`) · `.env.example` · `503 AI_NOT_CONFIGURED`
+- [x] Zwei Deployments getrennt, Prod-Titel/`lang=de`/kein noindex · Staging noindex
+- [x] `robots.txt` = `Allow: /`, sitemap 19 URLs, `sw.js`/`manifest.json` live
+- [x] **API-500-Fix** `04a10f9` — alle 6 Endpunkte liefern 405/400/200
+- [x] Build (2.9 s) + Typecheck + UI-Audit „Keine Befunde"
+
 
 ---
 
-# ✅ JETZT VS. SPÄTER (v1-Scope, Stand 2026-09-27)
+# ✅ JETZT VS. SPÄTER (v1-Scope, Stand 2026-09-30)
 
 > **v1** = die App darf öffentlich gehen: echte Nutzer können sich anmelden,
 > Inhalte einstellen, melden, sich sicher bewegen — und ein paar Euros zahlen.

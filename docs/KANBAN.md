@@ -28,11 +28,11 @@
 
 | Spalte | Karten | Aufwand |
 |---|---|---|
-| 📋 **BACKLOG** | 96 | ~145 h |
+| 📋 **BACKLOG** | 114 (102 offen, 12 ✅ erledigt) | ~147 h |
 | 🚧 **IN PROGRESS** | 0 | — |
 | 👀 **REVIEW** | 0 | — |
-| ✅ **DONE** (Befunde 2026-09-27) | 18 | — |
-| ⛔ **BLOCKED** | 4 | — |
+| ✅ **DONE** (2026-09-27 + 2026-09-30) | 26 Karten, siehe DONE unten | — |
+| ⛔ **BLOCKED** | 6 (alle Owner-abhängig) | — |
 | 🗑️ **WONTFIX / DROP** | 5 | — |
 
 ---
@@ -269,7 +269,22 @@
 
 ## ✅ DONE
 
-*(leer — das Audit vom 2026-09-25 ist der Ausgangspunkt, nicht ein abgeschlossener Task)*
+### Behoben am 2026-09-30 — Sicherheit, Auslieferung, API
+
+| Karte | Was | Nachweis |
+|---|---|---|
+| SNT-101 | Hardcoded API-Keys aus Code **und der 14-Commit-Historie** entfernt (`filter-branch`), GitHub Push Protection grün | `4c26c94` |
+| SNT-102 | `.env.example` mit 10 Platzhalter-Variablen | im Repo |
+| SNT-103 | Provider-Skip bei `null`-Key + `503 AI_NOT_CONFIGURED` | live: POST → 400/200 |
+| SNT-104…107 | SEO/Robots: Cron-Clobber gestoppt, echte Meta-Tags, Staging-`noindex`, `robots.txt` = `Allow: /` | live: Titel, `lang="de"`, sitemap 19 URLs |
+| SNT-116 *(neu)* | **API-500-Fix:** Root-`type: module` ließ alle CommonJS-Functions crashten → `api/package.json` + Lazy-Stripe-Require; alle 6 `/api/*` von **500 → 405/400/200** | `04a10f9`, live verifiziert |
+| — | Live-Funktionstest: 23 Routen 200, 10 Bundles 200, Security-Header vollständig, `check:ui` „Keine Befunde", Build 2,9 s | 2026-09-30 |
+
+### Behoben am 2026-09-27 — Befunde des Audits (12 Karten)
+
+→ Detail-Tabellen stehen im BACKLOG-Bereich: **SNT-320…330** (Schema repariert),
+**SNT-350…358** (Fotologik/Trust), **SNT-370…372** (UI-Audit), **SNT-360/361**
+(POD-Entscheidung Ersatz-Linie + Printify).
 
 ---
 
@@ -279,7 +294,7 @@
 |---|---|---|
 | SNT-207 | SNT-210 | `.env` enthält **keine** Supabase-Variablen — nur Stripe + AI-Keys |
 | SNT-331…334 | 🔑 Nutzer: Supabase-Projekt + URL/Anon-Key | Ohne `SUPABASE_URL`/`ANON_KEY` kein Live-Test — App läuft im Demo-Modus |
-| SNT-360…365 | ⏳ Nutzer: POD-Entscheidung + Printify-Keys | Ersatz-Linie, Provider und Musterbestellung brauchen freigegebene Entscheidung |
+| SNT-363…365 | ⏳ Nutzer: Printify-Keys | Entscheidung (SNT-360/361) ✅; offen: Keys → echte IDs → Musterbestellung |
 | SNT-201 | SNT-202, SNT-203 | Umzug muss vor dem Build vereinheitlicht werden |
 | SNT-301 | SNT-208 | Ohne `auth.uid()` kein `created_by` |
 | SNT-501+ | Phase 0 komplett | Vor Phase 4 muss alles in Phase 0–3 grün und messbar sein |
@@ -311,6 +326,7 @@
 | ⚪ P3 | 10 | ~32 h + 10 h/Woche |
 | **Offen gesamt** | **102** | **~147 h + Community-Zeit** |
 | ✅ Behoben 2026-09-27 (SNT-350…358, 370…372) | 12 | — |
+| ✅ Behoben 2026-09-30 (SNT-101 Code, 102, 103, 104…107, SNT-116 API-Fix) | 7 | — |
 
 
 *Fortsetzung: `IMPLEMENTATION_PLAN.md` · `TODOLIST.md` · `PROJEKT_AUDIT_2026-09-25.md` · `../COMMUNITY_GROWTH_STRATEGY_2026.md`*

@@ -2,9 +2,42 @@
 
 > **Format:** Antigravity-Style (SPEC → PLAN → TASKS → VERIFY → SHIP)
 > **Erstellt:** 2026-09-25 · **Basis:** `PROJEKT_AUDIT_2026-09-25.md`
-> **Prinzip:** Kein Feature vor den Blockern. Kein Schritt ohne messbares Verify-Kriterium.
+> **Stand:** 2026-09-30 · **Prinzip:** Kein Feature vor den Blockern. Kein Schritt ohne messbares Verify-Kriterium.
 
 **Dokumente:** `PROJEKT_AUDIT_2026-09-25.md` · `KANBAN.md` · `TODOLIST.md` · `../COMMUNITY_GROWTH_STRATEGY_2026.md`
+
+---
+
+# 🎯 OFFENE STELLEN — Konsolidierter Stand (2026-09-30)
+
+> Alles hier drunter ist der vollständige Plan als Referenz. **Diese Tabelle ist die
+> aktuelle Wahrheit:** Wer was noch machen muss, in welcher Reihenfolge.
+
+## ✅ Was erledigt ist (nicht mehr anfassen)
+
+| Task | Status | Nachweis |
+|---|---|---|
+| T-001 (Code-Teil) | ✅ Hardcoded Keys aus Code **und 14 Commits Historie** entfernt | `4c26c94`, Push Protection grün |
+| T-001 (Rest) | ✅ Provider-Skip + `503 AI_NOT_CONFIGURED` + `.env.example` | live: POST → 200/400, kein 500 |
+| T-002 | ✅ Zwei Deployments getrennt (Prod = echter Titel, Staging = noindex) | live verifiziert 2026-09-30 |
+| T-003 (robots) | ✅ `robots.txt` = `Allow: /`, sitemap 19 URLs | live verifiziert 2026-09-30 |
+| API-Kompatibilität | ✅ Alle 6 `/api/*`-Endpunkte repariert (CommonJS-Fix `04a10f9`) | live: 405/400/200 |
+| — | ✅ UI-Audit „Keine Befunde", Build + Typecheck grün | `check:ui`, `npm run build` |
+
+## 🔴 Was offen ist — in Reihenfolge
+
+| # | Offene Stelle | Plan-Task | Karten | Wer | Blockiert danach |
+|---|---|---|---|---|---|
+| 1 | **6 API-Keys widerrufen** (Zenmux, Requesty, Cerebras, Vercel AI, Cloudflare, Printful) + neue in Vercel Env | T-001 Rest | SNT-101 | 👤 V | echter KI-Router |
+| 2 | **Domain-Entscheidung** `scratchntravel.com` kaufen oder Vercel-URL — dann Search Console | T-003 Rest | SNT-108/109 | 👤 V | SEO, Magazin |
+| 3 | **Supabase live**: Projekt anlegen, `schema.sql`, Env in Vercel | T-102/103 | SNT-331/332 | 👤 V | **alles Live-Testbare** |
+| 4 | **RLS-Tests + pg_cron** gegen echte Instanz | T-103 | SNT-333/334 | 👤 A | Foto-TTL, Chat |
+| 5 | **Fiktion entfernen** (Fake-Reviews, Scarcity, DSGVO-Versprechen) | T-004 | SNT-110…115 | 👤 A | Rechtssicherheit |
+| 6 | **POD umsetzen**: Printify-Keys → echte IDs → Musterbestellung | **T-005 (neu)** | SNT-363…365 | 👤 V/A | Merch-Umsatz |
+| 7 | **Rechtstexte juristisch prüfen** | T-105 | SNT-220 | 👤 V | erster Nutzer |
+| 8 | **Abschließender Verify-Rundgang** (`check:all`, Browser, Login→Reload→Logout) | **T-006 (neu)** | — | 👤 A | v1-Launch |
+
+**Kritischer Pfad:** 3 (Supabase) → 4 → Verify. Punkt 1–2 kann parallel der Owner machen.
 
 ---
 
@@ -36,7 +69,7 @@ Jede Task hat fünf Felder. **VERIFY ist nicht optional** — ein Schritt ohne m
 
 > Ziel: Kein Datenleck, keine falsche Auslieferung, kein Täuschungs-Versprechen.
 
-## T-001 · API-Keys aus dem Code entfernen 🔴 P0
+## T-001 · API-Keys aus dem Code entfernen 🔴 P0 — ✅ CODE ERLEDIGT, 🔶 WIDERRUF OFFEN
 
 **SPEC**
 Kein AI-Provider-Key steht als Literal im Repository. Fehlt eine Umgebungsvariable, antwortet der Concierge mit einem klaren Fehler — **niemals** mit einem Fallback-Key.
@@ -73,7 +106,7 @@ Invoke-WebRequest https://<PROD>/api/hermes-concierge -Method POST -Body '{}' -C
 ---
 
 
-## T-002 · Die zwei Deployments auflösen 🔴 P0
+## T-002 · Die zwei Deployments auflösen 🔴 P0 — ✅ ERLEDIGT (2026-09-30 live verifiziert)
 
 **SPEC**
 `scratch-n-travel-six.vercel.app` ist **kein zweites Produkt mehr**, sondern Staging derselben Codebase. Beide URLs liefern denselben Title, dasselbe `lang="de"`, und Produktion ist indexierbar.
@@ -105,7 +138,7 @@ foreach($u in @('https://scratch-n-travel.vercel.app/','https://scratch-n-travel
 
 ---
 
-## T-003 · `robots.txt` entsperren 🔴 P0
+## T-003 · `robots.txt` entsperren 🔴 P0 — ✅ ROBOTS ERLEDIGT, 🔶 DOMAIN OFFEN (SNT-108)
 
 **SPEC**
 Die Produktions-Site ist für Suchmaschinen zugänglich. `robots.txt` erlaubt Crawling und sperrt nur `/api/` und `/growth/`. `sitemap.xml` zeigt auf eine **existierende** Domain.
@@ -130,7 +163,7 @@ Die Produktions-Site ist für Suchmaschinen zugänglich. `robots.txt` erlaubt Cr
 - [ ] Domain-Entscheidung getroffen und umgesetzt
 - [ ] `sitemap.xml`, `canonical`, `og:url` konsistent
 
-## T-004 · Erfundene Daten entfernen 🔴 P0
+## T-004 · Erfundene Daten entfernen 🔴 P0 — 🔶 OFFEN (SNT-110…115, noch nicht angefasst)
 
 **SPEC**
 Kein Element in der Oberfläche behauptet eine Zahl, ein Rating, eine Person oder eine Verknappung, die es nicht gibt. Fehlende Provenienz wird als solche angezeigt.
@@ -165,6 +198,69 @@ Select-String -Path HERMES_WEEKLY_REFLECTION_*.md -Pattern '\+\d+%|Confidence Sc
 Manuell: `/pricing`, `/tours`, `/badges`, `/radar` im Browser — keine Zahl ohne Quelle.
 
 **SHIP** `fix(trust): remove fabricated reviews, fake scarcity, auto-5-star ratings and unverified impact claims`
+
+---
+
+## T-005 · Merch-POD umsetzen (Printify) 🔴 P0 — 🔶 OFFEN (SNT-363…367)
+
+**SPEC**
+Die „Passport Edition"-Ersatz-Linie (Entscheidung SNT-360/361 steht) ist bei Printify real bestellbar: echte Produkt-/Variant-IDs statt Platzhalter, eine erfolgreiche Musterbestellung mit geprüfter Qualität, angepasster Stripe-Katalog, geprüfte Versandkosten/USt/GPSR.
+
+**PLAN**
+1. `PRINTIFY_API_KEY` + `PRINTIFY_SHOP_ID` im Printify-Dashboard erzeugen → Vercel-Env.
+2. `PRINTIFY_PRODUCT_MAP` in `api/pod-orders.js`: Platzhalter-IDs durch echte Blueprint-/Variant-IDs ersetzen.
+3. Produktname ohne Fremdmarken (SNT-362: keine „Scratch Map®"- etc. Angaben).
+4. Musterbestellung: 1 Patch + 1 Poster → Lieferzeit + Druckqualität dokumentieren (`docs/POD_ORDERBARKEIT.md` ergänzen).
+5. Stripe-Katalog (`assets/merch_stripe_catalog.json`) an die Ersatz-Linie angleichen.
+6. Versandkosten, USt und GPSR-Regeln für Merch prüfen.
+
+**TASKS**
+- [ ] Printify-Keys in Vercel Env (SNT-363)
+- [ ] Echte Blueprint-/Variant-IDs (SNT-364)
+- [ ] Produktname ohne Fremdmarken (SNT-362)
+- [ ] Musterbestellung + Qualitätscheck (SNT-365)
+- [ ] Stripe-Katalog angleichen (SNT-366)
+- [ ] Versand/USt/GPSR geprüft (SNT-367)
+
+**VERIFY**
+```powershell
+# Echte Bestellung über die Live-URL auslösen (Testkarte), Antwort-Body prüfen:
+Invoke-WebRequest https://scratch-n-travel.vercel.app/api/pod-orders -Method POST `
+  -ContentType 'application/json' -Body '{"productSku":"SNT-PASS-LUX-01"}'
+# Muss: 200 + orderReference; KEINE Platzhalter-IDs in der Vercel-Log
+```
+Musterware: Foto des Drucks in `docs/POD_ORDERBARKEIT.md`.
+
+**SHIP** `feat(pod): real Printify product map, sample order verified, catalog aligned`
+
+---
+
+## T-006 · Abschließender Verify-Rundgang 🔴 P0 — 🔶 OFFEN (v1-Launch-Gate)
+
+**SPEC**
+Vor dem öffentlichen Launch gilt die App als „getestet": `check:all` ohne Befunde, manueller Rundgang über alle Routen ohne Konsolenfehler, ein echter Login überlebt Reload und Logout wirkt, Zahlungswege (Merch-Checkout, Beta-Pass) enden auf bestätigten Seiten.
+
+**PLAN**
+1. `npm run check:all` (typecheck + schema + ui + photo) — muss 0 liefern.
+2. Browser-Rundgang über alle 23 Routen — Konsole leer, keine toten Buttons („Keine Befunde" aus `check:ui` bestätigen).
+3. Echtes Supabase-Login → Reload → bleibt → Logout (setzt SNT-331/332 voraus).
+4. Merch-Checkout im Testmodus + Beta-Pass-Flow klicken.
+5. Lighthouse/Handy-Check: PWA-Install, Offline-Seite (`sw.js`).
+
+**TASKS**
+- [ ] `npm run check:all` = 0
+- [ ] 23-Routen-Rundgang (Desktop + Handy) ohne Fehler
+- [ ] Login → Reload → Logout (echte Session)
+- [ ] Checkout-/Beta-Pas-Flow durchgeklickt
+- [ ] PWA-Install + Offline-Test
+
+**VERIFY**
+```powershell
+npm run check:all                 # Exit 0
+# + manuelle Checkliste in docs/UEBERGABE ergänzen (Screenshots)
+```
+
+**SHIP** `chore(verify): full v1 acceptance run documented`
 
 ---
 
