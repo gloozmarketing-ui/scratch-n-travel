@@ -1,7 +1,18 @@
 ﻿/**
  * Scratch'n'Travel — Stripe Checkout Session Endpoint (Serverless / Vercel API)
  */
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+// Lazy-Require: `stripe` ist (noch) nicht in den dependencies. Ein require()
+// auf Modul-Ebene haette die Function beim Laden crashten lassen -> 500 auf
+// JEDEM Request. Jetzt erst laden, wenn gebraucht; fehlendes Paket wird wie
+// fehlender Key behandelt (Beta-Modus-Fallback unten).
+function getStripeClient() {
+  try {
+    const stripeFactory = require('stripe');
+    return stripeFactory(process.env.STRIPE_SECRET_KEY);
+  } catch (err) {
+    return null;
+  }
+}
 
 module.exports = async (req, res) => {
   if (req.method !== 'POST') {
@@ -16,6 +27,13 @@ module.exports = async (req, res) => {
       status: 'beta_mode',
       message: 'System ist im sicheren Beta-Modus (0 € Early Access). Kein Live-Key erforderlich.',
       url: `${siteUrl}/passport?beta_vip=true&tier=${planId}`
+    });
+  }
+
+  const stripe = getStripeClient();
+  if (!stripe) {
+    return res.status(503).json({
+      error: 'Stripe SDK nicht installiert. Beta-Modus aktiv (0 €).'
     });
   }
 
