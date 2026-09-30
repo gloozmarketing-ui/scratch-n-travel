@@ -256,9 +256,9 @@ export const matchBuddies: MatchBuddy[] = [
   }
 ]
 
-// ─── MASSIVE RESEARCHED SECRET SPOTS (30+ PINS ACROSS EUROPE & WORLD) ──────
 export interface StoryPin {
   id: number
+  demo?: boolean
   local: string
   avatar: string
   location: string
@@ -317,6 +317,7 @@ export const storyPins: StoryPin[] = [
   },
   {
     id: 2,
+    demo: true,
     local: 'Miguel, 51',
     avatar: 'M',
     location: 'Alfama Hinterhof-Taverne',
@@ -344,6 +345,7 @@ export const storyPins: StoryPin[] = [
   },
   {
     id: 3,
+    demo: true,
     local: 'Joao, 29',
     avatar: 'J',
     location: 'Praia de São Julião Reef Pass',
@@ -371,6 +373,7 @@ export const storyPins: StoryPin[] = [
   },
   {
     id: 4,
+    demo: true,
     local: 'Teresa, 42',
     avatar: 'T',
     location: 'Ponta da Piedade Holzsteg-Labyrinth',
@@ -398,6 +401,7 @@ export const storyPins: StoryPin[] = [
   },
   {
     id: 5,
+    demo: true,
     local: 'Rui & Ines, 38',
     avatar: 'RI',
     location: 'Douro Quinta da Silveira Kellergewölbe',
@@ -427,6 +431,7 @@ export const storyPins: StoryPin[] = [
   // ── SPANIEN (SPAIN) ────────────────────────────────────────────────────────
   {
     id: 6,
+    demo: true,
     local: 'Pau, 31',
     avatar: 'P',
     location: 'Cala Tuent & Sa Calobra Hinterland',
@@ -454,6 +459,7 @@ export const storyPins: StoryPin[] = [
   },
   {
     id: 7,
+    demo: true,
     local: 'Carmen, 45',
     avatar: 'C',
     location: 'Tajo de Ronda Klippengarten',
@@ -964,7 +970,6 @@ export interface CityHub {
   region: string
   tier: string
   total: number
-  taken: number
   description: string
   topActivity: string
 }
@@ -977,7 +982,6 @@ export const cities: CityHub[] = [
     region: 'Lissabon & Küste',
     tier: 'Top Destination',
     total: 24,
-    taken: 19,
     description: 'Historische Gassen, Fado-Tavernen, Paläste im Nebelwald & wilde Klippen.',
     topActivity: 'Bacalhau-Hinterhöfe & Klippenquellen'
   },
@@ -988,7 +992,6 @@ export const cities: CityHub[] = [
     region: 'Nordportugal',
     tier: 'Top Destination',
     total: 18,
-    taken: 14,
     description: 'Portweinkeller, Azulejo-Bahnhöfe & spektakuläre Flussschleifen.',
     topActivity: 'Weingut-Tastings & Holzsteg-Loops'
   },
@@ -999,7 +1002,6 @@ export const cities: CityHub[] = [
     region: 'Surf Coast',
     tier: 'Surf & Nature',
     total: 16,
-    taken: 12,
     description: 'World Surfing Reserve, Gezeitenbecken & Vanlife-Sonnenuntergänge.',
     topActivity: 'Reef Breaks & Meeresfrüchte'
   },
@@ -1010,7 +1012,6 @@ export const cities: CityHub[] = [
     region: 'Algarve',
     tier: 'Coastal Hub',
     total: 22,
-    taken: 17,
     description: 'Goldene Sandsteinklippen, Höhlenstrände & Zöllnerpfade.',
     topActivity: 'Holzsteg-Klippenwege & Stand-Up Paddling'
   },
@@ -1021,7 +1022,6 @@ export const cities: CityHub[] = [
     region: 'Balearen',
     tier: 'Island Hub',
     total: 20,
-    taken: 15,
     description: 'Unberührte Felsenbuchten, Olivenhaine & spektakuläre Passstraßen.',
     topActivity: 'Einsame Calas & Klippenwandern'
   },
@@ -1032,7 +1032,6 @@ export const cities: CityHub[] = [
     region: 'Südspanien',
     tier: 'Culture & Sun',
     total: 18,
-    taken: 13,
     description: 'Weiße Dörfer, 120m-Schluchten, Flamenco & Atlantikstrände.',
     topActivity: 'Schluchtenpfade & Sherry-Tasting'
   },
@@ -1043,7 +1042,6 @@ export const cities: CityHub[] = [
     region: 'Nordspanien',
     tier: 'Gourmet & Ocean',
     total: 15,
-    taken: 11,
     description: 'Pintxos-Bars der Spitzenklasse, Flysch-Klippen & rauer Ozean.',
     topActivity: 'Gourmet-Hopping & Geologie-Wanderung'
   },
@@ -1054,7 +1052,6 @@ export const cities: CityHub[] = [
     region: 'Alpen',
     tier: 'Alpine Master',
     total: 26,
-    taken: 21,
     description: 'Zackige Felskathedralen, kinderwagentaugliche Almen & Alpinklettersteige.',
     topActivity: 'Klettersteige & Hütten-Schlutzkrapfen'
   },
@@ -1065,7 +1062,6 @@ export const cities: CityHub[] = [
     region: 'Mittelitalien',
     tier: 'Culture & Wine',
     total: 19,
-    taken: 14,
     description: 'Zypressenalleen, Tuffsteinstädte, Bio-Pecorino & Chianti-Klassiker.',
     topActivity: 'Bio-Käsereien & Wein-Roadtrips'
   },
@@ -1076,7 +1072,6 @@ export const cities: CityHub[] = [
     region: 'Inseln',
     tier: 'Island & Myth',
     total: 20,
-    taken: 16,
     description: 'Türkise Lagunen, tiefe Schluchten, Klosterruinen & Ziegenhirten-Käse.',
     topActivity: 'Schluchten-Trekking & Lagunen-Schwimmen'
   },
@@ -1087,7 +1082,6 @@ export const cities: CityHub[] = [
     region: 'Festland',
     tier: 'Spiritual Wonder',
     total: 14,
-    taken: 10,
     description: 'Schwebende Klöster auf Felsnadeln & schattige Eichenwälder.',
     topActivity: 'Eremiten-Pfade & Sonnenuntergangs-Felsen'
   },
@@ -1098,7 +1092,6 @@ export const cities: CityHub[] = [
     region: 'Alpen',
     tier: 'Alpine Gem',
     total: 22,
-    taken: 18,
     description: 'Smaragdgrüne Gebirgsseen, Watzmann-Ostwand & urige Almen.',
     topActivity: 'Königssee-Elektroboot & Alm-Brotzeiten'
   },
@@ -1109,7 +1102,6 @@ export const cities: CityHub[] = [
     region: 'Südwestdeutschland',
     tier: 'Forest & Water',
     total: 17,
-    taken: 12,
     description: 'Verwunschene Wasserfälle, Kuckucksuhren-Kultur & Tannenwälder.',
     topActivity: 'Kaskaden-Pfade & Schwarzwälder Kirschtorte'
   },
@@ -1120,7 +1112,6 @@ export const cities: CityHub[] = [
     region: 'Wallis',
     tier: 'Alpine Icon',
     total: 18,
-    taken: 15,
     description: 'Spiegelnde Bergseen, 4.000er-Gipfelpanorama & Murmeltiertrails.',
     topActivity: 'Gornergrat-Bahn & Riffelsee-Spiegelung'
   },
@@ -1131,7 +1122,6 @@ export const cities: CityHub[] = [
     region: 'Südfrankreich',
     tier: 'Riviera Luxury',
     total: 16,
-    taken: 13,
     description: 'Zöllnerpfade an weißen Klippen, provenzalische Märkte & Strandbistros.',
     topActivity: 'Klippenpfade & Meeresfrüchte-Tasting'
   },
@@ -1142,7 +1132,6 @@ export const cities: CityHub[] = [
     region: 'Provence',
     tier: 'Canyon Epic',
     total: 19,
-    taken: 14,
     description: 'Europas tiefste Schlucht, Lavendelfelder & Felsdörfer.',
     topActivity: 'Canyon-Abstiege & Kajak-Expeditionen'
   },
@@ -1153,7 +1142,6 @@ export const cities: CityHub[] = [
     region: 'Arktis',
     tier: 'Arctic Dream',
     total: 21,
-    taken: 17,
     description: 'Rote Rorbuer-Fischerhütten, Sherpa-Steintreppen & Mitternachtssonne.',
     topActivity: 'Mitternachtssonnen-Gipfeltouren & Arctic SUP'
   },
@@ -1164,7 +1152,6 @@ export const cities: CityHub[] = [
     region: 'Vulkaninsel',
     tier: 'Fire & Ice',
     total: 20,
-    taken: 16,
     description: 'Heiße Flussquellen, schwarze Sandstrände, Wasserfälle & Mooslava.',
     topActivity: 'Warmfluss-Baden & Gletscherlagunen'
   },
@@ -1175,7 +1162,6 @@ export const cities: CityHub[] = [
     region: 'Kansai',
     tier: 'Zen & Culture',
     total: 25,
-    taken: 20,
     description: 'Versteckte Bambuspfade, 1.200 Moosfiguren & Matcha-Teezeremonien.',
     topActivity: 'Geheime Zen-Gärten & Street-Food-Märkte'
   },
@@ -1186,15 +1172,14 @@ export const cities: CityHub[] = [
     region: 'Südostasien',
     tier: 'Tropical Peace',
     total: 22,
-    taken: 18,
     description: 'Unberührte Reisterrassen, Fluss-Warungs & Mount-Agung-Panoramen.',
     topActivity: 'Reisfeld-Wanderungen & Palmzucker-Workshops'
   }
 ]
 
-// ─── MASSIVE EXPANDED COMMUNITY TOURS (10+ GPX-READY ROUTES) ────────────────
 export interface CommunityTour {
   id: number
+  demo?: boolean
   title: string
   creator: string
   avatar: string
@@ -1223,6 +1208,7 @@ export interface CommunityTour {
 export const tours: CommunityTour[] = [
   {
     id: 1,
+    demo: true,
     title: 'Lisboa Hidden Viewpoints & Miradouros Loop',
     creator: 'Ana & Carlos',
     avatar: 'AC',

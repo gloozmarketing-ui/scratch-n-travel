@@ -1,4 +1,4 @@
-﻿// Hobbies taxonomy
+// Hobbies taxonomy
 export const hobbiesList = [
   'Scuba Diving','Snorkeling','Kayaking','Stand-Up Paddle','Paragliding','Skydiving','Bungee Jumping',
   'Horse Riding','Trekking','Camping','Bird Watching','Stargazing','Fishing','Sailing','Windsurfing',
@@ -2415,18 +2415,18 @@ export const productBadges = [
 
 // EXPANDED CITIES & DESTINATIONS
 export const cities = [
-  {name:'Lisbon',        country:'Portugal', flag:'🇵🇹', total:8,  taken:5, tier:'Gold'},
-  {name:'Tbilisi',       country:'Georgia',  flag:'🇬🇪', total:7,  taken:4, tier:'Gold'},
-  {name:'Kyoto',         country:'Japan',    flag:'🇯🇵', total:10, taken:6, tier:'Platinum'},
-  {name:'Isle of Skye',  country:'Scotland', flag:'🏴󠁧󠁢󠁳󠁣󠁴󠁿', total:6,  taken:3, tier:'Silver'},
-  {name:'Himara & Theth',country:'Albania',  flag:'🇦🇱', total:6,  taken:2, tier:'Silver'},
-  {name:'Cádiz & Ronda', country:'Spain',    flag:'🇪🇸', total:7,  taken:4, tier:'Gold'},
-  {name:'Ericeira',      country:'Portugal', flag:'🇵🇹', total:5,  taken:2, tier:'Bronze'},
-  {name:'Barcelona',     country:'Spain',    flag:'🇪🇸', total:8,  taken:6, tier:'Platinum'},
-  {name:'Reykjavik',     country:'Iceland',    flag:'🇮🇸', total:8,  taken:4, tier:'Platinum'},
-  {name:'Lofoten',       country:'Norway',     flag:'🇳🇴', total:9,  taken:5, tier:'Platinum'},
-  {name:'Chefchaouen',   country:'Morocco',    flag:'🇲🇦', total:7,  taken:3, tier:'Gold'},
-  {name:'Monteverde',    country:'Costa Rica', flag:'🇨🇷', total:6,  taken:3, tier:'Gold'},
+  {name:'Lisbon',        country:'Portugal', flag:'🇵🇹', total:8,  tier:'Gold'},
+  {name:'Tbilisi',       country:'Georgia',  flag:'🇬🇪', total:7,  tier:'Gold'},
+  {name:'Kyoto',         country:'Japan',    flag:'🇯🇵', total:10, tier:'Platinum'},
+  {name:'Isle of Skye',  country:'Scotland', flag:'🏴󠁧󠁢󠁳󠁣󠁴󠁿', total:6,  tier:'Silver'},
+  {name:'Himara & Theth',country:'Albania',  flag:'🇦🇱', total:6,  tier:'Silver'},
+  {name:'Cádiz & Ronda', country:'Spain',    flag:'🇪🇸', total:7,  tier:'Gold'},
+  {name:'Ericeira',      country:'Portugal', flag:'🇵🇹', total:5,  tier:'Bronze'},
+  {name:'Barcelona',     country:'Spain',    flag:'🇪🇸', total:8,  tier:'Platinum'},
+  {name:'Reykjavik',     country:'Iceland',    flag:'🇮🇸', total:8,  tier:'Platinum'},
+  {name:'Lofoten',       country:'Norway',     flag:'🇳🇴', total:9,  tier:'Platinum'},
+  {name:'Chefchaouen',   country:'Morocco',    flag:'🇲🇦', total:7,  tier:'Gold'},
+  {name:'Monteverde',    country:'Costa Rica', flag:'🇨🇷', total:6,  tier:'Gold'},
 ];
 
 export const businessCategories = [

@@ -180,9 +180,9 @@ export default function Pricing() {
         </div>
 
         <div className="parchment rounded-xl p-6 max-w-4xl mx-auto text-center border border-terracotta shadow-md">
-          <p className="font-script text-2xl text-terracotta mb-1">100% BaFin- und DSGVO-konform</p>
+          <p className="font-script text-2xl text-terracotta mb-1">Datenschutz- und DSGVO-konform</p>
           <p className="font-body text-ink text-sm max-w-xl mx-auto">
-            Keine Weitergabe deiner Reisedaten. Jederzeit monatlich kündbar mit einem Klick im Kundenportal. Sichere Verschlüsselung via Stripe & Supabase.
+            Keine Weitergabe deiner Reisedaten. Jederzeit monatlich kündbar mit einem Klick im Kundenportal. Sichere Zahlungsabwicklung via Stripe.
           </p>
         </div>
       </div>

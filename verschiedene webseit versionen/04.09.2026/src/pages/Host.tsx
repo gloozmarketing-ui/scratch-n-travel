@@ -59,13 +59,8 @@ export default function Host() {
                     <p className="font-display text-[#F4E4C1] font-bold">{c.name}</p>
                     <span className={`font-mono text-[0.58rem] border px-1.5 py-0.5 rounded-full ${tierColor(c.tier)}`}>{c.tier}</span>
                   </div>
-                  <div className="flex gap-1 mb-1">
-                    {Array.from({length: c.total}).map((_,i) => (
-                      <div key={i} className={`h-2 flex-1 rounded-sm ${i < c.taken ? 'bg-[rgba(201,168,76,0.2)]' : 'gold-gradient'}`} />
-                    ))}
-                  </div>
-                  <p className="font-mono text-[0.62rem] text-[#8A9AAA]">
-                    {c.total - c.taken > 0 ? <span className="text-emerald-400">{c.total - c.taken} slot{c.total - c.taken !== 1 ? 's' : ''} open</span> : <span className="text-red-400">Full — join waitlist</span>}
+                  <p className="font-mono text-[0.62rem] text-emerald-400 mt-2">
+                    {c.total} Spots erfasst · Partner-Netzwerk offen
                   </p>
                 </div>
               </div>

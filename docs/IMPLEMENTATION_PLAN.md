@@ -22,6 +22,7 @@
 | T-002 | ✅ Zwei Deployments getrennt (Prod = echter Titel, Staging = noindex) | live verifiziert 2026-09-30 |
 | T-003 (robots) | ✅ `robots.txt` = `Allow: /`, sitemap 19 URLs | live verifiziert 2026-09-30 |
 | API-Kompatibilität | ✅ Alle 6 `/api/*`-Endpunkte repariert (CommonJS-Fix `04a10f9`) | live: 405/400/200 |
+| T-004 (SNT-110…115) | ✅ Fiktion & Fake-Scarcity entfernt (tours/cities/extender/digest/login/pricing/SNT-362) | 3 Grep-Checks grün, check:all grün |
 | — | ✅ UI-Audit „Keine Befunde", Build + Typecheck grün | `check:ui`, `npm run build` |
 
 ## 🔴 Was offen ist — in Reihenfolge
@@ -32,10 +33,9 @@
 | 2 | **Domain-Entscheidung** `scratchntravel.com` kaufen oder Vercel-URL — dann Search Console | T-003 Rest | SNT-108/109 | 👤 V | SEO, Magazin |
 | 3 | **Supabase live**: Projekt anlegen, `schema.sql`, Env in Vercel | T-102/103 | SNT-331/332 | 👤 V | **alles Live-Testbare** |
 | 4 | **RLS-Tests + pg_cron** gegen echte Instanz | T-103 | SNT-333/334 | 👤 A | Foto-TTL, Chat |
-| 5 | **Fiktion entfernen** (Fake-Reviews, Scarcity, DSGVO-Versprechen) | T-004 | SNT-110…115 | 👤 A | Rechtssicherheit |
-| 6 | **POD umsetzen**: Printify-Keys → echte IDs → Musterbestellung | **T-005 (neu)** | SNT-363…365 | 👤 V/A | Merch-Umsatz |
-| 7 | **Rechtstexte juristisch prüfen** | T-105 | SNT-220 | 👤 V | erster Nutzer |
-| 8 | **Abschließender Verify-Rundgang** (`check:all`, Browser, Login→Reload→Logout) | **T-006 (neu)** | — | 👤 A | v1-Launch |
+| 5 | **POD umsetzen**: Printify-Keys → echte IDs → Musterbestellung (Katalog/Labels ✅ SNT-362) | **T-005 (neu)** | SNT-363…365 | 👤 V/A | Merch-Umsatz |
+| 6 | **Rechtstexte juristisch prüfen** | T-105 | SNT-220 | 👤 V | erster Nutzer |
+| 7 | **Abschließender Verify-Rundgang** (`check:all`, Browser, Login→Reload→Logout) | **T-006 (neu)** | — | 👤 A | v1-Launch |
 
 **Kritischer Pfad:** 3 (Supabase) → 4 → Verify. Punkt 1–2 kann parallel der Owner machen.
 
@@ -163,7 +163,7 @@ Die Produktions-Site ist für Suchmaschinen zugänglich. `robots.txt` erlaubt Cr
 - [ ] Domain-Entscheidung getroffen und umgesetzt
 - [ ] `sitemap.xml`, `canonical`, `og:url` konsistent
 
-## T-004 · Erfundene Daten entfernen 🔴 P0 — 🔶 OFFEN (SNT-110…115, noch nicht angefasst)
+## T-004 · Erfundene Daten entfernen 🔴 P0 — ✅ ERLEDIGT (2026-09-30)
 
 **SPEC**
 Kein Element in der Oberfläche behauptet eine Zahl, ein Rating, eine Person oder eine Verknappung, die es nicht gibt. Fehlende Provenienz wird als solche angezeigt.
@@ -182,12 +182,12 @@ Kein Element in der Oberfläche behauptet eine Zahl, ein Rating, eine Person ode
 7. `Login.tsx`: „🔒 Encrypted locally" und „DSGVO compliant" entfernen oder erst nach echter Implementation wieder einfügen.
 
 **TASKS**
-- [ ] `tours[]` Demo-geflaggt oder entfernt
-- [ ] `cities[]` Fake-Scarcity entfernt
-- [ ] `community_extender.js` 4 Felder korrigiert
-- [ ] KI-Digest-Zahlen als ungeprüft markiert
-- [ ] `GrowthStudio` Headline dynamisch
-- [ ] `Login.tsx` DSGVO-Versprechen korrigiert
+- [x] `tours[]` Demo-geflaggt (`demo: true` in `data.ts` + UI-Kennzeichnung)
+- [x] `cities[]` Fake-Scarcity (`taken`, Slots) restlos entfernt
+- [x] `community_extender.js` 4 Felder korrigiert (Pflichtfelder `author`, `coordinates`, kein Auto-Rating `5.0`)
+- [x] KI-Digest-Zahlen als `[UNVERIFIED PROJECTION]` markiert
+- [x] `GrowthStudio` Headline dynamisch aus Geodaten
+- [x] `Login.tsx` + `Pricing.tsx` DSGVO-/Verschlüsselungs-/BaFin-Versprechen bereinigt
 
 **VERIFY**
 ```powershell

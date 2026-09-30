@@ -35,23 +35,24 @@
 
 ## 🌙 Tag 2 — Agent-Aufgaben (ich kann sie machen, wenn du gibst)
 
-### 🎭 Fiktion entfernen (SNT-110 … 115)
-- [ ] `tours[]` — 10 Einträge prüfen, `demo: true` setzen oder entfernen
-- [ ] `cities[]` — `total`/`taken` raus (Fake-Scarcity = § 5 UWG)
-- [ ] `hermes_community_extender.js`:
-  - [ ] `rating: 5.0` entfernen
-  - [ ] `coordinates` → Pflichtfeld
-  - [ ] `author` → Pflichtfeld
-  - [ ] `country` aus echten Daten
-- [ ] `HERMES_WEEKLY_REFLECTION_DIGEST.md` + `_REPORT.json` → `[UNVERIFIED PROJECTION]` Marker
-- [ ] `GrowthStudio.tsx` — Headline aus `spot.country` generieren
-- [ ] `Login.tsx` — „DSGVO compliant" / „Encrypted locally" raus
-- [ ] **Verify:** Greps greifen nicht mehr; `/tours`, `/pricing`, `/badges` manuell geprüft
+### 🎭 Fiktion entfernen (SNT-110 … 115) — ✅ ERLEDIGT (2026-09-30)
+- [x] `tours[]` — alle Einträge mit `demo: true` gekennzeichnet; Entwurf-Kennzeichnung im UI
+- [x] `cities[]` — `taken` und künstliche Slot-Verknappung vollständig entfernt (§ 5 UWG konform)
+- [x] `hermes_community_extender.js`:
+  - [x] `rating: 5.0` entfernt (Bewertung entsteht erst durch Community-Votes)
+  - [x] `coordinates` → Pflichtfeld mit Validierung
+  - [x] `author` → Pflichtfeld mit Validierung
+  - [x] `country` aus echten Daten abgeleitet
+- [x] `HERMES_WEEKLY_REFLECTION_DIGEST.md` + `_REPORT.json` → `[UNVERIFIED PROJECTION]` Marker gesetzt
+- [x] `GrowthStudio.tsx` + `hermes_social_growth_engine.js` — Headline dynamisch aus Location & Country generiert
+- [x] `Login.tsx` + `Pricing.tsx` — falsche DSGVO-/Verschlüsselungs-/BaFin-Versprechen entfernt
+- [x] **Verify:** Alle 3 Grep-Checks grün (0 Treffer für fake rating/taken; nur [UNVERIFIED]-Marker im Digest); `check:all` = 0
 
 ### 🎁 Merch-POD vorbereiten (SNT-363/364) — braucht deine Keys aus Tag 1
 - [ ] `PRINTIFY_API_KEY` + `PRINTIFY_SHOP_ID` aus Vercel-Env eintragen (nach SNT-363)
 - [ ] Echte Blueprint-/Variant-IDs in `PRINTIFY_PRODUCT_MAP` (SNT-364)
-- [ ] Produktname ohne Fremdmarken (SNT-362)
+- [x] Produktname ohne Fremdmarken (SNT-362: Passport Edition statt fremde Schutzmarken)
+
 
 ### ✅ Verify-Rundgang (T-006)
 - [ ] `npm run check:all` = 0

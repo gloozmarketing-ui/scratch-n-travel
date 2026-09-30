@@ -74,7 +74,7 @@ const faq = [
   { q: 'Can I cancel anytime?', a: 'Yes. Cancel from your profile at any time. No lock-in, no cancellation fee.' },
   { q: 'What payment methods are accepted?', a: 'Stripe — all major credit/debit cards, Apple Pay, Google Pay.' },
   { q: 'Is there a free trial for Pro?', a: 'Submit an authentic local story and if verified, you receive 30 days Pro free.' },
-  { q: 'Does the app track me?', a: 'No tracking, no advertising cookies, local browser encryption. DSGVO / GDPR compliant.' },
+  { q: 'Does the app track me?', a: 'No advertising cookies and no third-party tracking. Transparent privacy documented according to GDPR.' },
   { q: 'What is a "scratch card"?', a: 'Each card hides a real GPS location. Scratch (mouse or finger) to reveal the coordinates, earn XP, and collect the location in your travel passport.' },
   { q: 'Can I use it offline?', a: 'Pro and Business plans include full PWA offline support — your revealed locations and checklists are available without internet.' },
 ]

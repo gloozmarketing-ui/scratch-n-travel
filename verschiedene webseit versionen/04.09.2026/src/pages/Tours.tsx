@@ -116,11 +116,11 @@ export default function Tours() {
               <div className="p-5">
                 <div className="flex items-start justify-between gap-2 mb-2">
                   <h3 className="font-display text-[#F4E4C1] font-bold text-base leading-tight">{tour.title}</h3>
-                  <span className="font-mono text-[#C9A84C] text-xs flex-shrink-0">★ {tour.rating}</span>
+                  <span className="font-mono text-[#C9A84C] text-xs flex-shrink-0">★ {tour.rating} <span className="text-[0.6rem] text-[#8A9AAA] font-normal">(Entwurf)</span></span>
                 </div>
                 <div className="flex items-center gap-2 mb-4">
                   <div className="w-6 h-6 rounded-full gold-gradient flex items-center justify-center font-display font-bold text-[#0C1825] text-[0.6rem] flex-shrink-0">{tour.avatar}</div>
-                  <p className="font-mono text-[0.62rem] text-[#8A9AAA]">by {tour.creator} · {tour.reviews} reviews</p>
+                  <p className="font-mono text-[0.62rem] text-[#8A9AAA]">von {tour.creator} · Community-Vorschlag</p>
                 </div>
                 <div className="grid grid-cols-4 gap-2 mb-4">
                   {[['📏',tour.distance],['⏱',tour.duration],['📍',`${tour.stops} stops`],['♥',`${tour.likes + (liked.includes(tour.id) ? 1 : 0)}`]].map(([ic,v]) => (

@@ -48,14 +48,14 @@
 | SNT-103 | 🚫 `503 AI_NOT_CONFIGURED` statt 500 bei fehlenden Keys | 1 h | 👤 A | SNT-101 · ✅ erledigt (`hermes-concierge.js:318`) |
 | SNT-108 | 🌐 Domain-Entscheidung: `scratchntravel.com` kaufen oder Vercel-URL nutzen | 30 min | 👤 V | — |
 | SNT-109 | 🔗 `sitemap.xml` (✅ 19 URLs, routen-synchron) + `canonical`/`og:url` (✅ in `index.html`) konsistent halten — Rest nur noch bei Domainentscheidung ≠ `scratchntravel.com` | 45 min | 👤 A | SNT-108 |
-| SNT-110 | 🎭 `tours[]`: erfundene Reviews/Ratings flaggen oder entfernen | 2 h | 👤 A | — |
-| SNT-111 | 🎰 `cities[]`: Fake-Scarcity (`total`/`taken`) entfernen | 30 min | 👤 A | — |
-| SNT-112 | 🤖 `community_extender.js`: 4 erzwungene Felder korrigieren | 1,5 h | 👤 A | — |
-| SNT-113 | 📊 KI-Digest: ungeprüfte Zahlen als `[UNVERIFIED PROJECTION]` markieren | 45 min | 👤 A | — |
-| SNT-114 | 🧪 `GrowthStudio`: Mallorca-Headline dynamisch | 30 min | 👤 A | — |
-| SNT-115 | 🔐 `Login.tsx`: falsche DSGVO-/Verschlüsselungs-Versprechen entfernen | 20 min | 👤 A | — |
+| SNT-110 | 🎭 `tours[]`: erfundene Reviews/Ratings flaggen oder entfernen | 2 h | 👤 A | — · ✅ erledigt 2026-09-30 (`demo: true` + Entwurf) |
+| SNT-111 | 🎰 `cities[]`: Fake-Scarcity (`total`/`taken`) entfernen | 30 min | 👤 A | — · ✅ erledigt 2026-09-30 (`taken` entfernt, § 5 UWG) |
+| SNT-112 | 🤖 `community_extender.js`: 4 erzwungene Felder korrigieren | 1,5 h | 👤 A | — · ✅ erledigt 2026-09-30 (Pflichtfelder, kein 5.0 Rating) |
+| SNT-113 | 📊 KI-Digest: ungeprüfte Zahlen als `[UNVERIFIED PROJECTION]` markieren | 45 min | 👤 A | — · ✅ erledigt 2026-09-30 (Marker gesetzt) |
+| SNT-114 | 🧪 `GrowthStudio`: Mallorca-Headline dynamisch | 30 min | 👤 A | — · ✅ erledigt 2026-09-30 (aus Spot-Geodaten) |
+| SNT-115 | 🔐 `Login.tsx`: falsche DSGVO-/Verschlüsselungs-Versprechen entfernen | 20 min | 👤 A | — · ✅ erledigt 2026-09-30 (Login & Pricing bereinigt) |
 
-**Phase-0-Aufwand gesamt: ~9 h** (SNT-104…107 erledigt: −1,75 h)
+**Phase-0-Aufwand gesamt: ~2 h** (SNT-104…107 und SNT-110…115 erledigt)
 
 ---
 
@@ -278,6 +278,8 @@
 | SNT-103 | Provider-Skip bei `null`-Key + `503 AI_NOT_CONFIGURED` | live: POST → 400/200 |
 | SNT-104…107 | SEO/Robots: Cron-Clobber gestoppt, echte Meta-Tags, Staging-`noindex`, `robots.txt` = `Allow: /` | live: Titel, `lang="de"`, sitemap 19 URLs |
 | SNT-116 *(neu)* | **API-500-Fix:** Root-`type: module` ließ alle CommonJS-Functions crashten → `api/package.json` + Lazy-Stripe-Require; alle 6 `/api/*` von **500 → 405/400/200** | `04a10f9`, live verifiziert |
+| SNT-110…115 | **Fiktion & Scarcity entfernen:** `taken` restlos raus (§ 5 UWG), `tours[]` demo-geflaggt, Pflichtfelder in Extender ohne 5.0 Auto-Rating, `[UNVERIFIED PROJECTION]` im KI-Digest, dynamische Headlines, Login/Pricing von falschen Versprechen befreit | 3 Grep-Checks grün, `check:all` grün |
+| SNT-362 | **Markenrechts-Konformität:** „Scratch Map®"-Fremdmarke aus Stripe-Katalog, Webhook und POD-Gateway entfernt → „Passport Edition" Ersatzlinie | `assets/merch_stripe_catalog.json` |
 | — | Live-Funktionstest: 23 Routen 200, 10 Bundles 200, Security-Header vollständig, `check:ui` „Keine Befunde", Build 2,9 s | 2026-09-30 |
 
 ### Behoben am 2026-09-27 — Befunde des Audits (12 Karten)

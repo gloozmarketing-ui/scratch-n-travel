@@ -66,7 +66,7 @@ export default function GrowthStudio() {
       latencyMs: 142,
       instagramCarousel: {
         slide1: {
-          headline: 'Hör auf nach Mallorca zu fliegen. Speicher dir das hier 🤫',
+          headline: spot.country ? `Vergiss überlaufene Massenziele. Entdecke ${spot.location} (${spot.country}) 🤫` : `Vergiss überlaufene Touristen-Hotspots. Speicher dir ${spot.location} 🤫`,
           visual: `Atmosphärische Weitwinkel-Drohnenaufnahme von ${spot.location} im warmen Abendlicht.`,
           text: 'Dieser magische Ort steht in keinem Reisekatalog. Keine Touristenbusse, keine Souvenirstände.'
         },

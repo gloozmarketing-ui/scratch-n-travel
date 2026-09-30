@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Hermes Community & City Brain Autonomous Extender v1.0
  * 
  * Ingests community feedback and research data, verifies safety and compliance,
@@ -17,11 +17,14 @@ class HermesCommunityExtender {
   }
 
   processCommunitySubmission(submission) {
-    const { title, story, author, city = 'Lissabon', category = 'Geheimtipp', coordinates = null } = submission;
+    const { title, story, author, city = 'Lissabon', country = null, category = 'Geheimtipp', coordinates } = submission || {};
 
-    // Safety & Guardian Validation
-    if (!title || !story) {
-      return { success: false, reason: 'Titel oder Beschreibung fehlt.' };
+    // SNT-112: Pflichtfeld-Validierung — keine erfundenen Fallback-Autoren oder Fake-Koordinaten
+    if (!title || !story || !author || !coordinates) {
+      return {
+        success: false,
+        reason: 'Titel, Beschreibung, Autor und Koordinaten sind Pflichtfelder (SNT-112).'
+      };
     }
 
     const citySlug = city.toLowerCase().replace(/[^a-z0-9]/g, '-');
@@ -29,7 +32,7 @@ class HermesCommunityExtender {
 
     let cityBrain = {
       city,
-      country: 'Portugal / Europa',
+      country: country || 'International',
       lastUpdated: new Date().toISOString(),
       verifiedSpots: [],
       safetyAlerts: []
@@ -38,19 +41,22 @@ class HermesCommunityExtender {
     if (fs.existsSync(cityFile)) {
       try {
         cityBrain = JSON.parse(fs.readFileSync(cityFile, 'utf8'));
+        if (country) {
+          cityBrain.country = country;
+        }
       } catch (err) {
         console.warn('Error reading existing brain, reinitializing:', err.message);
       }
     }
 
+    // SNT-112: Kein automatisches 5.0 Rating — Bewertung entsteht nur durch echte Community-Votes
     const newSpot = {
       id: `spot_${Date.now()}`,
       title,
       category,
       story,
-      verifiedBy: author || 'Community Explorer',
-      rating: 5.0,
-      coordinates: coordinates || '38.7169° N, 9.1399° W',
+      verifiedBy: author,
+      coordinates: coordinates.trim(),
       dateAdded: new Date().toISOString().split('T')[0]
     };
 
@@ -74,7 +80,9 @@ if (require.main === module) {
     story: 'Wunderschöne kleine Terrasse mit Schatten und Ausblick über den Tejo ohne Touristenbusse.',
     author: 'Elena (Pionier Explorer)',
     city: 'Lissabon',
-    category: 'Aussichtspunkt & Romantik'
+    country: 'Portugal',
+    category: 'Aussichtspunkt & Romantik',
+    coordinates: '38.7120° N, 9.1305° W'
   };
 
   const res = extender.processCommunitySubmission(sample);

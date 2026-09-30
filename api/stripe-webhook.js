@@ -53,7 +53,7 @@ const PRINTIFY_PRODUCT_MAP = {
     blueprint_id: 446,   // Poster A2 Matte (placeholder)
     print_provider_id: 9,
     variant_id: 67890,
-    label: 'Scratch-Off World Map A2'
+    label: 'Passport Edition World Poster A2'
   },
   'price_1UA6SnPoNfLOPXfNjW7wVjdA': {
     type: 'passport_booklet',

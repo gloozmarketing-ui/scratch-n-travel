@@ -86,7 +86,7 @@
         "gpx_export_engine"
       ],
       "effort": "Niedrig (2 Tage)",
-      "expected_impact": "+28% Wiederkehrrate bei Outdoor- & Hundereisenden"
+      "expected_impact": "[UNVERIFIED PROJECTION] +28% Wiederkehrrate bei Outdoor- & Hundereisenden"
     },
     {
       "id": "SNT-IMP-02",
@@ -99,7 +99,7 @@
         "src/pages/Passport.tsx"
       ],
       "effort": "Mittel (1 Woche)",
-      "expected_impact": "Zusätzlicher Deckungsbeitrag von 14–22 € pro bestelltem Pass"
+      "expected_impact": "[UNVERIFIED PROJECTION] Zusätzlicher Deckungsbeitrag von 14–22 € pro bestelltem Pass"
     },
     {
       "id": "SNT-IMP-03",
@@ -112,7 +112,7 @@
         "src/pages/Radar.tsx"
       ],
       "effort": "Mittel (3 Tage)",
-      "expected_impact": "Hohe Mundpropaganda und PR-Berichterstattung als Sicherheits-App"
+      "expected_impact": "[UNVERIFIED PROJECTION] Hohe Mundpropaganda und PR-Berichterstattung als Sicherheits-App"
     },
     {
       "id": "SNT-IMP-04",
@@ -125,7 +125,7 @@
         "src/pages/WanderBond.tsx"
       ],
       "effort": "Niedrig (1 Tag)",
-      "expected_impact": "+42% Signup-Conversion auf der Startseite"
+      "expected_impact": "[UNVERIFIED PROJECTION] +42% Signup-Conversion auf der Startseite"
     },
     {
       "id": "SNT-IMP-05",
@@ -138,7 +138,7 @@
         "src/components/TravelMap.tsx"
       ],
       "effort": "Mittel (3 Tage)",
-      "expected_impact": "Verhindert App-Abbrüche in abgelegenen Outdoor-Szenarien"
+      "expected_impact": "[UNVERIFIED PROJECTION] Verhindert App-Abbrüche in abgelegenen Outdoor-Szenarien"
     }
   ]
 }

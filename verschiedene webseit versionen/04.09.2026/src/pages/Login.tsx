@@ -103,7 +103,7 @@ export default function Login() {
                   <input type="password" value={signupForm.confirm} onChange={e => setSignupForm(p=>({...p,confirm:e.target.value}))} className="field" placeholder="Repeat password" />
                 </div>
                 <p className="font-mono text-[0.6rem] text-[#8A9AAA] leading-relaxed">
-                  By creating an account you agree to our <a href="#" className="text-[#C9A84C] hover:underline">Terms of Service</a> and <a href="#" className="text-[#C9A84C] hover:underline">Privacy Policy</a>. No tracking cookies. DSGVO compliant.
+                  By creating an account you agree to our <Link to="/terms" className="text-[#C9A84C] hover:underline">Terms of Service</Link> and <Link to="/datenschutz" className="text-[#C9A84C] hover:underline">Privacy Policy</Link>.
                 </p>
                 <button onClick={handle} disabled={loading} className="btn btn-primary w-full py-3 disabled:opacity-50">
                   {loading ? 'Creating account…' : 'Create Account — Free →'}
@@ -121,7 +121,7 @@ export default function Login() {
         )}
 
         <p className="text-center font-mono text-[0.6rem] text-[#8A9AAA] mt-6">
-          🔒 No tracking · 🇩🇪 DSGVO · Encrypted locally
+          🔒 Passwortlose Anmeldung · Keine Werbe-Tracker
         </p>
       </div>
     </div>

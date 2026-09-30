@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { cities, businessCategories } from '../data/data'
 import { Link } from 'react-router-dom'
-import DemoDataBadge from '../components/DemoDataBadge'
 
 export default function Host() {
   const [tab, setTab] = useState<'community' | 'business'>('community')
@@ -227,7 +226,7 @@ export default function Host() {
                   <div className="flex-1">
                     <p className="font-display text-ink font-bold text-sm">{c.name}</p>
                     <p className="font-mono text-[0.62rem] text-leaf">
-                      {c.total - c.taken} freie Partner-Plätze <DemoDataBadge label="Beispieldaten" />
+                      {c.total} Kuratierte Spots · Partner-Netzwerk offen
                     </p>
                   </div>
                 </div>

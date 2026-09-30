@@ -181,7 +181,7 @@ function generateDeterministicCampaign(spot) {
     generatedAt: new Date().toISOString(),
     instagramCarousel: {
       slide1: {
-        headline: "Hör auf nach Mallorca zu fliegen. Speicher dir das hier 🤫",
+        headline: spot.country ? ("Vergiss überlaufene Massenziele. Entdecke " + spot.location + " (" + spot.country + ") 🤫") : ("Vergiss überlaufene Touristen-Hotspots. Speicher dir " + spot.location + " 🤫"),
         visual: "Atemberaubende Drohnenaufnahme von " + spot.location + " bei Sonnenaufgang.",
         text: "Dieser Ort existiert wirklich, steht aber in keinem TUI-Katalog."
       },
