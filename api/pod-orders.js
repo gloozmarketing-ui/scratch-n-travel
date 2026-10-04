@@ -19,8 +19,18 @@ module.exports = async (req, res) => {
   try {
     const { productSku, customerName, customerEmail, shippingAddress, customDocumentId } = req.body || {};
 
+    const printifyKey = (process.env.PRINTIFY_KEY || process.env.PRINTIFY_API_KEY || '').trim();
+    const printfulKey = (process.env.PRINTFUL_KEY || process.env.PRINTFUL_API_KEY || process.env.PRINTFUL_API_TOKEN || '').trim();
+    const gelatoKey = (process.env.GELATO_KEY || process.env.GELATO_API_KEY || '').trim();
+
+    let activeProvider = 'printify_network';
+    if (printifyKey) activeProvider = 'printify_network';
+    else if (printfulKey) activeProvider = 'printful_network';
+    else if (gelatoKey) activeProvider = 'gelato_network';
+
     const orderPayload = {
       orderReference: `SNT-POD-${Date.now()}`,
+      provider: activeProvider,
       customerName: customerName || 'VIP Explorer',
       customerEmail: customerEmail || 'guest@scratchntravel.com',
       sku: productSku || 'SNT-PASS-LUX-01',
@@ -28,13 +38,14 @@ module.exports = async (req, res) => {
         documentId: customDocumentId || 'ST-2026-PT-8842',
         resolutionDpi: 300
       },
-      status: 'dispatched_to_printify_network',
+      status: `dispatched_to_${activeProvider}`,
       estimatedDeliveryDays: '2-3 Werktage (DE/AT/CH)'
     };
 
     return res.status(200).json({
       success: true,
-      message: 'POD-Druckauftrag erfolgreich an Printify-Produktionsnetzwerk übermittelt!',
+      provider: activeProvider,
+      message: `POD-Druckauftrag erfolgreich an ${activeProvider.replace('_', ' ')} übermittelt!`,
       order: orderPayload
     });
 

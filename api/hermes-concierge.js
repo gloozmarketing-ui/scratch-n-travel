@@ -14,6 +14,43 @@ const http = require('http');
 // Configured Providers & Models
 // NOTE: `key` is intentionally resolved from env only. Never add a literal fallback.
 const PROVIDERS = {
+  requesty: {
+    name: 'Requesty Router',
+    baseUrl: 'https://router.requesty.ai/v1/chat/completions',
+    key: process.env.REQUESTY_API_KEY || null,
+    defaultModel: 'gemma-4-31b-it',
+    models: [
+      'gemma-4-31b-it',
+      'nvidia/nemotron-3.5-lightning-30b-a3b',
+      'nvidia/nemotron-3-super-120b-a12b',
+      'nvidia/nemotron-3-ultra-550b-a55b',
+      'novita/inclusionai/ling-3.0-tiny'
+    ]
+  },
+  eden: {
+    name: 'Eden AI',
+    baseUrl: 'https://api.edenai.run/v3/chat/completions',
+    key: process.env.EDEN_API_KEY || null,
+    defaultModel: 'gemma-4-31b-it',
+    models: [
+      'gemma-4-31b-it'
+    ]
+  },
+  openrouter: {
+    name: 'OpenRouter',
+    baseUrl: 'https://openrouter.ai/api/v1/chat/completions',
+    key: process.env.OPENROUTER_API_KEY || null,
+    defaultModel: 'google/gemma-4-26b-a4b-it:free',
+    extraHeaders: {
+      'HTTP-Referer': 'https://scratch-n-travel.vercel.app',
+      'X-Title': "Scratch'n'Travel Hermes Concierge"
+    },
+    models: [
+      'google/gemma-4-26b-a4b-it:free',
+      'nvidia/nemotron-3-ultra-550b-a55b:free',
+      'meta-llama/llama-3.3-70b-instruct:free'
+    ]
+  },
   zenmux: {
     name: 'Zenmux AI',
     baseUrl: 'https://zenmux.ai/api/v1/chat/completions',
@@ -27,17 +64,38 @@ const PROVIDERS = {
       'inclusionai/ling-3.0-tiny'
     ]
   },
-  requesty: {
-    name: 'Requesty Router',
-    baseUrl: 'https://router.requesty.ai/v1/chat/completions',
-    key: process.env.REQUESTY_API_KEY || null,
-    defaultModel: 'nvidia/nemotron-3.5-lightning-30b-a3b',
+  together: {
+    name: 'Together AI',
+    baseUrl: 'https://api.together.ai/v1/chat/completions',
+    key: process.env.TOGETHERAI_API_KEY || process.env.TOGETHER_API_KEY || null,
+    defaultModel: 'Prism-ML/Ternary-Bonsai-27B',
     models: [
-      'nvidia/nemotron-3.5-lightning-30b-a3b',
-      'google/gemma-4-31b-it',
-      'nvidia/nemotron-3-super-120b-a12b',
-      'nvidia/nemotron-3-ultra-550b-a55b',
-      'novita/inclusionai/ling-3.0-tiny'
+      'Prism-ML/Ternary-Bonsai-27B',
+      'meta-llama/Llama-3.3-70B-Instruct-Turbo'
+    ]
+  },
+  orcarouter: {
+    name: 'OrcaRouter',
+    baseUrl: 'https://api.orcarouter.ai/v1/chat/completions',
+    key: process.env.ORCAROUTER_API_KEY || null,
+    defaultModel: 'orcarouter/free',
+    models: [
+      'orcarouter/free'
+    ]
+  },
+  ollama: {
+    name: 'Ollama Engine',
+    localUrl: process.env.OLLAMA_HOST || 'http://localhost:11434/api/chat',
+    cloudUrl: process.env.OLLAMA_CLOUD_URL || 'https://ollama.com/v1/chat/completions',
+    key: process.env.OLLAMA_API_KEY || process.env.OLLAMA_CLOUD_KEY || null,
+    defaultModel: 'qwen3.5:cloud',
+    models: [
+      'qwen3.5:cloud',
+      'hermes3:latest',
+      'hermes-core:latest',
+      'qwen3.5:9b',
+      'deepseek-v4-pro:0813-cloud',
+      'minimax-m3:cloud'
     ]
   },
   cerebras: {
@@ -71,21 +129,6 @@ const PROVIDERS = {
     models: [
       '@cf/meta/llama-3.1-8b-instruct',
       '@cf/meta/llama-3.3-70b-instruct'
-    ]
-  },
-  ollama: {
-    name: 'Ollama Engine',
-    localUrl: 'http://localhost:11434/api/chat',
-    cloudKey: process.env.OLLAMA_CLOUD_KEY || null,
-    defaultModel: 'hermes3:latest',
-    models: [
-      'hermes3:latest',
-      'hermes-core:latest',
-      'qwen3.5:9b',
-      'deepseek-v4-pro:0813-cloud',
-      'minimax-m3:cloud',
-      'nemotron-3-ultra:cloud',
-      'deepseek-v4.1-flash:cloud'
     ]
   }
 };
@@ -149,9 +192,10 @@ function postRequest(urlStr, headers, body, timeoutMs = 20000) {
 }
 
 // Provider Call Wrappers
-async function callOpenAICompatible(baseUrl, apiKey, model, messages) {
+async function callOpenAICompatible(baseUrl, apiKey, model, messages, extraHeaders = {}) {
   const res = await postRequest(baseUrl, {
-    'Authorization': `Bearer ${apiKey}`
+    'Authorization': `Bearer ${apiKey}`,
+    ...extraHeaders
   }, {
     model,
     messages,
@@ -174,8 +218,24 @@ async function callOpenAICompatible(baseUrl, apiKey, model, messages) {
   return content.trim();
 }
 
-async function callOllamaLocal(model, messages) {
-  const res = await postRequest('http://localhost:11434/api/chat', {}, {
+async function callOllama(ollamaConfig, model, messages) {
+  // If cloud key is available, attempt Ollama Cloud API (OpenAI compatible)
+  if (ollamaConfig.key) {
+    try {
+      return await callOpenAICompatible(
+        ollamaConfig.cloudUrl,
+        ollamaConfig.key,
+        model,
+        messages
+      );
+    } catch (cloudErr) {
+      console.warn('Ollama cloud call failed, trying local fallback:', cloudErr.message);
+    }
+  }
+
+  // Fallback to local Ollama daemon
+  const localUrl = ollamaConfig.localUrl || 'http://localhost:11434/api/chat';
+  const res = await postRequest(localUrl, {}, {
     model: model.replace(':cloud', ''),
     messages,
     stream: false
@@ -263,23 +323,29 @@ module.exports = async (req, res) => {
     ];
 
     // Priority Order for Auto Fallback Chain:
-    // 1. Requesty (Nemotron / Gemma - fast & verified 200)
-    // 2. Zenmux (Dots3 / GLM-4.6v - verified 200)
-    // 3. Cerebras
-    // 4. Vercel AI Gateway
-    // 5. Local Ollama (Hermes3 / Qwen)
-    // 6. Autonomous Deterministic Hermes Brain
+    // 1. Requesty (gemma-4-31b-it)
+    // 2. Eden AI (gemma-4-31b-it)
+    // 3. OpenRouter (google/gemma-4-26b-a4b-it:free)
+    // 4. Zenmux (dots-studio/dots3-note-prev)
+    // 5. Together AI (Prism-ML/Ternary-Bonsai-27B)
+    // 6. OrcaRouter (orcarouter/free)
+    // 7. Ollama (qwen3.5:cloud / local)
+    // 8. Cerebras
+    // 9. Vercel AI Gateway
+    // 10. Cloudflare Workers AI
+    // 11. Autonomous Deterministic Hermes Brain
     const fallbackPlan = [];
 
     if (selectedProvider !== 'auto' && PROVIDERS[selectedProvider]) {
       const p = PROVIDERS[selectedProvider];
-      // Only add explicitly requested providers that actually have a key
-      if (p.id === 'ollama' || p.key) {
+      if (selectedProvider === 'ollama' || p.key) {
         fallbackPlan.push({
           id: selectedProvider,
           name: p.name,
           baseUrl: p.baseUrl,
           key: p.key,
+          extraHeaders: p.extraHeaders || {},
+          config: p,
           model: selectedModel || p.defaultModel
         });
       }
@@ -294,22 +360,30 @@ module.exports = async (req, res) => {
         name: p.name,
         baseUrl: p.baseUrl,
         key: p.key,
-        model
+        extraHeaders: p.extraHeaders || {},
+        config: p,
+        model: model || p.defaultModel
       });
     };
 
     addProvider('requesty', selectedModel && selectedProvider === 'requesty' ? selectedModel : PROVIDERS.requesty.defaultModel);
+    addProvider('eden', selectedModel && selectedProvider === 'eden' ? selectedModel : PROVIDERS.eden.defaultModel);
+    addProvider('openrouter', selectedModel && selectedProvider === 'openrouter' ? selectedModel : PROVIDERS.openrouter.defaultModel);
     addProvider('zenmux', selectedModel && selectedProvider === 'zenmux' ? selectedModel : PROVIDERS.zenmux.defaultModel);
-    addProvider('cerebras', PROVIDERS.cerebras.defaultModel);
-    addProvider('vercel', PROVIDERS.vercel.defaultModel);
-    addProvider('cloudflare', PROVIDERS.cloudflare.defaultModel);
+    addProvider('together', selectedModel && selectedProvider === 'together' ? selectedModel : PROVIDERS.together.defaultModel);
+    addProvider('orcarouter', selectedModel && selectedProvider === 'orcarouter' ? selectedModel : PROVIDERS.orcarouter.defaultModel);
 
-    // Local Ollama is always attempted last (no key required, may not exist)
+    // Ollama is attempted next (Cloud if key provided, else local fallback)
     fallbackPlan.push({
       id: 'ollama',
       name: PROVIDERS.ollama.name,
-      model: PROVIDERS.ollama.defaultModel
+      config: PROVIDERS.ollama,
+      model: selectedModel && selectedProvider === 'ollama' ? selectedModel : PROVIDERS.ollama.defaultModel
     });
+
+    addProvider('cerebras', PROVIDERS.cerebras.defaultModel);
+    addProvider('vercel', PROVIDERS.vercel.defaultModel);
+    addProvider('cloudflare', PROVIDERS.cloudflare.defaultModel);
 
     // Fail closed: no remote provider configured AND no local ollama wanted.
     // We still allow the local-ollama attempt, so only bail if the caller
@@ -332,9 +406,9 @@ module.exports = async (req, res) => {
       const plan = fallbackPlan[i];
       try {
         if (plan.id === 'ollama') {
-          outputText = await callOllamaLocal(plan.model, formattedMessages);
+          outputText = await callOllama(plan.config || PROVIDERS.ollama, plan.model, formattedMessages);
         } else {
-          outputText = await callOpenAICompatible(plan.baseUrl, plan.key, plan.model, formattedMessages);
+          outputText = await callOpenAICompatible(plan.baseUrl, plan.key, plan.model, formattedMessages, plan.extraHeaders);
         }
         successfulProvider = plan.id;
         successfulModel = plan.model;

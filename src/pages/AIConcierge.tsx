@@ -104,7 +104,7 @@ export default function AIConcierge() {
     }
   }
 
-  const send = (text: string) => {
+  const send = async (text: string) => {
     if (!text.trim() || loading) return
     triggerHaptic(10)
     const userMsg: Message = { id: `u_${Date.now()}`, role: 'user', text, time: now() }
@@ -112,19 +112,48 @@ export default function AIConcierge() {
     setInput('')
     setLoading(true)
 
-    setTimeout(() => {
-      triggerHaptic(15)
-      const res = generateAnswer(text)
-      const aiMsg: Message = {
-        id: `a_${Date.now()}`,
-        role: 'ai',
-        text: res.text,
-        time: now(),
-        action: res.action,
+    try {
+      const response = await fetch('/api/hermes-concierge', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          prompt: text,
+          city: 'Lissabon'
+        })
+      })
+
+      if (response.ok) {
+        const data = await response.json()
+        if (data.response) {
+          triggerHaptic(15)
+          const aiMsg: Message = {
+            id: `a_${Date.now()}`,
+            role: 'ai',
+            text: data.response,
+            time: now(),
+            action: { type: 'explore', label: '🗺️ Auf Karte anzeigen' }
+          }
+          setMessages(prev => [...prev, aiMsg])
+          setLoading(false)
+          return
+        }
       }
-      setMessages(prev => [...prev, aiMsg])
-      setLoading(false)
-    }, 600)
+    } catch (e) {
+      console.warn('Backend concierge unavailable, using local intelligence engine:', e)
+    }
+
+    // Fallback: Lokale Heuristik
+    triggerHaptic(15)
+    const res = generateAnswer(text)
+    const aiMsg: Message = {
+      id: `a_${Date.now()}`,
+      role: 'ai',
+      text: res.text,
+      time: now(),
+      action: res.action,
+    }
+    setMessages(prev => [...prev, aiMsg])
+    setLoading(false)
   }
 
   return (

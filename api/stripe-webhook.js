@@ -31,9 +31,10 @@ const crypto = require('crypto');
 // ab, statt mit einem fremden Account eine Bestellung auszulösen.
 const STRIPE_SECRET     = (process.env.STRIPE_SECRET_KEY || '').trim();
 const WEBHOOK_SECRET    = (process.env.STRIPE_WEBHOOK_SECRET || '').trim();
-const PRINTFUL_KEY      = (process.env.PRINTFUL_API_KEY || '').trim();
-const PRINTIFY_KEY      = (process.env.PRINTIFY_API_KEY || '').trim();
-const PRINTIFY_SHOP_ID  = (process.env.PRINTIFY_SHOP_ID || '').trim();
+const PRINTFUL_KEY      = (process.env.PRINTFUL_KEY || process.env.PRINTFUL_API_KEY || process.env.PRINTFUL_API_TOKEN || '').trim();
+const PRINTIFY_KEY      = (process.env.PRINTIFY_KEY || process.env.PRINTIFY_API_KEY || '').trim();
+const PRINTIFY_SHOP_ID  = (process.env.PRINTIFY_SHOP_ID || process.env.PRINTIFY_STORE_ID || '').trim();
+const GELATO_KEY        = (process.env.GELATO_KEY || process.env.GELATO_API_KEY || '').trim();
 const SUPABASE_URL      = (process.env.SUPABASE_URL || '').trim();
 const SUPABASE_KEY      = (process.env.SUPABASE_SERVICE_KEY || '').trim();
 
