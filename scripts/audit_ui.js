@@ -20,11 +20,22 @@ import { fileURLToPath } from 'node:url'
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..')
 const SCAN_DIRS = ['src/pages', 'src/components']
-const ROUTES_FILE = join(ROOT, 'src', 'routes.ts')
+
+// Die Route-Datei wurde zu routes.tsx umbenannt (dort steht JSX fuer das
+// Suspense-Wrapping). Beide Endungen zulassen, damit ein Rename das Audit
+// nicht still lahmlegt — der Fehler faellt sonst erst im CI auf.
+const ROUTE_CANDIDATES = ['routes.tsx', 'routes.ts']
 
 // ─── Routen einlesen ─────────────────────────────────────────────────────────
 function readRoutes() {
-  const src = readFileSync(ROUTES_FILE, 'utf8')
+  const file = ROUTE_CANDIDATES
+    .map((name) => join(ROOT, 'src', name))
+    .find((p) => existsSync(p))
+  if (!file) {
+    console.error(`Keine Route-Datei gefunden (gesucht: ${ROUTE_CANDIDATES.join(', ')})`)
+    process.exit(1)
+  }
+  const src = readFileSync(file, 'utf8')
   const routes = new Set(['/'])
   for (const m of src.matchAll(/path:\s*'([^']+)'/g)) {
     const p = m[1]

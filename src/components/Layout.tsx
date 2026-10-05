@@ -152,6 +152,57 @@ function Sidebar({ onClose }: { onClose?: () => void }) {
   )
 }
 
+/**
+ * Rechtstexte-Fusszeile.
+ *
+ * Vorher gab es keinen Footer: Impressum, Datenschutz und AGB existieren als
+ * Seiten, waren aber von keiner Navigation aus erreichbar. Das ist nach
+ * § 5 DDG / § 18 MStV ein Mangel — Anbieterinformationen muessen von jeder
+ * Seite aus erreichbar sein, nicht nur unter einer geratenen URL.
+ */
+function LegalFooter() {
+  const items = [
+    { to: '/impressum', label: 'Impressum' },
+    { to: '/datenschutz', label: 'Datenschutz' },
+    { to: '/terms', label: 'AGB' },
+    { to: '/safety', label: 'Sicherheit' },
+  ]
+  return (
+    <footer
+      style={{
+        borderTop: '1px solid var(--line-soft)',
+        padding: '1.4rem 1.1rem 1.6rem',
+        display: 'flex',
+        flexWrap: 'wrap',
+        gap: '0.9rem 1.4rem',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+      }}
+    >
+      <p style={{ margin: 0, color: 'var(--ink-faint)', fontSize: '0.72rem' }}>
+        © {new Date().getFullYear()} Scratch'n'Travel
+      </p>
+      <nav aria-label="Rechtliches" style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem 1.1rem' }}>
+        {items.map((item) => (
+          <NavLink
+            key={item.to}
+            to={item.to}
+            style={{
+              color: 'var(--ink-faint)',
+              fontSize: '0.74rem',
+              textDecoration: 'none',
+              borderBottom: '1px solid var(--line-soft)',
+              paddingBottom: '1px',
+            }}
+          >
+            {item.label}
+          </NavLink>
+        ))}
+      </nav>
+    </footer>
+  )
+}
+
 export default function Layout() {
   const [drawerOpen, setDrawerOpen] = useState(false)
   const { user } = useTravel()
@@ -238,6 +289,8 @@ export default function Layout() {
           </div>
           <div style={{ position: 'relative', zIndex: 1, paddingBottom: 76 }}>
             <Outlet />
+            {/* Rechtstexte (§ 5 DDG / § 18 MStV: Anbieter muss sie erreichbar halten) */}
+            <LegalFooter />
           </div>
         </main>
 
