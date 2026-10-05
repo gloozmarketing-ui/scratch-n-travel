@@ -35,6 +35,17 @@ jobs:
       - name: Bundle-Budget (SNT-412)
         run: npm run check:bundle
 
+      # Artefakt sichern (SNT-206): Der Build ist sonst nur auf dem Runner.
+      # So laesst sich jederzeit nachvollziehen, was live ging, ohne lokal
+      # bauen zu muessen.
+      - name: Build-Artefakt hochladen
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist-${{ github.sha }}
+          path: dist/
+          retention-days: 14
+          if-no-files-found: error
+
   # ─── Job 2: Vercel Deploy (nur wenn das Gate gruen war) ───
   deploy-vercel:
     name: Deploy to Vercel

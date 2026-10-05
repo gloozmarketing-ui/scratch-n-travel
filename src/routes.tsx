@@ -2,6 +2,11 @@ import { lazy, Suspense } from 'react'
 import { createBrowserRouter } from 'react-router-dom'
 import Layout from './components/Layout'
 import Home from './pages/Home'
+import { RequireAuth } from './context/AuthContext'
+
+// Geschuetzte Routen (SNT-209). Im Demo-Modus blockiert der Wächter nicht —
+// er erklärt nur, warum eine Seite ohne Konto leer bleibt (siehe RequireAuth).
+const withAuth = (element: React.ReactNode) => <RequireAuth>{element}</RequireAuth>
 
 // Route-Level Code-Splitting (SNT-409).
 // Startseite und Layout bleiben synchron — sie sind bei jedem Besuch im Bild.
@@ -64,24 +69,24 @@ export const router = createBrowserRouter([
       { index: true,           Component: Home },
       { path: 'explore',       Component: () => <Suspense fallback={<RouteFallback />}><Explore /></Suspense> },
       { path: 'scratch',       Component: () => <Suspense fallback={<RouteFallback />}><ScratchPage /></Suspense> },
-      { path: 'passport',      Component: () => <Suspense fallback={<RouteFallback />}><Passport /></Suspense> },
+      { path: 'passport',      Component: () => <Suspense fallback={<RouteFallback />}>{withAuth(<Passport />)}</Suspense> },
       { path: 'stories',       Component: () => <Suspense fallback={<RouteFallback />}><Stories /></Suspense> },
       { path: 'tours',         Component: () => <Suspense fallback={<RouteFallback />}><Tours /></Suspense> },
       { path: 'local-routes',  Component: () => <Suspense fallback={<RouteFallback />}><LocalRoutes /></Suspense> },
       { path: 'badges',        Component: () => <Suspense fallback={<RouteFallback />}><BadgesPage /></Suspense> },
-      { path: 'profile',       Component: () => <Suspense fallback={<RouteFallback />}><Profile /></Suspense> },
+      { path: 'profile',       Component: () => <Suspense fallback={<RouteFallback />}>{withAuth(<Profile />)}</Suspense> },
       { path: 'checklists',    Component: () => <Suspense fallback={<RouteFallback />}><Checklists /></Suspense> },
       { path: 'radar',         Component: () => <Suspense fallback={<RouteFallback />}><Radar /></Suspense> },
       { path: 'ai',            Component: () => <Suspense fallback={<RouteFallback />}><AIConcierge /></Suspense> },
-      { path: 'host',          Component: () => <Suspense fallback={<RouteFallback />}><Host /></Suspense> },
+      { path: 'host',          Component: () => <Suspense fallback={<RouteFallback />}>{withAuth(<Host />)}</Suspense> },
       { path: 'pricing',       Component: () => <Suspense fallback={<RouteFallback />}><Pricing /></Suspense> },
       { path: 'login',         Component: () => <Suspense fallback={<RouteFallback />}><Login /></Suspense> },
       { path: 'wanderbond',    Component: () => <Suspense fallback={<RouteFallback />}><WanderBond /></Suspense> },
 
       // Community — der Kern des Produkts
-      { path: 'people',        Component: () => <Suspense fallback={<RouteFallback />}><People /></Suspense> },
-      { path: 'meetups',       Component: () => <Suspense fallback={<RouteFallback />}><Meetups /></Suspense> },
-      { path: 'chat',          Component: () => <Suspense fallback={<RouteFallback />}><Chat /></Suspense> },
+      { path: 'people',        Component: () => <Suspense fallback={<RouteFallback />}>{withAuth(<People />)}</Suspense> },
+      { path: 'meetups',       Component: () => <Suspense fallback={<RouteFallback />}>{withAuth(<Meetups />)}</Suspense> },
+      { path: 'chat',          Component: () => <Suspense fallback={<RouteFallback />}>{withAuth(<Chat />)}</Suspense> },
       { path: 'safety',        Component: () => <Suspense fallback={<RouteFallback />}><Safety /></Suspense> },
 
       // Rechtstexte (Impressumspflicht DE)

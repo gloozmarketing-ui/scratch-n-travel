@@ -7,6 +7,7 @@
  */
 import { createContext, useContext, useEffect, useMemo, useState, useCallback } from 'react'
 import type { ReactNode } from 'react'
+import { Link, useLocation } from 'react-router-dom'
 import type { Session, User } from '@supabase/supabase-js'
 import { supabase, isSupabaseConfigured } from '../services/supabase'
 import { getProfile, isDemoMode } from '../lib/community'
@@ -178,4 +179,91 @@ export function useAuth(): AuthValue {
   const ctx = useContext(AuthContext)
   if (!ctx) throw new Error('useAuth muss innerhalb von <AuthProvider> verwendet werden.')
   return ctx
+}
+
+// ─── Route-Wächter (SNT-209) ────────────────────────────────────────────────
+
+/** Routen, die ohne Session niemand sehen sollte. */
+export const PROTECTED_ROUTES = ['/profile', '/passport', '/host', '/chat', '/people', '/meetups'] as const
+
+/**
+ * Wacht über geschützte Routen.
+ *
+ * Wichtig: Die Seiten selbst sind NICHT versteckt — sie rendern weiter, aber
+ * ohne echte Daten. Der Wächter ersetzt nur den Inhalt, wenn wirklich keine
+ * Session da ist und Supabase konfiguriert ist.
+ *
+ * Im Demo-Modus (kein Supabase konfiguriert) blockiert er **nicht**: dort gibt
+ * es keine Anmeldung, und eine gesperrte Seite wäre ein toter Link. Stattdessen
+ * erscheint ein Hinweis mit dem Grund — sonst waere nicht erklaerbar, warum eine
+ * Seite leer bleibt.
+ */
+export function RequireAuth({ children }: { children: ReactNode }) {
+  const { user, loading, isDemo, isConfigured } = useAuth()
+  const location = useLocation()
+
+  const isProtected = (PROTECTED_ROUTES as readonly string[]).some(
+    (route) => location.pathname === route || location.pathname.startsWith(`${route}/`),
+  )
+
+  if (!isProtected) return <>{children}</>
+  if (loading) return <AuthGateNotice title="Wird geladen …" />
+
+  // Ohne Backend gibt es keine Anmeldung — erklären statt blockieren.
+  if (!isConfigured || isDemo) {
+    return <AuthGateNotice title="Demo-Modus" detail="Ohne Supabase laeuft die App als Demo: Ansehen geht, Speichern und Teilen brauchen ein Konto." />
+  }
+
+  if (!user) {
+    return (
+      <AuthGateNotice
+        title="Bitte anmelden"
+        detail="Diese Seite gehoert zu deinem Reisepass."
+        cta={{ to: '/login', label: 'Zur Anmeldung', state: { from: location.pathname } }}
+      />
+    )
+  }
+
+  return <>{children}</>
+}
+
+function AuthGateNotice({
+  title,
+  detail,
+  cta,
+}: {
+  title: string
+  detail?: string
+  cta?: { to: string; label: string; state?: unknown }
+}) {
+  return (
+    <div
+      role="status"
+      style={{
+        minHeight: '52vh',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: '0.7rem',
+        padding: '2rem 1.2rem',
+        textAlign: 'center',
+      }}
+    >
+      <h1 className="font-display" style={{ margin: 0, fontSize: '1.35rem', color: 'var(--ink)' }}>
+        {title}
+      </h1>
+      {detail && <p style={{ margin: 0, maxWidth: '34rem', color: 'var(--ink-faint)', fontSize: '0.9rem' }}>{detail}</p>}
+      {cta && (
+        <Link
+          to={cta.to}
+          state={cta.state}
+          className="btn"
+          style={{ marginTop: '0.4rem', display: 'inline-block' }}
+        >
+          {cta.label}
+        </Link>
+      )}
+    </div>
+  )
 }
