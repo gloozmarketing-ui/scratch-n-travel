@@ -24,6 +24,9 @@
 | API-Kompatibilität | ✅ Alle 6 `/api/*`-Endpunkte repariert (CommonJS-Fix `04a10f9`) | live: 405/400/200 |
 | T-004 (SNT-110…115) | ✅ Fiktion & Fake-Scarcity entfernt (tours/cities/extender/digest/login/pricing/SNT-362) | 3 Grep-Checks grün, check:all grün |
 | — | ✅ UI-Audit „Keine Befunde", Build + Typecheck grün | `check:ui`, `npm run build` |
+| T-101 (Teil) | ✅ Route-Splitting + lazy Leaflet: Haupt-Chunk **432 → 169 KB** (gzip 100 → 32 KB) | `3eb6c12`, Build-Log |
+| SNT-219 | ✅ Footer verlinkt Impressum/Datenschutz/AGB/Sicherheit (§ 5 DDG) — waren vorher unerreichbar | `3eb6c12` |
+| SNT-408/412 | ✅ CI-Quality-Gate vor Deploy + Bundle-Budget (`npm run check:bundle`) | `3eb6c12` |
 
 ## 🔴 Was offen ist — in Reihenfolge
 

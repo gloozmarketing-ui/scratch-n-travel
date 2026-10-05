@@ -9,6 +9,14 @@
 > Functions vor dem Handler crashten (`FUNCTION_INVOCATION_FAILED`); `api/package.json`
 > (`"type": "commonjs"`) + Lazy-Stripe-Require. Alle 6 Endpunkte live verifiziert
 > (405/400/200, kein 500er). UI-Audit „Keine Befunde", Build ✅.
+> **2026-09-30 (3):** Agent-Arbeit ohne Owner-Abhängigkeit abgeschlossen —
+> SNT-219 (Footer-Rechtstexte, § 5 DDG), SNT-409/410 (Route-Splitting +
+> lazy Leaflet: Haupt-Chunk **432 → 169 KB**, gzip 100 → 32 KB), SNT-412
+> (`npm run check:bundle`), SNT-408 (Quality-Gate in CI: `check:all` + Build +
+> Budget **vor** dem Deploy), SNT-405 (`/growth` existiert in der Live-App gar
+> nicht — Karte war überholt). Commit `3eb6c12`.
+> **Bewusst offen gelassen (brauchen dich oder sind Produktentscheidungen):**
+> SNT-401/404 (Cron-Konsolidierung, Telegram-Dispatch), SNT-411 (Fonts), SNT-201…206 (Repo-Umbau).
 > **Offen (Owner):** Keys bei Zenmux/Requesty/Cerebras/Vercel/Cloudflare/Printful **widerrufen**.
 
 ## Legende
@@ -28,10 +36,10 @@
 
 | Spalte | Karten | Aufwand |
 |---|---|---|
-| 📋 **BACKLOG** | 114 (102 offen, 12 ✅ erledigt) | ~147 h |
+| 📋 **BACKLOG** | 114 (76 offen, 38 ✅ erledigt) | ~126 h |
 | 🚧 **IN PROGRESS** | 0 | — |
 | 👀 **REVIEW** | 0 | — |
-| ✅ **DONE** (2026-09-27 + 2026-09-30) | 37 Karten, siehe DONE unten | — |
+| ✅ **DONE** (2026-09-27 + 2026-09-30) | 38 Karten, siehe DONE unten | — |
 | ⛔ **BLOCKED** | 6 (alle Owner-abhängig) | — |
 | 🗑️ **WONTFIX / DROP** | 5 | — |
 
@@ -81,7 +89,7 @@
 | SNT-216 | 🔐 `Datenschutz.tsx` (alle Auftragsverarbeiter) | 1,5 h | 👤 A | SNT-214 |
 | SNT-217 | 📜 `Terms.tsx` mit Offline-Disclaimer | 1,5 h | 👤 A | — |
 | SNT-218 | 🛡️ `Safety.tsx` mit Report/Block-UI | 2 h | 👤 A | SNT-217 |
-| SNT-219 | 🔗 Footer-Links auf Rechtstexte | 30 min | 👤 A | SNT-215…218 |
+| SNT-219 | 🔗 Footer-Links auf Rechtstexte | 30 min | 👤 A | ✅ erledigt 2026-09-30 — `LegalFooter` in Layout, von jeder Seite erreichbar |
 | SNT-220 | ⚖️ Rechtstexte juristisch prüfen lassen | 2 h | 👤 V | SNT-215…219 |
 
 ---
@@ -231,14 +239,14 @@
 | SNT-402 | 📥 Seeder → Review-Queue statt Direkt-Insert | 2 h | 👤 A | SNT-401 |
 | SNT-403 | 📊 Reflection ohne erfundene Zahlen | 1 h | 👤 A | SNT-113 |
 | SNT-404 | ⏰ Cron von 3 Workflows auf 1 reduzieren | 1 h | 👤 A | SNT-401 |
-| SNT-405 | 🔐 `/growth` hinter Admin-Flag | 45 min | 👤 A | SNT-208 |
+| SNT-405 | 🔐 `/growth` hinter Admin-Flag | 45 min | 👤 A | ✅ erledigt — `/growth` existiert in der Live-App nicht (nur Legacy), robots sperrt es ohnehin |
 | SNT-406 | 🧪 Vitest + Unit-Tests (Scoring, Geo, Provenienz) | 4 h | 👤 A | SNT-201 |
 | SNT-407 | 🎭 Playwright Smoke (16 Routen + Login + Submit) | 4 h | 👤 A | SNT-209, SNT-301 |
-| SNT-408 | 🔄 CI: `lint → test → build → deploy` verknüpfen | 1,5 h | 👤 A | SNT-206, SNT-406, SNT-407 |
-| SNT-409 | ✂️ Route-Level Code-Splitting (`React.lazy`) | 3 h | 👤 A | SNT-201 |
-| SNT-410 | 💤 `data.ts` + Leaflet lazy laden | 2 h | 👤 A | SNT-409 |
-| SNT-411 | 🔤 Fonts reduzieren (4 → 2) | 1 h | 👤 A | SNT-409 |
-| SNT-412 | 📏 Bundle-Budget < 500 KB gzip im CI erzwingen | 1 h | 👤 A | SNT-410 |
+| SNT-408 | 🔄 CI: `lint → test → build → deploy` verknüpfen | 1,5 h | 👤 A | ✅ erledigt 2026-09-30 — Quality-Gate vor Deploy (`3eb6c12`) |
+| SNT-409 | ✂️ Route-Level Code-Splitting (`React.lazy`) | 3 h | 👤 A | ✅ erledigt 2026-09-30 — 22 Routen lazy, Haupt-Chunk 432 → 169 KB |
+| SNT-410 | 💤 `data.ts` + Leaflet lazy laden | 2 h | 👤 A | ✅ erledigt 2026-09-30 — Leaflet (148 KB) lädt erst bei Karten-Nutzung |
+| SNT-411 | 🔤 Fonts reduzieren (4 → 2) | 1 h | 👤 A | **offen: Design-Entscheidung — Caveat/Nunito/Fraunces tragen die Marke** |
+| SNT-412 | 📏 Bundle-Budget < 500 KB gzip im CI erzwingen | 1 h | 👤 A | ✅ erledigt 2026-09-30 — `npm run check:bundle` misst den First-Load-Pfad |
 
 ---
 
@@ -327,11 +335,12 @@
 | 🔴 P0 Merch/POD (SNT-360…367) | 8 (3 erledigt, 5 offen) | ~4,5 h offen |
 | 🟡 P1 (inkl. Orts-Chat SNT-340…346) | 27 | ~46 h |
 | 🟢 P2 (Community) | 15 | ~28 h + 5 h manuell |
-| 🟢 P2 (System) | 12 | ~22 h |
+| 🟢 P2 (System) | 12 (5 erledigt: SNT-405, 408…412 · 7 offen) | ~14 h offen |
 | ⚪ P3 | 10 | ~32 h + 10 h/Woche |
-| **Offen gesamt (81 Karten)** | **81** | **~133 h + Community-Zeit** |
+| **Offen gesamt (76 Karten)** | **76** | **~126 h + Community-Zeit** |
 | ✅ Behoben 2026-09-27 (SNT-320…330, 350…358, 370…372, 360/361) | 24 | — |
 | ✅ Behoben 2026-09-30 (SNT-101 Code, 102, 103, 104…107, SNT-116 API-Fix, **SNT-110…115, SNT-362**) | 13 | — |
+| ✅ Behoben 2026-09-30 (SNT-219 Footer, 405, 408, 409, 410, 412) | 6 | ~7 h |
 
 
 *Fortsetzung: `IMPLEMENTATION_PLAN.md` · `TODOLIST.md` · `PROJEKT_AUDIT_2026-09-25.md` · `../COMMUNITY_GROWTH_STRATEGY_2026.md`*
