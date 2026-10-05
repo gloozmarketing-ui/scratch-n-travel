@@ -97,14 +97,7 @@ CREATE TABLE IF NOT EXISTS profile_hobbies (
 
 CREATE INDEX IF NOT EXISTS idx_profile_hobbies_hobby ON profile_hobbies(hobby_id);
 
--- 1.8 Gespeicherte Spots -------------------------------------------------
-CREATE TABLE IF NOT EXISTS saved_spots (
-    user_id     UUID NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
-    spot_id     UUID NOT NULL REFERENCES secret_spots(id) ON DELETE CASCADE,
-    saved_at    TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY (user_id, spot_id)
-);
-
+-- 1.4 Secret Spots --------------------------------------------------------
 CREATE TABLE IF NOT EXISTS secret_spots (
     id                  UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     title               VARCHAR(200) NOT NULL,
@@ -177,6 +170,17 @@ CREATE TABLE IF NOT EXISTS blocks (
 );
 
 CREATE INDEX IF NOT EXISTS idx_blocks_blocked ON blocks(blocked_id);
+
+-- 1.8 Gespeicherte Spots -------------------------------------------------
+CREATE TABLE IF NOT EXISTS saved_spots (
+    user_id     UUID NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
+    spot_id     UUID NOT NULL REFERENCES secret_spots(id) ON DELETE CASCADE,
+    saved_at    TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (user_id, spot_id)
+);
+
+CREATE INDEX IF NOT EXISTS idx_saved_spots_user ON saved_spots(user_id);
+CREATE INDEX IF NOT EXISTS idx_saved_spots_spot ON saved_spots(spot_id);
 
 -- ============================================================================
 -- TEIL 2 — Community: Meetups & Nachrichten
