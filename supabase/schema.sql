@@ -1421,15 +1421,15 @@ COMMENT ON FUNCTION public.route_photo_is_visible(uuid) IS
 -- pg_cron ist auf Supabase ueber die Dashboard-Erweiterung aktivierbar. Die
 -- beiden folgenden Zeilen laufen nur, wenn die Erweiterung vorhanden ist —
 -- deshalb der Guard, damit das Schema nicht an der Installation scheitert.
-DO $$
+DO $cron_setup$
 BEGIN
   IF EXISTS (SELECT 1 FROM pg_available_extensions WHERE name = 'pg_cron') THEN
     CREATE EXTENSION IF NOT EXISTS pg_cron;
 
     IF NOT EXISTS (SELECT 1 FROM cron.job WHERE jobname = 'snt-publish-route-photos') THEN
-      -- Der Job-Text nutzt bewusst einfache Anfuehrungszeichen, KEINE Dollar-
-      -- Quotes. Verschachtelte $$ innerhalb eines DO $$ -Blocks schliessen den
-      -- umgebenden Block vorzeitig und brechen den Parser.
+      -- Der Job-Text nutzt bewusst einfache Anfuehrungszeichen, KEINE Dollar-Quotes.
+      -- Verschachtelte Dollar-Tags innerhalb eines Blocks wuerden den
+      -- umgebenden Block vorzeitig schliessen und den Parser brechen.
       PERFORM cron.schedule(
         'snt-publish-route-photos',
         '7 * * * *',
@@ -1443,7 +1443,7 @@ BEGIN
       'pg_cron ist nicht verfuegbar. Bitte im Supabase-Dashboard aktivieren, '
       'sonst werden Fotos nach der Schutzfrist nie sichtbar.';
   END IF;
-END $$;
+END $cron_setup$;
 
 -- ── Storage ────────────────────────────────────────────────────────────────
 -- Der Bucket ist PRIVAT. Das ist keine Feinheit: bei einem oeffentlichen
