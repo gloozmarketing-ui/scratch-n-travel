@@ -61,5 +61,9 @@ jobs:
         run: |
           git config --global user.name "Hermes Travel & Growth Engine"
           git config --global user.email "hermes@scratchntravel.com"
-          git add -A
+          # Bewusst KEIN `git add -A`: der Cron darf ausschliesslich seine
+          # eigenen Erzeugnisse schreiben. Mit `git add -A` wuerde er alles
+          # einsammeln, was im Arbeitsbaum liegt — inklusive der Aenderungen
+          # eines Menschen, die er dabei ueberschreiben wuerde.
+          git add seeded_cities/ social_campaigns/ social_drafts/ public/
           git diff --quiet && git diff --staged --quiet || (git commit -m "feat(hermes): daily 10 verified secret spots, authentic food & viral growth campaign [skip ci]" && git push origin main)

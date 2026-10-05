@@ -14,6 +14,7 @@
     "check:schema": "node scripts/check_schema.js",
     "check:ui": "node scripts/audit_ui.js",
     "check:bundle": "node scripts/check_bundle_budget.cjs",
+    "smoke": "node scripts/smoke_live.mjs",
     "test:photo": "node scripts/test_photo_safety.js",
     "test:trust": "node scripts/test_trust.js",
     "check:all": "npm run typecheck && npm run check:schema && npm run check:ui && npm run test:photo && npm run test:trust",

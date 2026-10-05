@@ -44,7 +44,25 @@ export default function Datenschutz() {
         </p>
       </Section>
 
-      <Section title="3. Zweck und Rechtsgrundlage">
+      <Section title="3. Lokale Speicherung im Browser (Art. 13 TDDDG)">
+        <p style={{ margin: '0 0 0.5rem' }}>
+          Damit die App funktioniert, speichert sie einige Angaben direkt in Ihrem Browser
+          (<code style={linkStyle}>localStorage</code>). Diese Daten verlassen Ihr Gerät
+          <strong style={{ color: 'var(--ink)' }}> nicht</strong> und werden nicht an uns
+          übertragen. Es sind keine Cookies.
+        </p>
+        <ul style={{ margin: '0 0 0.5rem', paddingLeft: '1.1rem' }}>
+          <li><strong style={{ color: 'var(--ink)' }}>Darstellung</strong> — Ihre Theme-Wahl (hell/dunkel).</li>
+          <li><strong style={{ color: 'var(--ink)' }}>Reisefortschritt</strong> — bereits besuchte Orte, gesammelte Stempel, abgehakte Aufgaben und Checklisten.</li>
+          <li><strong style={{ color: 'var(--ink)' }}>Demo-Daten</strong> — solange Sie nicht angemeldet sind, liegen Beispielwerte in Ihrem Browser, damit die App ohne Konto etwas zeigt.</li>
+        </ul>
+        <p style={hintStyle}>
+          Sie können diese Daten jederzeit löschen: im Browser die Website-Daten für
+          scratchntravel.com entfernen. Danach ist die App frisch wie beim ersten Besuch.
+        </p>
+      </Section>
+
+      <Section title="4. Zweck und Rechtsgrundlage">
         <ul style={{ margin: 0, paddingLeft: '1.1rem' }}>
           <li><strong style={{ color: 'var(--ink)' }}>Art. 6 Abs. 1 lit. b DSGVO</strong> — Vertragserfüllung: Login, Nachrichten, Meetup-Teilnahme, Profilverwaltung.</li>
           <li><strong style={{ color: 'var(--ink)' }}>Art. 6 Abs. 1 lit. f DSGVO</strong> — Berechtigtes Interesse: Sicherheit der Community, Missbrauchsprävention, Spam-Erkennung.</li>
@@ -52,7 +70,7 @@ export default function Datenschutz() {
         </ul>
       </Section>
 
-      <Section title="4. Auftragsverarbeitung und Drittanbieter">
+      <Section title="5. Auftragsverarbeitung und Drittanbieter">
         <p style={{ margin: '0 0 0.5rem' }}>Wir nutzen folgende Dienstleister:</p>
         <ul style={{ margin: 0, paddingLeft: '1.1rem' }}>
           <li><strong style={{ color: 'var(--ink)' }}>Supabase</strong> — Hosting der Datenbank und der Anmeldung. Server in der EU und den USA, Übermittlung auf Basis von Standardvertragsklauseln.</li>
@@ -64,7 +82,7 @@ export default function Datenschutz() {
         </ul>
       </Section>
 
-      <Section title="5. Ihre Rechte">
+      <Section title="6. Ihre Rechte">
         <ul style={{ margin: 0, paddingLeft: '1.1rem' }}>
           <li>Auskunft über Ihre gespeicherten Daten (Art. 15 DSGVO)</li>
           <li>Berichtigung unrichtiger Daten (Art. 16 DSGVO)</li>
@@ -80,7 +98,7 @@ export default function Datenschutz() {
         </p>
       </Section>
 
-      <Section title="6. Speicherdauer">
+      <Section title="7. Speicherdauer">
         <p style={{ margin: 0 }}>
           Wir speichern Daten nur so lange, wie es für den Zweck erforderlich ist:
           Profildaten bis zur Löschung Ihres Kontos, Nachrichten bis zur Löschung des Kontos,
@@ -88,7 +106,7 @@ export default function Datenschutz() {
         </p>
       </Section>
 
-      <Section title="7. Ihre Rechte bei Beschwerden">
+      <Section title="8. Ihre Rechte bei Beschwerden">
         <p style={{ margin: 0 }}>
           Sie haben das Recht, sich bei einer Datenschutz-Aufsichtsbehörde zu beschweren.
           Zuständig für uns ist:{'<Aufsichtsbehörde>'}. Die Liste aller deutschen
@@ -99,7 +117,7 @@ export default function Datenschutz() {
         </p>
       </Section>
 
-      <Section title="8. Sicherheit">
+      <Section title="9. Sicherheit">
         <p style={{ margin: 0 }}>
           Wir verwenden Verschlüsselung bei der Übertragung (HTTPS/TLS) und greifen auf
           Row-Level-Security in der Datenbank zurück, sodass Nutzer ausschließlich auf ihre
