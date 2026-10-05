@@ -908,10 +908,6 @@ BEGIN
 END $$;
 
 
-
-  FOR EACH ROW EXECUTE FUNCTION public.on_trust_event_insert();
-
-
 -- ============================================================================
 --  LOCAL ROUTES — Routen von Locals und Reisenden
 -- ----------------------------------------------------------------------------
