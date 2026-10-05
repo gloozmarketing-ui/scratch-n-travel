@@ -3,7 +3,9 @@
  * Project: Scratch'n'Travel (gloozmarketing-ui)
  * 
  * Schedule: Runs weekly (Mondays 04:00 UTC) via GitHub Actions & CLI
- * Compliance: Strictly implements Hermes Master Governance (confidence_score, decision_reason, affected_parameters)
+ * Compliance: Hermes Master Governance (evidence, decision_reason,
+ * affected_parameters). SNT-403: KEINE erfundenen Zahlen — jede Wirkungs-
+ * aussage traegt eine Evidenz-Kennzeichnung, ob sie je gemessen wurde.
  */
 
 const fs = require('fs');
@@ -57,56 +59,61 @@ async function runSelfReflection() {
     hasDarkCanvasMap: !indexContent.includes('cartocdn.com/dark_all')
   };
 
+  // SNT-403: Keine erfundenen Zahlen.
+  // Frueher standen hier `confidence_score: 0.94` und Wirkungsversprechen wie
+  // "+28% Wiederkehrrate" — erfunden, ohne dass je ein Nutzer gezählt wurde.
+  // Eine Zahl ohne Quelle ist eine Lüge (s. TODOLIST „Falsche Todos").
+  // Jetzt: qualitative Evidenz mit Kennzeichnung, ob je gemessen wurde.
   const improvementPropositions = [
     {
       id: 'SNT-IMP-01',
       title: '1-Klick Komoot & GPX Export Loop für Wander- & Hundetrails',
       category: 'Feature Gap vs Komoot',
-      confidence_score: 0.94,
+      evidence: '[UNVERIFIED] Annahme — keine Export-Klicks bisher gezählt, da Feature fehlt',
       decision_reason: "Komoot dominiert Outdoor-Reisende durch GPX-Downloads. Scratch'n'Travel hat bereits GPX-Pfade in den Daten; ein prominenter Export-Button erzeugt sofortigen Viral-Nutzen.",
       affected_parameters: ['src/pages/Explore.tsx', 'src/data/data.ts', 'gpx_export_engine'],
       effort: 'Niedrig (2 Tage)',
-      expected_impact: '+28% Wiederkehrrate bei Outdoor- & Hundereisenden'
+      expected_impact: 'Kann Wiederkehrrate bei Outdoor- und Hundereisenden erhöhen — Wirkung erst nach Einführung messbar'
     },
     {
       id: 'SNT-IMP-02',
       title: 'Physischer Scratch-Pass & Sammler-Badges als Print-on-Demand (POD)',
       category: 'Monetization Gap vs Polarsteps',
-      confidence_score: 0.91,
-      decision_reason: "Polarsteps erzielt über 60% seines Umsatzes mit physischen Fotobüchern. Scratch'n'Travel hat 460+ Vektor-Badges und Pass-Seiten, die direkt als gedrucktes Reisetagebuch produziert werden können.",
+      evidence: '[UNVERIFIED] Deckungsbeitrag ist eine Kalkulation, keine gemessene Zahl',
+      decision_reason: "Physische Reiseprodukte sind im Reisebereich ein bewährtes Einnahmemodell. Scratch'n'Travel hat 460+ Vektor-Badges und Pass-Seiten, die direkt als gedrucktes Reisetagebuch produziert werden können. (Umsatzanteile von Polarsteps sind nicht belegt und werden bewusst nicht genannt.)",
       affected_parameters: ['api/create-merch-checkout-session.js', 'src/pages/Passport.tsx'],
       effort: 'Mittel (1 Woche)',
-      expected_impact: 'Zusätzlicher Deckungsbeitrag von 14–22 € pro bestelltem Pass'
+      expected_impact: 'Zusätzlicher Deckungsbeitrag je bestelltem Pass — Höhe hängt von Druckpreis und Versand ab, erst nach Musterbestellung belegbar'
     },
     {
       id: 'SNT-IMP-03',
       title: 'Scam-Radar Push-Warnungen bei Betreten bekannter Abzock-Zonen',
       category: 'USP vs Wanderlog & TripAdvisor',
-      confidence_score: 0.88,
+      evidence: '[UNVERIFIED] Keine Nutzerbefragung — begründet allein durch Funktion der App',
       decision_reason: 'Kein Mitbewerber warnt proaktiv vor Taschendieben an Tram 28 in Lissabon oder Klippengefahren. Ein lokaler Geo-Fence-Check im Browser stärkt das Vertrauen massiv.',
       affected_parameters: ['assets/js/map-safety-badge-pins.js', 'src/pages/Radar.tsx'],
       effort: 'Mittel (3 Tage)',
-      expected_impact: 'Hohe Mundpropaganda und PR-Berichterstattung als Sicherheits-App'
+      expected_impact: 'Kann Mundpropaganda und Presseinteresse als Sicherheits-App auslösen — nicht bezifferbar'
     },
     {
       id: 'SNT-IMP-04',
       title: 'WanderBond DNA Mini-Quiz als Einstiegs-Funnel ohne Registrierung',
       category: 'CRO & Onboarding Loop',
-      confidence_score: 0.92,
+      evidence: '[UNVERIFIED] Abbruchraten sind unbekannt — es gibt noch keine echten Nutzer',
       decision_reason: 'Nutzer brechen ab, wenn vor dem Erlebnis ein Login verlangt wird. Ein interaktives 3-Fragen DNA-Matching zeigt sofort passende Geheimtipps und Badges.',
       affected_parameters: ['src/pages/Home.tsx', 'src/pages/WanderBond.tsx'],
       effort: 'Niedrig (1 Tag)',
-      expected_impact: '+42% Signup-Conversion auf der Startseite'
+      expected_impact: 'Kann Signup-Conversion auf der Startseite verbessern — Vergleich erst mit echter Traffic-Zahl möglich'
     },
     {
       id: 'SNT-IMP-05',
       title: 'Offline-PWA Kachel-Caching für Secret Spots ohne Mobilfunk',
       category: 'Resilience Gap vs Polarsteps',
-      confidence_score: 0.89,
+      evidence: '[UNVERIFIED] Begründung aus der Funkloch-Situation, nicht aus Abbruchdaten',
       decision_reason: 'In abgelegenen Secret Spots (z. B. Praia da Ursa, Dolomiten) gibt es oft kein Netz. Vorab geladene Leaflet-Kacheln sichern die Navigation im Funkloch.',
       affected_parameters: ['public/sw.js', 'src/components/TravelMap.tsx'],
       effort: 'Mittel (3 Tage)',
-      expected_impact: 'Verhindert App-Abbrüche in abgelegenen Outdoor-Szenarien'
+      expected_impact: 'Verhindert App-Abbrüche in abgelegenen Outdoor-Szenarien — nicht messbar solange niemand offline testet'
     }
   ];
 
@@ -149,10 +156,12 @@ async function runSelfReflection() {
     const p = improvementPropositions[i];
     md += `### ${i + 1}. ${p.title}\n`;
     md += `- **Kategorie**: ${p.category}\n`;
-    md += `- **Confidence Score**: \`${p.confidence_score}\`\n`;
+    // SNT-403: `confidence_score` gab es nie zu Recht — die Zahl war erfunden.
+    // Jetzt steht dort die Evidenz, inklusive Kennzeichnung, ob je gemessen wurde.
+    md += `- **Evidenz**: ${p.evidence}\n`;
     md += `- **Entscheidungsgrund**: ${p.decision_reason}\n`;
     md += `- **Betroffene Parameter**: \`${p.affected_parameters.join(', ')}\`\n`;
-    md += `- **Aufwand / Impact**: ${p.effort} | **${p.expected_impact}**\n\n`;
+    md += `- **Aufwand / erwartete Wirkung**: ${p.effort} | ${p.expected_impact}\n\n`;
   }
   md += "---\n*Automatisch generiert durch Hermes Governance v5.2 für gloozmarketing-ui.*\n";
   fs.writeFileSync(mdPath, md, 'utf8');

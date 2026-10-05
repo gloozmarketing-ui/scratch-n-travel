@@ -32,6 +32,17 @@
 > 11 localStorage-Schlüssel, keiner überträgt Daten — und `npm run smoke`
 > (45 Live-Checks, ohne Playwright: 300 MB Browser-Binaries wären für die Frage
 > „liefert die Seite das aus?" unverhältnismäßig). Commit `760f3e9`.
+> **2026-09-30 (6):** SNT-401 (Webhook-+Telegram-Dispatch entfernt — Archiv
+> bleibt), SNT-403 (Reflection ohne erfundenen Zahlen: `confidence_score: 0.94`,
+> „+28% Wiederkehrrate", Polarsteps-„60%" durch `evidence`-Feld mit
+> `[UNVERIFIED]` ersetzt), SNT-404 (3 Cron-Workflows → `hermes-automation.yml`;
+> `deploy.yml` nur noch Push→Deploy).
+> **Fund dabei: die gesamte Cron-Automation war lahmgelegt** — Root
+> `package.json` sagt `type: module`, alle `hermes_*`-Scripts sind CommonJS
+> (`require is not defined`). Fix: `scripts/package.json` (`commonjs`) + die zwei
+> ESM-Scripts auf `.mjs` (`audit_ui`, `check_schema`). Außerdem Syntax-Bug in
+> `hermes_seo_growth_engine.js` (echter Zeilenumbruch im String — Script lief
+> seitdem nie wieder). Jetzt: alle 15 Scripts syntax-fähig, `check:all` grün.
 > **Offen (Owner):** Keys bei Zenmux/Requesty/Cerebras/Vercel/Cloudflare/Printful **widerrufen**.
 
 ## Legende
@@ -51,10 +62,10 @@
 
 | Spalte | Karten | Aufwand |
 |---|---|---|
-| 📋 **BACKLOG** | 114 (72 offen, 42 ✅ erledigt) | ~118 h |
+| 📋 **BACKLOG** | 114 (69 offen, 45 ✅ erledigt) | ~115 h |
 | 🚧 **IN PROGRESS** | 0 | — |
 | 👀 **REVIEW** | 0 | — |
-| ✅ **DONE** (2026-09-27 + 2026-09-30) | 42 Karten, siehe DONE unten | — |
+| ✅ **DONE** (2026-09-27 + 2026-09-30) | 45 Karten, siehe DONE unten | — |
 | ⛔ **BLOCKED** | 6 (alle Owner-abhängig) | — |
 | 🗑️ **WONTFIX / DROP** | 5 | — |
 
@@ -250,10 +261,10 @@
 
 | Karte | Task | Aufwand | Verantw. | Abhängig von |
 |---|---|---|---|---|
-| SNT-401 | 🚫 Webhook- + Telegram-Dispatch entfernen | 1 h | 👤 A | SNT-114 |
+| SNT-401 | 🚫 Webhook- + Telegram-Dispatch entfernen | 1 h | 👤 A | ✅ erledigt 2026-09-30 — nur noch Archiv, Env-Variablen werden nicht mehr ausgewertet |
 | SNT-402 | 📥 Seeder → Review-Queue statt Direkt-Insert | 2 h | 👤 A | ✅ erledigt (Audit 2026-09-30) — `hermes_travel_seeder.js` schreibt ausschliesslich `audit_logs`, nie direkt in `secret_spots` |
-| SNT-403 | 📊 Reflection ohne erfundene Zahlen | 1 h | 👤 A | SNT-113 |
-| SNT-404 | ⏰ Cron von 3 Workflows auf 1 reduzieren | 1 h | 👤 A | SNT-401 |
+| SNT-403 | 📊 Reflection ohne erfundene Zahlen | 1 h | 👤 A | ✅ erledigt 2026-09-30 — `evidence` + `[UNVERIFIED]` statt confidence/Prozente, generiert & verifiziert |
+| SNT-404 | ⏰ Cron von 3 Workflows auf 1 reduzieren | 1 h | 👤 A | ✅ erledigt 2026-09-30 — `hermes-automation.yml` bündelt alle 3 Crontime |
 | SNT-405 | 🔐 `/growth` hinter Admin-Flag | 45 min | 👤 A | ✅ erledigt — `/growth` existiert in der Live-App nicht (nur Legacy), robots sperrt es ohnehin |
 | SNT-406 | 🧪 Vitest + Unit-Tests (Scoring, Geo, Provenienz) | 4 h | 👤 A | ✅ teilweise 2026-09-30 — `scripts/test_trust.js` (34 Tests inkl. Gegenprobe) in `check:all`; Vitest selbst bewusst nicht eingeführt |
 | SNT-407 | 🎭 Playwright Smoke (16 Routen + Login + Submit) | 4 h | 👤 A | ✅ ersetzt 2026-09-30 — `npm run smoke` (45 HTTP-Checks live, ohne 300 MB Browser-Download); Browser-Durchgang bleibt Teil von T-006 |
@@ -350,12 +361,13 @@
 | 🔴 P0 Merch/POD (SNT-360…367) | 8 (3 erledigt, 5 offen) | ~4,5 h offen |
 | 🟡 P1 (inkl. Orts-Chat SNT-340…346) | 27 (9 erledigt · 18 offen) | ~38 h offen |
 | 🟢 P2 (Community) | 15 | ~28 h + 5 h manuell |
-| 🟢 P2 (System) | 12 (5 erledigt: SNT-405, 408…412 · 7 offen) | ~14 h offen |
+| 🟢 P2 (System) | 12 (11 erledigt/ersetzt: SNT-401…410, 412 · 1 offen: SNT-411 Fonts) | ~1 h offen |
 | ⚪ P3 | 10 | ~32 h + 10 h/Woche |
-| **Offen gesamt (72 Karten)** | **72** | **~118 h + Community-Zeit** |
+| **Offen gesamt (69 Karten)** | **69** | **~115 h + Community-Zeit** |
 | ✅ Behoben 2026-09-27 (SNT-320…330, 350…358, 370…372, 360/361) | 24 | — |
 | ✅ Behoben 2026-09-30 (SNT-101 Code, 102, 103, 104…107, SNT-116 API-Fix, **SNT-110…115, SNT-362**) | 13 | — |
 | ✅ Behoben 2026-09-30 (SNT-219 Footer, 405, 408, 409, 410, 412) | 6 | ~7 h |
+| ✅ Behoben 2026-09-30 (SNT-401 Dispatch, 403 Reflection-Zahlen, 404 Cron-Konsolidierung) | 3 | ~3 h |
 | ✅ Behoben 2026-09-30 (SNT-206 Artefakt, 209 AuthGuard, 406 Trust-Tests) | 3 | ~4 h |
 
 

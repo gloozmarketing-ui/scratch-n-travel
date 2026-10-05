@@ -9,10 +9,11 @@
  * 4. Pinterest Viral Pin & SEO Description
  * 5. Meta (Facebook/Instagram) & Google Ads Performance-Werbetexte
  * 
- * Dispatching:
- * - Webhook (Buffer, Make.com, n8n, Zapier) via process.env.GROWTH_WEBHOOK_URL
- * - Telegram Direct Broadcast via process.env.TELEGRAM_BOT_TOKEN & process.env.TELEGRAM_CHAT_ID
+ * Archivierung:
  * - Speicherung im Archiv 'social_campaigns/campaign_{date}_{spotId}.json'
+ * - Kein automatischer Versand mehr (SNT-401): Webhook- und Telegram-Dispatch
+ *   wurden entfernt, weil Fuenf-Kanal-Broadcast ohne Community kein Ergebnis
+ *   erzeugt — s. TODOLIST „Falsche Todos".
  */
 
 const fs = require('fs');
@@ -272,40 +273,13 @@ async function generateCampaignForSpot(spotIndex = null) {
   fs.writeFileSync(filePath, JSON.stringify(campaign, null, 2), 'utf8');
   console.log('💾 Kampagne archiviert unter:', filePath);
 
-  // Dispatch via Webhook falls konfiguriert
-  const webhookUrl = process.env.GROWTH_WEBHOOK_URL;
-  if (webhookUrl) {
-    console.log('📡 Sende Kampagne an Webhook:', webhookUrl);
-    try {
-      const whRes = await httpRequest(webhookUrl, 'POST', {}, campaign, 10000);
-      console.log('✅ Webhook Response:', whRes.status);
-    } catch (e) {
-      console.error('⚠️ Webhook Fehler:', e.message);
-    }
-  }
-
-  // Dispatch via Telegram falls konfiguriert
-  const tgToken = process.env.TELEGRAM_BOT_TOKEN;
-  const tgChatId = process.env.TELEGRAM_CHAT_ID;
-  if (tgToken && tgChatId) {
-    console.log('📢 Sende Telegram Broadcast...');
-    const tgText = "🌟 *Neuer Secret Spot des Tages auf Scratch'n'Travel*\n\n" +
-      "📍 *" + selectedSpot.location + "* (" + selectedSpot.country + ")\n\n" +
-      "📖 " + selectedSpot.story + "\n\n" +
-      "🍲 *Kulinarik:* " + selectedSpot.localFood + "\n\n" +
-      "🗺️ *GPS & Route freischalten:* https://scratch-n-travel.vercel.app/stories";
-    
-    try {
-      const tgRes = await httpRequest("https://api.telegram.org/bot" + tgToken + "/sendMessage", 'POST', {}, {
-        chat_id: tgChatId,
-        text: tgText,
-        parse_mode: 'Markdown'
-      }, 10000);
-      console.log('✅ Telegram Broadcast gesendet! Status:', tgRes.status);
-    } catch (e) {
-      console.error('⚠️ Telegram Fehler:', e.message);
-    }
-  }
+  // SNT-401: Dispatch entfernt.
+  // Frueher wurde jede Kampagne an ein Webhook und an Telegram gebroadcastet
+  // (GROWTH_WEBHOOK_URL, TELEGRAM_BOT_TOKEN). Fuenf Kanaele ohne Community sind
+  // fuenf Kanaele ohne Ergebnis — siehe TODOLIST "Falsche Todos". Die Kampagne
+  // wird nur noch archiviert; Verteilung passiert kuenftig von Hand.
+  // Die Env-Variablen werden bewusst NICHT mehr ausgewertet, auch wenn sie
+  // in den Secrets noch stehen.
 
   return campaign;
 }

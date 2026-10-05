@@ -297,8 +297,10 @@ function injectJsonLd() {
 `;
 
   if (!html.includes('"@type": "FAQPage"')) {
-    html = html.replace('</head>', richJsonLd + '
-</head>');
+    // Fix: Hier stand ein echter Zeilenumbruch mitten im String — das ist in
+    // JavaScript ungultig, das Script ist seit diesem Fehler nie wieder
+    // gelaufen. Jetzt als \n-Sequenz geschrieben.
+    html = html.replace('</head>', richJsonLd + '\n</head>');
     fs.writeFileSync(indexPath, html, 'utf8');
     console.log('✅ Injected comprehensive JSON-LD (WebSite, SoftwareApplication, FAQPage) into index.html');
   } else {

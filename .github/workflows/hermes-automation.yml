@@ -1,0 +1,134 @@
+# Scratch'n'Travel — alles Zeitgesteuerte in EINER Datei (SNT-404).
+#
+# Vorher liefen die Crons ueber drei Workflows (deploy.yml, hermes-weekly-
+# reflection.yml, scratch_hermes_cron.yml) mit drei Dateien, drei `on:`-Blocken
+# und drei Stellen, an denen etwas vergessen werden konnte. Jetzt gilt:
+#   - deploy.yml        = nur noch Push -> Deploy (kein Cron)
+#   - hermes-automation.yml = alle drei Zeitplaeine + manuelle Ausloesung
+#
+# Jeder Job laeuft nur, wenn sein Cron gefeuert hat (github.event.schedule)
+# oder wenn er manuell gestartet wird — sonst waeren bei jedem Trigger alle
+# drei Jobs dreimal am Tag unterwegs.
+
+name: Hermes — Content & Automation (Cron)
+
+on:
+  schedule:
+    - cron: '0 6 * * *'   # taeglich 06:00 UTC — Daily Spots + Growth (alt: scratch_hermes_cron)
+    - cron: '0 4 * * 1'   # Montag 04:00 UTC — Self-Reflection (alt: hermes-weekly-reflection)
+    - cron: '0 8 * * 1'   # Montag 08:00 UTC — City Brain Seeder (alt: deploy.yml)
+  workflow_dispatch:      # manuell ausloesen, laeuft ALLE drei Jobs
+
+jobs:
+  # ─── Täglich: Secret Spots + Social Campaigns (Archiv) ───
+  daily-autopilot:
+    name: Daily Spots & Campaigns
+    runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch' || github.event.schedule == '0 6 * * *'
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js Environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Run Hermes Daily Secret Spots Seeder (10 Neue Spots weltweit)
+        run: node scripts/hermes_daily_spots_generator.js
+        env:
+          REQUESTY_API_KEY: ${{ secrets.REQUESTY_API_KEY }}
+          ZENMUX_API_KEY: ${{ secrets.ZENMUX_API_KEY }}
+          CEREBRAS_API_KEY: ${{ secrets.CEREBRAS_API_KEY }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+
+      # SNT-401: Der Social-Growth-Step versendet nicht mehr (Webhook/Telegram
+      # entfernt). Er erzeugt nur noch die Kampagnen-Dateien im Archiv.
+      - name: Run Hermes Social Growth Engine (Archiv, kein Versand)
+        run: node scripts/hermes_social_growth_engine.js
+        env:
+          REQUESTY_API_KEY: ${{ secrets.REQUESTY_API_KEY }}
+          ZENMUX_API_KEY: ${{ secrets.ZENMUX_API_KEY }}
+
+      - name: Run Hermes City Brain Seeder
+        run: node scripts/hermes_travel_seeder.js --cron || true
+        env:
+          REQUESTY_API_KEY: ${{ secrets.REQUESTY_API_KEY }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+
+      - name: Commit & Push Daily Spots & Social Campaigns
+        # Bewusst KEIN `git add -A`: der Cron darf ausschliesslich seine
+        # eigenen Erzeugnisse schreiben. Mit `git add -A` wuerde er alles
+        # einsammeln, was im Arbeitsbaum liegt — inklusive der Aenderungen
+        # eines Menschen, die er dabei ueberschreiben wuerde.
+        run: |
+          git config --global user.name "Hermes Travel & Growth Engine"
+          git config --global user.email "hermes@scratchntravel.com"
+          git add seeded_cities/ social_campaigns/ social_drafts/ public/
+          git diff --quiet && git diff --staged --quiet || (git commit -m "feat(hermes): daily 10 verified secret spots, authentic food & viral growth campaign [skip ci]" && git push origin main)
+
+  # ─── Montag früh: Self-Reflection & Wettbewerbs-Audit ───
+  weekly-reflection:
+    name: Weekly Self-Reflection
+    runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch' || github.event.schedule == '0 4 * * 1'
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Run Hermes Autonomous Reflection Engine
+        run: node scripts/hermes_weekly_reflection.js
+
+      - name: Commit & Push Updated Reflection Digest
+        run: |
+          git config --global user.name "Hermes Governance Bot"
+          git config --global user.email "hermes-bot@kontolage.de"
+          git add HERMES_WEEKLY_REFLECTION_REPORT.json HERMES_WEEKLY_REFLECTION_DIGEST.md
+          git diff --quiet && git diff --staged --quiet || (git commit -m "chore(hermes): automated weekly self-reflection & competitor audit [skip ci]" && git push)
+
+  # ─── Montag Vormittag: City Brain Seeder ───
+  city-seeder:
+    name: Hermes City Brain Seeder
+    runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch' || github.event.schedule == '0 8 * * 1'
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Run Hermes City Seeder
+        env:
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+        run: node scripts/hermes_travel_seeder.js Lissabon
+
+      - name: Commit Updated City Brain Data
+        run: |
+          git config user.name "Hermes[bot]"
+          git config user.email "hermes@scratch-n-travel.com"
+          git add seeded_cities/
+          git diff-index --quiet HEAD || git commit -m "auto(hermes): weekly city brain update [skip ci]"
+          git push

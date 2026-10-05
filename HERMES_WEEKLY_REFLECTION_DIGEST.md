@@ -1,5 +1,5 @@
 # Hermes Weekly Self-Reflection & Competitor Intelligence Digest
-**Projekt**: Scratch'n'Travel | **Datum**: 28.9.2026 | **Status**: HEALTHY
+**Projekt**: Scratch'n'Travel | **Datum**: 5.10.2026 | **Status**: HEALTHY
 
 ---
 
@@ -38,38 +38,38 @@
 
 ### 1. 1-Klick Komoot & GPX Export Loop für Wander- & Hundetrails
 - **Kategorie**: Feature Gap vs Komoot
-- **Confidence Score**: `[UNVERIFIED PROJECTION] 0.94`
+- **Evidenz**: [UNVERIFIED] Annahme — keine Export-Klicks bisher gezählt, da Feature fehlt
 - **Entscheidungsgrund**: Komoot dominiert Outdoor-Reisende durch GPX-Downloads. Scratch'n'Travel hat bereits GPX-Pfade in den Daten; ein prominenter Export-Button erzeugt sofortigen Viral-Nutzen.
 - **Betroffene Parameter**: `src/pages/Explore.tsx, src/data/data.ts, gpx_export_engine`
-- **Aufwand / Impact**: Niedrig (2 Tage) | **[UNVERIFIED PROJECTION] +28% Wiederkehrrate bei Outdoor- & Hundereisenden**
+- **Aufwand / erwartete Wirkung**: Niedrig (2 Tage) | Kann Wiederkehrrate bei Outdoor- und Hundereisenden erhöhen — Wirkung erst nach Einführung messbar
 
 ### 2. Physischer Scratch-Pass & Sammler-Badges als Print-on-Demand (POD)
 - **Kategorie**: Monetization Gap vs Polarsteps
-- **Confidence Score**: `[UNVERIFIED PROJECTION] 0.91`
-- **Entscheidungsgrund**: Polarsteps erzielt über 60% seines Umsatzes mit physischen Fotobüchern. Scratch'n'Travel hat 460+ Vektor-Badges und Pass-Seiten, die direkt als gedrucktes Reisetagebuch produziert werden können.
+- **Evidenz**: [UNVERIFIED] Deckungsbeitrag ist eine Kalkulation, keine gemessene Zahl
+- **Entscheidungsgrund**: Physische Reiseprodukte sind im Reisebereich ein bewährtes Einnahmemodell. Scratch'n'Travel hat 460+ Vektor-Badges und Pass-Seiten, die direkt als gedrucktes Reisetagebuch produziert werden können. (Umsatzanteile von Polarsteps sind nicht belegt und werden bewusst nicht genannt.)
 - **Betroffene Parameter**: `api/create-merch-checkout-session.js, src/pages/Passport.tsx`
-- **Aufwand / Impact**: Mittel (1 Woche) | **[UNVERIFIED PROJECTION] Zusätzlicher Deckungsbeitrag von 14–22 € pro bestelltem Pass**
+- **Aufwand / erwartete Wirkung**: Mittel (1 Woche) | Zusätzlicher Deckungsbeitrag je bestelltem Pass — Höhe hängt von Druckpreis und Versand ab, erst nach Musterbestellung belegbar
 
 ### 3. Scam-Radar Push-Warnungen bei Betreten bekannter Abzock-Zonen
 - **Kategorie**: USP vs Wanderlog & TripAdvisor
-- **Confidence Score**: `[UNVERIFIED PROJECTION] 0.88`
+- **Evidenz**: [UNVERIFIED] Keine Nutzerbefragung — begründet allein durch Funktion der App
 - **Entscheidungsgrund**: Kein Mitbewerber warnt proaktiv vor Taschendieben an Tram 28 in Lissabon oder Klippengefahren. Ein lokaler Geo-Fence-Check im Browser stärkt das Vertrauen massiv.
 - **Betroffene Parameter**: `assets/js/map-safety-badge-pins.js, src/pages/Radar.tsx`
-- **Aufwand / Impact**: Mittel (3 Tage) | **[UNVERIFIED PROJECTION] Hohe Mundpropaganda und PR-Berichterstattung als Sicherheits-App**
+- **Aufwand / erwartete Wirkung**: Mittel (3 Tage) | Kann Mundpropaganda und Presseinteresse als Sicherheits-App auslösen — nicht bezifferbar
 
 ### 4. WanderBond DNA Mini-Quiz als Einstiegs-Funnel ohne Registrierung
 - **Kategorie**: CRO & Onboarding Loop
-- **Confidence Score**: `[UNVERIFIED PROJECTION] 0.92`
+- **Evidenz**: [UNVERIFIED] Abbruchraten sind unbekannt — es gibt noch keine echten Nutzer
 - **Entscheidungsgrund**: Nutzer brechen ab, wenn vor dem Erlebnis ein Login verlangt wird. Ein interaktives 3-Fragen DNA-Matching zeigt sofort passende Geheimtipps und Badges.
 - **Betroffene Parameter**: `src/pages/Home.tsx, src/pages/WanderBond.tsx`
-- **Aufwand / Impact**: Niedrig (1 Tag) | **[UNVERIFIED PROJECTION] +42% Signup-Conversion auf der Startseite**
+- **Aufwand / erwartete Wirkung**: Niedrig (1 Tag) | Kann Signup-Conversion auf der Startseite verbessern — Vergleich erst mit echter Traffic-Zahl möglich
 
 ### 5. Offline-PWA Kachel-Caching für Secret Spots ohne Mobilfunk
 - **Kategorie**: Resilience Gap vs Polarsteps
-- **Confidence Score**: `[UNVERIFIED PROJECTION] 0.89`
+- **Evidenz**: [UNVERIFIED] Begründung aus der Funkloch-Situation, nicht aus Abbruchdaten
 - **Entscheidungsgrund**: In abgelegenen Secret Spots (z. B. Praia da Ursa, Dolomiten) gibt es oft kein Netz. Vorab geladene Leaflet-Kacheln sichern die Navigation im Funkloch.
 - **Betroffene Parameter**: `public/sw.js, src/components/TravelMap.tsx`
-- **Aufwand / Impact**: Mittel (3 Tage) | **[UNVERIFIED PROJECTION] Verhindert App-Abbrüche in abgelegenen Outdoor-Szenarien**
+- **Aufwand / erwartete Wirkung**: Mittel (3 Tage) | Verhindert App-Abbrüche in abgelegenen Outdoor-Szenarien — nicht messbar solange niemand offline testet
 
 ---
 *Automatisch generiert durch Hermes Governance v5.2 für gloozmarketing-ui.*
