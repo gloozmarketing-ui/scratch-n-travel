@@ -83,12 +83,12 @@ Kein AI-Provider-Key steht als Literal im Repository. Fehlt eine Umgebungsvariab
 6. Git-Historie: Keys stehen seit 05.09. in Commits → **Key-Widerruf ist das Muss**.
 
 **TASKS**
-- [ ] 4 Keys widerrufen (Provider-Dashboards, Screenshot als Beleg)
-- [ ] 4 Fallback-Literale → `null`
-- [ ] Provider-Skip-Logik bei fehlendem Key
-- [ ] `503`-Antwort bei fehlender Konfiguration
-- [ ] `.env.example` (10 Keys, ohne Werte)
-- [ ] Grep-Verifikation: 0 Treffer
+- [ ] 4 Keys widerrufen (Provider-Dashboards, Screenshot als Beleg) — **einziger offener Punkt**
+- [x] 4 Fallback-Literale → `null`
+- [x] Provider-Skip-Logik bei fehlendem Key
+- [x] `503`-Antwort bei fehlender Konfiguration
+- [x] `.env.example` (10 Keys, ohne Werte)
+- [x] Grep-Verifikation: 0 Treffer (auch aus der Historie bereinigt, `4c26c94`)
 
 **VERIFY**
 ```powershell
@@ -119,10 +119,10 @@ Invoke-WebRequest https://<PROD>/api/hermes-concierge -Method POST -Body '{}' -C
 5. Rollen in `AGENTS.md` und README festhalten.
 
 **TASKS**
-- [ ] `04.09.2026/index.html` auf echte SEO-Metas umgestellt
-- [ ] Staging-`noindex` via `vercel.json`-Header
-- [ ] Rollen-Doku in `AGENTS.md` + README
-- [ ] Live-Check beider URLs
+- [x] `04.09.2026/index.html` auf echte SEO-Metas umgestellt
+- [x] Staging-`noindex` via `vercel.json`-Header
+- [x] Rollen-Doku in `AGENTS.md` + README
+- [x] Live-Check beider URLs (2026-09-30 verifiziert)
 
 **VERIFY**
 ```powershell
@@ -159,9 +159,9 @@ Die Produktions-Site ist für Suchmaschinen zugänglich. `robots.txt` erlaubt Cr
 5. Search Console: Token `ad062dfe6cb025cf` liegt bereit → Property bestätigen.
 
 **TASKS**
-- [ ] `robots.txt` (Root **und** `dist/`) korrigiert
-- [ ] Domain-Entscheidung getroffen und umgesetzt
-- [ ] `sitemap.xml`, `canonical`, `og:url` konsistent
+- [x] `robots.txt` (Root **und** `dist/`) korrigiert
+- [ ] Domain-Entscheidung getroffen und umgesetzt — **einziger offener Punkt**
+- [x] `sitemap.xml`, `canonical`, `og:url` konsistent
 
 ## T-004 · Erfundene Daten entfernen 🔴 P0 — ✅ ERLEDIGT (2026-09-30)
 

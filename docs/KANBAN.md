@@ -31,7 +31,7 @@
 | 📋 **BACKLOG** | 114 (102 offen, 12 ✅ erledigt) | ~147 h |
 | 🚧 **IN PROGRESS** | 0 | — |
 | 👀 **REVIEW** | 0 | — |
-| ✅ **DONE** (2026-09-27 + 2026-09-30) | 26 Karten, siehe DONE unten | — |
+| ✅ **DONE** (2026-09-27 + 2026-09-30) | 37 Karten, siehe DONE unten | — |
 | ⛔ **BLOCKED** | 6 (alle Owner-abhängig) | — |
 | 🗑️ **WONTFIX / DROP** | 5 | — |
 
@@ -317,18 +317,21 @@
 
 ## Karten-Statistik
 
+> **Stand 2026-09-30 ( aktualisiert nach Commits `7cbbb53`, `b174854`, Schema-Fixes ):**
+> Bottom-up-Summe der Karten-Aufwände statt der alten Gruppen-Schätzung.
+
 | Priorität | Karten | Aufwand |
 |---|---|---|
-| 🔴 P0 Blocker | 15 | ~11 h |
-| 🔴 P0 Schema (SNT-320…334) | 15 (4 offen: SNT-331…334) | ~1,5 h offen |
-| 🔴 P0 Merch/POD (SNT-360…367) | 8 | ~6 h |
+| 🔴 P0 Blocker (SNT-101…115) | 15 (13 erledigt, 2 offen: SNT-108/109) | ~2 h offen |
+| 🔴 P0 Schema (SNT-320…334) | 15 (11 erledigt, 4 offen: SNT-331…334) | ~1,5 h offen |
+| 🔴 P0 Merch/POD (SNT-360…367) | 8 (3 erledigt, 5 offen) | ~4,5 h offen |
 | 🟡 P1 (inkl. Orts-Chat SNT-340…346) | 27 | ~46 h |
 | 🟢 P2 (Community) | 15 | ~28 h + 5 h manuell |
 | 🟢 P2 (System) | 12 | ~22 h |
 | ⚪ P3 | 10 | ~32 h + 10 h/Woche |
-| **Offen gesamt** | **102** | **~147 h + Community-Zeit** |
-| ✅ Behoben 2026-09-27 (SNT-350…358, 370…372) | 12 | — |
-| ✅ Behoben 2026-09-30 (SNT-101 Code, 102, 103, 104…107, SNT-116 API-Fix) | 7 | — |
+| **Offen gesamt (81 Karten)** | **81** | **~133 h + Community-Zeit** |
+| ✅ Behoben 2026-09-27 (SNT-320…330, 350…358, 370…372, 360/361) | 24 | — |
+| ✅ Behoben 2026-09-30 (SNT-101 Code, 102, 103, 104…107, SNT-116 API-Fix, **SNT-110…115, SNT-362**) | 13 | — |
 
 
 *Fortsetzung: `IMPLEMENTATION_PLAN.md` · `TODOLIST.md` · `PROJEKT_AUDIT_2026-09-25.md` · `../COMMUNITY_GROWTH_STRATEGY_2026.md`*
