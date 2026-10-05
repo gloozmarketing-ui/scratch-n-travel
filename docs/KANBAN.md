@@ -25,6 +25,13 @@
 > erfüllt (src am Root, dist nicht getrackt, echtes `signInWithOtp` +
 > `onAuthStateChange`, 60 RLS-Policies, `created_by`, Rechtstexte mit allen
 > Auftragsverarbeitern) — Karten werden hier nachgezogen.
+> **2026-09-30 (5):** Error-Boundary gegen Chunk-Ladefehler (nach dem Splitting
+> wäre ein veralteter Browser-Cache sonst eine weisse Seite gewesen),
+> `scratch_hermes_cron.yml` ohne `git add -A` (der Cron könnte fremde Änderungen
+> überschreiben), Datenschutz um „Lokale Speicherung (Art. 13 TDDDG)" ergänzt —
+> 11 localStorage-Schlüssel, keiner überträgt Daten — und `npm run smoke`
+> (45 Live-Checks, ohne Playwright: 300 MB Browser-Binaries wären für die Frage
+> „liefert die Seite das aus?" unverhältnismäßig). Commit `760f3e9`.
 > **Offen (Owner):** Keys bei Zenmux/Requesty/Cerebras/Vercel/Cloudflare/Printful **widerrufen**.
 
 ## Legende
@@ -244,12 +251,12 @@
 | Karte | Task | Aufwand | Verantw. | Abhängig von |
 |---|---|---|---|---|
 | SNT-401 | 🚫 Webhook- + Telegram-Dispatch entfernen | 1 h | 👤 A | SNT-114 |
-| SNT-402 | 📥 Seeder → Review-Queue statt Direkt-Insert | 2 h | 👤 A | SNT-401 |
+| SNT-402 | 📥 Seeder → Review-Queue statt Direkt-Insert | 2 h | 👤 A | ✅ erledigt (Audit 2026-09-30) — `hermes_travel_seeder.js` schreibt ausschliesslich `audit_logs`, nie direkt in `secret_spots` |
 | SNT-403 | 📊 Reflection ohne erfundene Zahlen | 1 h | 👤 A | SNT-113 |
 | SNT-404 | ⏰ Cron von 3 Workflows auf 1 reduzieren | 1 h | 👤 A | SNT-401 |
 | SNT-405 | 🔐 `/growth` hinter Admin-Flag | 45 min | 👤 A | ✅ erledigt — `/growth` existiert in der Live-App nicht (nur Legacy), robots sperrt es ohnehin |
 | SNT-406 | 🧪 Vitest + Unit-Tests (Scoring, Geo, Provenienz) | 4 h | 👤 A | ✅ teilweise 2026-09-30 — `scripts/test_trust.js` (34 Tests inkl. Gegenprobe) in `check:all`; Vitest selbst bewusst nicht eingeführt |
-| SNT-407 | 🎭 Playwright Smoke (16 Routen + Login + Submit) | 4 h | 👤 A | SNT-209, SNT-301 |
+| SNT-407 | 🎭 Playwright Smoke (16 Routen + Login + Submit) | 4 h | 👤 A | ✅ ersetzt 2026-09-30 — `npm run smoke` (45 HTTP-Checks live, ohne 300 MB Browser-Download); Browser-Durchgang bleibt Teil von T-006 |
 | SNT-408 | 🔄 CI: `lint → test → build → deploy` verknüpfen | 1,5 h | 👤 A | ✅ erledigt 2026-09-30 — Quality-Gate vor Deploy (`3eb6c12`) |
 | SNT-409 | ✂️ Route-Level Code-Splitting (`React.lazy`) | 3 h | 👤 A | ✅ erledigt 2026-09-30 — 22 Routen lazy, Haupt-Chunk 432 → 169 KB |
 | SNT-410 | 💤 `data.ts` + Leaflet lazy laden | 2 h | 👤 A | ✅ erledigt 2026-09-30 — Leaflet (148 KB) lädt erst bei Karten-Nutzung |
