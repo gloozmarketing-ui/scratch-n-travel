@@ -765,9 +765,9 @@ $$;
 
 DROP TRIGGER IF EXISTS on_auth_user_created ON auth.users;
 CREATE TRIGGER on_auth_user_created
+  AFTER INSERT ON auth.users
+  FOR EACH ROW EXECUTE FUNCTION public.handle_new_user();
 
-
--- ============================================================================
 
 -- ============================================================================
 -- TEIL 7 — Trust-Tier nach jedem Event neu berechnen
@@ -800,6 +800,7 @@ $$;
 DROP TRIGGER IF EXISTS on_trust_event_created ON trust_events;
 CREATE TRIGGER on_trust_event_created
   AFTER INSERT ON trust_events
+  FOR EACH ROW EXECUTE FUNCTION public.on_trust_event_insert();
 
 -- TEIL 8 — Spot auf community_verified heben (3 unabhängige Stimmen)
 -- ============================================================================

@@ -12,7 +12,7 @@
 const https = require('https');
 const querystring = require('querystring');
 
-const STRIPE_SECRET_KEY = (process.env.STRIPE_SECRET_KEY || '').trim();
+const STRIPE_SECRET_KEY = (process.env.STRIPE_SECRET_KEY || process.env.STRIPE_TEST_SECRET_KEY || '').trim();
 
 function stripePost(endpoint, data) {
   return new Promise((resolve, reject) => {
@@ -78,7 +78,7 @@ module.exports = async function handler(req, res) {
       return res.status(500).json({ error: 'Stripe Secret Key is not configured on server' });
     }
 
-    const origin = req.headers.origin || 'https://kontolage.de';
+    const origin = req.headers.origin || process.env.SITE_URL || 'https://scratch-n-travel.vercel.app';
 
     const sessionData = {
       mode: 'subscription',
