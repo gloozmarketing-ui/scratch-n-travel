@@ -91,7 +91,7 @@ async function runSelfReflection() {
       category: 'USP vs Wanderlog & TripAdvisor',
       evidence: '[UNVERIFIED] Keine Nutzerbefragung — begründet allein durch Funktion der App',
       decision_reason: 'Kein Mitbewerber warnt proaktiv vor Taschendieben an Tram 28 in Lissabon oder Klippengefahren. Ein lokaler Geo-Fence-Check im Browser stärkt das Vertrauen massiv.',
-      affected_parameters: ['assets/js/map-safety-badge-pins.js', 'src/pages/Radar.tsx'],
+      affected_parameters: ['legacy/v5-legacy-engines/map-safety-badge-pins.js', 'src/pages/Radar.tsx'],
       effort: 'Mittel (3 Tage)',
       expected_impact: 'Kann Mundpropaganda und Presseinteresse als Sicherheits-App auslösen — nicht bezifferbar'
     },

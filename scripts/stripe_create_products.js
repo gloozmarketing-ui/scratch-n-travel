@@ -90,7 +90,7 @@ async function main() {
   console.log(`   ✅ Business Produkt-ID: ${bizProd.id}`);
   console.log(`   ✅ Business Price-ID:   ${bizPrice.id}\n`);
 
-  console.log('🎉 Fertig! Trage diese Price-IDs in assets/js/stripe-config.js ein:');
+  console.log('🎉 Fertig! Trage diese Price-IDs in legacy/v5-legacy-engines/stripe-config.js ein:');
   console.log(`   price_1P_pro_monthly: '${proPrice.id}'`);
   console.log(`   price_1P_biz_monthly: '${bizPrice.id}'`);
 }

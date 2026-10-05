@@ -54,7 +54,7 @@
 - **Kategorie**: USP vs Wanderlog & TripAdvisor
 - **Evidenz**: [UNVERIFIED] Keine Nutzerbefragung — begründet allein durch Funktion der App
 - **Entscheidungsgrund**: Kein Mitbewerber warnt proaktiv vor Taschendieben an Tram 28 in Lissabon oder Klippengefahren. Ein lokaler Geo-Fence-Check im Browser stärkt das Vertrauen massiv.
-- **Betroffene Parameter**: `assets/js/map-safety-badge-pins.js, src/pages/Radar.tsx`
+- **Betroffene Parameter**: `legacy/v5-legacy-engines/map-safety-badge-pins.js, src/pages/Radar.tsx`
 - **Aufwand / erwartete Wirkung**: Mittel (3 Tage) | Kann Mundpropaganda und Presseinteresse als Sicherheits-App auslösen — nicht bezifferbar
 
 ### 4. WanderBond DNA Mini-Quiz als Einstiegs-Funnel ohne Registrierung

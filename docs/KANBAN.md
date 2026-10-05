@@ -49,6 +49,11 @@
 > laeuft damit in jedem CI-Gate mit. Die Domain-Entscheidung (SNT-108) bleibt
 > offen; der Check ist hostagnostisch und bleibt gueltig, egal wohin die Domain
 > wechselt.
+> **2026-09-30 (8):** SNT-203 — 36 Legacy-Engines von `assets/js/` nach
+> `legacy/v5-legacy-engines/` umgezogen (425 KB, nicht deployed). Die einzige
+> echte Abhängigkeit war `theme-manager.js` in 4 Magazin-Seiten — Referenzen
+> angepasst, ebenso 2 Script-Verweise (`affected_parameters`, Stripe-Log).
+> SNT-109-Verify `check:seo` hängt in `check:all`.
 > **Offen (Owner):** Keys bei Zenmux/Requesty/Cerebras/Vercel/Cloudflare/Printful **widerrufen**.
 
 ## Legende
@@ -68,10 +73,10 @@
 
 | Spalte | Karten | Aufwand |
 |---|---|---|
-| 📋 **BACKLOG** | 114 (69 offen, 45 ✅ erledigt) | ~115 h |
+| 📋 **BACKLOG** | 114 (68 offen, 46 ✅ erledigt) | ~114 h |
 | 🚧 **IN PROGRESS** | 0 | — |
 | 👀 **REVIEW** | 0 | — |
-| ✅ **DONE** (2026-09-27 + 2026-09-30) | 45 Karten, siehe DONE unten | — |
+| ✅ **DONE** (2026-09-27 + 2026-09-30) | 46 Karten, siehe DONE unten | — |
 | ⛔ **BLOCKED** | 6 (alle Owner-abhängig) | — |
 | 🗑️ **WONTFIX / DROP** | 5 | — |
 
@@ -105,7 +110,7 @@
 |---|---|---|---|---|
 | SNT-201 | 📦 Quelle A → `src/` an Repo-Root verschieben | 3 h | 👤 A | SNT-114 |
 | SNT-202 | 🗄️ Quelle B → `legacy/v6-04.09.2026/` | 30 min | 👤 A | SNT-201 |
-| SNT-203 | 📚 39 Legacy-Engines → `legacy/v5-legacy-engines/` | 1 h | 👤 A | SNT-201 |
+| SNT-203 | 📚 36 Legacy-Engines → `legacy/v5-legacy-engines/` | 1 h | 👤 A | ✅ erledigt 2026-09-30 — umgezogen, 4 Magazin-Referenzen + 2 Script-Verweise angepasst |
 | SNT-204 | 🗑️ `dist/` aus Git-Tracking entfernen | 15 min | 👤 A | SNT-201 |
 | SNT-205 | ⚙️ `vercel.json`: echter `buildCommand` | 30 min | 👤 A | SNT-201 |
 | SNT-206 | 🔄 CI: `npm ci && npm run build` + Artefakt-Upload | 1,5 h | 👤 A | ✅ erledigt 2026-09-30 — Quality-Gate baut + `upload-artifact` (14 Tage) |
@@ -348,7 +353,7 @@
 | Element | Begründung |
 |---|---|
 | `app.html` (29 KB) als eigene Seite | Durch SPA-Rewrite unerreichbar. Archivieren oder echte Route bauen. |
-| 39 Legacy-Engines in `assets/js/` | Nicht deployed. Nach `legacy/` verschieben, dann neu bauen was gebraucht wird. |
+| 36 Legacy-Engines (früher `assets/js/`) | ✅ erledigt 2026-09-30: liegen jetzt in `legacy/v5-legacy-engines/`, nicht deployed. Neu bauen, was gebraucht wird. |
 | `scratch-n-travel-six.vercel.app` als Version | **Kein zweites Produkt.** Nur Staging. |
 | 47 Vite-Bundles in `dist/assets/` (45 tot) | Build-Artefakte, dürfen nicht im Git liegen. |
 | 2 Duplikat-Bundles in Root `assets/` | Von `scripts/build_app.js` erzeugt, überflüssig. |
@@ -365,11 +370,11 @@
 | 🔴 P0 Blocker (SNT-101…115) | 15 (13 erledigt, 2 offen: SNT-108/109) | ~2 h offen |
 | 🔴 P0 Schema (SNT-320…334) | 15 (11 erledigt, 4 offen: SNT-331…334) | ~1,5 h offen |
 | 🔴 P0 Merch/POD (SNT-360…367) | 8 (3 erledigt, 5 offen) | ~4,5 h offen |
-| 🟡 P1 (inkl. Orts-Chat SNT-340…346) | 27 (9 erledigt · 18 offen) | ~38 h offen |
+| 🟡 P1 (inkl. Orts-Chat SNT-340…346) | 27 (10 erledigt · 17 offen) | ~37 h offen |
 | 🟢 P2 (Community) | 15 | ~28 h + 5 h manuell |
 | 🟢 P2 (System) | 12 (11 erledigt/ersetzt: SNT-401…410, 412 · 1 offen: SNT-411 Fonts) | ~1 h offen |
 | ⚪ P3 | 10 | ~32 h + 10 h/Woche |
-| **Offen gesamt (69 Karten)** | **69** | **~115 h + Community-Zeit** |
+| **Offen gesamt (68 Karten)** | **68** | **~114 h + Community-Zeit** |
 | ✅ Behoben 2026-09-27 (SNT-320…330, 350…358, 370…372, 360/361) | 24 | — |
 | ✅ Behoben 2026-09-30 (SNT-101 Code, 102, 103, 104…107, SNT-116 API-Fix, **SNT-110…115, SNT-362**) | 13 | — |
 | ✅ Behoben 2026-09-30 (SNT-219 Footer, 405, 408, 409, 410, 412) | 6 | ~7 h |

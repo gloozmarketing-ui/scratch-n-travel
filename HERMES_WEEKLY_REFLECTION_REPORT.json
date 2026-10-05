@@ -1,7 +1,7 @@
 {
   "engine": "Hermes Master Governance SNT Self-Reflection",
   "version": "1.0",
-  "timestamp": "2026-10-05T17:55:59.803Z",
+  "timestamp": "2026-10-05T19:14:51.608Z",
   "project": "Scratch'n'Travel (gloozmarketing-ui)",
   "live_url": "https://scratch-n-travel.vercel.app",
   "system_health": {
@@ -108,7 +108,7 @@
       "evidence": "[UNVERIFIED] Keine Nutzerbefragung — begründet allein durch Funktion der App",
       "decision_reason": "Kein Mitbewerber warnt proaktiv vor Taschendieben an Tram 28 in Lissabon oder Klippengefahren. Ein lokaler Geo-Fence-Check im Browser stärkt das Vertrauen massiv.",
       "affected_parameters": [
-        "assets/js/map-safety-badge-pins.js",
+        "legacy/v5-legacy-engines/map-safety-badge-pins.js",
         "src/pages/Radar.tsx"
       ],
       "effort": "Mittel (3 Tage)",
