@@ -15,7 +15,8 @@
     "check:ui": "node scripts/audit_ui.js",
     "check:bundle": "node scripts/check_bundle_budget.cjs",
     "test:photo": "node scripts/test_photo_safety.js",
-    "check:all": "npm run typecheck && npm run check:schema && npm run check:ui && npm run test:photo",
+    "test:trust": "node scripts/test_trust.js",
+    "check:all": "npm run typecheck && npm run check:schema && npm run check:ui && npm run test:photo && npm run test:trust",
     "seed": "node scripts/hermes_travel_seeder.js"
   },
   "keywords": [

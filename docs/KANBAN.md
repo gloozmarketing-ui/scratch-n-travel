@@ -17,6 +17,14 @@
 > nicht — Karte war überholt). Commit `3eb6c12`.
 > **Bewusst offen gelassen (brauchen dich oder sind Produktentscheidungen):**
 > SNT-401/404 (Cron-Konsolidierung, Telegram-Dispatch), SNT-411 (Fonts), SNT-201…206 (Repo-Umbau).
+> **2026-09-30 (4):** SNT-209 (`RequireAuth`-Wächter für 6 geschützte Routen,
+> blockiert im Demo-Modus nicht), SNT-206 (Build-Artefakt im CI), SNT-406
+> teilweise (`scripts/test_trust.js`: 34 Tests inkl. Gegenprobe, in `check:all`
+> → jetzt 53 Tests). Commit `877546f`.
+> **Audit-Befund:** SNT-201/204/205/207/208/211/212/213/215…218 waren bereits
+> erfüllt (src am Root, dist nicht getrackt, echtes `signInWithOtp` +
+> `onAuthStateChange`, 60 RLS-Policies, `created_by`, Rechtstexte mit allen
+> Auftragsverarbeitern) — Karten werden hier nachgezogen.
 > **Offen (Owner):** Keys bei Zenmux/Requesty/Cerebras/Vercel/Cloudflare/Printful **widerrufen**.
 
 ## Legende
@@ -36,10 +44,10 @@
 
 | Spalte | Karten | Aufwand |
 |---|---|---|
-| 📋 **BACKLOG** | 114 (76 offen, 38 ✅ erledigt) | ~126 h |
+| 📋 **BACKLOG** | 114 (72 offen, 42 ✅ erledigt) | ~118 h |
 | 🚧 **IN PROGRESS** | 0 | — |
 | 👀 **REVIEW** | 0 | — |
-| ✅ **DONE** (2026-09-27 + 2026-09-30) | 38 Karten, siehe DONE unten | — |
+| ✅ **DONE** (2026-09-27 + 2026-09-30) | 42 Karten, siehe DONE unten | — |
 | ⛔ **BLOCKED** | 6 (alle Owner-abhängig) | — |
 | 🗑️ **WONTFIX / DROP** | 5 | — |
 
@@ -76,10 +84,10 @@
 | SNT-203 | 📚 39 Legacy-Engines → `legacy/v5-legacy-engines/` | 1 h | 👤 A | SNT-201 |
 | SNT-204 | 🗑️ `dist/` aus Git-Tracking entfernen | 15 min | 👤 A | SNT-201 |
 | SNT-205 | ⚙️ `vercel.json`: echter `buildCommand` | 30 min | 👤 A | SNT-201 |
-| SNT-206 | 🔄 CI: `npm ci && npm run build` + Artefakt-Upload | 1,5 h | 👤 A | SNT-201 |
+| SNT-206 | 🔄 CI: `npm ci && npm run build` + Artefakt-Upload | 1,5 h | 👤 A | ✅ erledigt 2026-09-30 — Quality-Gate baut + `upload-artifact` (14 Tage) |
 | SNT-207 | ✅ `Login.tsx` aus Quelle A (echtes `signInWithOtp`) | 2 h | 👤 A | SNT-201, SNT-115 |
 | SNT-208 | 🔑 `AuthContext` + `useAuth()` + Session-Persistenz | 2 h | 👤 A | SNT-207 |
-| SNT-209 | 🛡️ `AuthGuard` für geschützte Routen | 1 h | 👤 A | SNT-208 |
+| SNT-209 | 🛡️ `AuthGuard` für geschützte Routen | 1 h | 👤 A | ✅ erledigt 2026-09-30 — `RequireAuth` für 6 Routen, Demo-Modus blockiert nicht |
 | SNT-210 | 🔑 Supabase-Env in GitHub Secrets + Vercel | 20 min | 👤 V | — |
 | SNT-211 | 🔒 RLS: 6 Basis-Policies schreiben | 3 h | 👤 A | SNT-210 |
 | SNT-212 | 🔗 `created_by` FK in `secret_spots` ergänzen | 30 min | 👤 A | SNT-211 |
@@ -240,7 +248,7 @@
 | SNT-403 | 📊 Reflection ohne erfundene Zahlen | 1 h | 👤 A | SNT-113 |
 | SNT-404 | ⏰ Cron von 3 Workflows auf 1 reduzieren | 1 h | 👤 A | SNT-401 |
 | SNT-405 | 🔐 `/growth` hinter Admin-Flag | 45 min | 👤 A | ✅ erledigt — `/growth` existiert in der Live-App nicht (nur Legacy), robots sperrt es ohnehin |
-| SNT-406 | 🧪 Vitest + Unit-Tests (Scoring, Geo, Provenienz) | 4 h | 👤 A | SNT-201 |
+| SNT-406 | 🧪 Vitest + Unit-Tests (Scoring, Geo, Provenienz) | 4 h | 👤 A | ✅ teilweise 2026-09-30 — `scripts/test_trust.js` (34 Tests inkl. Gegenprobe) in `check:all`; Vitest selbst bewusst nicht eingeführt |
 | SNT-407 | 🎭 Playwright Smoke (16 Routen + Login + Submit) | 4 h | 👤 A | SNT-209, SNT-301 |
 | SNT-408 | 🔄 CI: `lint → test → build → deploy` verknüpfen | 1,5 h | 👤 A | ✅ erledigt 2026-09-30 — Quality-Gate vor Deploy (`3eb6c12`) |
 | SNT-409 | ✂️ Route-Level Code-Splitting (`React.lazy`) | 3 h | 👤 A | ✅ erledigt 2026-09-30 — 22 Routen lazy, Haupt-Chunk 432 → 169 KB |
@@ -333,14 +341,15 @@
 | 🔴 P0 Blocker (SNT-101…115) | 15 (13 erledigt, 2 offen: SNT-108/109) | ~2 h offen |
 | 🔴 P0 Schema (SNT-320…334) | 15 (11 erledigt, 4 offen: SNT-331…334) | ~1,5 h offen |
 | 🔴 P0 Merch/POD (SNT-360…367) | 8 (3 erledigt, 5 offen) | ~4,5 h offen |
-| 🟡 P1 (inkl. Orts-Chat SNT-340…346) | 27 | ~46 h |
+| 🟡 P1 (inkl. Orts-Chat SNT-340…346) | 27 (9 erledigt · 18 offen) | ~38 h offen |
 | 🟢 P2 (Community) | 15 | ~28 h + 5 h manuell |
 | 🟢 P2 (System) | 12 (5 erledigt: SNT-405, 408…412 · 7 offen) | ~14 h offen |
 | ⚪ P3 | 10 | ~32 h + 10 h/Woche |
-| **Offen gesamt (76 Karten)** | **76** | **~126 h + Community-Zeit** |
+| **Offen gesamt (72 Karten)** | **72** | **~118 h + Community-Zeit** |
 | ✅ Behoben 2026-09-27 (SNT-320…330, 350…358, 370…372, 360/361) | 24 | — |
 | ✅ Behoben 2026-09-30 (SNT-101 Code, 102, 103, 104…107, SNT-116 API-Fix, **SNT-110…115, SNT-362**) | 13 | — |
 | ✅ Behoben 2026-09-30 (SNT-219 Footer, 405, 408, 409, 410, 412) | 6 | ~7 h |
+| ✅ Behoben 2026-09-30 (SNT-206 Artefakt, 209 AuthGuard, 406 Trust-Tests) | 3 | ~4 h |
 
 
 *Fortsetzung: `IMPLEMENTATION_PLAN.md` · `TODOLIST.md` · `PROJEKT_AUDIT_2026-09-25.md` · `../COMMUNITY_GROWTH_STRATEGY_2026.md`*
