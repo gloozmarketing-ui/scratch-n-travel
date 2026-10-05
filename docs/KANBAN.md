@@ -43,6 +43,12 @@
 > ESM-Scripts auf `.mjs` (`audit_ui`, `check_schema`). Außerdem Syntax-Bug in
 > `hermes_seo_growth_engine.js` (echter Zeilenumbruch im String — Script lief
 > seitdem nie wieder). Jetzt: alle 15 Scripts syntax-fähig, `check:all` grün.
+> **2026-09-30 (7):** SNT-109-Verify gebaut: `npm run check:seo` (8 Checks:
+> alle indexierbaren Routen in der Sitemap, keine gesperrte drin, canonical ===
+> og:url === Sitemap-Host, keine Duplikate) — hängt jetzt in `check:all` und
+> laeuft damit in jedem CI-Gate mit. Die Domain-Entscheidung (SNT-108) bleibt
+> offen; der Check ist hostagnostisch und bleibt gueltig, egal wohin die Domain
+> wechselt.
 > **Offen (Owner):** Keys bei Zenmux/Requesty/Cerebras/Vercel/Cloudflare/Printful **widerrufen**.
 
 ## Legende
@@ -81,7 +87,7 @@
 | SNT-102 | 📄 `.env.example` anlegen (10 Variablen) | 15 min | 👤 A | ✅ erledigt |
 | SNT-103 | 🚫 `503 AI_NOT_CONFIGURED` statt 500 bei fehlenden Keys | 1 h | 👤 A | SNT-101 · ✅ erledigt (`hermes-concierge.js:318`) |
 | SNT-108 | 🌐 Domain-Entscheidung: `scratchntravel.com` kaufen oder Vercel-URL nutzen | 30 min | 👤 V | — |
-| SNT-109 | 🔗 `sitemap.xml` (✅ 19 URLs, routen-synchron) + `canonical`/`og:url` (✅ in `index.html`) konsistent halten — Rest nur noch bei Domainentscheidung ≠ `scratchntravel.com` | 45 min | 👤 A | SNT-108 |
+| SNT-109 | 🔗 `sitemap.xml` (✅ 19 URLs, routen-synchron) + `canonical`/`og:url` (✅ in `index.html`) konsistent halten — Rest nur noch bei Domainentscheidung ≠ `scratchntravel.com` | 45 min | 👤 A | Verify ✅ `npm run check:seo` (8 Checks, in `check:all`) · Domain-Entscheidung SNT-108 offen |
 | SNT-110 | 🎭 `tours[]`: erfundene Reviews/Ratings flaggen oder entfernen | 2 h | 👤 A | — · ✅ erledigt 2026-09-30 (`demo: true` + Entwurf) |
 | SNT-111 | 🎰 `cities[]`: Fake-Scarcity (`total`/`taken`) entfernen | 30 min | 👤 A | — · ✅ erledigt 2026-09-30 (`taken` entfernt, § 5 UWG) |
 | SNT-112 | 🤖 `community_extender.js`: 4 erzwungene Felder korrigieren | 1,5 h | 👤 A | — · ✅ erledigt 2026-09-30 (Pflichtfelder, kein 5.0 Rating) |
