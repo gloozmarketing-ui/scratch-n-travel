@@ -1,0 +1,15 @@
+{
+  "name": "Scratch'n'Travel — Social Travel Layer",
+  "short_name": "ScratchTravel",
+  "description": "Rubbel dir echte Geheimtipps von Locals frei, finde Reisepartner über 130 Hobbys.",
+  "start_url": "/explorer",
+  "display": "standalone",
+  "background_color": "#FFF9F2",
+  "theme_color": "#10B981",
+  "orientation": "portrait-primary",
+  "icons": [
+    { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "/icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

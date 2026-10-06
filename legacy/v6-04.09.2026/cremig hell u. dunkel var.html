@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="de" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HEIMATWEGE - Die Community für Familienreisen</title>
+    
+    <!-- Fonts: Fraunces für Gemütlichkeit, Nunito für weiche, freundliche Lesbarkeit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- GSAP for Animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class', // Aktiviert den Umschalter
+            theme: {
+                extend: {
+                    colors: {
+                        /* Light Mode (Warme Creme-Töne) */
+                        cream: '#F9F6F0',
+                        paper: '#FFFFFF',
+                        textDark: '#3F3B36',
+                        terracotta: '#D17B49',
+                        sage: '#8DA99B',
+                        sand: '#E6DFD3',
+                        /* Dark Mode (Tiefe Erdtöne & Gold) */
+                        night: '#1A1815',       /* Sehr tiefes, warmes Braun/Schwarz */
+                        nightSurface: '#252220',/* Dunkle Karten-Oberfläche */
+                        day: '#F2EFE9',         /* Warmer Off-White Text im Dark Mode */
+                        gold: '#CBA35C',        /* Sanftes, edles Gold */
+                        goldDim: '#8a7240',     /* Gedämpftes Gold für Borders */
+                    },
+                    fontFamily: {
+                        display: ['Fraunces', 'serif'],
+                        body: ['Nunito', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #F9F6F0;
+            color: #3F3B36;
+            font-family: 'Nunito', sans-serif;
+            overflow-x: hidden;
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+        html.dark body { background-color: #1A1815; color: #F2EFE9; }
+        
+        .font-display { font-family: 'Fraunces', serif; }
+        
+        /* Hero Background - Anpassbar für Dark/Light */
+        .hero-bg {
+            background: linear-gradient(rgba(249, 246, 240, 0.3), rgba(249, 246, 240, 0.9)), url('https://images.unsplash.com/photo-1519046904884-53103b34b206?q=80&w=2070&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+        }
+        html.dark .hero-bg {
+            background: linear-gradient(rgba(26, 24, 21, 0.6), rgba(26, 24, 21, 0.95)), url('https://images.unsplash.com/photo-1519046904884-53103b34b206?q=80&w=2070&auto=format&fit=crop');
+        }
+        
+        /* Reveal Animation Classes */
+        .reveal-text { opacity: 0; transform: translateY(30px); }
+        .reveal-card { opacity: 0; transform: translateY(40px); }
+        
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #D17B49; border-radius: 10px; }
+        html.dark ::-webkit-scrollbar-thumb { background: #CBA35C; }
+        
+        /* Weiche Übergänge für alle Elemente */
+        .transition-colors { transition: background-color 0.5s ease, color 0.5s ease, border-color 0.5s ease; }
+    </style>
+</head>
+<body class="antialiased transition-colors">
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 bg-cream/90 dark:bg-night/90 backdrop-blur-md border-b border-sand/50 dark:border-goldDim/20 transition-colors">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="font-display text-3xl tracking-tight text-textDark dark:text-day flex items-center gap-2 transition-colors">
+                <span class="text-terracotta dark:text-gold transition-colors">❦</span> heimatwege
+            </a>
+            <div class="hidden md:flex space-x-8 text-md font-bold text-textDark/80 dark:text-day/80 transition-colors">
+                <a href="#community" class="hover:text-terracotta dark:hover:text-gold transition">Community</a>
+                <a href="#buchen" class="hover:text-terracotta dark:hover:text-gold transition">Unterkünfte</a>
+                <a href="#journal" class="hover:text-terracotta dark:hover:text-gold transition">Geschichten</a>
+            </div>
+            <div class="flex items-center gap-4">
+                <!-- Dark/Light Toggle -->
+                <button id="theme-toggle" class="p-2 rounded-full bg-textDark/10 dark:bg-day/10 hover:bg-terracotta dark:hover:bg-gold hover:text-white dark:hover:text-night transition">
+                    <svg id="sun-icon" class="w-5 h-5 hidden dark:block" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+                    <svg id="moon-icon" class="w-5 h-5 block dark:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
+                </button>
+                <button class="bg-terracotta dark:bg-gold text-white dark:text-night px-6 py-2 rounded-full text-md font-bold hover:opacity-90 transition shadow-sm">Mitmachen</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO (Community & Family Fokus) -->
+    <section id="hero" class="hero-bg h-screen relative flex items-center justify-center transition-colors">
+        <div class="text-center px-6 max-w-4xl">
+            <span class="bg-sage/20 text-sage dark:bg-gold/20 dark:text-gold px-4 py-1 rounded-full text-sm font-bold uppercase tracking-wider reveal-text mb-6 inline-block transition-colors">Die Reise-Community für Familien</span>
+            <h1 class="font-display text-5xl md:text-7xl lg:text-8xl leading-tight mb-6 reveal-text text-textDark dark:text-day transition-colors">
+                Reisen, die uns<br>verbunden lassen
+            </h1>
+            <p class="text-xl md:text-2xl text-textDark/80 dark:text-day/80 max-w-2xl mx-auto mb-10 reveal-text font-semibold transition-colors">
+                Tausche dich mit anderen Eltern aus, entdecke hundefreundliche Geheimtipps und plane Ausflüge, bei denen Groß und Klein glücklich werden.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center reveal-text">
+                <button class="bg-terracotta dark:bg-gold text-white dark:text-night px-8 py-4 rounded-full font-bold text-lg hover:opacity-90 transition shadow-lg">Community entdecken</button>
+                <button class="bg-paper dark:bg-nightSurface text-textDark dark:text-day border-2 border-sand dark:border-goldDim/30 px-8 py-4 rounded-full font-bold text-lg hover:border-terracotta dark:hover:border-gold transition">Unterkunft finden</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- COMMUNITY HUB -->
+    <section id="community" class="py-24 px-6 bg-cream dark:bg-night transition-colors">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16 max-w-2xl mx-auto">
+                <span class="text-terracotta dark:text-gold font-bold tracking-widest text-sm uppercase transition-colors">Leben aus der Community</span>
+                <h2 class="font-display text-4xl md:text-5xl mt-4 leading-tight text-textDark dark:text-day transition-colors">Echte Tipps von echten Eltern.</h2>
+                <p class="text-textDark/70 dark:text-day/70 mt-4 text-lg transition-colors">Keine werbefinanzierten Reiseleiter, sondern Erfahrungen von Familien, die es genau wissen müssen: Wo ist der Buggy gut zu schieben? Wo darf der Hund ans Wasser?</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                
+                <!-- Beitrag 1: Frage -->
+                <div class="reveal-card bg-paper dark:bg-nightSurface rounded-3xl p-6 shadow-sm border border-sand/50 dark:border-goldDim/20 transition-colors">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-12 h-12 rounded-full bg-sage flex items-center justify-center text-white font-bold text-lg">S</div>
+                        <div>
+                            <span class="font-bold text-textDark dark:text-day block transition-colors">Sarah mit Lotte (4) & Bello</span>
+                            <span class="text-textDark/50 dark:text-day/50 text-sm transition-colors">Sucht Tipps · Allgäu</span>
+                        </div>
+                    </div>
+                    <h3 class="font-display text-2xl mb-3 text-textDark dark:text-day transition-colors">Kinderwagen-freundliche Hütte mit Blick?</h3>
+                    <p class="text-textDark/70 dark:text-day/70 mb-4 transition-colors">Wir suchen eine Hütte für nächste Woche. Lotte kann noch nicht so weit laufen und Bello braucht Wiesen. Hat jemand einen Geheimtipp?</p>
+                    <div class="flex items-center gap-4 text-sm text-textDark/50 dark:text-day/50 font-bold transition-colors">
+                        <span class="flex items-center gap-1 text-terracotta dark:text-gold transition-colors">💬 12 Antworten</span>
+                        <span>❤️ 24</span>
+                    </div>
+                </div>
+
+                <!-- Beitrag 2: Bild & Story -->
+                <div class="reveal-card bg-paper dark:bg-nightSurface rounded-3xl shadow-sm border border-sand/50 dark:border-goldDim/20 overflow-hidden md:mt-8 transition-colors">
+                    <img src="https://images.unsplash.com/photo-1560417789-7e0b5c1f4f8d?q=80&w=800&auto=format&fit=crop" class="w-full h-56 object-cover">
+                    <div class="p-6">
+                        <div class="flex items-center gap-3 mb-3">
+                            <div class="w-10 h-10 rounded-full bg-terracotta flex items-center justify-center text-white font-bold">M</div>
+                            <div>
+                                <span class="font-bold text-textDark dark:text-day block transition-colors">Familie Maier</span>
+                                <span class="text-textDark/50 dark:text-day/50 text-sm transition-colors">Erlebnis · Eifel</span>
+                            </div>
+                        </div>
+                        <p class="text-textDark/80 dark:text-day/80 text-lg transition-colors">"Der perfekte Morgen: Hund im Fluss, Kinder beim Hütten bauen. Diese Privatsphäre war unbezahlbar. #heimatwege"</p>
+                    </div>
+                </div>
+
+                <!-- Beitrag 3: Reise-Buddy Suche (Im Dark Mode mit Gold-Akzent) -->
+                <div class="reveal-card bg-terracotta dark:bg-nightSurface border-2 dark:border-gold text-white dark:text-gold rounded-3xl p-6 shadow-sm transition-colors">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-12 h-12 rounded-full bg-white/20 dark:bg-gold/20 flex items-center justify-center text-white dark:text-gold font-bold text-lg transition-colors">J</div>
+                        <div>
+                            <span class="font-bold block">Jan & Julia (7)</span>
+                            <span class="text-white/80 dark:text-gold/70 text-sm transition-colors">Sucht Begleitung · Harz</span>
+                        </div>
+                    </div>
+                    <h3 class="font-display text-2xl mb-3 text-white dark:text-day transition-colors">Wer hat Lust auf gemeinsame Wandertage?</h3>
+                    <p class="text-white/90 dark:text-day/80 mb-4 transition-colors">Wir sind Anfang Oktober im Harz. Wäre toll, wenn Julia andere Kinder zum Spielen trifft. Wir gehen gemütliche 5-8km.</p>
+                    <button class="bg-white dark:bg-gold text-terracotta dark:text-night px-4 py-2 rounded-full text-sm font-bold hover:opacity-90 transition">Anfrage senden</button>
+                </div>
+
+                <!-- Beitrag 4: Tipp -->
+                <div class="reveal-card bg-paper dark:bg-nightSurface rounded-3xl p-6 shadow-sm border border-sand/50 dark:border-goldDim/20 md:mt-8 transition-colors">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-12 h-12 rounded-full bg-sage flex items-center justify-center text-white font-bold text-lg">T</div>
+                        <div>
+                            <span class="font-bold text-textDark dark:text-day block transition-colors">Tom, Vater von 3</span>
+                            <span class="text-textDark/50 dark:text-day/50 text-sm transition-colors">Reisetipp · Ostsee</span>
+                        </div>
+                    </div>
+                    <h3 class="font-display text-2xl mb-3 text-textDark dark:text-day transition-colors">Bauernhof "Glück auf" - unser Geheimtipp</h3>
+                    <p class="text-textDark/70 dark:text-day/70 mb-4 transition-colors">Die Kinder durften Ziegen füttern und abends am Lagerfeuer Stockbrot machen. Der Besitzer zeigt den Kids auch gerne, wo die Eier herkommen. Ehrlich und unkommerziell.</p>
+                    <div class="flex items-center gap-4 text-sm text-textDark/50 dark:text-day/50 font-bold transition-colors">
+                        <span class="flex items-center gap-1 text-terracotta dark:text-gold transition-colors">🔖 Gespeichert 45x</span>
+                        <span>❤️ 88</span>
+                    </div>
+                </div>
+
+                 <!-- Beitrag 5: Frage -->
+                 <div class="reveal-card bg-paper dark:bg-nightSurface rounded-3xl p-6 shadow-sm border border-sand/50 dark:border-goldDim/20 transition-colors">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-12 h-12 rounded-full bg-sage flex items-center justify-center text-white font-bold text-lg">L</div>
+                        <div>
+                            <span class="font-bold text-textDark dark:text-day block transition-colors">Lisa & Mark</span>
+                            <span class="text-textDark/50 dark:text-day/50 text-sm transition-colors">Frage · Schwarzwald</span>
+                        </div>
+                    </div>
+                    <h3 class="font-display text-2xl mb-3 text-textDark dark:text-day transition-colors">Hundestrand am Schluchsee?</h3>
+                    <p class="text-textDark/70 dark:text-day/70 mb-4 transition-colors">Ist der Bereich am Schluchsee wirklich hundefreundlich? Unsere Luna springt sonst immer nur ins Hallenbad... 😅</p>
+                    <div class="flex items-center gap-4 text-sm text-textDark/50 dark:text-day/50 font-bold transition-colors">
+                        <span class="flex items-center gap-1 text-terracotta dark:text-gold transition-colors">💬 5 Antworten</span>
+                        <span>❤️ 12</span>
+                    </div>
+                </div>
+
+            </div>
+            <div class="text-center mt-12">
+                <button class="bg-textDark dark:bg-gold text-cream dark:text-night px-8 py-4 rounded-full font-bold text-lg hover:opacity-90 transition">Mehr aus der Community</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- JOURNAL / BLOG -->
+    <section id="journal" class="py-24 px-6 bg-sage/10 dark:bg-nightSurface transition-colors">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-12">
+                <div class="max-w-xl">
+                    <span class="text-terracotta dark:text-gold font-bold tracking-widest text-sm uppercase transition-colors">Das Heimat-Journal</span>
+                    <h2 class="font-display text-4xl md:text-5xl mt-4 leading-tight text-textDark dark:text-day transition-colors">Wissen, das Eltern weiterbringt.</h2>
+                </div>
+                <p class="text-textDark/70 dark:text-day/70 mt-4 md:mt-0 max-w-sm text-lg transition-colors">Gepflegte Artikel, geschrieben von Einheimischen und Familien-Experten. Ergänzt durch Erfahrungen der Community.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <article class="group cursor-pointer reveal-card">
+                    <div class="overflow-hidden rounded-2xl mb-4">
+                        <img src="https://images.unsplash.com/photo-1502082553048-f009c37129b9?q=80&w=800&auto=format&fit=crop" class="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-500">
+                    </div>
+                    <span class="text-terracotta dark:text-gold font-bold text-sm transition-colors">Reiseplanung · 8 Min</span>
+                    <h3 class="font-display text-2xl mt-2 mb-2 text-textDark dark:text-day group-hover:text-terracotta dark:group-hover:text-gold transition-colors">Der ultimative Packlisten-Guide für Familien</h3>
+                    <p class="text-textDark/70 dark:text-day/70 transition-colors">Von der erstenwindigen Jacke bis zum Lieblingskuscheltier: Was wirklich ins Auto muss und was man getrost zuhause lassen kann...</p>
+                </article>
+                <article class="group cursor-pointer reveal-card md:mt-12">
+                    <div class="overflow-hidden rounded-2xl mb-4">
+                        <img src="https://images.unsplash.com/photo-1518717758536-85ae29035b6d?q=80&w=800&auto=format&fit=crop" class="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-500">
+                    </div>
+                    <span class="text-terracotta dark:text-gold font-bold text-sm transition-colors">Mit Hund · 5 Min</span>
+                    <h3 class="font-display text-2xl mt-2 mb-2 text-textDark dark:text-day group-hover:text-terracotta dark:group-hover:text-gold transition-colors">Autofahren ohne Chaos: Hunde & Kinder</h3>
+                    <p class="text-textDark/70 dark:text-day/70 transition-colors">Praktische Routenplanung: Welche Rastplätze sind wirklich gut geeignet und wie vermeidet man den kollektiven Zusammenbruch nach 3 Stunden Fahrt...</p>
+                </article>
+                <article class="group cursor-pointer reveal-card">
+                    <div class="overflow-hidden rounded-2xl mb-4">
+                        <img src="https://images.unsplash.com/photo-1517849845537-4d257902454a?q=80&w=800&auto=format&fit=crop" class="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-500">
+                    </div>
+                    <span class="text-terracotta dark:text-gold font-bold text-sm transition-colors">Einheimisch · 6 Min</span>
+                    <h3 class="font-display text-2xl mt-2 mb-2 text-textDark dark:text-day group-hover:text-terracotta dark:group-hover:text-gold transition-colors">Bauernhof-Urlaub: 5 Fragen an den Gastgeber</h3>
+                    <p class="text-textDark/70 dark:text-day/70 transition-colors">Ein Gespräch mit Bauer Hubert aus dem Allgäu über das Leben mit Urlaubsgästen, freilaufende Kinder und warum sein Hof ein Paradies für Hunde ist...</p>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- BUCHEN / UNTERSCHLUPF -->
+    <section id="buchen" class="py-24 px-6 bg-cream dark:bg-night transition-colors">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-12">
+            <div class="flex-1">
+                <img src="https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?q=80&w=2070&auto=format&fit=crop" class="rounded-3xl shadow-lg w-full h-[500px] object-cover">
+            </div>
+            <div class="flex-1">
+                <span class="text-terracotta dark:text-gold font-bold tracking-widest text-sm uppercase transition-colors">Unterkünfte von Gastgeuern mit Herz</span>
+                <h2 class="font-display text-4xl md:text-5xl mt-4 leading-tight text-textDark dark:text-day transition-colors">Mehr als nur ein Bett.<br>Ein Zuhause auf Zeit.</h2>
+                <p class="text-textDark/70 dark:text-day/70 mt-6 text-lg transition-colors">Jede Unterkunft in unserer Liste wurde von einer Familie getestet. Wir achten auf das, was Eltern wichtig ist: Sicherheit, Komfort, Hunde-freundlichkeit und vor allem Herzlichkeit der Gastgeber.</p>
+                
+                <div class="grid grid-cols-2 gap-6 mt-8">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-full bg-terracotta/10 dark:bg-gold/10 flex items-center justify-center text-terracotta dark:text-gold text-2xl transition-colors">🧸</div>
+                        <span class="font-bold text-textDark/80 dark:text-day/80 transition-colors">Kindersicher & ausgestattet</span>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-full bg-terracotta/10 dark:bg-gold/10 flex items-center justify-center text-terracotta dark:text-gold text-2xl transition-colors">🐾</div>
+                        <span class="font-bold text-textDark/80 dark:text-day/80 transition-colors">Echte Hund-Willkommen-Kultur</span>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-full bg-terracotta/10 dark:bg-gold/10 flex items-center justify-center text-terracotta dark:text-gold text-2xl transition-colors">🗺️</div>
+                        <span class="font-bold text-textDark/80 dark:text-day/80 transition-colors">Inklusiver lokaler Guide</span>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-full bg-terracotta/10 dark:bg-gold/10 flex items-center justify-center text-terracotta dark:text-gold text-2xl transition-colors">💬</div>
+                        <span class="font-bold text-textDark/80 dark:text-day/80 transition-colors">Direkter Kontakt zur Community</span>
+                    </div>
+                </div>
+
+                <button class="mt-10 bg-terracotta dark:bg-gold text-white dark:text-night px-8 py-4 rounded-full font-bold text-lg hover:opacity-90 transition shadow-lg">Geprüfte Hütten entdecken</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-textDark dark:bg-black/40 py-12 px-6 border-t dark:border-goldDim/10 transition-colors">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center">
+            <div class="font-display text-2xl mb-4 md:mb-0 text-cream flex items-center gap-2 transition-colors">
+                <span class="text-terracotta dark:text-gold transition-colors">❦</span> heimatwege
+            </div>
+            <div class="flex gap-6 text-base text-cream/60 font-bold transition-colors">
+                <a href="#" class="hover:text-terracotta dark:hover:text-gold transition">Community Rules</a>
+                <a href="#" class="hover:text-terracotta dark:hover:text-gold transition">Hilfe & FAQ</a>
+                <a href="#" class="hover:text-terracotta dark:hover:text-gold transition">Gastgeber werden</a>
+                <a href="#" class="hover:text-terracotta dark:hover:text-gold transition">Kontakt</a>
+            </div>
+            <div class="text-sm text-cream/40 mt-4 md:mt-0 transition-colors">© 2024 Heimatwege. Für Familien, von Familien.</div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // Theme Toggle Logic
+        const toggleButton = document.getElementById('theme-toggle');
+        const htmlElement = document.documentElement;
+
+        toggleButton.addEventListener('click', () => {
+            htmlElement.classList.toggle('dark');
+        });
+
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Hero Animations
+        gsap.to(".reveal-text", {
+            opacity: 1, 
+            y: 0, 
+            duration: 1.5, 
+            stagger: 0.2, 
+            ease: "power2.out",
+            delay: 0.4
+        });
+
+        // Parallax effect on Hero Background
+        gsap.to(".hero-bg", {
+            yPercent: 15,
+            ease: "none",
+            scrollTrigger: {
+                trigger: "#hero",
+                start: "top top",
+                end: "bottom top",
+                scrub: true
+            }
+        });
+
+        // Card Reveals
+        gsap.utils.toArray(".reveal-card").forEach(card => {
+            gsap.to(card, {
+                opacity: 1, 
+                y: 0, 
+                duration: 1.2, 
+                ease: "power2.out",
+                scrollTrigger: {
+                    trigger: card,
+                    start: "top 85%",
+                    toggleActions: "play none none reverse"
+                }
+            });
+        });
+    </script>
+</body>
+</html>

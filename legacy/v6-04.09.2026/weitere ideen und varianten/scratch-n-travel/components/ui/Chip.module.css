@@ -1,0 +1,33 @@
+.chip {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: var(--fs-small);
+  background: #fff;
+  border: 1.5px solid rgba(45, 55, 72, 0.12);
+  border-radius: var(--radius-pill);
+  padding: 9px 16px;
+  cursor: pointer;
+  transition: all var(--dur-fast) var(--ease-standard);
+  border-bottom-width: 3px;
+}
+.chip:hover {
+  border-color: var(--accent-teal);
+}
+.chip.active {
+  background: var(--trust-green-bg);
+  border-color: var(--trust-green-border);
+  color: var(--trust-green);
+}
+/* 8.8 — aktiver Filter erhält farbcodierten Unterstrich je Kategorie */
+.chip.family.active {
+  border-bottom-color: var(--family-blue);
+}
+.chip.pet.active {
+  border-bottom-color: var(--pet-brown);
+}
+.chip.hazard.active {
+  border-bottom-color: var(--hud-hazard-coral);
+}
+.chip.terracotta.active {
+  border-bottom-color: var(--accent-terracotta);
+}

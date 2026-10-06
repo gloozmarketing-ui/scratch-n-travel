@@ -1,0 +1,39 @@
+* {
+  box-sizing: border-box;
+}
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+body {
+  font-family: var(--font-body);
+  color: var(--text-primary);
+  background: var(--warm-bg-base);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+a {
+  color: inherit;
+}
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  line-height: 1.2;
+}
+:focus-visible {
+  outline: 3px solid var(--accent-teal);
+  outline-offset: 2px;
+}
+
+/* Dual-Aesthetic-Übergang (Kapitel 4): 300ms Crossfade + Farbtemperatur-Shift
+   beim Wechsel zwischen den Welten. Auf das jeweilige Wrapper-Element anwenden. */
+.world-transition {
+  transition: filter var(--dur-standard) var(--ease-standard), background var(--dur-standard) var(--ease-standard);
+}
+.world-transition.to-hud {
+  filter: hue-rotate(-8deg) brightness(0.95);
+}

@@ -1,0 +1,41 @@
+{
+  "version": "3.0",
+  "preset": "wine-regions-europe-seasonal",
+  "presetLabel": "Beispiel-Sondersaison-Preset: Weinregionen Europas (thematisch, nicht politisch)",
+  "_note": "Architektur-Test aus design.md Kapitel 0/17: Diese Datei über /public/geo/regions.config.json kopieren — die komplette App (Explorer, Scratch-Engine, Passport) muss ohne jede Code-Änderung mit diesen Regionen funktionieren.",
+  "regions": [
+    {
+      "code": "PT-DOU",
+      "name": "Douro-Tal",
+      "hub": "Porto",
+      "flag": "🇵🇹",
+      "theme": "Weinterrassen, Flusstäler",
+      "geojsonPath": "/geo/pt-douro.json",
+      "scratchThreshold": 0.7,
+      "hazardLayerEnabled": false,
+      "unlockables": ["patch:douro-sommelier"]
+    },
+    {
+      "code": "FR-BOR",
+      "name": "Bordeaux",
+      "hub": "Bordeaux",
+      "flag": "🇫🇷",
+      "theme": "Château-Weingüter",
+      "geojsonPath": "/geo/fr-bordeaux.json",
+      "scratchThreshold": 0.7,
+      "hazardLayerEnabled": false,
+      "unlockables": ["patch:bordeaux-connaisseur"]
+    },
+    {
+      "code": "IT-TUS",
+      "name": "Toskana (Chianti)",
+      "hub": "Siena",
+      "flag": "🇮🇹",
+      "theme": "Hügellandschaft, Rotwein",
+      "geojsonPath": "/geo/it-chianti.json",
+      "scratchThreshold": 0.7,
+      "hazardLayerEnabled": false,
+      "unlockables": ["patch:chianti-explorer"]
+    }
+  ]
+}

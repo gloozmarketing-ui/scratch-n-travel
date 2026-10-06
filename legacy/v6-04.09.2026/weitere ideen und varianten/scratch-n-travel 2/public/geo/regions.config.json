@@ -1,0 +1,73 @@
+{
+  "version": "3.0",
+  "preset": "standard-neutral",
+  "presetLabel": "Länder gemäß ISO 3166-1, thematische Subregionen nicht-politisch",
+  "regions": [
+    {
+      "code": "PT-LIS",
+      "name": "Lissabon & Sintra",
+      "hub": "Lissabon",
+      "flag": "🇵🇹",
+      "theme": "Kultur, Stadtgeschichte, Küche",
+      "geojsonPath": "/geo/pt-lisboa.json",
+      "scratchThreshold": 0.75,
+      "hazardLayerEnabled": true,
+      "unlockables": ["patch:lissabon-entdecker"]
+    },
+    {
+      "code": "PT-ALG",
+      "name": "Algarve (Faro, Lagos & Sagres)",
+      "hub": "Faro",
+      "flag": "🇵🇹",
+      "theme": "Küste, Klippen, Surf",
+      "geojsonPath": "/geo/pt-algarve.json",
+      "scratchThreshold": 0.75,
+      "hazardLayerEnabled": true,
+      "unlockables": ["patch:algarve-surfer"]
+    },
+    {
+      "code": "ES-BCN",
+      "name": "Barcelona & Costa Brava",
+      "hub": "Barcelona",
+      "flag": "🇪🇸",
+      "theme": "Architektur, Strand, Nightlife",
+      "geojsonPath": "/geo/es-barcelona.json",
+      "scratchThreshold": 0.75,
+      "hazardLayerEnabled": true,
+      "unlockables": ["patch:barcelona-explorer"]
+    },
+    {
+      "code": "IT-ROM",
+      "name": "Rom & Latium-Küste",
+      "hub": "Rom",
+      "flag": "🇮🇹",
+      "theme": "Antike, Kulinarik",
+      "geojsonPath": "/geo/it-roma.json",
+      "scratchThreshold": 0.75,
+      "hazardLayerEnabled": false,
+      "unlockables": ["patch:roma-antica"]
+    },
+    {
+      "code": "FR-PAR",
+      "name": "Paris & Seine-Umland",
+      "hub": "Paris",
+      "flag": "🇫🇷",
+      "theme": "Kunst, Architektur",
+      "geojsonPath": "/geo/fr-paris.json",
+      "scratchThreshold": 0.75,
+      "hazardLayerEnabled": false,
+      "unlockables": ["patch:paris-flaneur"]
+    },
+    {
+      "code": "DE-BER",
+      "name": "Berlin & Brandenburger Seen",
+      "hub": "Berlin",
+      "flag": "🇩🇪",
+      "theme": "Geschichte, Seen, Subkultur",
+      "geojsonPath": "/geo/de-berlin.json",
+      "scratchThreshold": 0.75,
+      "hazardLayerEnabled": false,
+      "unlockables": ["patch:berlin-nomad"]
+    }
+  ]
+}
