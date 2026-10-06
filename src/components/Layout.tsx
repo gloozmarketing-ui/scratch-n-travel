@@ -1,8 +1,24 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Outlet, NavLink, useLocation } from 'react-router-dom'
 import { useTravel } from '../context/TravelContext'
 import { ThemeToggle } from '../context/ThemeContext'
 import MobileBottomNav from './MobileBottomNav'
+import { track } from '../lib/analytics'
+
+/**
+ * Sendet einen page_view bei jedem Routenwechsel (SNT-214).
+ *
+ * Bewusst kein useEffect je Seite — ein einziger Listener hier oben ist die
+ * einzige Stelle, an der Routen beobachtet werden. Ohne konfigurierte
+ * Analytics-Domain ist `track()` ein No-Op, der Listener kostet nichts.
+ */
+function AnalyticsListener() {
+  const location = useLocation()
+  useEffect(() => {
+    track('page_view', { path: location.pathname })
+  }, [location.pathname])
+  return null
+}
 
 /** Kompassrose als Markenzeichen — das Wegweiser-Motiv. */
 function CompassRose({ size = 44, spin = false }: { size?: number; spin?: boolean }) {
@@ -209,6 +225,7 @@ export default function Layout() {
 
   return (
     <div style={{ display: 'flex', height: '100%' }}>
+      <AnalyticsListener />
       {/* Seitenleiste (Desktop) */}
       <div className="sidebar-wrap" style={{ width: '236px', flexShrink: 0, height: '100%' }}>
         <Sidebar />

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { useTravel } from '../context/TravelContext'
 import { storyPins, tours, hobbyCategories } from '../data/data'
 import { createGoogleCalendarUrl } from '../utils/calendarExport'
+import { track } from '../lib/analytics'
 
 interface Message {
   id: string
@@ -107,6 +108,8 @@ export default function AIConcierge() {
   const send = async (text: string) => {
     if (!text.trim() || loading) return
     triggerHaptic(10)
+    // Frage zählen, nicht den Inhalt — kein Text verlässt den Browser als Event.
+    track('concierge_query')
     const userMsg: Message = { id: `u_${Date.now()}`, role: 'user', text, time: now() }
     setMessages(prev => [...prev, userMsg])
     setInput('')

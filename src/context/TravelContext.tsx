@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react'
 import { allBadges, BadgeItem } from '../data/allBadges'
+import { track } from '../lib/analytics'
 
 export interface PassportStamp {
   id: string
@@ -318,6 +319,8 @@ export function TravelProvider({ children }: { children: React.ReactNode }) {
     )
     setUser(prev => ({ ...prev, badgesCount: prev.badgesCount + 1 }))
     triggerHaptic([40, 60, 80])
+    // Nur die ID mitschicken — keine Uhrzeit, kein Standort (T-104).
+    track('badge_earned', { badge: badgeId })
   }
 
   const completeQuestStep = (questId: string, stepId: number) => {

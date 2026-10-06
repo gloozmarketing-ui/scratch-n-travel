@@ -20,6 +20,7 @@ import {
 } from '../lib/trust'
 import TrustBadge from '../components/safety/TrustBadge'
 import SafetyBanner from '../components/safety/SafetyBanner'
+import { track } from '../lib/analytics'
 
 const DEMO_MEETUPS: Meetup[] = [
   {
@@ -127,6 +128,7 @@ export default function Meetups() {
         await leaveMeetup(m.id, user.id)
       } else {
         await joinMeetup(m.id, user.id)
+        track('meetup_joined')
       }
       await load()
     } catch (e) {

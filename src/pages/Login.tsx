@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTravel } from '../context/TravelContext'
 import { supabase } from '../services/supabase'
+import { track } from '../lib/analytics'
 
 type Step = 'email' | 'otp'
 
@@ -47,6 +48,8 @@ export default function Login() {
 
     setLoading(false)
     setStep('otp')
+    // Erst nach Erfolg zählen — ein nie zugestellter Link ist kein Funnel-Start.
+    track('signup_started')
   }
 
   // ------------------------------------------------------------------
@@ -74,6 +77,7 @@ export default function Login() {
     }
 
     setLoading(false)
+    track('signup_completed')
     navigate('/passport')
   }
 

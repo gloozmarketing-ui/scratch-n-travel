@@ -1,4 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react'
+import { track } from '../lib/analytics'
 
 interface StoryGeneratorModalProps {
   isOpen: boolean
@@ -170,6 +171,8 @@ export default function StoryGeneratorModal({ isOpen, onClose, data }: StoryGene
             text: `Ich habe gerade "${data.title}" auf Scratch'n'Travel freigeschaltet! 🧭✨ #scratchntravel`,
             files: [file],
           })
+          // Nur wenn der Teilen-Dialog wirklich durchlief — Abbruch zählt nicht.
+          track('share_clicked')
         } else {
           handleDownload()
         }

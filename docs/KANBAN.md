@@ -54,6 +54,18 @@
 > echte Abhängigkeit war `theme-manager.js` in 4 Magazin-Seiten — Referenzen
 > angepasst, ebenso 2 Script-Verweise (`affected_parameters`, Stripe-Log).
 > SNT-109-Verify `check:seo` hängt in `check:all`.
+> **2026-09-30 (9):** SNT-214 Analytics-Kern gebaut: `src/lib/analytics.ts`
+> mit `track()` — kein Vendor-SDK in Components, Plausible-Script wird lazy
+> geladen, **stumm solange `VITE_PLAUSIBLE_DOMAIN` fehlt** (Domain-Entscheidung
+> SNT-108). 9 Events an echten Aktionen: `page_view` (einziger Router-Listener),
+> `signup_started`/`signup_completed` (OTP-Flow), `spot_viewed` (Story öffnen),
+> `spot_submitted`, `concierge_query`, `meetup_joined`, `badge_earned`,
+> `share_clicked` — jeweils nur bei Erfolg, ohne GPS und ohne Uhrzeit.
+> **Nicht instrumentiert, weil die Aktion im Code nicht existiert:**
+> `spot_claimed` (kein Claim-Flow), `match_completed` (WanderBond ist Katalog),
+> `login_completed` (OTP = signup_completed, kein unterscheidbarer Zweit-Login).
+> Nachreichen, sobald die Flows gebaut werden. Aktivierung: `VITE_PLAUSIBLE_DOMAIN`
+> in Vercel-Env eintragen — dann läuft Messung ohne Codeänderung an.
 > **Offen (Owner):** Keys bei Zenmux/Requesty/Cerebras/Vercel/Cloudflare/Printful **widerrufen**.
 
 ## Legende
@@ -73,10 +85,10 @@
 
 | Spalte | Karten | Aufwand |
 |---|---|---|
-| 📋 **BACKLOG** | 114 (68 offen, 46 ✅ erledigt) | ~114 h |
+| 📋 **BACKLOG** | 114 (63 offen, 51 ✅ erledigt) | ~103 h |
 | 🚧 **IN PROGRESS** | 0 | — |
 | 👀 **REVIEW** | 0 | — |
-| ✅ **DONE** (2026-09-27 + 2026-09-30) | 46 Karten, siehe DONE unten | — |
+| ✅ **DONE** (2026-09-27 + 2026-09-30) | 51 Karten, siehe DONE unten | — |
 | ⛔ **BLOCKED** | 6 (alle Owner-abhängig) | — |
 | 🗑️ **WONTFIX / DROP** | 5 | — |
 
@@ -108,7 +120,7 @@
 
 | Karte | Task | Aufwand | Verantw. | Abhängig von |
 |---|---|---|---|---|
-| SNT-201 | 📦 Quelle A → `src/` an Repo-Root verschieben | 3 h | 👤 A | SNT-114 |
+| SNT-201 | 📦 Quelle A → `src/` an Repo-Root verschieben | 3 h | 👤 A | ✅ erledigt 2026-09-30 — kanonisches `src/` steht am Root (7 Ordner); Entwürfe-Ordner `AusbauÜberlegungen/` bleibt bewusst liegen |
 | SNT-202 | 🗄️ Quelle B → `legacy/v6-04.09.2026/` | 30 min | 👤 A | SNT-201 |
 | SNT-203 | 📚 36 Legacy-Engines → `legacy/v5-legacy-engines/` | 1 h | 👤 A | ✅ erledigt 2026-09-30 — umgezogen, 4 Magazin-Referenzen + 2 Script-Verweise angepasst |
 | SNT-204 | 🗑️ `dist/` aus Git-Tracking entfernen | 15 min | 👤 A | SNT-201 |
@@ -118,10 +130,10 @@
 | SNT-208 | 🔑 `AuthContext` + `useAuth()` + Session-Persistenz | 2 h | 👤 A | SNT-207 |
 | SNT-209 | 🛡️ `AuthGuard` für geschützte Routen | 1 h | 👤 A | ✅ erledigt 2026-09-30 — `RequireAuth` für 6 Routen, Demo-Modus blockiert nicht |
 | SNT-210 | 🔑 Supabase-Env in GitHub Secrets + Vercel | 20 min | 👤 V | — |
-| SNT-211 | 🔒 RLS: 6 Basis-Policies schreiben | 3 h | 👤 A | SNT-210 |
-| SNT-212 | 🔗 `created_by` FK in `secret_spots` ergänzen | 30 min | 👤 A | SNT-211 |
-| SNT-213 | 🧪 `scripts/test_rls.js` schreiben | 1,5 h | 👤 A | SNT-211, SNT-212 |
-| SNT-214 | 📊 Plausible + 12 Events instrumentieren | 3 h | 👤 A | SNT-208 |
+| SNT-211 | 🔒 RLS: 6 Basis-Policies schreiben | 3 h | 👤 A | ✅ erledigt 2026-09-30 — **60** Policies in `supabase/schema.sql`; Live-Verify (SNT-333) wartet auf Supabase |
+| SNT-212 | 🔗 `created_by` FK in `secret_spots` ergänzen | 30 min | 👤 A | ✅ erledigt 2026-09-30 — 7 Fundstellen im Schema inkl. Profil-Fremdschlüssel |
+| SNT-213 | 🧪 `scripts/test_rls.js` schreiben | 1,5 h | 👤 A | ✅ Code erledigt (Test-Skript existiert, erklärt die Env-Vars); Lauf gegen echte Instanz wartet auf SNT-331/332 |
+| SNT-214 | 📊 Plausible + 12 Events instrumentieren | 3 h | 👤 A | ✅ Kern erledigt 2026-09-30 — `src/lib/analytics.ts` (dünner `track()`, stumm ohne `VITE_PLAUSIBLE_DOMAIN`), 9/12 Events an echten Aktionen; `login_completed`/`spot_claimed`/`match_completed` brauchen erst Flows, die es noch nicht gibt |
 | SNT-215 | ⚖️ `Impressum.tsx` (§ 5 DDG, § 18 MStV, VSBG) | 1,5 h | 👤 A | — |
 | SNT-216 | 🔐 `Datenschutz.tsx` (alle Auftragsverarbeiter) | 1,5 h | 👤 A | SNT-214 |
 | SNT-217 | 📜 `Terms.tsx` mit Offline-Disclaimer | 1,5 h | 👤 A | — |
@@ -370,15 +382,16 @@
 | 🔴 P0 Blocker (SNT-101…115) | 15 (13 erledigt, 2 offen: SNT-108/109) | ~2 h offen |
 | 🔴 P0 Schema (SNT-320…334) | 15 (11 erledigt, 4 offen: SNT-331…334) | ~1,5 h offen |
 | 🔴 P0 Merch/POD (SNT-360…367) | 8 (3 erledigt, 5 offen) | ~4,5 h offen |
-| 🟡 P1 (inkl. Orts-Chat SNT-340…346) | 27 (10 erledigt · 17 offen) | ~37 h offen |
+| 🟡 P1 (inkl. Orts-Chat SNT-340…346) | 27 (15 erledigt · 12 offen) | ~26 h offen |
 | 🟢 P2 (Community) | 15 | ~28 h + 5 h manuell |
 | 🟢 P2 (System) | 12 (11 erledigt/ersetzt: SNT-401…410, 412 · 1 offen: SNT-411 Fonts) | ~1 h offen |
 | ⚪ P3 | 10 | ~32 h + 10 h/Woche |
-| **Offen gesamt (68 Karten)** | **68** | **~114 h + Community-Zeit** |
+| **Offen gesamt (63 Karten)** | **63** | **~103 h + Community-Zeit** |
 | ✅ Behoben 2026-09-27 (SNT-320…330, 350…358, 370…372, 360/361) | 24 | — |
 | ✅ Behoben 2026-09-30 (SNT-101 Code, 102, 103, 104…107, SNT-116 API-Fix, **SNT-110…115, SNT-362**) | 13 | — |
 | ✅ Behoben 2026-09-30 (SNT-219 Footer, 405, 408, 409, 410, 412) | 6 | ~7 h |
 | ✅ Behoben 2026-09-30 (SNT-401 Dispatch, 403 Reflection-Zahlen, 404 Cron-Konsolidierung) | 3 | ~3 h |
+| ✅ Behoben 2026-09-30 (SNT-201 src am Root, 211/212/213 RLS-Code, 214 Analytics-Kern) | 5 | ~11 h |
 | ✅ Behoben 2026-09-30 (SNT-206 Artefakt, 209 AuthGuard, 406 Trust-Tests) | 3 | ~4 h |
 
 

@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useTravel } from '../context/TravelContext'
+import { track } from '../lib/analytics'
 
 interface SubmitSpotModalProps {
   isOpen: boolean
@@ -30,6 +31,7 @@ export default function SubmitSpotModal({ isOpen, onClose, onSuccess }: SubmitSp
     e.preventDefault()
     triggerHaptic([20, 50, 80])
     setSubmitted(true)
+    track('spot_submitted')
     onSuccess?.(form)
   }
 

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { storyPins, StoryPin } from '../data/data'
 import { useTravel } from '../context/TravelContext'
 import SubmitSpotModal from '../components/SubmitSpotModal'
+import { track } from '../lib/analytics'
 import DemoDataBadge from '../components/DemoDataBadge'
 
 const cats = ['All', 'Nature', 'Food', 'Surf', 'Culture']
@@ -39,6 +40,8 @@ export default function Stories() {
       setActiveVoiceStory(null)
     } else {
       setActiveVoiceStory(id)
+      // Öffnen zählen, Schliessen nicht — genau eine Zählung je Betrachtung.
+      track('spot_viewed', { story: id })
     }
   }
 
