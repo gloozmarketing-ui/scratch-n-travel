@@ -1,6 +1,6 @@
 # TODOLISTEN — Scratch'n'Travel
 
-> **Stand:** 2026-09-30 · **Begleitend zu:** `KANBAN.md` · `IMPLEMENTATION_PLAN.md`
+> **Stand:** 2026-10-06 · **Begleitend zu:** `KANBAN.md` · `IMPLEMENTATION_PLAN.md`
 > **Regel:** Nur die oberste Liste ist diese Woche relevant. Alles darunter ist **bewusst geparkt**.
 > **Reihenfolge dieser Woche:** ① Owner-Entscheidungen (Keys, Domain, Supabase) → ② Agent-Fixes → ③ Verify.
 
@@ -22,11 +22,12 @@
 - [ ] **Neue Keys erzeugen** → **Vercel Env** eintragen (GitHub Secrets nur bei CI-Bedarf)
 - [ ] **Verify:** `POST /api/hermes-concierge` mit `{"prompt":"test"}` → `provider` ≠ `hermes_deterministic`
 
-### 🗄️ Supabase live schalten (SNT-331/332) — blockiert ALLES Live-Testbare
-- [ ] Supabase-Projekt anlegen → `supabase/schema.sql` im SQL-Editor ausführen
-- [ ] `VITE_SUPABASE_URL` + `VITE_SUPABASE_ANON_KEY` in `.env` **und** Vercel-Env
-- [ ] Deploy neu auslösen
-- [ ] **Verify:** Login-Maske erscheint (nicht mehr Demo-Hinweis); `node scripts/test_rls.js` (**SNT-333**)
+### 🗄️ Supabase live schalten (SNT-331/332) — Schema steht, Vercel-Env fehlt
+- [x] Supabase-Projekt anlegen → `supabase/schema.sql` im SQL-Editor ausgeführt (**SNT-331** ✅ 2026-10-06 — Live-Lauf: 60 Policies greifen)
+- [x] `VITE_SUPABASE_URL` + `VITE_SUPABASE_ANON_KEY` in `.env` (lokal) gesetzt
+- [ ] dieselben zwei Variablen im **Vercel-Env** eintragen (**SNT-332** — sonst bleibt die App live im Demo-Modus)
+- [ ] Deploy neu auslösen · **Verify:** Login-Maske erscheint (nicht mehr Demo-Hinweis)
+- [x] **Verify:** `node scripts/test_rls.js` → **13 PASS / 0 FAIL / 1 SKIP** (**SNT-333** ✅ 2026-10-06)
 - [ ] **`pg_cron` aktivieren** (**SNT-334**) — sonst bleiben Fotos dauerhaft `in_delay`
 
 ### 🌐 Domain-Entscheidung (SNT-108)
@@ -55,7 +56,7 @@
 
 
 ### ✅ Verify-Rundgang (T-006)
-- [ ] `npm run check:all` = 0
+- [x] `npm run check:all` = 0 (2026-10-06: 61 Tests)
 - [ ] 23-Routen-Rundgang im Browser, Konsole leer
 - [ ] Login → Reload → Logout (sobald Supabase aus Tag 1 steht)
 
@@ -78,24 +79,23 @@
 
 ## 🔥 JETZT (Pflicht bis v1)
 
-- [ ] **Supabase live** — Projekt anlegen, `supabase/schema.sql` ausführen,
-      `VITE_SUPABASE_URL` + `VITE_SUPABASE_ANON_KEY` in `.env` und Vercel
-      (**SNT-331, SNT-332**) — blockiert alles Live-Testbare
-- [ ] **RLS-Tests gegen echte Instanz** (`node scripts/test_rls.js`, **SNT-333**)
+- [x] **Supabase live** — Projekt + `schema.sql` ausgeführt (**SNT-331** ✅ 2026-10-06); lokal `.env` gesetzt,
+      offen: **Vercel-Env** (**SNT-332** — App live noch im Demo-Modus)
+- [x] **RLS-Tests gegen echte Instanz** (`node scripts/test_rls.js`, **SNT-333** ✅ 2026-10-06: 13 PASS / 0 FAIL / 1 SKIP)
 - [ ] **`pg_cron` aktivieren** — sonst bleiben Fotos dauerhaft `in_delay` (**SNT-334**)
 - [ ] **Merch-POD:** Entscheidung ✅ (Ersatz-Linie „Passport Edition" + Printify,
       SNT-360/361) → offen: Printify-Keys → echte IDs → Musterbestellung
       (**SNT-363…365**, Details `docs/POD_ORDERBARKEIT.md`)
-- [ ] **Fiktions-Fixes abschließen:** Fake-Scarcity, erfundene Reviews,
-      falsche Login-Versprechen (**SNT-110…115**)
+- [x] **Fiktions-Fixes abschließen:** Fake-Scarcity, erfundene Reviews,
+      falsche Login-Versprechen (**SNT-110…115** ✅ 2026-09-30, `check:all` grün)
 - [ ] **Rechtstexte juristisch prüfen lassen** (**SNT-220**) — vor dem ersten echten Nutzer
 - [ ] **UI-Audit grün halten:** `npm run check:ui` (tote Buttons ✅ SNT-370…372,
       nächste Seiten mit Demo-Daten/Platzhaltern abarbeiten)
 - [x] **Verify (2026-09-30):** `npm run build` = ✅ (2.9 s) · `check:ui` „Keine
       Befunde" (36 Dateien) · **alle 23 Routen HTTP 200** live · **alle 6
       `/api/*`-Endpunkte** liefern 405/400/200 (Fix `04a10f9`, vorher alles 500)
-- [ ] **Verify offen:** `npm run check:all` · manueller Rundgang im Browser ·
-      echter Login → Reload → Logout (blocked durch **SNT-331/332**: Supabase live)
+- [x] **Verify (2026-10-06):** `npm run check:all` grün (61 Tests) · `smoke` 45/45 · Build + Bundle-Budget ✅
+- [ ] **Verify offen:** manueller Rundgang im Browser · echter Login → Reload → Logout (blocked durch **SNT-332**: erst nach Vercel-Env)
 
 ## ⏳ SPÄTER (bewusst geparkt — kein v1-Blocker)
 
@@ -113,6 +113,10 @@
 ---
 
 # 📅 WOCHE 2 — Fundament
+
+> **Stand 2026-10-06:** SNT-201…209 und 211…219 erledigt (Nachweis: `KANBAN.md` ✅ DONE).
+> **Offen hier:** SNT-210 (Supabase-Env in GitHub Secrets + Vercel) und SNT-220 (Rechtstexte
+> juristisch prüfen) — beide Owner-Aufgaben.
 
 ## 📦 Repository aufräumen
 - [ ] Quelle A → `src/` an Root (**SNT-201**)

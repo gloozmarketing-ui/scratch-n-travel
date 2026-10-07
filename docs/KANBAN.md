@@ -1,6 +1,6 @@
 # KANBAN — Scratch'n'Travel
 
-> **Stand:** 2026-09-30 · **Commits:** `4713377` → `2238efb` → SEO/Robots (SNT-104…107) → `4c26c94` (Secrets aus Historie, Deploy verifiziert)
+> **Stand:** 2026-10-06 · **Commits:** `4713377` → `2238efb` → SEO/Robots (SNT-104…107) → `4c26c94` (Secrets aus Historie, Deploy verifiziert) → `55154ea` (SNT-202 Umzug) → `4582513` (RLS-Recursion-Fix, live-verify grün)
 > **Quelle:** `PROJEKT_AUDIT_2026-09-25.md` → `IMPLEMENTATION_PLAN.md`
 > **Regel:** Eine Karte wandert nur nach rechts, wenn ihr **VERIFY** erfüllt ist. Nicht nach Gefühl.
 > **2026-09-30:** SNT-101 Code-Teil erledigt — Hardcoded Keys aus 14 Commits entfernt
@@ -68,6 +68,22 @@
 > in Vercel-Env eintragen — dann läuft Messung ohne Codeänderung an.
 > **Offen (Owner):** Keys bei Zenmux/Requesty/Cerebras/Vercel/Cloudflare/Printful **widerrufen**.
 
+> **2026-10-06:** Community-Submit-Kette fertig (SNT-301…305): echter Insert mit
+> `created_by` über `submitSpot()`, Pflichtfelder inkl. Koordinaten-Validierung,
+> `source`-Label sichtbar, Rate-Limit 5/Tag (Client + DB-Trigger `spot_daily_limit`),
+> Explore-Read-Pfad mit Demo-Fallback. Außerdem nachgezogen (gegen Code verifiziert):
+> SNT-202/204/205/207/208/215…218. **Fund:** Tailwind v4 scante ohne `source(none)`
+> das ganze Repo (legacy/, assets/Alt-Bundles) — CSS **151 → 63 KB**, First Load
+> **839 → 751 KB** (Budget 820 wieder grün). Alle Gates grün: `check:all` (8+19+34
+> Tests), Build, Bundle, `smoke` (45/45).
+> **2026-10-06 (2):** Live-Verify gegen die echte Instanz: `node scripts/test_rls.js`
+> → **13 PASS / 0 FAIL / 1 SKIP** (Skip: keine publizierte Route zum Testen). Fund:
+> `storage.objects` ist über PostgREST gar nicht exponiert (404 = gesperrt) — die
+> Assertion erwartete „0 Zeilen" und ging fälschlich rot; nachgezogen auf „HTTP ≠ 200
+> = verweigert" wie die Geschwister-Assertion daneben. SNT-331 ✅ (Schema greift
+> live), SNT-333 ✅; offen: SNT-332 (Vercel-Env — das Live-Bundle enthält keine
+> Supabase-URL, App läuft im Demo-Modus) und SNT-334 (pg_cron). `check:all` grün (61 Tests).
+
 ## Legende
 
 | Symbol | Bedeutung |
@@ -85,11 +101,11 @@
 
 | Spalte | Karten | Aufwand |
 |---|---|---|
-| 📋 **BACKLOG** | 114 (63 offen, 51 ✅ erledigt) | ~103 h |
+| 📋 **BACKLOG** | 114 (39 offen, 75 ✅ erledigt) | ~79 h |
 | 🚧 **IN PROGRESS** | 0 | — |
 | 👀 **REVIEW** | 0 | — |
-| ✅ **DONE** (2026-09-27 + 2026-09-30) | 51 Karten, siehe DONE unten | — |
-| ⛔ **BLOCKED** | 6 (alle Owner-abhängig) | — |
+| ✅ **DONE** (2026-09-27 + 2026-09-30 + 2026-10-06) | 75 Karten, siehe DONE unten | — |
+| ⛔ **BLOCKED** | 3 (alle Owner-abhängig) | — |
 | 🗑️ **WONTFIX / DROP** | 5 | — |
 
 ---
@@ -121,23 +137,23 @@
 | Karte | Task | Aufwand | Verantw. | Abhängig von |
 |---|---|---|---|---|
 | SNT-201 | 📦 Quelle A → `src/` an Repo-Root verschieben | 3 h | 👤 A | ✅ erledigt 2026-09-30 — kanonisches `src/` steht am Root (7 Ordner); Entwürfe-Ordner `AusbauÜberlegungen/` bleibt bewusst liegen |
-| SNT-202 | 🗄️ Quelle B → `legacy/v6-04.09.2026/` | 30 min | 👤 A | SNT-201 |
+| SNT-202 | 🗄️ Quelle B → `legacy/v6-04.09.2026/` | 30 min | 👤 A | ✅ erledigt 2026-10-06 — `git mv`, Historie erhalten (`55154ea`) |
 | SNT-203 | 📚 36 Legacy-Engines → `legacy/v5-legacy-engines/` | 1 h | 👤 A | ✅ erledigt 2026-09-30 — umgezogen, 4 Magazin-Referenzen + 2 Script-Verweise angepasst |
-| SNT-204 | 🗑️ `dist/` aus Git-Tracking entfernen | 15 min | 👤 A | SNT-201 |
-| SNT-205 | ⚙️ `vercel.json`: echter `buildCommand` | 30 min | 👤 A | SNT-201 |
+| SNT-204 | 🗑️ `dist/` aus Git-Tracking entfernen | 15 min | 👤 A | ✅ erledigt 2026-10-06 — `git ls-files -- dist/` = 0 Dateien |
+| SNT-205 | ⚙️ `vercel.json`: echter `buildCommand` | 30 min | 👤 A | ✅ erledigt 2026-10-06 — `buildCommand: "npm run build"` |
 | SNT-206 | 🔄 CI: `npm ci && npm run build` + Artefakt-Upload | 1,5 h | 👤 A | ✅ erledigt 2026-09-30 — Quality-Gate baut + `upload-artifact` (14 Tage) |
-| SNT-207 | ✅ `Login.tsx` aus Quelle A (echtes `signInWithOtp`) | 2 h | 👤 A | SNT-201, SNT-115 |
-| SNT-208 | 🔑 `AuthContext` + `useAuth()` + Session-Persistenz | 2 h | 👤 A | SNT-207 |
+| SNT-207 | ✅ `Login.tsx` aus Quelle A (echtes `signInWithOtp`) | 2 h | 👤 A | ✅ erledigt 2026-10-06 — `src/pages/Login.tsx:35` |
+| SNT-208 | 🔑 `AuthContext` + `useAuth()` + Session-Persistenz | 2 h | 👤 A | ✅ erledigt 2026-10-06 — `src/context/AuthContext.tsx` (`getSession` + `onAuthStateChange`) |
 | SNT-209 | 🛡️ `AuthGuard` für geschützte Routen | 1 h | 👤 A | ✅ erledigt 2026-09-30 — `RequireAuth` für 6 Routen, Demo-Modus blockiert nicht |
 | SNT-210 | 🔑 Supabase-Env in GitHub Secrets + Vercel | 20 min | 👤 V | — |
 | SNT-211 | 🔒 RLS: 6 Basis-Policies schreiben | 3 h | 👤 A | ✅ erledigt 2026-09-30 — **60** Policies in `supabase/schema.sql`; Live-Verify (SNT-333) wartet auf Supabase |
 | SNT-212 | 🔗 `created_by` FK in `secret_spots` ergänzen | 30 min | 👤 A | ✅ erledigt 2026-09-30 — 7 Fundstellen im Schema inkl. Profil-Fremdschlüssel |
 | SNT-213 | 🧪 `scripts/test_rls.js` schreiben | 1,5 h | 👤 A | ✅ Code erledigt (Test-Skript existiert, erklärt die Env-Vars); Lauf gegen echte Instanz wartet auf SNT-331/332 |
 | SNT-214 | 📊 Plausible + 12 Events instrumentieren | 3 h | 👤 A | ✅ Kern erledigt 2026-09-30 — `src/lib/analytics.ts` (dünner `track()`, stumm ohne `VITE_PLAUSIBLE_DOMAIN`), 9/12 Events an echten Aktionen; `login_completed`/`spot_claimed`/`match_completed` brauchen erst Flows, die es noch nicht gibt |
-| SNT-215 | ⚖️ `Impressum.tsx` (§ 5 DDG, § 18 MStV, VSBG) | 1,5 h | 👤 A | — |
-| SNT-216 | 🔐 `Datenschutz.tsx` (alle Auftragsverarbeiter) | 1,5 h | 👤 A | SNT-214 |
-| SNT-217 | 📜 `Terms.tsx` mit Offline-Disclaimer | 1,5 h | 👤 A | — |
-| SNT-218 | 🛡️ `Safety.tsx` mit Report/Block-UI | 2 h | 👤 A | SNT-217 |
+| SNT-215 | ⚖️ `Impressum.tsx` (§ 5 DDG, § 18 MStV, VSBG) | 1,5 h | 👤 A | ✅ erledigt (Audit 2026-09-30, 2026-10-06 gegengeprüft: `src/pages/Impressum.tsx`) |
+| SNT-216 | 🔐 `Datenschutz.tsx` (alle Auftragsverarbeiter) | 1,5 h | 👤 A | ✅ erledigt (Audit 2026-09-30, 2026-10-06 gegengeprüft: `src/pages/Datenschutz.tsx`) |
+| SNT-217 | 📜 `Terms.tsx` mit Offline-Disclaimer | 1,5 h | 👤 A | ✅ erledigt (Audit 2026-09-30, 2026-10-06 gegengeprüft: `src/pages/Terms.tsx`) |
+| SNT-218 | 🛡️ `Safety.tsx` mit Report/Block-UI | 2 h | 👤 A | ✅ erledigt (Audit 2026-09-30, 2026-10-06 gegengeprüft: `src/pages/Safety.tsx`) |
 | SNT-219 | 🔗 Footer-Links auf Rechtstexte | 30 min | 👤 A | ✅ erledigt 2026-09-30 — `LegalFooter` in Layout, von jeder Seite erreichbar |
 | SNT-220 | ⚖️ Rechtstexte juristisch prüfen lassen | 2 h | 👤 V | SNT-215…219 |
 
@@ -147,11 +163,11 @@
 
 | Karte | Task | Aufwand | Verantw. | Abhängig von |
 |---|---|---|---|---|
-| SNT-301 | 🗺️ `SubmitSpotModal` integrieren + `created_by` | 3 h | 👤 A | SNT-208, SNT-212 |
-| SNT-302 | ✅ Spot-Pflichtfelder inkl. Koordinaten-Validierung | 1,5 h | 👤 A | SNT-301 |
-| SNT-303 | 🏷️ `source`-Feld + Provenienz-Label (KI vs. Local) | 1 h | 👤 A | SNT-301 |
-| SNT-304 | ⏱️ Rate-Limit: 5 Einreichungen/Tag | 1 h | 👤 A | SNT-301 |
-| SNT-305 | 📖 `Explore.tsx` liest aus Supabase | 2 h | 👤 A | SNT-301 |
+| SNT-301 | 🗺️ `SubmitSpotModal` integrieren + `created_by` | 3 h | 👤 A | ✅ erledigt 2026-10-06 — echter `insert` inkl. `created_by` in `submitSpot()` |
+| SNT-302 | ✅ Spot-Pflichtfelder inkl. Koordinaten-Validierung | 1,5 h | 👤 A | ✅ erledigt 2026-10-06 — Pflichtfelder + Lat/Lon-Range-Check in `submitSpot()` |
+| SNT-303 | 🏷️ `source`-Feld + Provenienz-Label (KI vs. Local) | 1 h | 👤 A | ✅ erledigt 2026-10-06 — `source: local_submitted` + Label in `Explore.tsx` |
+| SNT-304 | ⏱️ Rate-Limit: 5 Einreichungen/Tag | 1 h | 👤 A | ✅ erledigt 2026-10-06 — Client-Zähler + DB-Trigger `spot_daily_limit` |
+| SNT-305 | 📖 `Explore.tsx` liest aus Supabase | 2 h | 👤 A | ✅ erledigt 2026-10-06 — `getSpots()` mit Demo-Fallback bei leerer DB |
 | SNT-306 | ✅ `spot_verifications` Tabelle + RLS | 2 h | 👤 A | SNT-212 |
 | SNT-307 | 🎯 3-Bestätigungen-Schwelle implementieren | 2 h | 👤 A | SNT-306 |
 | SNT-308 | 🛡️ Anti-Spoofing (1 Stimme/User, kein Creator-Votum) | 1 h | 👤 A | SNT-306 |
@@ -184,10 +200,10 @@
 | SNT-328 | ✅ `route_progress` mit composite FK auf `(stop_id, route_id)` | — | 👤 A | — |
 | SNT-329 | ✅ `profiles.certified_stops` + `is_vip` ergänzt (Funktion las fehlende Spalten) | — | 👤 A | — |
 | SNT-330 | 🧪 `npm run check:schema` als npm-Script + `scripts/check_schema.js` | — | 👤 A | — |
-| SNT-331 | 🔴 **Supabase-Projekt anlegen + `schema.sql` ausführen** | 30 min | 👤 V | SNT-320…330 |
-| SNT-332 | 🔴 `VITE_SUPABASE_URL` + `VITE_SUPABASE_ANON_KEY` in `.env` **und** Vercel | 15 min | 👤 V | SNT-331 |
-| SNT-333 | 🔴 `node scripts/test_rls.js` mit echten Credentials | 30 min | 👤 A | SNT-332 |
-| SNT-334 | 🔴 `pg_cron` im Dashboard aktivieren, sonst bleiben Fotos dauerhaft `in_delay` | 10 min | 👤 V | SNT-331 |
+| SNT-331 | 🔴 **Supabase-Projekt anlegen + `schema.sql` ausführen** | 30 min | 👤 V | ✅ erledigt 2026-10-06 — Live-Lauf zeigt 60 Policies greifen (`test_rls.js`) |
+| SNT-332 | 🔴 `VITE_SUPABASE_URL` + `VITE_SUPABASE_ANON_KEY` in `.env` **und** Vercel | 15 min | 👤 V | teilweise — `.env` gesetzt, **offen: Vercel-Env** (Live-Bundle enthält keine Supabase-URL) |
+| SNT-333 | 🔴 `node scripts/test_rls.js` mit echten Credentials | 30 min | 👤 A | ✅ erledigt 2026-10-06 — **13 PASS / 0 FAIL / 1 SKIP** gegen echte Instanz |
+| SNT-334 | 🔴 `pg_cron` im Dashboard aktivieren, sonst bleiben Fotos dauerhaft `in_delay` | 10 min | 👤 V | offen: Dashboard-Zugang (Schema-Warnung greift erst bei Ausführung) |
 
 
 ### 🔴 P0 — Merch/POD: Die geplante Ware gibt es nicht (2026-09-27)
@@ -326,6 +342,19 @@
 
 ## ✅ DONE
 
+### Behoben am 2026-10-06 — Community-Submit, Rechtstexte, Live-RLS-Verify
+
+| Karte | Was | Nachweis |
+|---|---|---|
+| SNT-301…305 | **Community-Submit-Kette:** echter `insert` mit `created_by` (`submitSpot()`), Pflichtfelder inkl. Koordinaten-Range-Check, `source: local_submitted` + sichtbares Provenienz-Label, Rate-Limit 5/Tag (Client-Zähler + DB-Trigger `spot_daily_limit`), Explore-Read-Pfad mit Demo-Fallback | `src/lib/community.ts:386`, `supabase/schema.sql:441` |
+| SNT-202 | Quelle B → `legacy/v6-04.09.2026/` (Historie erhalten) | `55154ea` |
+| SNT-204 / SNT-205 | `dist/` nicht getrackt; `vercel.json` mit echtem `buildCommand` | `git ls-files -- dist/` = 0 · `vercel.json:3` |
+| SNT-207 / SNT-208 | Echtes `signInWithOtp` + `AuthContext`/`useAuth()` mit Session-Persistenz | `src/pages/Login.tsx:35`, `src/context/AuthContext.tsx` |
+| SNT-215…218 | Rechtstexte vorhanden, geroutet und im Footer verlinkt | `src/pages/Impressum|Datenschutz|Terms|Safety.tsx` |
+| SNT-331 / SNT-333 | **Supabase live:** `node scripts/test_rls.js` gegen echte Instanz → **13 PASS / 0 FAIL / 1 SKIP** (Skip: keine publizierte Route) — 60 Policies greifen, Anonyme können weder lesen noch schreiben | Live-Lauf 2026-10-06 |
+| SNT-333 *(Fund)* | Assertion-Bug behoben: `storage.objects` liefert 404 (nicht exponiert) = „nicht auflistbar", nicht „0 Zeilen sichtbar" | `scripts/test_rls.js:221` |
+| — *(Fund)* | Live-Bundle enthält keine Supabase-URL → **SNT-332 Vercel-Env offen**, App live im Demo-Modus | siehe BLOCKED |
+
 ### Behoben am 2026-09-30 — Sicherheit, Auslieferung, API
 
 | Karte | Was | Nachweis |
@@ -351,11 +380,8 @@
 
 | Karte | Blockiert durch | Notiz |
 |---|---|---|
-| SNT-207 | SNT-210 | `.env` enthält **keine** Supabase-Variablen — nur Stripe + AI-Keys |
-| SNT-331…334 | 🔑 Nutzer: Supabase-Projekt + URL/Anon-Key | Ohne `SUPABASE_URL`/`ANON_KEY` kein Live-Test — App läuft im Demo-Modus |
+| SNT-332, SNT-334 | 🔑 Owner: Vercel-Env + Supabase-Dashboard | `.env` ✅ und Schema live ✅ (`test_rls.js` 13/13) — offen: `VITE_SUPABASE_*` in **Vercel** (Live-Bundle enthält keine Supabase-URL → App läuft im Demo-Modus) und `pg_cron` aktivieren |
 | SNT-363…365 | ⏳ Nutzer: Printify-Keys | Entscheidung (SNT-360/361) ✅; offen: Keys → echte IDs → Musterbestellung |
-| SNT-201 | SNT-202, SNT-203 | Umzug muss vor dem Build vereinheitlicht werden |
-| SNT-301 | SNT-208 | Ohne `auth.uid()` kein `created_by` |
 | SNT-501+ | Phase 0 komplett | Vor Phase 4 muss alles in Phase 0–3 grün und messbar sein |
 
 ---
@@ -374,19 +400,20 @@
 
 ## Karten-Statistik
 
-> **Stand 2026-09-30 ( aktualisiert nach Commits `7cbbb53`, `b174854`, Schema-Fixes ):**
+> **Stand 2026-10-06 (aktualisiert nach SNT-301…305, Nachzug 202/204/205/207/208/215…218, Live-RLS-Lauf):**
 > Bottom-up-Summe der Karten-Aufwände statt der alten Gruppen-Schätzung.
 
 | Priorität | Karten | Aufwand |
 |---|---|---|
-| 🔴 P0 Blocker (SNT-101…115) | 15 (13 erledigt, 2 offen: SNT-108/109) | ~2 h offen |
-| 🔴 P0 Schema (SNT-320…334) | 15 (11 erledigt, 4 offen: SNT-331…334) | ~1,5 h offen |
-| 🔴 P0 Merch/POD (SNT-360…367) | 8 (3 erledigt, 5 offen) | ~4,5 h offen |
-| 🟡 P1 (inkl. Orts-Chat SNT-340…346) | 27 (15 erledigt · 12 offen) | ~26 h offen |
-| 🟢 P2 (Community) | 15 | ~28 h + 5 h manuell |
+| 🔴 P0 Blocker (SNT-101…115) | 15 (13 erledigt, 2 offen: SNT-108/109) | ~1,5 h offen |
+| 🔴 P0 Schema (SNT-320…334) | 15 (13 erledigt, 2 offen: SNT-332 teilweise, SNT-334) | ~0,5 h offen |
+| 🔴 P0 Merch/POD (SNT-360…367) | 8 (3 erledigt, 5 offen) | ~5 h offen |
+| 🟡 P1 (inkl. Orts-Chat SNT-340…346) | 27 (18 erledigt · 9 offen: 210, 220, 340…346) | ~17 h offen |
+| 🟢 P2 (Community) | 15 (5 erledigt: SNT-301…305 · 10 offen) | ~20 h + 5 h manuell |
 | 🟢 P2 (System) | 12 (11 erledigt/ersetzt: SNT-401…410, 412 · 1 offen: SNT-411 Fonts) | ~1 h offen |
-| ⚪ P3 | 10 | ~32 h + 10 h/Woche |
-| **Offen gesamt (63 Karten)** | **63** | **~103 h + Community-Zeit** |
+| ⚪ P3 | 10 | ~33 h + 10 h/Woche |
+| **Offen gesamt (39 Karten)** | **39** | **~79 h + Community-Zeit** |
+| ✅ Behoben 2026-10-06 (SNT-301…305, 202/204/205/207/208/215…218, 331, 333) | 16 | ~21 h |
 | ✅ Behoben 2026-09-27 (SNT-320…330, 350…358, 370…372, 360/361) | 24 | — |
 | ✅ Behoben 2026-09-30 (SNT-101 Code, 102, 103, 104…107, SNT-116 API-Fix, **SNT-110…115, SNT-362**) | 13 | — |
 | ✅ Behoben 2026-09-30 (SNT-219 Footer, 405, 408, 409, 410, 412) | 6 | ~7 h |
