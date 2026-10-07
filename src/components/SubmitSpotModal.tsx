@@ -1,6 +1,10 @@
 import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { useTravel } from '../context/TravelContext'
+import { useAuth } from '../context/AuthContext'
 import { track } from '../lib/analytics'
+import { submitSpot } from '../lib/community'
+import { isSupabaseConfigured } from '../services/supabase'
 
 interface SubmitSpotModalProps {
   isOpen: boolean
@@ -8,13 +12,73 @@ interface SubmitSpotModalProps {
   onSuccess?: (spot: any) => void
 }
 
+/** Kategorie-Werte wie in supabase/schema.sql dokumentiert (nature | food | view | culture | activity). */
+const SPOT_CATEGORIES = [
+  { value: 'nature', label: 'Natur & Landschaft' },
+  { value: 'food', label: 'Essen & Trinken' },
+  { value: 'view', label: 'Aussichtspunkt' },
+  { value: 'culture', label: 'Kultur & Geschichte' },
+  { value: 'activity', label: 'Aktivität & Abenteuer' },
+]
+
+/**
+ * SNT-304 — Rate-Limit: max. 5 Einreichungen pro Person pro Tag.
+ * Dieser Client-Zähler ist nur Härtung gegen Doppelklicks; verbindlich erzwingt
+ * das Limit der Trigger `spot_daily_limit` in supabase/schema.sql.
+ */
+const RATE_LIMIT_PER_DAY = 5
+const RATE_LIMIT_KEY = 'snt.spot_submissions'
+
+function todayKey(): string {
+  const d = new Date()
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
+}
+
+function submissionsToday(): number {
+  try {
+    const days = JSON.parse(localStorage.getItem(RATE_LIMIT_KEY) ?? '{}') as Record<string, number>
+    return days[todayKey()] ?? 0
+  } catch {
+    return 0
+  }
+}
+
+function recordSubmission(): void {
+  try {
+    const days = JSON.parse(localStorage.getItem(RATE_LIMIT_KEY) ?? '{}') as Record<string, number>
+    days[todayKey()] = (days[todayKey()] ?? 0) + 1
+    localStorage.setItem(RATE_LIMIT_KEY, JSON.stringify(days))
+  } catch {
+    // Kein Speicher verfügbar (Private Browsing) — das serverseitige Limit greift trotzdem.
+  }
+}
+
+/** „38.798, -9.390“ — genau zwei Dezimalgrade, Trennzeichen Komma/Semikolon/Schrägstrich/Leerzeichen. */
+function parseGps(raw: string): { lat: number; lng: number } | null {
+  const m = raw
+    .trim()
+    .replace(/°/g, '')
+    .match(/^(-?\d+(?:[.,]\d+)?)\s*(?:[,;/]|\s+)\s*(-?\d+(?:[.,]\d+)?)$/)
+  if (!m) return null
+  const lat = parseFloat(m[1].replace(',', '.'))
+  const lng = parseFloat(m[2].replace(',', '.'))
+  if (Number.isNaN(lat) || Number.isNaN(lng)) return null
+  if (lat < -90 || lat > 90 || lng < -180 || lng > 180) return null
+  return { lat, lng }
+}
+
 export default function SubmitSpotModal({ isOpen, onClose, onSuccess }: SubmitSpotModalProps) {
   const { triggerHaptic } = useTravel()
+  const { user, creditEvent } = useAuth()
   const [submitted, setSubmitted] = useState(false)
+  /** Wurde der Spot tatsächlich gespeichert (echter Insert) oder nur im Demo-Pfad angezeigt? */
+  const [resultMode, setResultMode] = useState<'saved' | 'demo'>('saved')
+  const [error, setError] = useState<string | null>(null)
+  const [submitting, setSubmitting] = useState(false)
   const [form, setForm] = useState({
     title: '',
     location: '',
-    category: 'Nature',
+    category: 'nature',
     difficulty: 2,
     dogFriendly: true,
     dogNotes: '',
@@ -23,16 +87,75 @@ export default function SubmitSpotModal({ isOpen, onClose, onSuccess }: SubmitSp
     familyFriendly: true,
     insiderStory: '',
     gps: '',
+    imageUrl: '',
   })
 
   if (!isOpen) return null
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    triggerHaptic([20, 50, 80])
-    setSubmitted(true)
-    track('spot_submitted')
-    onSuccess?.(form)
+    setError(null)
+
+    // ── SNT-302: Pflichtfeld-Validierung inkl. Koordinaten ─────────────────
+    const gps = parseGps(form.gps)
+    if (!gps) {
+      setError('Bitte gib die Koordinaten als „Breitengrad, Längengrad“ an — z. B. 38.798, -9.390.')
+      return
+    }
+    if (form.insiderStory.trim().length < 20) {
+      setError('Der Insider-Tipp braucht mindestens 20 Zeichen — beschreibe, worauf man achten muss.')
+      return
+    }
+    if (!/^https?:\/\/\S+$/i.test(form.imageUrl.trim())) {
+      setError('Bitte gib eine Foto-URL an, die mit http:// oder https:// beginnt.')
+      return
+    }
+    if (submissionsToday() >= RATE_LIMIT_PER_DAY) {
+      setError(`Tageslimit erreicht: höchstens ${RATE_LIMIT_PER_DAY} Einreichungen pro Tag. Komm morgen wieder.`)
+      return
+    }
+
+    // ── SNT-301: persistenter Insert mit created_by ────────────────────────
+    setSubmitting(true)
+    try {
+      if (isSupabaseConfigured) {
+        if (!user) {
+          setError('Ohne Anmeldung können wir deinen Spot nicht zuordnen. Bitte melde dich zuerst an.')
+          setSubmitting(false)
+          return
+        }
+        await submitSpot(user.id, {
+          title: form.title,
+          city: form.location,
+          category: form.category,
+          description: form.insiderStory,
+          latitude: gps.lat,
+          longitude: gps.lng,
+          imageUrl: form.imageUrl.trim(),
+          safetyNote:
+            [form.dogNotes, form.strollerNotes].map(s => s.trim()).filter(Boolean).join(' · ') || undefined,
+          isDogFriendly: form.dogFriendly,
+          isFamilyFriendly: form.familyFriendly,
+          isStrollerFriendly: form.strollerFriendly,
+        })
+        // Trust-Event wird nachgereicht — der Insert ist bereits gelungen.
+        void creditEvent('spot_submitted')
+        setResultMode('saved')
+        onSuccess?.(form)
+      } else {
+        // Demo-Modus: ehrlich nur anzeigen, nichts vortäuschen.
+        setResultMode('demo')
+        onSuccess?.(form)
+      }
+      track('spot_submitted')
+      recordSubmission()
+      triggerHaptic([20, 50, 80])
+      setSubmitted(true)
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Einreichung fehlgeschlagen. Bitte versuche es erneut.')
+    } finally {
+      setSubmitting(false)
+    }
   }
 
   const difficultyLabels = [
@@ -55,13 +178,19 @@ export default function SubmitSpotModal({ isOpen, onClose, onSuccess }: SubmitSp
 
         {submitted ? (
           <div className="text-center py-8">
-            <span className="text-5xl block mb-3">🪙</span>
-            <h3 className="font-display text-2xl font-bold text-ink mb-2">Secret Spot eingereicht!</h3>
+            <span className="text-5xl block mb-3">{resultMode === 'saved' ? '✅' : '🪙'}</span>
+            <h3 className="font-display text-2xl font-bold text-ink mb-2">
+              {resultMode === 'saved' ? 'Secret Spot gespeichert!' : 'Spot nur zur Anschauung eingereicht'}
+            </h3>
             <p className="font-body text-sm text-ink-faint max-w-md mx-auto mb-4">
-              Vielen Dank für deinen Beitrag zur Community. Dein Spot wird nach Verifizierung freigeschaltet.
+              {resultMode === 'saved'
+                ? 'Dein Spot liegt jetzt als „unverified“ in der Datenbank und wird freigeschaltet, sobald 3 andere Community-Mitglieder ihn bestätigen.'
+                : 'Demo-Modus: Dein Spot wurde nur in dieser Sitzung angezeigt — ohne Supabase-Backend wird nichts gespeichert, nach dem Reload ist er weg.'}
             </p>
             <div className="inline-block bg-emerald-500/20 text-leaf font-mono text-xs font-bold px-4 py-1.5 rounded-full mb-6">
-              +150 XP wurden deinem Profil gutgeschrieben ✓
+              {resultMode === 'saved'
+                ? 'Herkunft: local_submitted · Trust-Event „Spot eingereicht“ gewertet ✓'
+                : 'Kein Trust-Event, kein Eintrag — echte Einreichungen brauchen eine Anmeldung'}
             </div>
             <button
               onClick={() => {
@@ -86,6 +215,29 @@ export default function SubmitSpotModal({ isOpen, onClose, onSuccess }: SubmitSp
                 Teile verifizierte Geheimtipps und hilf anderen, passende Routen für Hunde & Kinderwagen zu finden.
               </p>
             </div>
+
+            {/* MODUS-HINWEISE: nie behaupten, etwas sei gespeichert, wenn es das nicht ist */}
+            {!isSupabaseConfigured && (
+              <div className="bg-paper-deep border border-sun rounded-lg px-3 py-2 font-mono text-[0.66rem] text-sun leading-relaxed">
+                ⚠️ Demo-Modus: Einreichungen werden nur in dieser Sitzung angezeigt und nicht gespeichert.
+              </div>
+            )}
+            {isSupabaseConfigured && !user && (
+              <div className="bg-paper-deep border border-sun rounded-lg px-3 py-2 font-mono text-[0.66rem] text-sun leading-relaxed">
+                🔒 Zum Speichern musst du angemeldet sein —{' '}
+                <Link to="/login" className="underline font-bold" onClick={onClose}>
+                  jetzt anmelden
+                </Link>
+              </div>
+            )}
+            {error && (
+              <div
+                role="alert"
+                className="bg-red-950/60 border border-red-500/60 rounded-lg px-3 py-2 font-mono text-[0.68rem] text-red-300 leading-relaxed"
+              >
+                {error}
+              </div>
+            )}
 
             <div className="grid sm:grid-cols-2 gap-3">
               <div>
@@ -114,6 +266,59 @@ export default function SubmitSpotModal({ isOpen, onClose, onSuccess }: SubmitSp
                   required
                 />
               </div>
+            </div>
+
+            {/* KATEGORIE & FOTO (SNT-302: Pflichtfelder) */}
+            <div className="grid sm:grid-cols-2 gap-3">
+              <div>
+                <label className="font-mono text-[0.62rem] text-sun uppercase block mb-1">
+                  Kategorie *
+                </label>
+                <select
+                  value={form.category}
+                  onChange={e => setForm({ ...form, category: e.target.value })}
+                  className="field"
+                  required
+                >
+                  {SPOT_CATEGORIES.map(c => (
+                    <option key={c.value} value={c.value}>
+                      {c.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <label className="font-mono text-[0.62rem] text-sun uppercase block mb-1">
+                  Foto-URL (Pflicht) *
+                </label>
+                <input
+                  type="url"
+                  value={form.imageUrl}
+                  onChange={e => setForm({ ...form, imageUrl: e.target.value })}
+                  placeholder="https://…"
+                  className="field"
+                  required
+                />
+              </div>
+            </div>
+
+            {/* KOORDINATEN (SNT-302: Pflicht + Validierung) */}
+            <div>
+              <label className="font-mono text-[0.62rem] text-sun uppercase block mb-1">
+                Koordinaten (Breitengrad, Längengrad) *
+              </label>
+              <input
+                type="text"
+                value={form.gps}
+                onChange={e => setForm({ ...form, gps: e.target.value })}
+                placeholder="z. B. 38.798, -9.390"
+                className="field"
+                required
+              />
+              <p className="font-mono text-[0.58rem] text-ink-faint mt-1 leading-relaxed">
+                Dezimalgrad, Komma zwischen Breiten- und Längengrad. Prüfe, dass der Punkt wirklich im
+                Geo-Bereich der angegebenen Region liegt.
+              </p>
             </div>
 
             {/* SCHWIERIGKEITSSKALA */}
@@ -208,8 +413,12 @@ export default function SubmitSpotModal({ isOpen, onClose, onSuccess }: SubmitSp
             </div>
 
             <div className="flex gap-2 pt-2">
-              <button type="submit" className="btn btn-primary flex-1 py-2.5 text-xs font-bold">
-                🪙 Spot einreichen (+150 XP)
+              <button
+                type="submit"
+                disabled={submitting}
+                className="btn btn-primary flex-1 py-2.5 text-xs font-bold disabled:opacity-60"
+              >
+                {submitting ? 'Wird gespeichert…' : '🪙 Spot einreichen'}
               </button>
               <button type="button" onClick={onClose} className="btn btn-ghost text-xs py-2.5 px-4">
                 Abbrechen

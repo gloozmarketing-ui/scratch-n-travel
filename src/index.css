@@ -1,5 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..700&family=Nunito+Sans:ital,wght@0,300..900;1,300..700&family=Caveat:wght@400..700&display=swap');
-@import 'tailwindcss';
+/* Tailwind v4 scannt ohne `source(none)` automatisch das GANZE Repo —
+   legacy/, assets/ (minifizierte Alt-Bundles) und AusbauÜberlegungen/ würden
+   tausende Geister-Klassen ins CSS ziehen (151 KB). Nur die echte App zählt. */
+@import 'tailwindcss' source(none);
+@source '../index.html';
+@source '../src';
 
 /* ═══════════════════════════════════════════════════════════════════════
    SCRATCH'N'TRAVEL — DESIGN-SYSTEM

@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react'
+import React, { useState, useMemo, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import TravelMap from '../components/TravelMap'
 import StoryGeneratorModal from '../components/StoryGeneratorModal'
@@ -7,6 +7,8 @@ import SubmitSpotModal from '../components/SubmitSpotModal'
 import DemoDataBadge from '../components/DemoDataBadge'
 import { createGoogleCalendarUrl } from '../utils/calendarExport'
 import { storyPins, cities, activities, StoryPin } from '../data/data'
+import { getSpots, type SecretSpot } from '../lib/community'
+import { isSupabaseConfigured } from '../services/supabase'
 import { useTravel } from '../context/TravelContext'
 
 const cats = ['All', 'Nature', 'Food', 'Surf', 'Culture']
@@ -62,6 +64,72 @@ const geoCoords: Record<string, { lat: number; lng: number }> = {
 
 type DiffFilter = number | 'all'
 
+/** FNV-1a — macht aus einer Spot-UUID eine stabile Zahl für die StoryPin-Welt (revealedPins etc.). */
+function stableId(uuid: string): number {
+  let h = 2166136261
+  for (let i = 0; i < uuid.length; i++) {
+    h ^= uuid.charCodeAt(i)
+    h = Math.imul(h, 16777619)
+  }
+  return Math.abs(h) || 1
+}
+
+/**
+ * Schema-Kategorie (nature | food | view | culture | activity) → UI-Kategorie der Filter-Chips.
+ * view und activity laufen bewusst mit „Nature“ — die Chips-Menge bleibt stabil.
+ */
+function dbCategoryToUi(category: string): string {
+  const map: Record<string, string> = {
+    nature: 'Nature',
+    view: 'Nature',
+    food: 'Food',
+    culture: 'Culture',
+    activity: 'Nature',
+  }
+  return map[category.toLowerCase()] ?? 'Nature'
+}
+
+/** SNT-303: Herkunfts-Label (KI vs. Local) — jede Quelle wird sichtbar benannt. */
+function sourceLabel(source: SecretSpot['source']): string {
+  if (source === 'ai_seeded') return 'KI-generiert · nicht verifiziert'
+  if (source === 'partner') return 'Partner-Beitrag'
+  if (source === 'imported') return 'Importiert'
+  return 'Von Local eingereicht'
+}
+
+/** SNT-305: Supabase-Spot → StoryPin. */
+function spotToPin(s: SecretSpot): StoryPin {
+  const label = sourceLabel(s.source)
+  return {
+    id: stableId(s.id),
+    demo: false,
+    local: s.created_by ? 'Community-Local' : 'Community',
+    avatar: '🌍',
+    location: s.title,
+    city: s.city,
+    country: s.country ?? '',
+    countryFlag: '',
+    region: s.city,
+    story: s.description,
+    rating: 0,
+    reviews: s.verified_by_count,
+    gps: `${Number(s.latitude).toFixed(5)}, ${Number(s.longitude).toFixed(5)}`,
+    locked: false,
+    tag: `${dbCategoryToUi(s.category)} · ${label}`,
+    image:
+      s.image_url ||
+      'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&h=400&fit=crop&auto=format',
+    category: dbCategoryToUi(s.category),
+    xp: 150,
+    difficulty: 2,
+    dogFriendly: s.is_dog_friendly,
+    dogDetails: s.safety_note ?? undefined,
+    strollerFriendly: s.is_stroller_friendly,
+    familyKidsFriendly: s.is_family_friendly,
+    submittedBy: label,
+  }
+}
+
 export default function Explore() {
   const { revealedPins, scratchSecret, triggerHaptic } = useTravel()
   const [selectedCountry, setSelectedCountry] = useState('Alle')
@@ -75,6 +143,23 @@ export default function Explore() {
   const [isSubmitOpen, setIsSubmitOpen] = useState(false)
   const [storyModal, setStoryModal] = useState({ isOpen: false, title: '', location: '', gps: '', xp: 100, image: '' })
   const [resModal, setResModal] = useState({ isOpen: false, hostName: '', city: '', category: '' })
+
+  // SNT-305: Read-Pfad — Community-Spots aus Supabase; bei leerer DB oder
+  // fehlender Konfiguration bleiben die Demo-Katalog-Daten der Fallback.
+  useEffect(() => {
+    if (!isSupabaseConfigured) return
+    let cancelled = false
+    getSpots()
+      .then(spots => {
+        if (!cancelled && spots.length > 0) setExtraSpots(spots.map(spotToPin))
+      })
+      .catch(() => {
+        // DB nicht erreichbar oder RLS lehnt ab — still auf Demo-Daten bleiben.
+      })
+    return () => {
+      cancelled = true
+    }
+  }, [])
 
   const allPins = useMemo(() => [...extraSpots, ...storyPins], [extraSpots])
 
@@ -349,11 +434,21 @@ export default function Explore() {
                       )}
 
                       <div className="flex justify-between mb-3 items-center gap-2">
-                        <span className="text-sun text-sm">
-                          {'★'.repeat(Math.floor(pin.rating))}
-                          <span className="text-ink-faint text-xs ml-1">{pin.rating}</span>
-                        </span>
-                        <DemoDataBadge label={`${pin.reviews} Reviews`} />
+                        {pin.rating > 0 ? (
+                          <span className="text-sun text-sm">
+                            {'★'.repeat(Math.floor(pin.rating))}
+                            <span className="text-ink-faint text-xs ml-1">{pin.rating}</span>
+                          </span>
+                        ) : (
+                          <span className="text-ink-faint text-xs">Noch keine Bewertung</span>
+                        )}
+                        {pin.demo === false ? (
+                          <span className="font-mono text-[0.6rem] text-ink-faint">
+                            {pin.reviews > 0 ? `${pin.reviews} Bestätigungen` : 'Community-Einreichung'}
+                          </span>
+                        ) : (
+                          <DemoDataBadge label={`${pin.reviews} Reviews`} />
+                        )}
                       </div>
 
                       {unlocked ? (
@@ -512,9 +607,10 @@ export default function Explore() {
               reviews: 1,
               gps: 'GPS ausstehend',
               locked: false,
-              tag: `${spot.category} Secret`,
-              image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&h=400&fit=crop&auto=format',
-              category: spot.category,
+              tag: `${dbCategoryToUi(spot.category)} Secret`,
+              image:
+                'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&h=400&fit=crop&auto=format',
+              category: dbCategoryToUi(spot.category),
               xp: 150,
               difficulty: spot.difficulty,
               dogFriendly: spot.dogFriendly,
