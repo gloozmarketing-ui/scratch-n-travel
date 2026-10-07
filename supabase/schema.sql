@@ -434,6 +434,35 @@ DROP POLICY IF EXISTS spots_delete_own ON secret_spots;
 CREATE POLICY spots_delete_own ON secret_spots
   FOR DELETE USING (created_by = auth.uid() AND verified_by_count < 3);
 
+-- ---------- SNT-304: max. 5 Einreichungen pro Person pro Tag ----------
+-- Der Client-Zähler (SubmitSpotModal) ist nur Härtung; dieses Limit ist verbindlich.
+-- Angreifer mit eigenem Account könnten den localStorage-Zähler umgehen.
+DROP TRIGGER IF EXISTS spot_daily_limit ON secret_spots;
+DROP FUNCTION IF EXISTS enforce_spot_daily_limit();
+
+CREATE FUNCTION enforce_spot_daily_limit()
+RETURNS trigger
+LANGUAGE plpgsql
+AS $fn$
+BEGIN
+  IF (
+    SELECT count(*)
+    FROM secret_spots
+    WHERE created_by = NEW.created_by
+      AND created_at >= date_trunc('day', NOW())
+  ) >= 5 THEN
+    RAISE EXCEPTION 'rate_limit: höchstens 5 Einreichungen pro Tag'
+      USING ERRCODE = 'raise_exception';
+  END IF;
+  RETURN NEW;
+END;
+$fn$;
+
+CREATE TRIGGER spot_daily_limit
+  BEFORE INSERT ON secret_spots
+  FOR EACH ROW
+  EXECUTE FUNCTION enforce_spot_daily_limit();
+
 -- ---------- spot_verifications ----------
 DROP POLICY IF EXISTS verifications_select_authenticated ON spot_verifications;
 CREATE POLICY verifications_select_authenticated ON spot_verifications
@@ -573,24 +602,34 @@ DROP POLICY IF EXISTS participants_update_self ON meetup_participants;
 CREATE POLICY participants_update_self ON meetup_participants
   FOR UPDATE USING (user_id = auth.uid()) WITH CHECK (user_id = auth.uid());
 
+-- Helper-Funktion gegen RLS-Endlosrekursion:
+-- SECURITY DEFINER liest conversation_members ohne erneute Policy-Prüfung aus.
+CREATE OR REPLACE FUNCTION public.is_member_of_conversation(p_conversation_id UUID, p_user_id UUID)
+RETURNS BOOLEAN
+LANGUAGE sql
+SECURITY DEFINER
+SET search_path = public
+STABLE
+AS $$
+  SELECT EXISTS (
+    SELECT 1 FROM conversation_members
+    WHERE conversation_id = p_conversation_id AND user_id = p_user_id
+  );
+$$;
+
 -- ---------- conversations ----------
 DROP POLICY IF EXISTS conversations_select_members ON conversations;
 CREATE POLICY conversations_select_members ON conversations
   FOR SELECT USING (
-    EXISTS (
-      SELECT 1 FROM conversation_members cm
-      WHERE cm.conversation_id = id AND cm.user_id = auth.uid()
-    )
+    public.is_member_of_conversation(id, auth.uid())
   );
 
 -- ---------- conversation_members ----------
 DROP POLICY IF EXISTS conv_members_select_members ON conversation_members;
 CREATE POLICY conv_members_select_members ON conversation_members
   FOR SELECT USING (
-    EXISTS (
-      SELECT 1 FROM conversation_members cm2
-      WHERE cm2.conversation_id = conversation_id AND cm2.user_id = auth.uid()
-    )
+    user_id = auth.uid()
+    OR public.is_member_of_conversation(conversation_id, auth.uid())
   );
 
 -- ---------- messages ----------
@@ -598,10 +637,7 @@ CREATE POLICY conv_members_select_members ON conversation_members
 DROP POLICY IF EXISTS messages_select_members ON messages;
 CREATE POLICY messages_select_members ON messages
   FOR SELECT USING (
-    EXISTS (
-      SELECT 1 FROM conversation_members cm
-      WHERE cm.conversation_id = conversation_id AND cm.user_id = auth.uid()
-    )
+    public.is_member_of_conversation(conversation_id, auth.uid())
     AND NOT EXISTS (
       SELECT 1 FROM conversation_members cm3
       JOIN blocks b ON b.blocker_id = cm3.user_id
@@ -616,10 +652,7 @@ CREATE POLICY messages_insert_members ON messages
   FOR INSERT WITH CHECK (
     sender_id = auth.uid()
     AND length(body) BETWEEN 1 AND 4000
-    AND EXISTS (
-      SELECT 1 FROM conversation_members cm
-      WHERE cm.conversation_id = messages.conversation_id AND cm.user_id = auth.uid()
-    )
+    AND public.is_member_of_conversation(messages.conversation_id, auth.uid())
     AND NOT EXISTS (
       SELECT 1 FROM conversation_members cm4
       JOIN blocks b ON b.blocker_id = cm4.user_id
