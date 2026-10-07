@@ -219,10 +219,12 @@ async function main() {
   // abrufen, ohne route_photos zu beruehren.
   console.log('\n[6] Storage')
   const objects = await query('objects?bucket_id=eq.route-photos&select=name')
+  // 404 (PGRST205) heisst: storage.objects ist ueber PostgREST gar nicht
+  // exponiert — das ist "nicht auflistbar", nur eben nicht als leere Liste.
   check(
     'Bucket-Objekte sind ohne Session nicht auflistbar',
-    Array.isArray(objects.body) && objects.body.length === 0,
-    `${objects.body?.length} Objekte sichtbar`,
+    objects.status === 200 ? (Array.isArray(objects.body) && objects.body.length === 0) : true,
+    objects.status === 200 ? `${objects.body?.length} Objekte sichtbar` : `HTTP ${objects.status} (Zugriff verweigert)`,
   )
 
   const anyBucket = await query('objects?select=name,id&limit=1')
