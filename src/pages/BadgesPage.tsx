@@ -2,6 +2,8 @@ import React, { useState, useMemo } from 'react'
 import { useTravel } from '../context/TravelContext'
 import { tierGradient, BadgeItem } from '../data/allBadges'
 import { productBadges } from '../data/data'
+import { POD_ENABLED } from '../lib/features'
+
 
 type CategoryFilter =
   | 'Alle'
@@ -39,7 +41,7 @@ export default function BadgesPage() {
     'Hobby-Matcher',
     'Orte mit Seele',
     'Tools & Engagement',
-    'Merch',
+    ...(POD_ENABLED ? (['Merch'] as CategoryFilter[]) : []),
   ]
 
   const filteredBadges = useMemo(() => {
@@ -92,8 +94,14 @@ export default function BadgesPage() {
     <div>
       {/* Page Header */}
       <div className="page-header">
-        <p className="coord mb-1">Authentic Collector System · 460+ Master Designs · 300 DPI Vector Ready</p>
-        <h1 className="font-display text-3xl text-ink font-bold">Badges &amp; Print-on-Demand Merch</h1>
+        <p className="coord mb-1">
+          {POD_ENABLED
+            ? 'Authentic Collector System · 460+ Master Designs · 300 DPI Vector Ready'
+            : 'Authentic Collector System · 460+ Master Designs'}
+        </p>
+        <h1 className="font-display text-3xl text-ink font-bold">
+          {POD_ENABLED ? 'Badges & Print-on-Demand Merch' : 'Erfolge & Abzeichen'}
+        </h1>
         <p className="font-script text-sun text-lg mt-0.5">collect your journey as a luxury artefact</p>
       </div>
 
@@ -175,8 +183,9 @@ export default function BadgesPage() {
           </div>
         </div>
 
-        {/* PHYSICAL POD MERCH SHOP SECTION */}
-        {(category === 'Alle' || category === 'Merch') && (
+        {/* PHYSICAL POD MERCH SHOP SECTION — seit 2026-10-06 hinter POD_ENABLED
+            versteckt (Owner-Entscheidung: erst öffnen, wenn Nutzer da sind). */}
+        {POD_ENABLED && (category === 'Alle' || category === 'Merch') && (
           <div className="space-y-4">
             <div className="flex items-center justify-between">
               <div>
@@ -240,7 +249,9 @@ export default function BadgesPage() {
               <h2 className="font-display text-ink text-xl font-bold">
                 {category === 'Alle' ? 'Alle 460+ Badges' : `${category} Badges`} ({filteredBadges.length})
               </h2>
-              <span className="font-mono text-[0.65rem] text-ink-faint">Klicke auf ein Badge für POD-Bestellung</span>
+              <span className="font-mono text-[0.65rem] text-ink-faint">
+                {POD_ENABLED ? 'Klicke auf ein Badge für POD-Bestellung' : 'Klicke auf ein Badge für Details'}
+              </span>
             </div>
 
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
@@ -346,38 +357,43 @@ export default function BadgesPage() {
                     )}
                   </div>
 
-                  {/* Shipping & Promo Breakdown */}
-                  <div className="bg-paper-deep p-3 rounded-xl border border-sun mb-3 space-y-1 text-[0.68rem] font-mono">
-                    <div className="flex items-center justify-between text-ink">
-                      <span>📦 Standardversand (DE/EU):</span>
-                      <span className="text-sun font-bold">€ 3,90</span>
+                  {/* Shipping & Promo Breakdown — nur sichtbar, wenn der POD-Shop
+                      aktiv ist (POD_ENABLED); ohne Flag bleibt das Modal reine Detailansicht. */}
+                  {POD_ENABLED && (
+                    <div className="bg-paper-deep p-3 rounded-xl border border-sun mb-3 space-y-1 text-[0.68rem] font-mono">
+                      <div className="flex items-center justify-between text-ink">
+                        <span>📦 Standardversand (DE/EU):</span>
+                        <span className="text-sun font-bold">€ 3,90</span>
+                      </div>
+                      <div className="flex items-center justify-between text-ink-faint">
+                        <span>⚡ Express-Kurier (1-2 Tage):</span>
+                        <span>€ 7,90</span>
+                      </div>
+                      <div className="text-leaf font-bold pt-1 border-t border-sun">
+                        ✓ Kostenloser Versand ab € 60,- Bestellwert
+                      </div>
+                      <div className="text-sun text-[0.62rem] pt-0.5">
+                        🎁 Inklusive 10% eSIM-Rabattcode <strong>SCRATCH10</strong> auf der Rechnung
+                      </div>
                     </div>
-                    <div className="flex items-center justify-between text-ink-faint">
-                      <span>⚡ Express-Kurier (1-2 Tage):</span>
-                      <span>€ 7,90</span>
-                    </div>
-                    <div className="text-leaf font-bold pt-1 border-t border-sun">
-                      ✓ Kostenloser Versand ab € 60,- Bestellwert
-                    </div>
-                    <div className="text-sun text-[0.62rem] pt-0.5">
-                      🎁 Inklusive 10% eSIM-Rabattcode <strong>SCRATCH10</strong> auf der Rechnung
-                    </div>
-                  </div>
+                  )}
 
                   <div className="space-y-2">
-                    <button
-                      onClick={() =>
-                        handleCheckoutMerch(
-                          `Aufnäher Badge: ${selectedBadge.name}`,
-                          '€ 14,90',
-                          'price_1UA6SlPoNfLOPXfNLDhPeYJu'
-                        )
-                      }
-                      disabled={orderSubmitting}
-                      className="btn btn-primary w-full text-xs py-2.5 font-bold shadow-lg"
-                    >
-                      {orderSubmitting ? 'Verbinde mit Stripe...' : '🛍️ Jetzt bestellen (€ 14,90 + Versand)'}
-                    </button>
+                    {POD_ENABLED && (
+                      <button
+                        onClick={() =>
+                          handleCheckoutMerch(
+                            `Aufnäher Badge: ${selectedBadge.name}`,
+                            '€ 14,90',
+                            'price_1UA6SlPoNfLOPXfNLDhPeYJu'
+                          )
+                        }
+                        disabled={orderSubmitting}
+                        className="btn btn-primary w-full text-xs py-2.5 font-bold shadow-lg"
+                      >
+                        {orderSubmitting ? 'Verbinde mit Stripe...' : '🛍️ Jetzt bestellen (€ 14,90 + Versand)'}
+                      </button>
+                    )}
                     <button onClick={() => setSelectedBadge(null)} className="btn btn-ghost w-full text-xs py-2">
                       Schließen
                     </button>

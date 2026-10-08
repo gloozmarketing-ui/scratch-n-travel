@@ -120,6 +120,79 @@ export default function Home() {
 
       <Horizon />
 
+      {/* ══════════════════ GIVE & TAKE ══════════════════ */}
+      <section style={{ padding: '0.5rem 1.5rem 3.5rem' }}>
+        <div style={{ maxWidth: 960, margin: '0 auto' }}>
+          <p className="journal" style={{ margin: '0 0 0.4rem', textAlign: 'center' }}>
+            geben und nehmen
+          </p>
+          <h2
+            className="font-display"
+            style={{
+              margin: '0 0 0.5rem', fontSize: '1.6rem', color: 'var(--ink)',
+              fontWeight: 600, textAlign: 'center',
+            }}
+          >
+            Wer gibt, bekommt — und solange du mitmachst, kostet dich nichts
+          </h2>
+          <p
+            style={{
+              margin: '0 auto 1.6rem', maxWidth: 640, color: 'var(--ink-faint)',
+              textAlign: 'center', fontSize: '0.95rem', lineHeight: 1.7,
+            }}
+          >
+            Diese Plattform lebt davon, dass Menschen etwas weitergeben — Zeit, Wissen,
+            einen Platz zum Schlafen, ihre Stadt. Du gibst, was du kannst, und du nimmst,
+            was andere dir anbieten. Freemium heißt: Solange du aktiv bist, ist die
+            Community für dich kostenlos.
+          </p>
+
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
+              gap: '0.9rem',
+            }}
+          >
+            {[
+              { icon: '🥾', title: 'Als Guide durch deine Stadt führen', body: 'Nimm eine Gruppe mit — ein Nachmittag, deine Lieblingsorte, kein Verkauf und kein Vertrag. Für eine Person bis zur kleinen Truppe.' },
+              { icon: '🎓', title: 'Jemandem etwas beibringen', body: 'Kochen, Surfen, Foto, Dialekt, Fahrrad-Reparatur — was du kannst, braucht jemand anderes gerade. Du wirst nicht gebucht, du teilst.' },
+              { icon: '🛏️', title: 'Bei dir wohnen lassen', body: 'Ein Sofa, ein Gartenplatz, ein Zimmer für ein paar Nächte. Gastfreundschaft ist die älteste Reiseform — und die ehrlichste.' },
+              { icon: '☕', title: 'Ein Meetup organisieren', body: 'Kaffee, Wandern, Brettspiel, Fototour — sag, wann und wo. Die anderen kommen, weil sie dasselbe mögen wie du.' },
+              { icon: '📍', title: 'Geheimtipps weitergeben', body: 'Spots einreichen, Orte bestätigen, vor Abzocke warnen. Deine Erfahrung wird für andere zur Abkürzung.' },
+              { icon: '🧭', title: 'An Hobbys anderer teilnehmen', body: 'WanderBond zeigt, wer in deiner Nähe dasselbe mag. Du wirst eingeladen statt angelockt — und genauso darfst du anderen begegnen.' },
+            ].map((item) => (
+              <article key={item.title} className="card" style={{ padding: '1.2rem' }}>
+                <div style={{ fontSize: '1.5rem', marginBottom: '0.5rem' }}>{item.icon}</div>
+                <h3
+                  className="font-display"
+                  style={{ margin: '0 0 0.4rem', fontSize: '1rem', color: 'var(--ink)', fontWeight: 600 }}
+                >
+                  {item.title}
+                </h3>
+                <p style={{ margin: 0, color: 'var(--ink-soft)', fontSize: '0.85rem', lineHeight: 1.6 }}>
+                  {item.body}
+                </p>
+              </article>
+            ))}
+          </div>
+
+          <div className="card card-accent" style={{ marginTop: '1.6rem', padding: '1.3rem 1.5rem', textAlign: 'center' }}>
+            <p className="journal" style={{ margin: '0 0 0.4rem' }}>Was du davon hast</p>
+            <p style={{ margin: '0 0 1rem', color: 'var(--ink-soft)', fontSize: '0.9rem', lineHeight: 1.65 }}>
+              Eine Einladung, weil du jemandem geholfen hast. Eine Führung, wenn du irgendwo neu
+              bist. Ein Bett, weil du selbst eines angeboten hast. Und alle Funktionen, solange du
+              aktiv gibst und nimmst — das ist der ganze Handel.
+            </p>
+            <div style={{ display: 'flex', gap: '0.6rem', justifyContent: 'center', flexWrap: 'wrap' }}>
+              <Link to="/people" className="btn btn-primary">🤝 Menschen finden</Link>
+              <Link to="/meetups" className="btn btn-ghost">☕ Treffen ansehen</Link>
+              <Link to="/host" className="btn btn-ghost">🛏️ Gastgeber:in werden</Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ══════════════════ WARUM DAS HIER ANDERS IST ══════════════════ */}
       <section style={{ padding: '3.5rem 1.5rem' }}>
         <div style={{ maxWidth: 960, margin: '0 auto' }}>

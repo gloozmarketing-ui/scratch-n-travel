@@ -49,11 +49,24 @@
 - [x] `Login.tsx` + `Pricing.tsx` — falsche DSGVO-/Verschlüsselungs-/BaFin-Versprechen entfernt
 - [x] **Verify:** Alle 3 Grep-Checks grün (0 Treffer für fake rating/taken; nur [UNVERIFIED]-Marker im Digest); `check:all` = 0
 
-### 🎁 Merch-POD vorbereiten (SNT-363/364) — braucht deine Keys aus Tag 1
+### 🎁 Merch-POD — 🅿️ geparkt bis Nutzer da sind (SNT-373)
+> **Owner-Entscheidung 2026-10-06:** POD-Shop bleibt im UI versteckt, bis Nutzer da sind.
+> Hinter `VITE_POD_ENABLED` (Default aus) — öffnen = Env-Var auf `true` + Deploy, kein Code-Change.
+> Die Key-Aufgaben unten laufen erst wieder, wenn der Shop sichtbar sein soll.
+- [x] **POD-Shop im UI versteckt (SNT-373 ✅ 2026-10-06):** Merch-Kategorie, Shop-Sektion,
+  Badge-Bestellmodal und Pricing-Rabatt nur bei `VITE_POD_ENABLED=true` (`src/lib/features.ts`)
 - [ ] `PRINTIFY_API_KEY` + `PRINTIFY_SHOP_ID` aus Vercel-Env eintragen (nach SNT-363)
 - [ ] Echte Blueprint-/Variant-IDs in `PRINTIFY_PRODUCT_MAP` (SNT-364)
 - [x] Produktname ohne Fremdmarken (SNT-362: Passport Edition statt fremde Schutzmarken)
 
+
+### 🤝 Give & Take priorisiert (SNT-374) — ✅ ERLEDIGT (2026-10-06)
+- [x] Startseite: Give-&-Take-Sektion direkt nach dem Hero — 6 Geben-Aktivitäten
+  (Tour führen, beibringen, wohnen lassen, Meetup, Tipps, Hobbys), Block „Was du
+  davon hast", Freemium-Zusage (solange du aktiv bist = kostenlos), 3 CTAs
+- [x] Pricing: Banner „geben und nehmen" über den Plänen + Free-Feature
+  „Give & Take: Meetups, Nachrichten & Gastgeben"
+- [ ] **SNT-375 (offen):** Aktivitäts-Freemium-Logik — wer aktiv gibt, bekommt Pro frei
 
 ### ✅ Verify-Rundgang (T-006)
 - [x] `npm run check:all` = 0 (2026-10-06: 61 Tests)

@@ -83,6 +83,17 @@
 > = verweigert" wie die Geschwister-Assertion daneben. SNT-331 ✅ (Schema greift
 > live), SNT-333 ✅; offen: SNT-332 (Vercel-Env — das Live-Bundle enthält keine
 > Supabase-URL, App läuft im Demo-Modus) und SNT-334 (pg_cron). `check:all` grün (61 Tests).
+> **2026-10-06 (3):** Zwei Produktentscheidungen des Owners umgesetzt:
+> **(a) POD/Merch-Shop vorerst versteckt** (SNT-373) — Flag `VITE_POD_ENABLED` in
+> `src/lib/features.ts`, standardmäßig **aus**; Merch-Kategorie, Shop-Sektion,
+> Badge-Bestellmodal und Pricing-Rabatt werden nicht gerendert. Öffnen später =
+> Env-Var auf `true` + Deploy, kein Code-Change. **(b) Give & Take als
+> Community-Priorität deutlich gemacht** (SNT-374): neue Home-Sektion nach dem
+> Hero (Tour führen, beibringen, wohnen lassen, Meetup, Tipps, Hobbys — „wer gibt,
+> bekommt", Freemium: „solange du aktiv bist, kostenlos") + Banner über den
+> Pricing-Plänen. Neue Karten: SNT-375 (Aktivitäts-Freemium-Logik), SNT-511…513
+> (Anlock-Ideen). Gates grün: `check:all` (61 Tests, UI-Audit „Keine Befunde"),
+> Build 2,6 s, Bundle 751/820 KB.
 
 ## Legende
 
@@ -101,10 +112,10 @@
 
 | Spalte | Karten | Aufwand |
 |---|---|---|
-| 📋 **BACKLOG** | 114 (39 offen, 75 ✅ erledigt) | ~79 h |
+| 📋 **BACKLOG** | 120 (43 offen, 77 ✅ erledigt) | ~88 h |
 | 🚧 **IN PROGRESS** | 0 | — |
 | 👀 **REVIEW** | 0 | — |
-| ✅ **DONE** (2026-09-27 + 2026-09-30 + 2026-10-06) | 75 Karten, siehe DONE unten | — |
+| ✅ **DONE** (2026-09-27 + 2026-09-30 + 2026-10-06) | 77 Karten, siehe DONE unten | — |
 | ⛔ **BLOCKED** | 3 (alle Owner-abhängig) | — |
 | 🗑️ **WONTFIX / DROP** | 5 | — |
 
@@ -178,6 +189,8 @@
 | SNT-313 | 🔕 Moderations-Queue (Link-/Spam-Filter) | 2 h | 👤 A | SNT-312 |
 | SNT-314 | 🤝 **Meetup #1 real durchführen** (WhatsApp, 6–8 Pers.) | 4 h | 👤 V | — |
 | SNT-315 | 📄 `docs/MEETUP_001_REPORT.md` schreiben | 1 h | 👤 V | SNT-314 |
+| SNT-374 | 🤝 **Give & Take priorisieren**: Sektion auf Startseite + Banner auf Pricing (Freemium = aktiv mitmachen) | 2 h | 👤 A | ✅ erledigt 2026-10-06 — `Home.tsx` Give-&-Take-Sektion, `Pricing.tsx` Banner + Free-Feature |
+| SNT-375 | 🎯 Aktivitäts-Freemium: wer aktiv gibt, bekommt Pro frei (Beitrags-Tracking + Freischaltung) | 4 h | 👤 A | SNT-374 |
 
 
 ### 🔴 P0 — Schema war nie ausführbar (gefunden 2026-09-27)
@@ -225,6 +238,7 @@
 | SNT-365 | 🧪 Musterbestellung (1 Patch + 1 Poster) + Qualitätscheck | 2 h + Versand | 👤 V | SNT-364 |
 | SNT-366 | 💳 Stripe-Katalog/Preise an Ersatz-Linie anpassen (`assets/merch_stripe_catalog.json`) | 1 h | 👤 A | SNT-360, SNT-365 |
 | SNT-367 | 🧾 Versandkosten + USt + GPSR für Merch geprüft | 1 h | 👤 V | SNT-366 |
+| SNT-373 | 🙈 POD-Shop vorerst im UI verstecken (Flag `VITE_POD_ENABLED`) | 1 h | 👤 A | ✅ erledigt 2026-10-06 — Merch-Kategorie, Shop-Sektion, Bestellmodal, Pricing-Rabatt hinter Flag; öffnet später per Env ohne Codeänderung |
 
 **Phase-0-Aufwand Merch: ~6 h** (davon ~2,5 h Wartezeit auf Musterware)
 
@@ -329,6 +343,9 @@
 | SNT-508 | 💳 Stripe: Free / Supporter / Local Pro definieren | 2 h | 👤 A | SNT-208 |
 | SNT-509 | 💰 Supporter-Plan live schalten | 1 h | 👤 A | SNT-508 |
 | SNT-510 | 🤝 3 zahlende Locals/Businesses gewinnen | 6 h | 👤 V | SNT-509 |
+| SNT-511 | 🪙 Give-&-Take-Bilanz im Profil (gegeben/genommen als sichtbares Tauschkonto) | 2 h | 👤 A | SNT-374 |
+| SNT-512 | 🌙 „Ich bin heute Abend hier"-Stadt-Feed (24-h-Eintrag, nur für heute Abend) | 1,5 h | 👤 A | SNT-309 |
+| SNT-513 | 🔄 Skill-Swap-Börse: „Was kannst du beibringen — was willst du lernen?" | 2 h | 👤 A | SNT-374 |
 
 ---
 
@@ -354,6 +371,13 @@
 | SNT-331 / SNT-333 | **Supabase live:** `node scripts/test_rls.js` gegen echte Instanz → **13 PASS / 0 FAIL / 1 SKIP** (Skip: keine publizierte Route) — 60 Policies greifen, Anonyme können weder lesen noch schreiben | Live-Lauf 2026-10-06 |
 | SNT-333 *(Fund)* | Assertion-Bug behoben: `storage.objects` liefert 404 (nicht exponiert) = „nicht auflistbar", nicht „0 Zeilen sichtbar" | `scripts/test_rls.js:221` |
 | — *(Fund)* | Live-Bundle enthält keine Supabase-URL → **SNT-332 Vercel-Env offen**, App live im Demo-Modus | siehe BLOCKED |
+
+### Behoben am 2026-10-06 (2) — Produktentscheidungen: POD versteckt, Give & Take priorisiert
+
+| Karte | Was | Nachweis |
+|---|---|---|
+| SNT-373 | **POD/Merch-Shop vorerst versteckt** (Owner: erst öffnen, wenn Nutzer da sind): Merch-Kategorie, Shop-Sektion, Badge-Bestellmodal, Pricing-Rabatt hinter `VITE_POD_ENABLED` (Default aus) — öffnen = Env `true` + Deploy | `src/lib/features.ts`, `src/pages/BadgesPage.tsx`, `src/pages/Pricing.tsx` |
+| SNT-374 | **Give & Take als Community-Priorität sichtbar:** Home-Sektion nach dem Hero (6 Geben-Aktivitäten, „Was du davon hast", Freemium-Zusage, 3 CTAs) und Banner über den Pricing-Plänen („Aktiv mitmachen = kostenlos") | `src/pages/Home.tsx`, `src/pages/Pricing.tsx` |
 
 ### Behoben am 2026-09-30 — Sicherheit, Auslieferung, API
 
@@ -381,7 +405,7 @@
 | Karte | Blockiert durch | Notiz |
 |---|---|---|
 | SNT-332, SNT-334 | 🔑 Owner: Vercel-Env + Supabase-Dashboard | `.env` ✅ und Schema live ✅ (`test_rls.js` 13/13) — offen: `VITE_SUPABASE_*` in **Vercel** (Live-Bundle enthält keine Supabase-URL → App läuft im Demo-Modus) und `pg_cron` aktivieren |
-| SNT-363…365 | ⏳ Nutzer: Printify-Keys | Entscheidung (SNT-360/361) ✅; offen: Keys → echte IDs → Musterbestellung |
+| SNT-363…365 | ⏳ Nutzer: Printify-Keys | Entscheidung (SNT-360/361) ✅; offen: Keys → echte IDs → Musterbestellung. UI seit 2026-10-06 versteckt (SNT-373) — öffnen erst mit echten Keys + `VITE_POD_ENABLED=true` |
 | SNT-501+ | Phase 0 komplett | Vor Phase 4 muss alles in Phase 0–3 grün und messbar sein |
 
 ---
@@ -400,20 +424,20 @@
 
 ## Karten-Statistik
 
-> **Stand 2026-10-06 (aktualisiert nach SNT-301…305, Nachzug 202/204/205/207/208/215…218, Live-RLS-Lauf):**
+> **Stand 2026-10-06 (aktualisiert nach SNT-301…305, Nachzug 202/204/205/207/208/215…218, Live-RLS-Lauf, SNT-373/374):**
 > Bottom-up-Summe der Karten-Aufwände statt der alten Gruppen-Schätzung.
 
 | Priorität | Karten | Aufwand |
 |---|---|---|
 | 🔴 P0 Blocker (SNT-101…115) | 15 (13 erledigt, 2 offen: SNT-108/109) | ~1,5 h offen |
 | 🔴 P0 Schema (SNT-320…334) | 15 (13 erledigt, 2 offen: SNT-332 teilweise, SNT-334) | ~0,5 h offen |
-| 🔴 P0 Merch/POD (SNT-360…367) | 8 (3 erledigt, 5 offen) | ~5 h offen |
+| 🔴 P0 Merch/POD (SNT-360…367, 373) | 9 (4 erledigt, 5 offen — geparkt bis SNT-363) | ~5 h offen |
 | 🟡 P1 (inkl. Orts-Chat SNT-340…346) | 27 (18 erledigt · 9 offen: 210, 220, 340…346) | ~17 h offen |
-| 🟢 P2 (Community) | 15 (5 erledigt: SNT-301…305 · 10 offen) | ~20 h + 5 h manuell |
+| 🟢 P2 (Community) | 17 (6 erledigt: SNT-301…305, 374 · 11 offen) | ~24 h + 5 h manuell |
 | 🟢 P2 (System) | 12 (11 erledigt/ersetzt: SNT-401…410, 412 · 1 offen: SNT-411 Fonts) | ~1 h offen |
-| ⚪ P3 | 10 | ~33 h + 10 h/Woche |
-| **Offen gesamt (39 Karten)** | **39** | **~79 h + Community-Zeit** |
-| ✅ Behoben 2026-10-06 (SNT-301…305, 202/204/205/207/208/215…218, 331, 333) | 16 | ~21 h |
+| ⚪ P3 (inkl. SNT-511…513) | 13 | ~38,5 h + 10 h/Woche |
+| **Offen gesamt (43 Karten)** | **43** | **~88 h + Community-Zeit** |
+| ✅ Behoben 2026-10-06 (SNT-301…305, 202/204/205/207/208/215…218, 331, 333, **373, 374**) | 18 | ~24 h |
 | ✅ Behoben 2026-09-27 (SNT-320…330, 350…358, 370…372, 360/361) | 24 | — |
 | ✅ Behoben 2026-09-30 (SNT-101 Code, 102, 103, 104…107, SNT-116 API-Fix, **SNT-110…115, SNT-362**) | 13 | — |
 | ✅ Behoben 2026-09-30 (SNT-219 Footer, 405, 408, 409, 410, 412) | 6 | ~7 h |

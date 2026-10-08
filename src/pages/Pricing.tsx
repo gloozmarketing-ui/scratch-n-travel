@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useTravel } from '../context/TravelContext'
+import { POD_ENABLED } from '../lib/features'
 
 export default function Pricing() {
   const { user, triggerHaptic } = useTravel()
@@ -22,6 +23,7 @@ export default function Pricing() {
         'Zugriff auf Hazard & Scam Radar',
         '2 AI Concierge Anfragen pro Tag',
         '1-Klick Google Kalender & GPX Export',
+        'Give & Take: Meetups, Nachrichten & Gastgeben',
       ],
       cta: 'Kostenlos starten',
       primary: false,
@@ -40,7 +42,7 @@ export default function Pricing() {
         '130-Hobby DNA Matching mit Locals',
         'Eigene Routen ab 5 bestätigten Orten (5 aktiv)',
         'Routen-Badges mit Namen des Locals',
-        '25% Rabatt auf alle Merch-Bestellungen',
+        ...(POD_ENABLED ? ['25% Rabatt auf alle Merch-Bestellungen'] : []),
         'Unbegrenzter AI Travel Concierge',
         'Ebbe, Flut & Strömung für deine Route',
       ],
@@ -127,6 +129,18 @@ export default function Pricing() {
               Jährlich <span className="text-[0.62rem] text-emerald-900 bg-emerald-300 font-bold px-1.5 py-0.2 rounded-full ml-1">-20%</span>
             </button>
           </div>
+        </div>
+
+        {/* Give & Take — das Freemium-Prinzip, sichtbar über den Plänen (SNT-374). */}
+        <div className="card card-accent p-5 max-w-4xl mx-auto text-center border border-sun">
+          <p className="font-script text-terracotta text-xl mb-1">geben und nehmen</p>
+          <p className="font-body text-ink text-sm max-w-2xl mx-auto leading-relaxed">
+            Solange du aktiv bist, kostet dich die Community nichts: Spots teilen, Touren als Guide
+            führen, andere etwas beibringen, Gäste aufnehmen, Meetups machen — wer gibt, bekommt
+            zurück. <strong className="text-sun">Freemium heißt für uns: Aktiv mitmachen = kostenlos.</strong>{' '}
+            Bezahlt wird erst, wenn du gar nichts mehr beiträgst — und dann nur für Extras
+            jenseits der Community.
+          </p>
         </div>
 
         <div className="grid lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
