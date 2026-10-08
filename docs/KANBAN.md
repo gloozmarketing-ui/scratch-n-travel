@@ -179,13 +179,13 @@
 | SNT-303 | 🏷️ `source`-Feld + Provenienz-Label (KI vs. Local) | 1 h | 👤 A | ✅ erledigt 2026-10-06 — `source: local_submitted` + Label in `Explore.tsx` |
 | SNT-304 | ⏱️ Rate-Limit: 5 Einreichungen/Tag | 1 h | 👤 A | ✅ erledigt 2026-10-06 — Client-Zähler + DB-Trigger `spot_daily_limit` |
 | SNT-305 | 📖 `Explore.tsx` liest aus Supabase | 2 h | 👤 A | ✅ erledigt 2026-10-06 — `getSpots()` mit Demo-Fallback bei leerer DB |
-| SNT-306 | ✅ `spot_verifications` Tabelle + RLS | 2 h | 👤 A | SNT-212 |
-| SNT-307 | 🎯 3-Bestätigungen-Schwelle implementieren | 2 h | 👤 A | SNT-306 |
-| SNT-308 | 🛡️ Anti-Spoofing (1 Stimme/User, kein Creator-Votum) | 1 h | 👤 A | SNT-306 |
-| SNT-309 | 💬 `follows` + `messages` + `message_reports` | 4 h | 👤 A | SNT-212 |
-| SNT-310 | 🤝 Kontext-basierte Kontaktaufnahme | 2 h | 👤 A | SNT-309 |
-| SNT-311 | ⏱️ Rate-Limits (5 Kontakte/Tag, 20 Msg/Stunde) | 1 h | 👤 A | SNT-309 |
-| SNT-312 | 🚫 Block/Report in jeder Konversation | 1,5 h | 👤 A | SNT-309 |
+| SNT-306 | ✅ `spot_verifications` Tabelle + RLS | 2 h | 👤 A | ✅ erledigt — Tabelle + RLS in `schema.sql` |
+| SNT-307 | 🎯 3-Bestätigungen-Schwelle implementieren | 2 h | 👤 A | ✅ erledigt 2026-10-08 — Trigger `sync_spot_verification` setzt `community_verified` |
+| SNT-308 | 🛡️ Anti-Spoofing (1 Stimme/User, kein Creator-Votum) | 1 h | 👤 A | ✅ erledigt 2026-10-08 — Trigger `guard_spot_verification` + Unique-Constraint |
+| SNT-309 | 💬 `follows` + `messages` + `message_reports` | 4 h | 👤 A | ✅ erledigt — `follows`, `messages`, `reports` Tabellen + RLS |
+| SNT-310 | 🤝 Kontext-basierte Kontaktaufnahme | 2 h | 👤 A | ✅ erledigt — Nudge-Heuristik in `Chat.tsx` + People-Matching |
+| SNT-311 | ⏱️ Rate-Limits (5 Kontakte/Tag, 20 Msg/Stunde) | 1 h | 👤 A | ✅ erledigt 2026-10-08 — DB-Trigger `check_message_rate_limit` + `check_contact_rate_limit` |
+| SNT-312 | 🚫 Block/Report in jeder Konversation | 1,5 h | 👤 A | ✅ erledigt — `ReportDialog` + `blocks`/`reports` Tabellen |
 | SNT-313 | 🔕 Moderations-Queue (Link-/Spam-Filter) | 2 h | 👤 A | SNT-312 |
 | SNT-314 | 🤝 **Meetup #1 real durchführen** (WhatsApp, 6–8 Pers.) | 4 h | 👤 V | — |
 | SNT-315 | 📄 `docs/MEETUP_001_REPORT.md` schreiben | 1 h | 👤 V | SNT-314 |
