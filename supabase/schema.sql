@@ -995,16 +995,25 @@ CREATE TABLE IF NOT EXISTS route_stops (
   lng           double precision NOT NULL CHECK (lng BETWEEN -180 AND 180),
   secret_spot_id uuid REFERENCES secret_spots(id) ON DELETE SET NULL,
   dwell_minutes int NOT NULL DEFAULT 20 CHECK (dwell_minutes BETWEEN 1 AND 480),
-  UNIQUE (route_id, position)
+  UNIQUE (route_id, position),
+  CONSTRAINT route_stops_id_route_key UNIQUE (id, route_id)
 );
 
 CREATE INDEX IF NOT EXISTS route_stops_route_idx ON route_stops (route_id, position);
 
 -- Fuer die composite FK unten: ein Stop muss eindeutig ueber (id, route_id)
--- ansprechbar sein. Ohne diesen UNIQUE-Constraint akzeptiert Postgres die
--- Verknuepfung nicht.
-ALTER TABLE route_stops DROP CONSTRAINT IF EXISTS route_stops_id_route_key;
-ALTER TABLE route_stops ADD CONSTRAINT route_stops_id_route_key UNIQUE (id, route_id);
+-- ansprechbar sein. Idempotent per DO $$: Kein DROP CONSTRAINT, da route_progress
+-- per Foreign Key davon abhaengt (verhindert Fehler 2BP01).
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_constraint
+    WHERE conrelid = 'public.route_stops'::regclass
+      AND conname = 'route_stops_id_route_key'
+  ) THEN
+    ALTER TABLE public.route_stops ADD CONSTRAINT route_stops_id_route_key UNIQUE (id, route_id);
+  END IF;
+END $$;
 
 -- Fortschritt des Reisenden. `visited_at` ist der Beleg fuer den Badge.
 CREATE TABLE IF NOT EXISTS route_progress (
@@ -1533,8 +1542,7 @@ ALTER TABLE routes ADD CONSTRAINT routes_certified_stop_publish_check
 
 -- stations_anzahl spiegelt route_stops. Der Trigger haelt beide synchron, damit
 -- die Regel ohne Subquery auskommt: published <= stations_anzahl.
-ALTER TABLE routes DROP COLUMN IF EXISTS stations_anzahl;
-ALTER TABLE routes ADD COLUMN stations_anzahl int NOT NULL DEFAULT 0;
+ALTER TABLE routes ADD COLUMN IF NOT EXISTS stations_anzahl int NOT NULL DEFAULT 0;
 
 ALTER TABLE routes DROP CONSTRAINT IF EXISTS routes_published_needs_stops;
 ALTER TABLE routes ADD CONSTRAINT routes_published_needs_stops
