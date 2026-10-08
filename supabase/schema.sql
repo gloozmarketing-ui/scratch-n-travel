@@ -1006,7 +1006,7 @@ CREATE INDEX IF NOT EXISTS route_stops_route_idx ON route_stops (route_id, posit
 -- per Foreign Key davon abhaengt (verhindert Fehler 2BP01).
 DO $$
 BEGIN
-  IF NOT EXISTS (
+  IF to_regclass('public.route_stops') IS NOT NULL AND NOT EXISTS (
     SELECT 1 FROM pg_constraint
     WHERE conrelid = 'public.route_stops'::regclass
       AND conname = 'route_stops_id_route_key'
@@ -1014,6 +1014,30 @@ BEGIN
     ALTER TABLE public.route_stops ADD CONSTRAINT route_stops_id_route_key UNIQUE (id, route_id);
   END IF;
 END $$;
+
+-- ── View v_stops ──────────────────────────────────────────────────────────
+-- Erlaubt bequeme Abfragen aller Stationen inklusive Routen- und Spot-Details.
+-- Loest gleichzeitig den Fehler 42P01 ('relation "v_stops" does not exist') auf,
+-- falls Entwickler oder SQL-Tools den Kurznamen v_stops abfragen.
+CREATE OR REPLACE VIEW public.v_stops AS
+SELECT 
+  rs.id,
+  rs.route_id,
+  r.title AS route_title,
+  rs.position,
+  rs.title AS stop_title,
+  rs.note,
+  rs.lat,
+  rs.lng,
+  rs.dwell_minutes,
+  rs.secret_spot_id,
+  ss.title AS secret_spot_title
+FROM public.route_stops rs
+LEFT JOIN public.routes r ON r.id = rs.route_id
+LEFT JOIN public.secret_spots ss ON ss.id = rs.secret_spot_id;
+
+GRANT SELECT ON public.v_stops TO anon, authenticated;
+
 
 -- Fortschritt des Reisenden. `visited_at` ist der Beleg fuer den Badge.
 CREATE TABLE IF NOT EXISTS route_progress (
