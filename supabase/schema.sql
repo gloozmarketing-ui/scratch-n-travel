@@ -1023,7 +1023,8 @@ CREATE OR REPLACE VIEW public.v_stops AS
 SELECT 
   rs.id,
   rs.route_id,
-  r.title AS route_title,
+  r.name AS route_name,
+  r.name AS route_title,
   rs.position,
   rs.title AS stop_title,
   rs.note,
