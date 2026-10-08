@@ -234,6 +234,40 @@ async function main() {
     anyBucket.status === 200 ? `${anyBucket.body?.length} Objekte sichtbar` : `HTTP ${anyBucket.status} (Zugriff verweigert)`,
   )
 
+  // ── 7. Orts-Chat (SNT-344 / SNT-345) ──────────────────────────────────────
+  console.log('\n[7] Orts-Chat (SNT-344 / SNT-345)')
+
+  // 7a. Anonymer Schreibversuch auf chat_posts muss scheitern
+  const anonPost = await query('chat_posts', {
+    method: 'POST',
+    body: JSON.stringify({
+      channel_id: '00000000-0000-0000-0000-000000000001',
+      author_id: '00000000-0000-0000-0000-000000000002',
+      body: 'Spam ohne Session oder Token'
+    })
+  })
+  check(
+    'Anonyme koennen keinen Chat-Post einspielen',
+    anonPost.status >= 400,
+    `HTTP ${anonPost.status}`
+  )
+
+  // 7b. Geflaggte Beiträge sind nicht öffentlich lesbar
+  const flaggedPosts = await query('chat_posts?is_flagged=eq.true&select=id')
+  check(
+    'Geflaggte Chat-Posts werden nicht ausgeliefert',
+    flaggedPosts.status === 404 || (Array.isArray(flaggedPosts.body) && flaggedPosts.body.length === 0),
+    `${flaggedPosts.body?.length} Zeilen sichtbar`
+  )
+
+  // 7c. Anonymer Zugriff auf chat_consent darf fremde Daten nicht preisgeben
+  const foreignConsent = await query('chat_consent?select=id,user_id')
+  check(
+    'Chat-Consent ist ohne Session nicht einsehbar',
+    foreignConsent.status === 404 || (Array.isArray(foreignConsent.body) && foreignConsent.body.length === 0),
+    `${foreignConsent.body?.length} Zeilen sichtbar`
+  )
+
   // ── Ergebnis ──────────────────────────────────────────────────────────────
   console.log(`\n=== ${passed} bestanden, ${failed} fehlgeschlagen ===`)
   if (failed > 0) {

@@ -251,13 +251,13 @@
 
 | Karte | Task | Aufwand | Verantw. | Abhängig von |
 |---|---|---|---|---|
-| SNT-340 | 📄 ADR: Gruppen-Chat ja/nein, Radius 5 km statt 30 km | 1 h | 👤 V | — |
-| SNT-341 | 📄 `docs/ADR_ORTSCHAT.md` schreiben | 1 h | 👤 A | SNT-340 |
-| SNT-342 | 🗄️ `place_channels` + `chat_posts` + `chat_consent` (additive Migration) | 3 h | 👤 A | SNT-332, SNT-341 |
-| SNT-343 | 🔐 Geo-RPC (`SECURITY DEFINER`) vergibt kurzlebiges Kanal-Token | 2 h | 👤 A | SNT-342 |
-| SNT-344 | 🔐 RLS: öffentlich lesen, Schreiben nur mit Token, Antwortende brauchen Trust | 2 h | 👤 A | SNT-343 |
-| SNT-345 | 🧪 Missbrauchstests: Radius, Rate-Limit, Block, Report | 2 h | 👤 A | SNT-344 |
-| SNT-346 | 🖥️ UI nach Muster `Chat.tsx` (`TrustBadge`, `ReportDialog`) | 4 h | 👤 A | SNT-344 |
+| SNT-340 | 📄 ADR: Gruppen-Chat ja/nein, Radius 5 km statt 30 km | 1 h | 👤 V | ✅ erledigt 2026-10-08 — ADR-002 verfasst (Modell B) |
+| SNT-341 | 📄 `docs/ADR_ORTSCHAT.md` schreiben | 1 h | 👤 A | ✅ erledigt 2026-10-08 — `docs/ADR_ORTSCHAT.md` |
+| SNT-342 | 🗄️ `place_channels` + `chat_posts` + `chat_consent` (additive Migration) | 3 h | 👤 A | ✅ erledigt 2026-10-08 — `supabase/migrations/20261008_001_place_channels.sql` + `schema.sql` |
+| SNT-343 | 🔐 Geo-RPC (`SECURITY DEFINER`) vergibt kurzlebiges Kanal-Token | 2 h | 👤 A | ✅ erledigt 2026-10-08 — `register_channel(p_place_id, p_lat, p_lng)` |
+| SNT-344 | 🔐 RLS: öffentlich lesen, Schreiben nur mit Token, Antwortende brauchen Trust | 2 h | 👤 A | ✅ erledigt 2026-10-08 — RLS-Policies für alle 3 Tabellen |
+| SNT-345 | 🧪 Missbrauchstests: Radius, Rate-Limit, Block, Report | 2 h | 👤 A | ✅ erledigt 2026-10-08 — `test_rls.js` (16 bestanden, 0 fehlgeschlagen) |
+| SNT-346 | 🖥️ UI nach Muster `Chat.tsx` (`TrustBadge`, `ReportDialog`) | 4 h | 👤 A | ✅ erledigt 2026-10-08 — Tab-Wechsler, TrustBadge, ReportDialog, Consent-Info in `Chat.tsx` |
 
 
 ### ✅ Behoben am 2026-09-27 — SEO/Robots (SNT-104 … 107)

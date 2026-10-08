@@ -114,7 +114,7 @@
 
 | Bereich | Karten | Warum später |
 |---|---|---|
-| **Orts-Chat** | SNT-340…346 | Sicherheits-ADR offen; braucht Live-Backend + Kanal-Token; kein Kern-Flow |
+| **Orts-Chat** | SNT-340…346 | ✅ erledigt 2026-10-08: ADR-002 Modell B, Migration, Geo-RPC, RLS, 16 Negativtests grün, UI in Chat.tsx |
 | **Route-Editor (Bearbeiten nach dem Erstellen)** | neu, noch nicht kariert | Erst nach stabilem Auth + RLS; Erstellen funktioniert heute |
 | **Geo-/Safety-Check-in-UI** | Basis in `src/lib/community.ts` steht | Präsenz-ADR offen (Orts-Chat-Ableitung) |
 | **Signed-URL-Fotos** | Folge SNT-350ff | Storage-Policies erst mit Live-Instanz prüfbar |

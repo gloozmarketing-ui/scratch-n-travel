@@ -937,3 +937,178 @@ export async function getBlockedIds(userId: string): Promise<string[]> {
   const { data } = await supabase.from('blocks').select('blocked_id').eq('blocker_id', userId)
   return (data ?? []).map((r) => (r as { blocked_id: string }).blocked_id)
 }
+
+// ---------------------------------------------------------------------------
+// Orts-Chat (SNT-342 / SNT-343 / SNT-344 / SNT-346, ADR-002 Modell B)
+// ---------------------------------------------------------------------------
+
+export interface PlaceChannel {
+  id: string
+  place_id: string
+  created_by: string | null
+  city: string
+  valid_until: string
+  created_at: string
+  spot?: SecretSpot
+}
+
+export interface ChatPost {
+  id: string
+  channel_id: string
+  author_id: string
+  body: string
+  trust_tier: TrustTier
+  is_flagged: boolean
+  reports_count: number
+  created_at: string
+  author?: Profile
+}
+
+export interface ChatConsent {
+  id: string
+  place_id: string
+  user_id: string
+  allowed: boolean
+  granted_at: string
+  revoked_at: string | null
+}
+
+const DEMO_PLACE_CHANNELS: PlaceChannel[] = [
+  {
+    id: 'demo-channel-lisbon-miradouro',
+    place_id: 'spot-lisbon-1',
+    created_by: 'demo-local-1',
+    city: 'Lisbon',
+    valid_until: new Date(Date.now() + 86400000).toISOString(),
+    created_at: new Date().toISOString(),
+  },
+]
+
+const DEMO_CHAT_POSTS: ChatPost[] = [
+  {
+    id: 'demo-post-1',
+    channel_id: 'demo-channel-lisbon-miradouro',
+    author_id: 'demo-local-1',
+    body: 'Der Sonnenuntergang ist heute gegen 19:40 Uhr besonders klar. Bringt euch eine Jacke mit, oben zieht es etwas!',
+    trust_tier: 'trusted',
+    is_flagged: false,
+    reports_count: 0,
+    created_at: new Date(Date.now() - 3600000).toISOString(),
+    author: {
+      id: 'demo-local-1',
+      full_name: 'Inês Silva',
+      handle: 'ines_lisboa',
+      role: 'local',
+      trust_tier: 'trusted',
+      city: 'Lisbon',
+      country: 'Portugal',
+      is_verified: true,
+      certified_stops: 5,
+      is_vip: false,
+      karma_points: 42,
+    } as unknown as Profile,
+  },
+]
+
+export async function registerPlaceChannel(
+  placeId: string,
+  lat?: number,
+  lng?: number,
+): Promise<{ channel_id: string; valid_until: string; status: string } | null> {
+  if (!supabase || isDemoMode()) {
+    return {
+      channel_id: 'demo-channel-lisbon-miradouro',
+      valid_until: new Date(Date.now() + 15 * 60 * 1000).toISOString(),
+      status: 'active',
+    }
+  }
+
+  const { data, error } = await supabase.rpc('register_channel', {
+    p_place_id: placeId,
+    p_lat: lat ?? null,
+    p_lng: lng ?? null,
+  })
+
+  if (error) throw new Error(error.message)
+  return data as { channel_id: string; valid_until: string; status: string }
+}
+
+export async function getPlaceChannels(city?: string): Promise<PlaceChannel[]> {
+  if (!supabase || isDemoMode()) {
+    return DEMO_PLACE_CHANNELS.filter((c) => !city || c.city.toLowerCase() === city.toLowerCase())
+  }
+
+  let q = supabase
+    .from('place_channels')
+    .select('*, spot:secret_spots(*)')
+    .gt('valid_until', new Date().toISOString())
+    .order('created_at', { ascending: false })
+
+  if (city) {
+    q = q.ilike('city', city)
+  }
+
+  const { data, error } = await q
+  if (error) {
+    console.warn('Kanäle konnten nicht geladen werden:', error.message)
+    return []
+  }
+  return (data ?? []) as PlaceChannel[]
+}
+
+export async function getChatPosts(channelId: string): Promise<ChatPost[]> {
+  if (!supabase || isDemoMode()) {
+    return DEMO_CHAT_POSTS.filter((p) => p.channel_id === channelId && !p.is_flagged)
+  }
+
+  const { data, error } = await supabase
+    .from('chat_posts')
+    .select('*, author:profiles(*)')
+    .eq('channel_id', channelId)
+    .eq('is_flagged', false)
+    .order('created_at', { ascending: true })
+
+  if (error) throw new Error(`Beiträge konnten nicht geladen werden: ${error.message}`)
+  return (data ?? []) as ChatPost[]
+}
+
+export async function sendChatPost(
+  channelId: string,
+  authorId: string,
+  body: string,
+  trustTier: TrustTier = 'member',
+): Promise<{ ok: boolean; post?: ChatPost; error?: string }> {
+  const text = body.trim()
+  if (!text) return { ok: false, error: 'Nachricht ist leer.' }
+  if (text.length > 1000) return { ok: false, error: 'Maximal 1.000 Zeichen erlaubt.' }
+
+  if (!supabase || isDemoMode()) {
+    const newPost: ChatPost = {
+      id: `demo-post-${Date.now()}`,
+      channel_id: channelId,
+      author_id: authorId,
+      body: text,
+      trust_tier: trustTier,
+      is_flagged: false,
+      reports_count: 0,
+      created_at: new Date().toISOString(),
+    }
+    DEMO_CHAT_POSTS.push(newPost)
+    return { ok: true, post: newPost }
+  }
+
+  const { data, error } = await supabase
+    .from('chat_posts')
+    .insert({
+      channel_id: channelId,
+      author_id: authorId,
+      body: text,
+      trust_tier: trustTier,
+    })
+    .select('*, author:profiles(*)')
+    .single()
+
+  if (error) return { ok: false, error: error.message }
+  return { ok: true, post: data as ChatPost }
+}
+
