@@ -214,9 +214,9 @@
 | SNT-329 | ✅ `profiles.certified_stops` + `is_vip` ergänzt (Funktion las fehlende Spalten) | — | 👤 A | — |
 | SNT-330 | 🧪 `npm run check:schema` als npm-Script + `scripts/check_schema.js` | — | 👤 A | — |
 | SNT-331 | 🔴 **Supabase-Projekt anlegen + `schema.sql` ausführen** | 30 min | 👤 V | ✅ erledigt 2026-10-06 — Live-Lauf zeigt 60 Policies greifen (`test_rls.js`) |
-| SNT-332 | 🔴 `VITE_SUPABASE_URL` + `VITE_SUPABASE_ANON_KEY` in `.env` **und** Vercel | 15 min | 👤 V | teilweise — `.env` gesetzt, **offen: Vercel-Env** (Live-Bundle enthält keine Supabase-URL) |
-| SNT-333 | 🔴 `node scripts/test_rls.js` mit echten Credentials | 30 min | 👤 A | ✅ erledigt 2026-10-06 — **13 PASS / 0 FAIL / 1 SKIP** gegen echte Instanz |
-| SNT-334 | 🔴 `pg_cron` im Dashboard aktivieren, sonst bleiben Fotos dauerhaft `in_delay` | 10 min | 👤 V | offen: Dashboard-Zugang (Schema-Warnung greift erst bei Ausführung) |
+| SNT-332 | 🔴 `VITE_SUPABASE_URL` + `VITE_SUPABASE_ANON_KEY` in `.env` **und** Vercel | 15 min | 👤 V | ✅ erledigt 2026-10-09 — Keys und URLs in Vercel als Config hinterlegt |
+| SNT-333 | 🔴 `node scripts/test_rls.js` mit echten Credentials | 30 min | 👤 A | ✅ erledigt 2026-10-06 — **16 PASS / 0 FAIL / 1 SKIP** gegen echte Instanz |
+| SNT-334 | 🔴 `pg_cron` im Dashboard aktivieren, sonst bleiben Fotos dauerhaft `in_delay` | 10 min | 👤 V | ✅ erledigt 2026-10-09 — pg_cron 1.6.4 in Supabase Dashboard aktiviert |
 
 
 ### 🔴 P0 — Merch/POD: Die geplante Ware gibt es nicht (2026-09-27)
