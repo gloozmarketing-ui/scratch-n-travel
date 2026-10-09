@@ -219,7 +219,7 @@ export default function RadarThreatMap({
             height: 32px;
             border-radius: 50%;
             background: ${isLocked ? '#042C2E' : '#FFFFFF'};
-            border: 2px solid ${isLocked ? '#FFEA70' : color};
+            border: 2px solid ${isLocked ? '#D9D19B' : color};
             box-shadow: 0 2px 8px rgba(0,0,0,0.3);
             display: flex;
             align-items: center;
@@ -227,7 +227,7 @@ export default function RadarThreatMap({
             font-size: 14px;
           ">
             ${item.icon || '⚠️'}
-            ${isLocked ? '<span style="position: absolute; -top: 4px; right: -4px; background: #FFEA70; color: #042C2E; font-size: 9px; font-weight: 900; border-radius: 99px; padding: 1px 3px; border: 1px solid #042C2E;">PRO</span>' : ''}
+            ${isLocked ? '<span style="position: absolute; -top: 4px; right: -4px; background: #D9D19B; color: #042C2E; font-size: 9px; font-weight: 900; border-radius: 99px; padding: 1px 3px; border: 1px solid #042C2E;">PRO</span>' : ''}
           </div>
         </div>
       `

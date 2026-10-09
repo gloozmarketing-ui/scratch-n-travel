@@ -117,7 +117,7 @@
 - [x] **Vorab-Content & DACH-Separation (SNT-504 ✅ 2026-10-09):** Österreich (Hallstatt & Wien), Schweiz und Deutschland getrennt kuratiert
 - [x] **Multilingual i18n Engine & Switcher (SNT-505 ✅ 2026-10-09):** DE, EN, ES, FR, PT, UK (🇺🇦), RU reaktiv über `useI18n()`, synchron in Desktop/Mobile Header & Sidebar
 - [x] **B2B Local Host Portal & Starter-Kit (SNT-506 ✅ 2026-10-09):** 29 €/Mo mit physischem QR-Code Tisch- und Thekenaufsteller per Post & 0% Buchungsprovision auf `/host` & `/pricing`
-- [x] **5-Farben Design-System & WCAG AAA Kontrast (SNT-507 ✅ 2026-10-09):** Palette `#042c2e`, `#4f412d`, `#a8d4c0`, `#fff6b7`, `#ffea70`; Buttons mit 17:1 Kontrast; `.parchment`-Utility
+- [x] **5-Farben Design-System & WCAG AAA Kontrast (SNT-507 ✅ 2026-10-09):** Palette `#042c2e`, `#4f412d`, `#a8d4c0`, `#fff6b7`, `#D9D19B`; Buttons mit hohem Kontrast; `.parchment`-Utility
 - [x] **Auth & User Cabinet Lifecycle (SNT-508 ✅ 2026-10-09):** Echter Logout (`logout()`), Login-Trigger, Gast- vs Demo-Modus, automatische Supabase Auth-Synchronisation
 
 ## ⏳ SPÄTER (bewusst geparkt — kein v1-Blocker)

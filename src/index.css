@@ -17,7 +17,7 @@
    ═══════════════════════════════════════════════════════════════════════ */
 
 :root {
-  /* ── Tag-Modus: Warmes Vintage-Pergament mit hohem Kontrast (#042c2e / #4f412d / #a8d4c0 / #fff6b7 / #ffea70) ── */
+  /* ── Tag-Modus: Warmes Vintage-Pergament mit hohem Kontrast (#042c2e / #4f412d / #a8d4c0 / #fff6b7 / #D9D19B) ── */
   --paper:        #FFFDE8;   /* Sanfter Pergament-Hintergrund mit #fff6b7 Note */
   --paper-deep:   #FFF6B7;   /* Das Benutzer-Pergament (#fff6b7) für abgesetzte Flächen, Sidebar & Header */
   --card:         #FFFFFF;   /* Reines, hochkontrastiges Kartenweiß */
@@ -32,8 +32,8 @@
   --line-soft:    #F5EEBA;
 
   --sun:          #C99700;   /* Tiefgold auf hellem Grund für perfekte Lesbarkeit (WCAG AA) */
-  --sun-bright:   #FFEA70;   /* Das Benutzer-Sonnengold (#ffea70) für Buttons & Highlights */
-  --sun-wash:     rgba(255, 234, 112, 0.25);
+  --sun-bright:   #D9D19B;   /* Das Benutzer-Gold (#D9D19B) für Buttons & Highlights */
+  --sun-wash:     rgba(217, 209, 155, 0.25);
 
   --lagoon:       #042C2E;   /* Benutzer #042c2e */
   --lagoon-wash:  rgba(168, 212, 192, 0.30); /* Benutzer #a8d4c0 als sanfter Salbei-Foam */
@@ -58,7 +58,7 @@
   color-scheme: light;
 }
 
-/* ── Nacht-Modus: Tiefes Tannengrün & Strahlendes Gold (#042c2e / #fff6b7 / #ffea70 / #a8d4c0) ── */
+/* ── Nacht-Modus: Tiefes Tannengrün & Edles Antikgold (#042c2e / #fff6b7 / #D9D19B / #a8d4c0) ── */
 [data-theme='dark'] {
   --paper:        #042C2E;   /* Das Benutzer-Tiefwald (#042c2e) als Hauptgrund */
   --paper-deep:   #06393C;   /* Leicht abgesetzt */
@@ -73,9 +73,9 @@
   --line:         #1A5A5D;   /* Klare Kanten */
   --line-soft:    #124B4E;
 
-  --sun:          #FFEA70;   /* Das Benutzer-Sonnengold (#ffea70) strahlt magisch in der Nacht */
-  --sun-bright:   #FFF199;
-  --sun-wash:     rgba(255, 234, 112, 0.20);
+  --sun:          #D9D19B;   /* Das Benutzer-Gold (#D9D19B) strahlt magisch in der Nacht */
+  --sun-bright:   #E8E2B8;
+  --sun-wash:     rgba(217, 209, 155, 0.20);
 
   --lagoon:       #A8D4C0;   /* Das Benutzer-Salbeigrün (#a8d4c0) */
   --lagoon-wash:  rgba(168, 212, 192, 0.18);
