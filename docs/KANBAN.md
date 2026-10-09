@@ -131,7 +131,7 @@
 | SNT-102 | 📄 `.env.example` anlegen (10 Variablen) | 15 min | 👤 A | ✅ erledigt |
 | SNT-103 | 🚫 `503 AI_NOT_CONFIGURED` statt 500 bei fehlenden Keys | 1 h | 👤 A | SNT-101 · ✅ erledigt (`hermes-concierge.js:318`) |
 | SNT-108 | 🌐 Domain-Entscheidung: `scratchntravel.com` kaufen oder Vercel-URL nutzen | 30 min | 👤 V | — |
-| SNT-109 | 🔗 `sitemap.xml` (✅ 19 URLs, routen-synchron) + `canonical`/`og:url` (✅ in `index.html`) konsistent halten — Rest nur noch bei Domainentscheidung ≠ `scratchntravel.com` | 45 min | 👤 A | Verify ✅ `npm run check:seo` (8 Checks, in `check:all`) · Domain-Entscheidung SNT-108 offen |
+| SNT-109 | 🔗 `sitemap.xml` (✅ 19 URLs, routen-synchron) + `canonical`/`og:url` + Google Search Console Token `ad062dfe6cb025cf` in `index.html` konsistent | 45 min | 👤 A | ✅ Verify `npm run check:seo` (8/8 Checks grün) · Token aktiv hinterlegt |
 | SNT-110 | 🎭 `tours[]`: erfundene Reviews/Ratings flaggen oder entfernen | 2 h | 👤 A | — · ✅ erledigt 2026-09-30 (`demo: true` + Entwurf) |
 | SNT-111 | 🎰 `cities[]`: Fake-Scarcity (`total`/`taken`) entfernen | 30 min | 👤 A | — · ✅ erledigt 2026-09-30 (`taken` entfernt, § 5 UWG) |
 | SNT-112 | 🤖 `community_extender.js`: 4 erzwungene Felder korrigieren | 1,5 h | 👤 A | — · ✅ erledigt 2026-09-30 (Pflichtfelder, kein 5.0 Rating) |
@@ -351,8 +351,8 @@
 | SNT-509 | 💰 Supporter-Plan live schalten | 1 h | 👤 A | SNT-508 |
 | SNT-510 | 🤝 3 zahlende Locals/Businesses gewinnen | 6 h | 👤 V | SNT-509 |
 | SNT-511 | 🪙 Give-&-Take-Bilanz im Profil (gegeben/genommen als sichtbares Tauschkonto) | 2 h | 👤 A | SNT-374 |
-| SNT-512 | 🌙 „Ich bin heute Abend hier"-Stadt-Feed (24-h-Eintrag, nur für heute Abend) | 1,5 h | 👤 A | SNT-309 |
-| SNT-513 | 🔄 Skill-Swap-Börse: „Was kannst du beibringen — was willst du lernen?" | 2 h | 👤 A | SNT-374 |
+| SNT-512 | 🌙 „Ich bin heute Abend hier"-Stadt-Feed (24-h-Eintrag, nur für heute Abend) | 1,5 h | 👤 A | ✅ erledigt 2026-10-09 (`src/pages/Meetups.tsx`, Flash-Feed Tab, Countdown, Beitreten, Erstellen) |
+| SNT-513 | 🔄 Skill-Swap-Börse: „Was kannst du beibringen — was willst du lernen?" | 2 h | 👤 A | ✅ erledigt 2026-10-09 (`src/pages/WanderBond.tsx`, Give & Take Börse, Bieten/Suchen, Filter, Inserat-Modal) |
 
 ---
 
@@ -397,6 +397,9 @@
 | SNT-510 | **Content-Expansion & Touren-Freemium-Grenzen (Option B):** Dossiers für Frankreich (FR), Italien (IT), Spanien (ES), Japan (JP) mit exakten GPS-Koordinaten; `LocalRoutes.tsx` Freemium-Grenze: Station 1 & 2 frei, ab Station 3+ gesperrt für Non-Pro mit Teaser & Unblur | `src/data/travelIntelligence.ts`, `src/pages/LocalRoutes.tsx` |
 | SNT-375 | **Give & Take Freemium Pro Pass (Option C):** Aktive Mitmacher erhalten echten VIP/Pro-Zugang (`grantCommunityProDays`): Gefahr im Radar melden = +7 Tage Pro Pass; Secret Spot einreichen = +14 Tage Pro Pass. Reine Konsumenten zahlen 2,99 €/Monat für vollen Zugriff | `src/context/TravelContext.tsx`, `src/pages/Radar.tsx`, `src/components/SubmitSpotModal.tsx` |
 | SNT-514 | **Dokumentations-Handover (Option D):** KANBAN, TODOLIST und IMPLEMENTATION_PLAN lückenlos synchronisiert mit klaren Verify-Kriterien für nahtlose Cline/Agent-Weiterführung | `docs/KANBAN.md`, `docs/TODOLIST.md`, `docs/IMPLEMENTATION_PLAN.md` |
+| SNT-109 | **Google Search Console Token & SEO Verification:** Verification-Tag `ad062dfe6cb025cf` in `index.html` hinterlegt, `check:seo` (8/8 Checks) und `sitemap.xml` (19 URLs) konsistent | `index.html`, `scripts/check_seo.js` |
+| SNT-512 | **24h-Stadt-Feed („Ich bin heute Abend hier"):** Spontaner Flash-Feed für das Nachtleben/Abend-Meetups mit 24h-Ablauf-Timer, Countdown-Badges, Beitreten-Toggle, Stadt-Filter & Inserats-Formular | `src/pages/Meetups.tsx` |
+| SNT-513 | **Skill-Swap-Börse („Was kannst du beibringen – was willst du lernen?"):** Give & Take Wissensaustausch-Marktplatz mit Teach- & Seek-Spalten, Filtern nach Kategorie & Stadt, neuem Inserats-Formular und Kontaktanfrage-Modal mit Haptic-Feedback | `src/pages/WanderBond.tsx` |
 
 ### Behoben am 2026-10-06 (2) — Produktentscheidungen: POD versteckt, Give & Take priorisiert
 

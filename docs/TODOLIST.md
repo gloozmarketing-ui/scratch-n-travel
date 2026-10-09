@@ -30,9 +30,10 @@
 - [x] **Verify:** `node scripts/test_rls.js` → **16 PASS / 0 FAIL / 1 SKIP** (**SNT-333** ✅ 2026-10-08)
 - [x] **`pg_cron` aktivieren** (**SNT-334** ✅ 2026-10-09 — Version 1.6.4 aktiv)
 
-### 🌐 Domain-Entscheidung (SNT-108)
-- [ ] `scratchntravel.com` kaufen **ODER** Vercel-URL als kanonisch festlegen
-- [ ] Danach: Search Console mit Token `ad062dfe6cb025cf` bestätigen + sitemap einreichen
+### 🌐 Domain-Entscheidung & SEO (SNT-108/109)
+- [ ] `scratchntravel.com` kaufen **ODER** Vercel-URL als kanonisch festlegen (SNT-108)
+- [x] Search Console Token `ad062dfe6cb025cf` in `index.html` hinterlegt & `npm run check:seo` (8/8 Checks grün) verifiziert (**SNT-109** ✅ 2026-10-09)
+- [ ] Danach: Google Search Console Dashboard aufrufen und Verifikation bestätigen + Sitemap einreichen
 
 ## 🌙 Tag 2 — Agent-Aufgaben (ich kann sie machen, wenn du gibst)
 
@@ -119,6 +120,9 @@
 - [x] **B2B Local Host Portal & Starter-Kit (SNT-506 ✅ 2026-10-09):** 29 €/Mo mit physischem QR-Code Tisch- und Thekenaufsteller per Post & 0% Buchungsprovision auf `/host` & `/pricing`
 - [x] **5-Farben Design-System & WCAG AAA Kontrast (SNT-507 ✅ 2026-10-09):** Palette `#042c2e`, `#4f412d`, `#a8d4c0`, `#fff6b7`, `#D9D19B`; Buttons mit hohem Kontrast; `.parchment`-Utility
 - [x] **Auth & User Cabinet Lifecycle (SNT-508 ✅ 2026-10-09):** Echter Logout (`logout()`), Login-Trigger, Gast- vs Demo-Modus, automatische Supabase Auth-Synchronisation
+- [x] **Google Search Console Token & SEO (SNT-109 ✅ 2026-10-09):** Token `ad062dfe6cb025cf` in `index.html` hinterlegt, `check:seo` 8/8 Tests grün
+- [x] **24h-Stadt-Feed „Ich bin heute Abend hier" (SNT-512 ✅ 2026-10-09):** Spontaner Flash-Feed für das Nachtleben/Abend-Meetups mit 24h-Ablauf-Timer, Countdown-Badges, Beitreten-Toggle, Stadt-Filter & Inserats-Formular (`src/pages/Meetups.tsx`)
+- [x] **Skill-Swap-Börse Give & Take (SNT-513 ✅ 2026-10-09):** Give & Take Wissensaustausch-Marktplatz mit Teach- & Seek-Spalten, Filtern nach Kategorie & Stadt, neuem Inserats-Formular und Kontaktanfrage-Modal mit Haptic-Feedback (`src/pages/WanderBond.tsx`)
 
 ## ⏳ SPÄTER (bewusst geparkt — kein v1-Blocker)
 

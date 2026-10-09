@@ -47,6 +47,9 @@
 | **T-210** | Content-Expansion & Touren-Freemium-Grenzen (Frankreich FR Dossier + IT/ES/JP Content + Station 1&2 frei, ab 3+ VIP Sperre) | Modul B/C (Option B) | SNT-510 | 👤 A | ✅ erledigt 2026-10-09 (`travelIntelligence.ts`, `LocalRoutes.tsx`, Teaser & Unblur) |
 | **T-211** | SNT-375 Give & Take Freemium Pro Pass (+7 Tage für Gefahren-Meldung, +14 Tage für Spot-Einreichung) | Monetarisierung (Option C) | SNT-375 | 👤 A | ✅ erledigt 2026-10-09 (`TravelContext.tsx`, `SubmitSpotModal.tsx`, `Radar.tsx`, VIP-Modal) |
 | **T-212** | Kontinuierliches Dokumentations- & Handover-System (Lückenlose Synchronisation für Cline / Nachfolge-Agenten) | Dokumentation (Option D) | SNT-514 | 👤 A | ✅ erledigt 2026-10-09 (`KANBAN.md`, `TODOLIST.md`, `IMPLEMENTATION_PLAN.md`) |
+| **T-213** | Google Search Console Token & SEO-Verification (`ad062dfe6cb025cf`, `check:seo` 8/8 grün) | SEO & Indexierung | SNT-109 | 👤 A | ✅ erledigt 2026-10-09 (`index.html`, `scripts/check_seo.js`) |
+| **T-214** | 24h-Stadt-Feed „Ich bin heute Abend hier" (Spontane Meetups, 24h Countdown-Timer, Beitreten, Formular) | Community & Events | SNT-512 | 👤 A | ✅ erledigt 2026-10-09 (`src/pages/Meetups.tsx`) |
+| **T-215** | Give & Take Skill-Swap-Börse („Was kannst du beibringen – was willst du lernen?", Bieten/Suchen, Inserate) | Community & Give&Take | SNT-513 | 👤 A | ✅ erledigt 2026-10-09 (`src/pages/WanderBond.tsx`) |
 
 ## 🔴 Was noch offen ist (Owner)
 
