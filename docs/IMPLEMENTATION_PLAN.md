@@ -43,6 +43,10 @@
 | **T-206** | B2C VIP Explorer Club & B2B Local Host Portal (physischer QR-Code Thekenaufsteller per Post, 29 € / Mo) | Monetarisierung | SNT-506 | 👤 A | ✅ erledigt 2026-10-09 (`Host.tsx` B2B Kit 29 €/Mo + `Pricing.tsx` Host-Section mit Direkt-Checkout) |
 | **T-207** | 5-Farben Design-System & WCAG AAA Kontrast (`#042c2e`, `#4f412d`, `#a8d4c0`, `#fff6b7`, `#ffea70`) | Design-System | SNT-507 | 👤 A | ✅ erledigt 2026-10-09 (`src/index.css`, Buttons mit 17:1 Kontrast, `.parchment`-Utility) |
 | **T-208** | Auth & Session Lifecycle (Logout, Login-Trigger, Gast vs Demo, Supabase Auth-Sync) | Authentifizierung | SNT-508 | 👤 A | ✅ erledigt 2026-10-09 (`TravelContext.tsx`, `Profile.tsx`, `Layout.tsx`) |
+| **T-209** | Interaktive Radar-Gefahrenkarte & VIP Shield (Lazy Leaflet, farbkodierte Gefahrenkreise, pulsierende Pins & Filter) | Modul A (Option A) | SNT-509 | 👤 A | ✅ erledigt 2026-10-09 (`RadarThreatMap.tsx`, `Radar.tsx`, Pro-Lock für Detail-Hotspots, Jump-Buttons) |
+| **T-210** | Content-Expansion & Touren-Freemium-Grenzen (Frankreich FR Dossier + IT/ES/JP Content + Station 1&2 frei, ab 3+ VIP Sperre) | Modul B/C (Option B) | SNT-510 | 👤 A | ✅ erledigt 2026-10-09 (`travelIntelligence.ts`, `LocalRoutes.tsx`, Teaser & Unblur) |
+| **T-211** | SNT-375 Give & Take Freemium Pro Pass (+7 Tage für Gefahren-Meldung, +14 Tage für Spot-Einreichung) | Monetarisierung (Option C) | SNT-375 | 👤 A | ✅ erledigt 2026-10-09 (`TravelContext.tsx`, `SubmitSpotModal.tsx`, `Radar.tsx`, VIP-Modal) |
+| **T-212** | Kontinuierliches Dokumentations- & Handover-System (Lückenlose Synchronisation für Cline / Nachfolge-Agenten) | Dokumentation (Option D) | SNT-514 | 👤 A | ✅ erledigt 2026-10-09 (`KANBAN.md`, `TODOLIST.md`, `IMPLEMENTATION_PLAN.md`) |
 
 ## 🔴 Was noch offen ist (Owner)
 

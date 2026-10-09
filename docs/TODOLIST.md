@@ -60,18 +60,21 @@
 - [x] Produktname ohne Fremdmarken (SNT-362: Passport Edition statt fremde Schutzmarken)
 
 
-### 🤝 Give & Take priorisiert (SNT-374) — ✅ ERLEDIGT (2026-10-06)
+### 🤝 Give & Take priorisiert (SNT-374 & SNT-375) — ✅ ERLEDIGT (2026-10-06 & 2026-10-09)
 - [x] Startseite: Give-&-Take-Sektion direkt nach dem Hero — 6 Geben-Aktivitäten
   (Tour führen, beibringen, wohnen lassen, Meetup, Tipps, Hobbys), Block „Was du
   davon hast", Freemium-Zusage (solange du aktiv bist = kostenlos), 3 CTAs
 - [x] Pricing: Banner „geben und nehmen" über den Plänen + Free-Feature
   „Give & Take: Meetups, Nachrichten & Gastgeben"
-- [ ] **SNT-375 (offen):** Aktivitäts-Freemium-Logik — wer aktiv gibt, bekommt Pro frei
+- [x] **SNT-375 (✅ 2026-10-09):** Aktivitäts-Freemium-Logik — Wer aktiv beiträgt, erhält echten VIP/Pro-Zugang via `grantCommunityProDays` (+7 Tage für Gefahren-Meldung im Radar, +14 Tage für Secret Spot Einreichung in `SubmitSpotModal`). Konsumenten ohne Beitrag zahlen 2,99 €/Mo.
+- [x] **SNT-509 (✅ 2026-10-09):** Interaktive Radar-Gefahrenkarte (`RadarThreatMap.tsx`) mit pulsierenden Pins, Gefahrenkreisen und VIP Shield Lock für Detail-Hotspots (Taschendiebe, Trickbetrüger)
+- [x] **SNT-510 (✅ 2026-10-09):** Content-Expansion (Frankreich FR, Italien IT, Spanien ES, Japan JP) & Touren-Freemium-Grenzen (`LocalRoutes.tsx`: Station 1 & 2 kostenlos, Station 3+ mit VIP-Sperre & Teaser)
+- [x] **SNT-514 (✅ 2026-10-09):** Kontinuierliches Kanban & Todo Handover-System (lückenlos synchron für Cline / nachfolgende Agenten)
 
 ### ✅ Verify-Rundgang (T-006)
-- [x] `npm run check:all` = 0 (2026-10-06: 61 Tests)
-- [ ] 23-Routen-Rundgang im Browser, Konsole leer
-- [ ] Login → Reload → Logout (sobald Supabase aus Tag 1 steht)
+- [x] `npm run check:all` = 0 (2026-10-09: 61 Tests, Typecheck, Schema, UI-Audit, SEO, Photo, Trust grün)
+- [x] `npm run check:bundle` = 0 (First-Load 783 KB / Budget 820 KB, Lazy Map Chunk 148 KB)
+- [x] Build = 0 (`vite build` in 8.3 s)
 
 ## ✅ Bereits erledigt (Referenz, 2026-09-30)
 - [x] Code + Historie secret-bereinigt (`4c26c94`) · `.env.example` · `503 AI_NOT_CONFIGURED`

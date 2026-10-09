@@ -59,6 +59,11 @@ export interface ThreatItem {
   icon: string
   timeAgo: string
   verifiedReports: number
+  lat: number
+  lng: number
+  radiusMeters: number
+  isProOnly?: boolean
+  proShieldReason?: string
 }
 
 export interface CityLegend {
@@ -92,6 +97,8 @@ export interface CuratedSpot {
   rating: number
   reviewsCount: number
   isSecret: boolean
+  isProOnly?: boolean
+  secretAccessCode?: string
 }
 
 // ─── LÄNDER-DATENSATZ (INKL. DACH-SEPARIERUNG) ─────────────────────────────
@@ -363,12 +370,46 @@ export const countriesIntelligence: CountryIntelligence[] = [
       esimPriceFrom: '€ 6,00 / 10 GB',
       bestLocalCarrier: 'NTT Docomo / SoftBank'
     }
+  },
+  {
+    code: 'FR',
+    name: 'Frankreich',
+    region: 'Westeuropa',
+    flag: '🇫🇷',
+    currency: 'EUR (€)',
+    emergency: {
+      universalEu: '112',
+      police: '17 (Police Secours)',
+      medical: '15 (SAMU Notarzt)',
+      fire: '18 (Sapeurs-Pompiers)',
+      touristPolice: '+33 1 53 71 53 71 (Préfecture de Police Paris)'
+    },
+    tapWater: {
+      drinkable: true,
+      rating: 'Hervorragend',
+      note: 'Trinkwasser ist in ganz Frankreich von hoher Qualität. In Restaurants ist eine "Carafe d\'eau" kostenlos Pflicht.'
+    },
+    payment: {
+      cardAcceptance: 'ubiquitous',
+      headline: 'Nahezu 100% kontaktlos',
+      tip: 'Carte Bancaire / Visa / Mastercard wird selbst beim Baguette-Kauf ab 1 € akzeptiert. Trinkgeld wird meist in bar hinterlassen.'
+    },
+    roadAndTransit: {
+      tollRequired: true,
+      tollType: 'Péage (Autobahngebühr bar/Karte)',
+      tip: 'Autobahnen (Autoroutes) sind mautpflichtig. Für Umweltzonen (Paris, Lyon) ist die Crit\'Air-Vignette an der Windschutzscheibe Pflicht.'
+    },
+    connectivity: {
+      networkScore: 'excellent',
+      esimPriceFrom: '€ 4,20 / 5 GB',
+      bestLocalCarrier: 'Orange / Free Mobile'
+    }
   }
 ]
 
 // ─── GEFAHREN-RADAR (FARBKODIERT: KRIMINALITÄT, NATUR, WILDTIERE, CONNECTIVITY) ────────
 export const threatRadarItems: ThreatItem[] = [
-  // 🔴 KRIMINALITÄT & SCAMS
+  // ─── 🇵🇹 PORTUGAL ───
   {
     id: 'thr-01',
     countryCode: 'PT',
@@ -380,74 +421,46 @@ export const threatRadarItems: ThreatItem[] = [
     advice: 'Rucksack vor die Brust nehmen. Tickets nur an Metro-Schaltern oder im Viva-Viagem-Automaten kaufen.',
     icon: '🚋',
     timeAgo: 'vor 2 Stunden aktualisiert',
-    verifiedReports: 142
+    verifiedReports: 142,
+    lat: 38.7118,
+    lng: -9.1350,
+    radiusMeters: 650,
+    isProOnly: false
   },
   {
-    id: 'thr-02',
-    countryCode: 'ES',
-    area: 'Barcelona · Las Ramblas & El Raval',
+    id: 'thr-pt-vip',
+    countryCode: 'PT',
+    area: 'Lissabon · Cais do Sodré & Intendente (nachts)',
     category: 'crime',
     severity: 'high',
-    title: 'Taschendiebstahl-Hotspot & "Nelken-Frauen" Trick',
-    desc: 'Personen bieten scheinbar kostenlose Rosmarinzweige oder Nelken an, verwickeln in Gespräche und fordern aggressiv 20 €, während ein Komplize Taschen abtastet.',
-    advice: 'Nichts annehmen, Hände in den eigenen Taschen lassen und zügig weitergehen.',
-    icon: '🌹',
-    timeAgo: 'vor 4 Stunden aktualisiert',
-    verifiedReports: 218
+    title: '🔒 VIP Shield: K.O.-Tropfen & aggressive Straßenhändler',
+    desc: 'In Nebenstraßen der Pink Street und Rua Nova do Carvalho häufen sich Berichte über K.O.-Tropfen in überfüllten Bars sowie aggressive Schein-Drogenhändler (Gewürzlorbeer).',
+    advice: 'Getränke niemals unbeaufsichtigt lassen. Angebote auf der Straße ignorieren und auf beleuchteten Hauptachsen bleiben.',
+    icon: '🍸',
+    timeAgo: 'vor 1 Stunde verifiziert',
+    verifiedReports: 88,
+    lat: 38.7061,
+    lng: -9.1448,
+    radiusMeters: 350,
+    isProOnly: true,
+    proShieldReason: 'Exakte No-Go-Gassen & gemeldete K.O.-Tropfen Lokale'
   },
   {
-    id: 'thr-03',
-    countryCode: 'IT',
-    area: 'Rom · Hauptbahnhof Termini & Kolosseum',
-    category: 'crime',
-    severity: 'medium',
-    title: 'Gladiatoren-Fotos & Fake-Ticket-Verkäufer',
-    desc: 'Verkleidete Darsteller drängen sich ungefragt auf Selfies und verlangen danach handgreiflich 30–50 € pro Foto.',
-    advice: 'Klare Handbewegung ("No, grazie") und keine Fotos mit Straßenfiguren machen.',
-    icon: '🛡️',
-    timeAgo: 'vor 1 Tag',
-    verifiedReports: 89
-  },
-  {
-    id: 'thr-04',
-    countryCode: 'DE',
-    area: 'Frankfurt & Berlin · Hauptbahnhof Vorplätze',
-    category: 'crime',
-    severity: 'medium',
-    title: 'Hütchenspieler & Koffer-Ablenkungstricks',
-    desc: 'Spiele mit Schachteln oder gezieltes Verschütten von Kaffee auf Kleidung, um beim "Helfen" das Smartphone zu stehlen.',
-    advice: 'Niemals bei Straßenwetten stehenbleiben. Bei Körperkontakt sofort Abstand fordern.',
-    icon: '📦',
-    timeAgo: 'vor 2 Tagen',
-    verifiedReports: 64
-  },
-
-  // 🟠 NATURKATASTROPHEN & EXTREMWETTER
-  {
-    id: 'thr-05',
-    countryCode: 'IS',
-    area: 'Island · Reynisfjara Black Beach',
+    id: 'thr-pt-surf',
+    countryCode: 'PT',
+    area: 'Nazaré · Praia do Norte',
     category: 'nature',
     severity: 'high',
-    title: 'Tödliche "Sneaker Waves" (Mammutwellen)',
-    desc: 'Unberechenbare Riesenwellen schlagen unvermittelt 20 Meter weiter an den Strand als die vorherigen und reißen Personen mit extremer Wucht in den eiskalten Atlantik. Mehrere tödliche Unfälle jährlich.',
-    advice: 'Niemals dem Meer den Rücken zudrehen! Mindestens 30 Meter Abstand zur Brandungslinie halten.',
+    title: 'Monsterwellen & tückische Unterströmungen',
+    desc: 'Der Tiefseegraben von Nazaré erzeugt selbst bei scheinbar ruhigem Wetter gefährliche Brandungssogwellen. Schwimmen ist lebensgefährlich.',
+    advice: 'Nur vom Leuchtturm (Farol da Nazaré) beobachten. Badeverbot an der Praia do Norte strikt einhalten.',
     icon: '🌊',
-    timeAgo: 'Dauerwarnung · vor 1 Stunde geprüft',
-    verifiedReports: 310
-  },
-  {
-    id: 'thr-06',
-    countryCode: 'AT',
-    area: 'Tirol & Vorarlberg · Alpine Höhenlagen (> 2.000m)',
-    category: 'nature',
-    severity: 'high',
-    title: 'Lawinenwarnstufe 3 & plötzlicher Föhn-Wettersturz',
-    desc: 'Starker Föhnwind führt zu Triebschneeansammlungen an Nordhängen. Nachmittags Gewitterbildung mit Temperatursturz um bis zu 15°C.',
-    advice: 'Lawinenwarndienst Tirol vor jeder Tour checken. Notfallausrüstung (LVS, Sonde, Schaufel) und Biwaksack Pflicht.',
-    icon: '❄️',
-    timeAgo: 'vor 5 Stunden aktualisiert',
-    verifiedReports: 47
+    timeAgo: 'vor 3 Stunden',
+    verifiedReports: 195,
+    lat: 39.6053,
+    lng: -9.0854,
+    radiusMeters: 1200,
+    isProOnly: false
   },
   {
     id: 'thr-07',
@@ -460,10 +473,12 @@ export const threatRadarItems: ThreatItem[] = [
     advice: 'App "Fogos.pt" installieren. Bei Rauchgeruch Schluchten sofort bergab verlassen.',
     icon: '🔥',
     timeAgo: 'vor 6 Stunden',
-    verifiedReports: 53
+    verifiedReports: 53,
+    lat: 40.3218,
+    lng: -7.6162,
+    radiusMeters: 15000,
+    isProOnly: false
   },
-
-  // 🟡 FAUNA & GEFÄHRLICHE WILDTIERE
   {
     id: 'thr-08',
     countryCode: 'PT',
@@ -475,20 +490,210 @@ export const threatRadarItems: ThreatItem[] = [
     advice: 'Niemals blaue Blasen am Spülsaum berühren. Bei Kontakt: Meerwasser (kein Süßwasser!), Essig und Notarzt.',
     icon: '🪼',
     timeAgo: 'vor 1 Tag',
-    verifiedReports: 38
+    verifiedReports: 38,
+    lat: 37.0988,
+    lng: -8.6732,
+    radiusMeters: 4500,
+    isProOnly: false
+  },
+
+  // ─── 🇪🇸 SPANIEN ───
+  {
+    id: 'thr-02',
+    countryCode: 'ES',
+    area: 'Barcelona · Las Ramblas & Gotico',
+    category: 'crime',
+    severity: 'high',
+    title: 'Taschendiebstahl-Hotspot & "Nelken-Frauen" Trick',
+    desc: 'Personen bieten scheinbar kostenlose Rosmarinzweige oder Nelken an, verwickeln in Gespräche und fordern aggressiv 20 €, während ein Komplize Taschen abtastet.',
+    advice: 'Nichts annehmen, Hände in den eigenen Taschen lassen und zügig weitergehen.',
+    icon: '🌹',
+    timeAgo: 'vor 4 Stunden aktualisiert',
+    verifiedReports: 218,
+    lat: 41.3818,
+    lng: 2.1734,
+    radiusMeters: 750,
+    isProOnly: false
   },
   {
-    id: 'thr-09',
-    countryCode: 'AT',
-    area: 'Salzburger Land · Almweiden & Wanderpfade',
-    category: 'wildlife',
+    id: 'thr-es-vip',
+    countryCode: 'ES',
+    area: 'Barcelona · El Raval Nebenstraßen nachts',
+    category: 'crime',
+    severity: 'high',
+    title: '🔒 VIP Shield: Falsche Zivilpolizisten & Raub-Gassen',
+    desc: 'In dunklen Winkeln des Raval fordern Täter mit gefälschten Polizeimarken die Geldbörse zur "Drogenkontrolle". Bei Weigerung droht Einschüchterung.',
+    advice: 'Echte Guardia Civil/Mossos verlangen auf der Straße niemals Bargeldeinsicht. Darauf bestehen, zur nächsten Polizeiwache zu gehen.',
+    icon: '👮‍♂️',
+    timeAgo: 'vor 3 Stunden verifiziert',
+    verifiedReports: 94,
+    lat: 41.3787,
+    lng: 2.1691,
+    radiusMeters: 400,
+    isProOnly: true,
+    proShieldReason: 'Gefälschte Zivilpolizisten-Hotspots & No-Go-Gassen'
+  },
+  {
+    id: 'thr-es-madrid',
+    countryCode: 'ES',
+    area: 'Madrid · Puerta del Sol & Gran Vía',
+    category: 'crime',
     severity: 'medium',
-    title: 'Mutterkuh-Angriffe auf Wanderer mit Hunden',
-    desc: 'Kühe mit Jungkälbern verteidigen ihren Nachwuchs instinktiv gegen Hunde. Mehrere Zwischenfälle auf Weidegattern.',
-    advice: 'Großen Bogen um Herden schlagen. Wenn eine Kuh angreift: Hund SOFORT von der Leine lassen (er ist schneller).',
-    icon: '🐄',
+    title: 'Metro-Blockade & Gruppen-Ablenkung',
+    desc: 'An Drehkreuzen und Rolltreppen stoppt plötzlich jemand abrupt vor dir, während von hinten der Rucksack geöffnet wird.',
+    advice: 'Wertsachen in die vorderen Hosentaschen oder unter die Jacke stecken.',
+    icon: '🚇',
+    timeAgo: 'vor 1 Tag',
+    verifiedReports: 67,
+    lat: 40.4168,
+    lng: -3.7038,
+    radiusMeters: 500,
+    isProOnly: false
+  },
+
+  // ─── 🇫🇷 FRANKREICH ───
+  {
+    id: 'thr-fr-01',
+    countryCode: 'FR',
+    area: 'Paris · Montmartre & Treppen vor Sacré-Cœur',
+    category: 'crime',
+    severity: 'high',
+    title: 'Das "Freundschaftsarmband"-Kartell',
+    desc: 'Männergruppen greifen Touristen an den Handgelenken, flechten blitzschnell Wollfäden um die Finger und fordern mit Nachdruck 20–50 €.',
+    advice: 'Arme eng am Körper halten, Augenkontakt meiden, Treppen zügig passieren oder die Seilbahn (Funiculaire) nutzen.',
+    icon: '🧵',
+    timeAgo: 'vor 2 Stunden aktualisiert',
+    verifiedReports: 176,
+    lat: 48.8867,
+    lng: 2.3431,
+    radiusMeters: 350,
+    isProOnly: false
+  },
+  {
+    id: 'thr-fr-vip',
+    countryCode: 'FR',
+    area: 'Paris · Gare du Nord & Châtelet-Les Halles (nach 22 Uhr)',
+    category: 'crime',
+    severity: 'high',
+    title: '🔒 VIP Shield: Smartphone-Reißer & Brennpunkt-Korridor',
+    desc: 'Im unterirdischen Labyrinth von Châtelet und rund um den Gare du Nord lauern Gruppen auf unaufmerksame Touristen mit Smartphones in der Hand vor schließenden Zugtüren.',
+    advice: 'Smartphone in der Metro vor Haltestellen in die Tasche stecken. Nur die Hauptausgänge nutzen.',
+    icon: '📱',
+    timeAgo: 'vor 4 Stunden verifiziert',
+    verifiedReports: 112,
+    lat: 48.8809,
+    lng: 2.3553,
+    radiusMeters: 550,
+    isProOnly: true,
+    proShieldReason: 'GPS-Mikroradius des Kriminalitäts-Brennpunkts mit sicheren Ausgängen'
+  },
+  {
+    id: 'thr-fr-cassis',
+    countryCode: 'FR',
+    area: 'Côte d\'Azur · Calanques de Cassis',
+    category: 'nature',
+    severity: 'medium',
+    title: 'Steinschlag & Mistral-Sturmböen auf Klippenpfaden',
+    desc: 'Heftige Mistralwinde können Wanderer auf den exponierten Felskämmen aus dem Gleichgewicht bringen. Häufige Waldbrand-Sperrungen im Hochsommer.',
+    advice: 'Website des Parc National des Calanques vor dem Aufbruch auf Zugangssperren prüfen.',
+    icon: '💨',
+    timeAgo: 'vor 5 Stunden',
+    verifiedReports: 41,
+    lat: 43.2130,
+    lng: 5.5320,
+    radiusMeters: 6000,
+    isProOnly: false
+  },
+
+  // ─── 🇮🇹 ITALIEN ───
+  {
+    id: 'thr-03',
+    countryCode: 'IT',
+    area: 'Rom · Hauptbahnhof Termini & Kolosseum',
+    category: 'crime',
+    severity: 'medium',
+    title: 'Gladiatoren-Fotos & Fake-Ticket-Verkäufer',
+    desc: 'Verkleidete Darsteller drängen sich ungefragt auf Selfies und verlangen danach handgreiflich 30–50 € pro Foto.',
+    advice: 'Klare Handbewegung ("No, grazie") und keine Fotos mit Straßenfiguren machen.',
+    icon: '🛡️',
+    timeAgo: 'vor 1 Tag',
+    verifiedReports: 89,
+    lat: 41.8902,
+    lng: 12.4922,
+    radiusMeters: 600,
+    isProOnly: false
+  },
+  {
+    id: 'thr-it-vip',
+    countryCode: 'IT',
+    area: 'Neapel · Spaccanapoli & Quartieri Spagnoli',
+    category: 'crime',
+    severity: 'high',
+    title: '🔒 VIP Shield: Roller-Kettenreißer & Uhren-Scouts',
+    desc: 'Zweier-Teams auf Motorrollern kundschaften gezielt Luxusuhren, Kameras und offene Handtaschen aus und entreißen sie im Vorbeifahren.',
+    advice: 'Keine Uhren oder teuren Schmuck sichtbar tragen. Taschen stets zur Häuserwand hin tragen, niemals zur Straßenseite.',
+    icon: '🛵',
+    timeAgo: 'vor 2 Stunden verifiziert',
+    verifiedReports: 135,
+    lat: 40.8518,
+    lng: 14.2506,
+    radiusMeters: 450,
+    isProOnly: true,
+    proShieldReason: 'Systematische Luxusuhren-Scouts & Roller-Greifkorridore'
+  },
+  {
+    id: 'thr-it-venice',
+    countryCode: 'IT',
+    area: 'Venedig · Markusplatz & Rialto',
+    category: 'crime',
+    severity: 'advisory',
+    title: 'Gastro-Wucher & Tauben-Fütterungsverbot',
+    desc: 'Sitzen an Cafés auf dem Markusplatz kostet oft 15 € Musikzuschlag pro Person. Taubenfüttern wird von der Polizei mit bis zu 500 € Bußgeld geahndet.',
+    advice: 'Preiskarte vor dem Bestellen prüfen. Tauben nicht füttern (Überwachung durch Zivilstreifen).',
+    icon: '🕊️',
     timeAgo: 'vor 3 Tagen',
-    verifiedReports: 22
+    verifiedReports: 78,
+    lat: 45.4340,
+    lng: 12.3380,
+    radiusMeters: 800,
+    isProOnly: false
+  },
+
+  // ─── 🇩🇪 DEUTSCHLAND ───
+  {
+    id: 'thr-04',
+    countryCode: 'DE',
+    area: 'Frankfurt & Berlin · Hauptbahnhof Vorplätze',
+    category: 'crime',
+    severity: 'medium',
+    title: 'Hütchenspieler & Koffer-Ablenkungstricks',
+    desc: 'Spiele mit Schachteln oder gezieltes Verschütten von Kaffee auf Kleidung, um beim "Helfen" das Smartphone zu stehlen.',
+    advice: 'Niemals bei Straßenwetten stehenbleiben. Bei Körperkontakt sofort Abstand fordern.',
+    icon: '📦',
+    timeAgo: 'vor 2 Tagen',
+    verifiedReports: 64,
+    lat: 50.1072,
+    lng: 8.6638,
+    radiusMeters: 400,
+    isProOnly: false
+  },
+  {
+    id: 'thr-de-vip',
+    countryCode: 'DE',
+    area: 'Frankfurt · Taunusstraße & Elbestraße (Bahnhofsviertel)',
+    category: 'crime',
+    severity: 'high',
+    title: '🔒 VIP Shield: Aggressions-Brennpunkt der offenen Szene',
+    desc: 'Zwischen Taunusstraße und Kaiserstraße kommt es nachts vermehrt zu aggressiver Bettelei, offenen Drogenkonsum und Handtaschenraub.',
+    advice: 'Nachts die Taunusstraße meiden; stattdessen die breite Kaiserstraße oder Münchener Straße nutzen.',
+    icon: '⚠️',
+    timeAgo: 'vor 1 Stunde verifiziert',
+    verifiedReports: 82,
+    lat: 50.1085,
+    lng: 8.6675,
+    radiusMeters: 250,
+    isProOnly: true,
+    proShieldReason: 'Drogenszene-Gefahrenkarte & sichere Gehweg-Alternativen'
   },
   {
     id: 'thr-10',
@@ -501,23 +706,68 @@ export const threatRadarItems: ThreatItem[] = [
     advice: 'Lange Hosen in die Socken stecken, Repellent verwenden, abends Körper absuchen.',
     icon: '🦟',
     timeAgo: 'vor 2 Tagen',
-    verifiedReports: 45
-  },
-  {
-    id: 'thr-11',
-    countryCode: 'JP',
-    area: 'Nara Park · Tempelbezirk',
-    category: 'wildlife',
-    severity: 'advisory',
-    title: 'Aufdringliche Nara-Hirsche (Shika)',
-    desc: 'Zutrauliche Hirsche verbeugen sich für Cracker, beißen aber in Taschen, Kleidung und fressen Geldscheine oder Reisepässe.',
-    advice: 'Taschen geschlossen halten, keine Papiere offen herumtragen. Leere Hände flach vorzeigen.',
-    icon: '🦌',
-    timeAgo: 'vor 4 Tagen',
-    verifiedReports: 77
+    verifiedReports: 45,
+    lat: 48.1351,
+    lng: 11.5820,
+    radiusMeters: 25000,
+    isProOnly: false
   },
 
-  // 🔵 CONNECTIVITY & INFRASTRUKTUR
+  // ─── 🇦🇹 ÖSTERREICH ───
+  {
+    id: 'thr-06',
+    countryCode: 'AT',
+    area: 'Tirol & Vorarlberg · Alpine Höhenlagen (> 2.000m)',
+    category: 'nature',
+    severity: 'high',
+    title: 'Lawinenwarnstufe 3 & plötzlicher Föhn-Wettersturz',
+    desc: 'Starker Föhnwind führt zu Triebschneeansammlungen an Nordhängen. Nachmittags Gewitterbildung mit Temperatursturz um bis zu 15°C.',
+    advice: 'Lawinenwarndienst Tirol vor jeder Tour checken. Notfallausrüstung (LVS, Sonde, Schaufel) und Biwaksack Pflicht.',
+    icon: '❄️',
+    timeAgo: 'vor 5 Stunden aktualisiert',
+    verifiedReports: 47,
+    lat: 47.2692,
+    lng: 11.4041,
+    radiusMeters: 12000,
+    isProOnly: false
+  },
+  {
+    id: 'thr-at-vip',
+    countryCode: 'AT',
+    area: 'Wien · Praterstern & Gumpendorfer Straße (nachts)',
+    category: 'crime',
+    severity: 'medium',
+    title: '🔒 VIP Shield: Drogen- & Alkohol-Hotspots im U-Bahn-Bereich',
+    desc: 'Zu vorgerückter Stunde kommt es an den Stationen Praterstern und Gumpendorfer Straße gehäuft zu Pöbeleien und Diebstählen.',
+    advice: 'Im U-Bahn-Bereich die videoüberwachten Hauptausgänge nutzen und Gruppen meiden.',
+    icon: '🚨',
+    timeAgo: 'vor 3 Stunden verifiziert',
+    verifiedReports: 41,
+    lat: 48.2190,
+    lng: 16.3920,
+    radiusMeters: 350,
+    isProOnly: true,
+    proShieldReason: 'Nacht-Gefahrenzonen der Wiener U-Bahn mit Umgehungswegen'
+  },
+  {
+    id: 'thr-09',
+    countryCode: 'AT',
+    area: 'Salzburger Land · Almweiden & Wanderpfade',
+    category: 'wildlife',
+    severity: 'medium',
+    title: 'Mutterkuh-Angriffe auf Wanderer mit Hunden',
+    desc: 'Kühe mit Jungkälbern verteidigen ihren Nachwuchs instinktiv gegen Hunde. Mehrere Zwischenfälle auf Weidegattern.',
+    advice: 'Großen Bogen um Herden schlagen. Wenn eine Kuh angreift: Hund SOFORT von der Leine lassen (er ist schneller).',
+    icon: '🐄',
+    timeAgo: 'vor 3 Tagen',
+    verifiedReports: 22,
+    lat: 47.8095,
+    lng: 13.0550,
+    radiusMeters: 6000,
+    isProOnly: false
+  },
+
+  // ─── 🇨🇭 SCHWEIZ ───
   {
     id: 'thr-12',
     countryCode: 'CH',
@@ -529,7 +779,103 @@ export const threatRadarItems: ThreatItem[] = [
     advice: 'Vor der Grenze Daten-Roaming ausschalten oder lokale eSIM mit Rabattcode SCRATCH10 buchen.',
     icon: '📶',
     timeAgo: 'Dauertipp · vor 1 Stunde geprüft',
-    verifiedReports: 490
+    verifiedReports: 490,
+    lat: 46.8182,
+    lng: 8.2275,
+    radiusMeters: 45000,
+    isProOnly: false
+  },
+  {
+    id: 'thr-ch-vip',
+    countryCode: 'CH',
+    area: 'Zermatt · Gornergrat & Theodulgletscher',
+    category: 'nature',
+    severity: 'high',
+    title: '🔒 VIP Shield: Versteckte Gletscherspalten abseits der Markierung',
+    desc: 'Im Gletschervorfeld brechen nach sommerlichen Hitzeperioden Schneebrücken über tiefen Gletscherspalten unvermittelt ein.',
+    advice: 'Niemals ohne Seilschaft und Bergführer die markierten Wege auf dem Gletscher verlassen.',
+    icon: '🏔️',
+    timeAgo: 'vor 2 Stunden verifiziert',
+    verifiedReports: 36,
+    lat: 45.9763,
+    lng: 7.7491,
+    radiusMeters: 4000,
+    isProOnly: true,
+    proShieldReason: 'Aktuelle alpine Spaltenzonen & Not-Biwak-GPS'
+  },
+
+  // ─── 🇮🇸 ISLAND ───
+  {
+    id: 'thr-05',
+    countryCode: 'IS',
+    area: 'Island · Reynisfjara Black Beach',
+    category: 'nature',
+    severity: 'high',
+    title: 'Tödliche "Sneaker Waves" (Mammutwellen)',
+    desc: 'Unberechenbare Riesenwellen schlagen unvermittelt 20 Meter weiter an den Strand als die vorherigen und reißen Personen mit extremer Wucht in den eiskalten Atlantik. Mehrere tödliche Unfälle jährlich.',
+    advice: 'Niemals dem Meer den Rücken zudrehen! Mindestens 30 Meter Abstand zur Brandungslinie halten.',
+    icon: '🌊',
+    timeAgo: 'Dauerwarnung · vor 1 Stunde geprüft',
+    verifiedReports: 310,
+    lat: 63.4044,
+    lng: -19.0494,
+    radiusMeters: 800,
+    isProOnly: false
+  },
+  {
+    id: 'thr-is-vip',
+    countryCode: 'IS',
+    area: 'Island · Hochland F-Roads Flussquerungen',
+    category: 'nature',
+    severity: 'high',
+    title: '🔒 VIP Shield: Tödliche Gletscherfluss-Furten (Krossá & Fjallabak)',
+    desc: 'Gletscherflüsse schwellen an warmen Nachmittagen extrem an. Ungeübte Autofahrer ertränken Mietwagen im tiefen Schlammbett.',
+    advice: 'Nur morgens queren. Vorher zu Fuß waten (mit Schuhen!) und die Strömung testen.',
+    icon: '🚙',
+    timeAgo: 'vor 3 Stunden verifiziert',
+    verifiedReports: 58,
+    lat: 64.9263,
+    lng: -18.2155,
+    radiusMeters: 18000,
+    isProOnly: true,
+    proShieldReason: 'Echtzeit-Wasserpegel für Gletscherfluss-Furten & Rettungspunkte'
+  },
+
+  // ─── 🇯🇵 JAPAN ───
+  {
+    id: 'thr-11',
+    countryCode: 'JP',
+    area: 'Nara Park · Tempelbezirk',
+    category: 'wildlife',
+    severity: 'advisory',
+    title: 'Aufdringliche Nara-Hirsche (Shika)',
+    desc: 'Zutrauliche Hirsche verbeugen sich für Cracker, beißen aber in Taschen, Kleidung und fressen Geldscheine oder Reisepässe.',
+    advice: 'Taschen geschlossen halten, keine Papiere offen herumtragen. Leere Hände flach vorzeigen.',
+    icon: '🦌',
+    timeAgo: 'vor 4 Tagen',
+    verifiedReports: 77,
+    lat: 34.6850,
+    lng: 135.8430,
+    radiusMeters: 1000,
+    isProOnly: false
+  },
+  {
+    id: 'thr-jp-vip',
+    countryCode: 'JP',
+    area: 'Tokio · Shinjuku Kabukicho',
+    category: 'crime',
+    severity: 'high',
+    title: '🔒 VIP Shield: "Bottakuri" Abzock-Bars & Spiked Drinks',
+    desc: 'Schlepper auf der Straße locken mit "All-you-can-drink für 2.000 Yen". Später wird eine erpresste Rechnung über mehrere tausend Euro vorgelegt.',
+    advice: 'Niemals Straßenwerbern in Bars oder Clubs folgen. Nur Lokale mit sichtbaren Festpreisen betreten.',
+    icon: '🍸',
+    timeAgo: 'vor 2 Stunden verifiziert',
+    verifiedReports: 129,
+    lat: 35.6938,
+    lng: 139.7034,
+    radiusMeters: 350,
+    isProOnly: true,
+    proShieldReason: 'Schwarze Liste von Lockvogel-Bars mit 5.000 € Zwangsrechnungen'
   }
 ]
 
@@ -788,5 +1134,145 @@ export const curatedSpotsSeed: CuratedSpot[] = [
     rating: 4.8,
     reviewsCount: 670,
     isSecret: true
+  },
+
+  // 🇫🇷 FRANKREICH
+  {
+    id: 'spot-fr-01',
+    countryCode: 'FR',
+    city: 'Paris',
+    title: 'Lavomatic Geheime Speakeasy Bar',
+    category: 'food',
+    categoryLabel: '🍸 Secret Speakeasy',
+    desc: 'Tarnung als gewöhnlicher Waschsalon im 10. Arrondissement. Hinter einer echten Waschmaschinentür verbirgt sich eine bunte Cocktail-Lounge mit Schaukeln.',
+    insiderTip: 'Waschsalon betreten, zur Waschmaschine Nr. 4 gehen und den verborgenen Entriegelungsknopf drücken.',
+    lat: 48.8698,
+    lng: 2.3629,
+    rating: 4.9,
+    reviewsCount: 380,
+    isSecret: true,
+    isProOnly: true,
+    secretAccessCode: 'Waschmaschine Nr. 4 · Hebel links hinter der Trommel drücken'
+  },
+  {
+    id: 'spot-fr-02',
+    countryCode: 'FR',
+    city: 'Marseille & Cassis',
+    title: 'Calanque d\'En-Vau Fjordbucht',
+    category: 'wildswim',
+    categoryLabel: '🏖️ Türkiser Meeresfjord',
+    desc: 'Atemberaubende Bucht mit türkisblauem Wasser, eingerahmt von senkrecht aufsteigenden weißen Kalksteinnadeln.',
+    insiderTip: 'Nur zu Fuß (1h Wanderung) oder per Kajak erreichbar. Keine Bewirtung – 2 Liter Wasser pro Person einpacken!',
+    lat: 43.2025,
+    lng: 5.4981,
+    rating: 4.9,
+    reviewsCount: 810,
+    isSecret: true,
+    isProOnly: false
+  },
+
+  // 🇮🇹 ITALIEN
+  {
+    id: 'spot-it-01',
+    countryCode: 'IT',
+    city: 'Amalfiküste',
+    title: 'Fiordo di Furore Naturhafen',
+    category: 'wildswim',
+    categoryLabel: '🏖️ Verborgener Fjord',
+    desc: 'Schmale Schlucht, die tief ins Festland schneidet. Eine historische Bogenbrücke überspannt den Strand in 30 Metern Höhe.',
+    insiderTip: 'Frühmorgens vor 9 Uhr anreisen, bevor die Touristenbusse auf der Küstenstraße halten. Der Abstieg erfolgt über Steintreppen.',
+    lat: 40.6139,
+    lng: 14.5492,
+    rating: 4.8,
+    reviewsCount: 520,
+    isSecret: true,
+    isProOnly: false
+  },
+  {
+    id: 'spot-it-02',
+    countryCode: 'IT',
+    city: 'Rom',
+    title: 'Katakomben-Enoteca im Trastevere-Keller',
+    category: 'food',
+    categoryLabel: '🍷 Antike Wein-Krypta',
+    desc: 'Über 2.000 Jahre alte römische Ziegelgewölbe unter einem Wohnhaus, in denen naturbelassene Amphorenweine verkostet werden.',
+    insiderTip: 'Nur mit Reservierung oder VIP-Pass zugänglich. Frage den Wirt nach dem unfiltrierten Sangiovese aus Orvieto.',
+    lat: 41.8885,
+    lng: 12.4705,
+    rating: 4.9,
+    reviewsCount: 195,
+    isSecret: true,
+    isProOnly: true,
+    secretAccessCode: 'Im Innenhof 3x an der Messingglocke mit dem Fischsymbol läuten'
+  },
+
+  // 🇪🇸 SPANIEN
+  {
+    id: 'spot-es-01',
+    countryCode: 'ES',
+    city: 'Barcelona',
+    title: 'Bunkers del Carmel (Turó de la Rovira)',
+    category: 'sunset',
+    categoryLabel: '🌅 360° Panoramablick',
+    desc: 'Ehemalige Flak-Stellungen aus dem Spanischen Bürgerkrieg auf einem Berggipfel mit dem spektakulärsten Rundumblick über ganz Barcelona und das Mittelmeer.',
+    insiderTip: 'Kühle Getränke und Picknick mitnehmen. Zur Dämmerung leuchtet die Sagrada Família direkt unter dir.',
+    lat: 41.4194,
+    lng: 2.1617,
+    rating: 4.8,
+    reviewsCount: 940,
+    isSecret: false,
+    isProOnly: false
+  },
+  {
+    id: 'spot-es-02',
+    countryCode: 'ES',
+    city: 'Mallorca',
+    title: 'Cala Varques Piratengrotte',
+    category: 'lostplace',
+    categoryLabel: '🥾 Geheime Meereshöhle',
+    desc: 'Einsame Natursteinbucht mit unterirdischen Tropfsteinhöhlen und einer natürlichen Felsenbrücke über dem tosenden Meer.',
+    insiderTip: 'Taschenlampe und Wasserschuhe erforderlich. In die Grotte gelangt man nur bei ruhiger See.',
+    lat: 39.4975,
+    lng: 3.2982,
+    rating: 4.9,
+    reviewsCount: 310,
+    isSecret: true,
+    isProOnly: true,
+    secretAccessCode: 'Dem Steinmännchen-Pfad 400m nach Süden folgen, Einstieg durch Felsspalte'
+  },
+
+  // 🇯🇵 JAPAN
+  {
+    id: 'spot-jp-01',
+    countryCode: 'JP',
+    city: 'Kyoto',
+    title: 'Fushimi Inari Geisterpfad (Nachtwanderung)',
+    category: 'sunset',
+    categoryLabel: '⛩️ Mystischer Pfad',
+    desc: 'Während tagsüber tausende Touristen durch die roten Tore strömen, verwandelt sich der Berg Inari ab 21 Uhr in eine meditative Kulisse mit beleuchteten Steinfüchsen.',
+    insiderTip: 'Nach Einbruch der Dunkelheit starten. Am Yotsutsuji-Aussichtspunkt hat man einen funkelnden Blick auf ganz Kyoto.',
+    lat: 34.9671,
+    lng: 135.7727,
+    rating: 4.9,
+    reviewsCount: 1250,
+    isSecret: true,
+    isProOnly: false
+  },
+  {
+    id: 'spot-jp-02',
+    countryCode: 'JP',
+    city: 'Tokio',
+    title: 'Bar Albatross G (Golden Gai Vintage)',
+    category: 'food',
+    categoryLabel: '🍸 Mikro-Bar (5 Sitze)',
+    desc: 'Winzige Bar auf drei Mini-Etagen mit Samtvorhängen, Kristall-Kronleuchtern und Platz für exakt 5 Gäste.',
+    insiderTip: 'Schmale Holzstiege in den 2. Stock hinaufsteigen. Legendäre Auswahl an japanischem Whisky und Ume-Pflaumenlikör.',
+    lat: 35.6940,
+    lng: 139.7045,
+    rating: 4.8,
+    reviewsCount: 215,
+    isSecret: true,
+    isProOnly: true,
+    secretAccessCode: 'Tür vorsichtig nach links schieben, mit 1 Finger "One Person" signalisieren'
   }
 ]

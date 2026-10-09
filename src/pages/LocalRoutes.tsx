@@ -140,7 +140,7 @@ function RouteCard({ route, onOpen }: { route: LocalRoute; onOpen: (r: LocalRout
 }
 
 function RouteDetail({ route, onBack }: { route: LocalRoute; onBack: () => void }) {
-  const { triggerHaptic } = useTravel()
+  const { triggerHaptic, isProUser } = useTravel()
   const [tab, setTab] = useState<'map' | 'stationen' | 'fotos'>('map')
   const [votes, setVotes] = useState(route.upvotes)
   const [voted, setVoted] = useState(route.hasUpvoted)
@@ -232,6 +232,37 @@ function RouteDetail({ route, onBack }: { route: LocalRoute; onBack: () => void 
         <ol className="space-y-3">
           {sorted.map(stop => {
             const isDone = route.completedStopIds.includes(stop.id)
+            const isStationLocked = stop.order >= 3 && !isProUser
+
+            if (isStationLocked) {
+              return (
+                <li key={stop.id} className="card p-4 flex gap-3 border border-sun/60 bg-amber-500/5">
+                  <div className="map-stop shrink-0 bg-sun-bright text-ink border border-sun font-bold flex items-center justify-center">
+                    🔒
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <p className="font-semibold text-ink text-sm">Station {stop.order}: {stop.title}</p>
+                      <span className="text-[0.62rem] font-mono px-2 py-0.5 rounded-full bg-sun-bright text-ink font-bold border border-sun">
+                        VIP / PRO HALT
+                      </span>
+                    </div>
+                    <p className="text-xs text-ink-faint mt-1 italic">
+                      Geheime Wegbeschreibung, Insidertipps &amp; Fotospot sind exklusiv für VIP Mitglieder oder Give &amp; Take Entdecker.
+                    </p>
+                    <div className="mt-2.5 flex items-center gap-2 flex-wrap">
+                      <a href="/pricing" className="btn btn-primary text-xs py-1 px-3 font-bold shadow-sm">
+                        Freischalten (2,99 €)
+                      </a>
+                      <a href="/explore" className="btn btn-secondary text-xs py-1 px-3 font-bold">
+                        🤝 Kostenlos via Give &amp; Take (+14 Tage)
+                      </a>
+                    </div>
+                  </div>
+                </li>
+              )
+            }
+
             return (
               <li key={stop.id} className="card p-4 flex gap-3">
                 <div className="map-stop shrink-0" data-state={isDone ? 'done' : stop.id === route.nextStopId ? 'next' : 'open'}>

@@ -393,6 +393,10 @@
 | SNT-506 | **B2B Local Host Portal & Starter-Kit:** 29 €/Mo Host-Abo mit Direkt-Checkout, Thekenaufsteller per Post | `src/pages/Host.tsx`, `src/pages/Pricing.tsx` |
 | SNT-507 | **5-Farben Design-System & WCAG AAA Kontrast:** Palette `#042c2e`, `#4f412d`, `#a8d4c0`, `#fff6b7`, `#ffea70`; Buttons mit 17:1 Kontrast; `.parchment`-Utility | `src/index.css` |
 | SNT-508 | **Auth & User Cabinet Lifecycle:** Echter Logout (`logout()`), Login-Trigger, Gast- vs Demo-Modus, automatische Supabase Auth-Synchronisation | `src/context/TravelContext.tsx`, `src/pages/Profile.tsx`, `src/components/Layout.tsx` |
+| SNT-509 | **Interaktive Radar-Gefahrenkarte & VIP Shield (Option A):** Lazy Leaflet (`RadarThreatMap.tsx`), farbkodierte Gefahrenkreise & pulsierende Pins, Filter (Kriminalität, Natur, Wildtiere, Connectivity), Jump-Buttons; Free-Tier zeigt Basiszonen (2-3/Land), Detail-Hotspots (Taschendiebe, Trickbetrüger) geschützt hinter `isProOnly: true` (VIP Shield) | `src/components/RadarThreatMap.tsx`, `src/pages/Radar.tsx` |
+| SNT-510 | **Content-Expansion & Touren-Freemium-Grenzen (Option B):** Dossiers für Frankreich (FR), Italien (IT), Spanien (ES), Japan (JP) mit exakten GPS-Koordinaten; `LocalRoutes.tsx` Freemium-Grenze: Station 1 & 2 frei, ab Station 3+ gesperrt für Non-Pro mit Teaser & Unblur | `src/data/travelIntelligence.ts`, `src/pages/LocalRoutes.tsx` |
+| SNT-375 | **Give & Take Freemium Pro Pass (Option C):** Aktive Mitmacher erhalten echten VIP/Pro-Zugang (`grantCommunityProDays`): Gefahr im Radar melden = +7 Tage Pro Pass; Secret Spot einreichen = +14 Tage Pro Pass. Reine Konsumenten zahlen 2,99 €/Monat für vollen Zugriff | `src/context/TravelContext.tsx`, `src/pages/Radar.tsx`, `src/components/SubmitSpotModal.tsx` |
+| SNT-514 | **Dokumentations-Handover (Option D):** KANBAN, TODOLIST und IMPLEMENTATION_PLAN lückenlos synchronisiert mit klaren Verify-Kriterien für nahtlose Cline/Agent-Weiterführung | `docs/KANBAN.md`, `docs/TODOLIST.md`, `docs/IMPLEMENTATION_PLAN.md` |
 
 ### Behoben am 2026-10-06 (2) — Produktentscheidungen: POD versteckt, Give & Take priorisiert
 

@@ -71,6 +71,9 @@ export interface UserProfile {
   storiesCount: number
   isDemo?: boolean
   email?: string
+  isVip?: boolean
+  proUnlockedUntil?: string | null
+  communityContributionsCount?: number
 }
 
 export const demoUser: UserProfile = {
@@ -89,7 +92,9 @@ export const demoUser: UserProfile = {
   badgesCount: 27,
   storiesCount: 9,
   isDemo: true,
-  email: 'maria@wanderer.eu'
+  email: 'maria@wanderer.eu',
+  isVip: true,
+  communityContributionsCount: 12,
 }
 
 export const guestUser: UserProfile = {
@@ -108,6 +113,9 @@ export const guestUser: UserProfile = {
   badgesCount: 0,
   storiesCount: 0,
   isDemo: false,
+  isVip: false,
+  proUnlockedUntil: null,
+  communityContributionsCount: 0,
 }
 
 interface TravelContextType {
@@ -119,6 +127,9 @@ interface TravelContextType {
   feed: FeedItem[]
   scratchedIds: number[]
   revealedPins: number[]
+  isProUser: boolean
+  proDaysRemaining: number
+  grantCommunityProDays: (days: number, reason: string) => void
   triggerHaptic: (pattern?: number | number[]) => void
   scratchSecret: (id: number, xpReward: number, locationName: string, gps: string, category: string) => void
   unlockBadge: (badgeId: string) => void
@@ -486,6 +497,31 @@ export function TravelProvider({ children }: { children: React.ReactNode }) {
     setUser(demoUser)
   }
 
+  const isProUser = Boolean(
+    user.isVip ||
+    (user.proUnlockedUntil && new Date(user.proUnlockedUntil).getTime() > Date.now())
+  )
+
+  const proDaysRemaining = user.proUnlockedUntil
+    ? Math.max(0, Math.ceil((new Date(user.proUnlockedUntil).getTime() - Date.now()) / (1000 * 60 * 60 * 24)))
+    : 0
+
+  const grantCommunityProDays = (days: number, reason: string) => {
+    triggerHaptic([20, 50, 20])
+    setUser(prev => {
+      const currentExpiry = prev.proUnlockedUntil && new Date(prev.proUnlockedUntil).getTime() > Date.now()
+        ? new Date(prev.proUnlockedUntil).getTime()
+        : Date.now()
+      const newExpiry = new Date(currentExpiry + days * 24 * 60 * 60 * 1000).toISOString()
+      return {
+        ...prev,
+        proUnlockedUntil: newExpiry,
+        communityContributionsCount: (prev.communityContributionsCount || 0) + 1,
+        xp: prev.xp + (days * 15)
+      }
+    })
+  }
+
   return (
     <TravelContext.Provider
       value={{
@@ -497,6 +533,9 @@ export function TravelProvider({ children }: { children: React.ReactNode }) {
         feed,
         scratchedIds,
         revealedPins,
+        isProUser,
+        proDaysRemaining,
+        grantCommunityProDays,
         triggerHaptic,
         scratchSecret,
         unlockBadge,

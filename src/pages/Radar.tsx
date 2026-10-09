@@ -5,15 +5,17 @@ import {
   cityLegends,
   CountryIntelligence,
   ThreatCategory,
-  ThreatSeverity
+  ThreatSeverity,
+  ThreatItem
 } from '../data/travelIntelligence'
 import { useTravel } from '../context/TravelContext'
 import { useI18n } from '../lib/i18n'
+import RadarThreatMap from '../components/RadarThreatMap'
 
 type RadarMainTab = 'radar' | 'country_intel' | 'legends' | 'esim'
 
 export default function Radar() {
-  const { triggerHaptic } = useTravel()
+  const { triggerHaptic, isProUser, grantCommunityProDays, proDaysRemaining } = useTravel()
   const { lang, t } = useI18n()
 
   // Selected Country (Default: Portugal, easily switchable to DE, AT, CH etc.)
@@ -21,6 +23,7 @@ export default function Radar() {
   const [mainTab, setMainTab] = useState<RadarMainTab>('radar')
   const [categoryFilter, setCategoryFilter] = useState<ThreatCategory | 'all'>('all')
   const [severityFilter, setSeverityFilter] = useState<ThreatSeverity | 'all'>('all')
+  const [radarViewMode, setRadarViewMode] = useState<'both' | 'map' | 'list'>('both')
   
   // UI states
   const [showReport, setShowReport] = useState(false)
@@ -28,6 +31,7 @@ export default function Radar() {
   const [copiedCode, setCopiedCode] = useState(false)
   const [playingAudioId, setPlayingAudioId] = useState<string | null>(null)
   const [showVipModal, setShowVipModal] = useState(false)
+  const [selectedThreatForUnlock, setSelectedThreatForUnlock] = useState<ThreatItem | null>(null)
 
   const activeCountry = countriesIntelligence.find(c => c.code === selectedCountryCode) || countriesIntelligence[0]
 
@@ -286,20 +290,23 @@ export default function Radar() {
             </p>
 
             {reportSubmitted ? (
-              <div className="text-center py-6 bg-leaf/10 rounded-xl border border-leaf">
-                <span className="text-3xl">✅</span>
+              <div className="text-center py-6 bg-leaf-wash rounded-xl border border-leaf">
+                <span className="text-3xl">🎉</span>
                 <p className="font-display font-bold text-base text-ink mt-2">Meldung erfolgreich eingereicht (+50 XP)</p>
-                <p className="font-body text-xs text-ink-faint mt-1">
-                  Vielen Dank für deinen Beitrag zur Sicherheit der Reisenden-Community!
+                <p className="font-body text-xs text-leaf font-bold mt-1">
+                  🤝 Give &amp; Take Belohnung: Dir wurden <strong>+7 Tage VIP Radar Shield Pass</strong> gutgeschrieben!
+                </p>
+                <p className="font-body text-[0.72rem] text-ink-faint mt-1">
+                  Alle Mikro-Gefahrenzonen und Kriminalitäts-Details sind für dich nun freigeschaltet.
                 </p>
                 <button
                   onClick={() => {
                     setShowReport(false)
                     setReportSubmitted(false)
                   }}
-                  className="btn btn-primary text-xs mt-3"
+                  className="btn btn-primary text-xs mt-3 shadow-md"
                 >
-                  Schließen
+                  Zurück zum Radar
                 </button>
               </div>
             ) : (
@@ -333,12 +340,13 @@ export default function Radar() {
                 <div className="md:col-span-2 flex gap-3">
                   <button
                     onClick={() => {
-                      triggerHaptic(10)
+                      triggerHaptic([15, 30, 15])
+                      grantCommunityProDays(7, 'Gefahr im Radar gemeldet')
                       setReportSubmitted(true)
                     }}
-                    className="btn btn-primary text-xs font-bold flex-1"
+                    className="btn btn-primary text-xs font-bold flex-1 shadow-md"
                   >
-                    Meldung absenden (+50 XP)
+                    Meldung absenden (+50 XP &amp; +7 Tage VIP Pass 🛡️)
                   </button>
                   <button onClick={() => setShowReport(false)} className="btn btn-ghost text-xs">
                     Abbrechen
@@ -380,11 +388,66 @@ export default function Radar() {
         </div>
 
         {/* ═══════════════════════════════════════════════════════════════════
-            TAB 1: FARBKODIERTES GEFAHREN-RADAR
+            TAB 1: FARBKODIERTES GEFAHREN-RADAR & INTERAKTIVE KARTE
            ═══════════════════════════════════════════════════════════════════ */}
         {mainTab === 'radar' && (
           <div className="space-y-5 animate-fade-in">
-            {/* Filterleiste für Gefahrenkategorien */}
+            {/* ── Status Banner (VIP Shield vs Basis / Give & Take) ── */}
+            <div className={`p-4 rounded-2xl border transition-all ${
+              isProUser
+                ? 'bg-leaf-wash border-leaf text-ink shadow-sm'
+                : 'bg-paper-deep border-sun/60 text-ink shadow-sm'
+            }`}>
+              <div className="flex items-center justify-between gap-3 flex-wrap">
+                <div className="flex items-center gap-3">
+                  <span className="text-2xl">{isProUser ? '🛡️' : '⚡'}</span>
+                  <div>
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <p className="font-display font-bold text-sm text-ink">
+                        {isProUser
+                          ? `VIP Radar Shield Aktiv ${proDaysRemaining > 0 ? `· Noch ${proDaysRemaining} Tage aktiv via Give & Take` : '· Pro Mitglied'}`
+                          : 'Basis-Radar aktiv (3 Kern-Gefahren frei) · VIP Mikro-Hotspots gesperrt'}
+                      </p>
+                      {isProUser && (
+                        <span className="text-[0.65rem] font-mono px-2 py-0.5 rounded-full bg-leaf text-white font-bold">
+                          VOLLZUGRIFF
+                        </span>
+                      )}
+                    </div>
+                    <p className="font-body text-xs text-ink-faint mt-0.5">
+                      {isProUser
+                        ? 'Du siehst alle unzensierten Kriminalitätszonen, K.O.-Tropfen Lokale und exakte Ausweichkorridore.'
+                        : 'Schalte detaillierte Scam-Gassen frei (2,99 €/Monat) oder verdiene dir den VIP Pass 100% kostenlos durch 1 Tipp (+14 Tage Give & Take)!'}
+                    </p>
+                  </div>
+                </div>
+
+                {!isProUser && (
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={() => {
+                        setSelectedThreatForUnlock(countryThreats.find(t => t.isProOnly) || null)
+                        setShowVipModal(true)
+                      }}
+                      className="btn btn-primary text-xs py-2 px-3 font-bold shadow-md bg-gradient-to-r from-amber-500 to-sun-bright text-ink"
+                    >
+                      🛡️ VIP Shield freischalten
+                    </button>
+                    <button
+                      onClick={() => {
+                        triggerHaptic(8)
+                        setShowReport(true)
+                      }}
+                      className="btn btn-secondary text-xs py-2 px-3 font-bold"
+                    >
+                      🤝 +1 Vorfall melden (+7 Tage Pass)
+                    </button>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* ── Filterleiste & Ansicht-Umschalter ── */}
             <div className="flex items-center justify-between gap-3 flex-wrap">
               <div className="flex items-center gap-2 flex-wrap">
                 <span className="font-mono text-xs text-ink-faint font-bold">Filter:</span>
@@ -412,21 +475,67 @@ export default function Radar() {
                 ))}
               </div>
 
-              {/* Schweregrad-Filter */}
-              <div className="flex items-center gap-1 text-xs">
-                {(['all', 'high', 'medium', 'advisory'] as const).map(s => (
+              {/* Ansicht-Umschalter (Karte / Liste) */}
+              <div className="flex items-center gap-2">
+                <div className="flex items-center gap-1 bg-paper-deep p-1 rounded-xl border border-line">
                   <button
-                    key={s}
-                    onClick={() => setSeverityFilter(s)}
-                    className={`px-2 py-0.5 rounded text-[0.68rem] font-mono uppercase ${
-                      severityFilter === s ? 'bg-sun text-ink font-bold' : 'text-ink-faint hover:text-ink'
+                    onClick={() => setRadarViewMode('both')}
+                    className={`px-2.5 py-1 text-xs font-bold rounded-lg transition ${
+                      radarViewMode === 'both' ? 'bg-ink text-white shadow-sm' : 'text-ink-faint hover:text-ink'
                     }`}
                   >
-                    {s === 'all' ? 'Alle Stufen' : s}
+                    ⚡ Karte &amp; Liste
                   </button>
-                ))}
+                  <button
+                    onClick={() => setRadarViewMode('map')}
+                    className={`px-2.5 py-1 text-xs font-bold rounded-lg transition ${
+                      radarViewMode === 'map' ? 'bg-ink text-white shadow-sm' : 'text-ink-faint hover:text-ink'
+                    }`}
+                  >
+                    🗺️ Nur Karte
+                  </button>
+                  <button
+                    onClick={() => setRadarViewMode('list')}
+                    className={`px-2.5 py-1 text-xs font-bold rounded-lg transition ${
+                      radarViewMode === 'list' ? 'bg-ink text-white shadow-sm' : 'text-ink-faint hover:text-ink'
+                    }`}
+                  >
+                    📋 Nur Liste
+                  </button>
+                </div>
+
+                {/* Schweregrad-Filter */}
+                <div className="hidden sm:flex items-center gap-1 text-xs">
+                  {(['all', 'high', 'medium', 'advisory'] as const).map(s => (
+                    <button
+                      key={s}
+                      onClick={() => setSeverityFilter(s)}
+                      className={`px-2 py-0.5 rounded text-[0.68rem] font-mono uppercase ${
+                        severityFilter === s ? 'bg-sun text-ink font-bold' : 'text-ink-faint hover:text-ink'
+                      }`}
+                    >
+                      {s === 'all' ? 'Alle' : s}
+                    </button>
+                  ))}
+                </div>
               </div>
             </div>
+
+            {/* ── 🗺️ INTERAKTIVE GEFAHRENKARTE (LEAFLET LAZY) ── */}
+            {(radarViewMode === 'both' || radarViewMode === 'map') && (
+              <div className="animate-fade-in">
+                <RadarThreatMap
+                  countryCode={selectedCountryCode}
+                  threats={displayedThreats}
+                  isProUser={isProUser}
+                  onUnlockPro={(thr) => {
+                    setSelectedThreatForUnlock(thr)
+                    setShowVipModal(true)
+                  }}
+                  height={radarViewMode === 'map' ? '540px' : '420px'}
+                />
+              </div>
+            )}
 
             {/* Warnung bei Roaming für Nicht-EU */}
             {activeCountry.connectivity.roamingWarning && (
@@ -441,82 +550,116 @@ export default function Radar() {
               </div>
             )}
 
-            {/* Gefahren-Liste */}
-            {displayedThreats.length === 0 ? (
-              <div className="card p-12 text-center border border-dashed border-sun">
-                <span className="text-4xl block mb-2">🛡️</span>
-                <p className="font-display text-lg font-bold text-ink">Keine aktiven Gefahren in diesem Filter</p>
-                <p className="font-body text-xs text-ink-faint mt-1">
-                  Für {activeCountry.name} liegen aktuell keine verifizierten Meldungen in dieser Kategorie vor.
-                </p>
-              </div>
-            ) : (
-              <div className="grid md:grid-cols-2 gap-4">
-                {displayedThreats.map(thr => {
-                  const catB = categoryBadge(thr.category)
-                  const sevB = severityBadge(thr.severity)
-                  return (
-                    <div
-                      key={thr.id}
-                      className={`card p-5 border-2 transition-all hover:shadow-md flex flex-col justify-between ${
-                        thr.severity === 'high'
-                          ? 'border-red-500/30 bg-red-500/5'
-                          : thr.severity === 'medium'
-                          ? 'border-amber-500/30 bg-amber-500/5'
-                          : 'border-emerald-500/30 bg-emerald-500/5'
-                      }`}
-                    >
-                      <div>
-                        {/* Header der Karte */}
-                        <div className="flex items-start justify-between gap-3 mb-2">
-                          <span className={`text-[0.62rem] font-mono px-2.5 py-0.5 rounded-full border ${catB.color} font-bold`}>
-                            {catB.label}
-                          </span>
-                          <span className={`text-[0.6rem] font-mono px-2 py-0.5 rounded-full ${sevB.color}`}>
-                            {sevB.label}
-                          </span>
-                        </div>
+            {/* ── 📋 GEFAHREN-LISTE ── */}
+            {(radarViewMode === 'both' || radarViewMode === 'list') && (
+              <>
+                {displayedThreats.length === 0 ? (
+                  <div className="card p-12 text-center border border-dashed border-sun">
+                    <span className="text-4xl block mb-2">🛡️</span>
+                    <p className="font-display text-lg font-bold text-ink">Keine aktiven Gefahren in diesem Filter</p>
+                    <p className="font-body text-xs text-ink-faint mt-1">
+                      Für {activeCountry.name} liegen aktuell keine verifizierten Meldungen in dieser Kategorie vor.
+                    </p>
+                  </div>
+                ) : (
+                  <div className="grid md:grid-cols-2 gap-4">
+                    {displayedThreats.map(thr => {
+                      const catB = categoryBadge(thr.category)
+                      const sevB = severityBadge(thr.severity)
+                      const isLocked = Boolean(thr.isProOnly && !isProUser)
 
-                        {/* Titel & Ort */}
-                        <div className="flex items-start gap-2.5 my-2">
-                          <span className="text-2xl flex-shrink-0">{thr.icon}</span>
+                      return (
+                        <div
+                          key={thr.id}
+                          className={`card p-5 border-2 transition-all hover:shadow-md flex flex-col justify-between ${
+                            isLocked
+                              ? 'border-sun bg-amber-500/5 shadow-sm'
+                              : thr.severity === 'high'
+                              ? 'border-red-500/30 bg-red-500/5'
+                              : thr.severity === 'medium'
+                              ? 'border-amber-500/30 bg-amber-500/5'
+                              : 'border-emerald-500/30 bg-emerald-500/5'
+                          }`}
+                        >
                           <div>
-                            <h3 className="font-display text-base font-bold text-ink leading-snug">
-                              {thr.title}
-                            </h3>
-                            <p className="coord text-[0.68rem] text-sun mt-0.5">
-                              📍 {thr.area}
+                            {/* Header der Karte */}
+                            <div className="flex items-start justify-between gap-3 mb-2">
+                              <span className={`text-[0.62rem] font-mono px-2.5 py-0.5 rounded-full border ${catB.color} font-bold`}>
+                                {catB.label}
+                              </span>
+                              {isLocked ? (
+                                <span className="text-[0.6rem] font-mono px-2 py-0.5 rounded-full bg-sun-bright text-ink font-bold border border-sun">
+                                  🔒 VIP SHIELD
+                                </span>
+                              ) : (
+                                <span className={`text-[0.6rem] font-mono px-2 py-0.5 rounded-full ${sevB.color}`}>
+                                  {sevB.label}
+                                </span>
+                              )}
+                            </div>
+
+                            {/* Titel & Ort */}
+                            <div className="flex items-start gap-2.5 my-2">
+                              <span className="text-2xl flex-shrink-0">{thr.icon}</span>
+                              <div>
+                                <h3 className="font-display text-base font-bold text-ink leading-snug">
+                                  {thr.title}
+                                </h3>
+                                <p className="coord text-[0.68rem] text-sun mt-0.5">
+                                  📍 {thr.area}
+                                </p>
+                              </div>
+                            </div>
+
+                            {/* Beschreibung */}
+                            <p className="font-body text-xs text-ink-faint leading-relaxed my-2">
+                              {thr.desc}
                             </p>
+
+                            {/* Ausweichempfehlung oder Lock-Box */}
+                            {isLocked ? (
+                              <div className="bg-amber-500/10 p-3 rounded-lg border border-sun/50 my-2">
+                                <p className="font-mono text-[0.62rem] text-terracotta uppercase font-bold tracking-wider mb-0.5">
+                                  🔒 VIP Radar Shield Schutzbereich:
+                                </p>
+                                <p className="font-body text-xs text-ink font-semibold leading-relaxed">
+                                  {thr.proShieldReason || 'Exakter GPS-Gefahrenradius, Täter-Maschen & sichere Ausweichrouten.'}
+                                </p>
+                                <button
+                                  onClick={() => {
+                                    setSelectedThreatForUnlock(thr)
+                                    setShowVipModal(true)
+                                  }}
+                                  className="btn btn-primary text-xs py-2 px-3 font-bold mt-2 w-full shadow-md"
+                                >
+                                  🛡️ Diese Mikro-Gefahrenzone freischalten
+                                </button>
+                              </div>
+                            ) : (
+                              <div className="bg-paper-deep/80 p-3 rounded-lg border border-sun/30 my-2">
+                                <p className="font-mono text-[0.62rem] text-terracotta uppercase font-bold tracking-wider mb-0.5">
+                                  💡 Handlungsempfehlung:
+                                </p>
+                                <p className="font-body text-xs text-ink font-medium leading-relaxed">
+                                  {thr.advice}
+                                </p>
+                              </div>
+                            )}
+                          </div>
+
+                          {/* Footer */}
+                          <div className="flex items-center justify-between text-[0.65rem] font-mono text-ink-faint pt-2 border-t border-sun/20">
+                            <span>🕒 {thr.timeAgo}</span>
+                            <span className="text-emerald-600 font-bold">
+                              ✓ {thr.verifiedReports} Bestätigungen
+                            </span>
                           </div>
                         </div>
-
-                        {/* Beschreibung */}
-                        <p className="font-body text-xs text-ink-faint leading-relaxed my-2">
-                          {thr.desc}
-                        </p>
-
-                        {/* Ausweichempfehlung */}
-                        <div className="bg-paper-deep/80 p-3 rounded-lg border border-sun/30 my-2">
-                          <p className="font-mono text-[0.62rem] text-terracotta uppercase font-bold tracking-wider mb-0.5">
-                            💡 Handlungsempfehlung:
-                          </p>
-                          <p className="font-body text-xs text-ink font-medium leading-relaxed">
-                            {thr.advice}
-                          </p>
-                        </div>
-                      </div>
-
-                      {/* Footer */}
-                      <div className="flex items-center justify-between text-[0.65rem] font-mono text-ink-faint pt-2 border-t border-sun/20">
-                        <span>🕒 {thr.timeAgo}</span>
-                        <span className="text-emerald-600 font-bold">
-                          ✓ {thr.verifiedReports} Bestätigungen
-                        </span>
-                      </div>
-                    </div>
-                  )
-                })}
-              </div>
+                      )
+                    })}
+                  </div>
+                )}
+              </>
             )}
           </div>
         )}
@@ -779,68 +922,91 @@ export default function Radar() {
         )}
       </div>
 
-      {/* ─── VIP EXPLORER CLUB MODAL ─── */}
+      {/* ─── VIP EXPLORER CLUB & GIVE & TAKE MODAL ─── */}
       {showVipModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
-          <div className="card max-w-lg w-full p-6 border-2 border-sun shadow-2xl relative bg-paper text-ink">
+          <div className="card max-w-lg w-full p-6 border-2 border-sun shadow-2xl relative bg-paper text-ink max-h-[90vh] overflow-y-auto">
             <button
-              onClick={() => setShowVipModal(false)}
+              onClick={() => {
+                setShowVipModal(false)
+                setSelectedThreatForUnlock(null)
+              }}
               className="absolute top-4 right-4 text-ink-faint hover:text-ink font-mono text-base"
             >
               ✕
             </button>
 
             <span className="font-mono text-xs text-terracotta font-bold uppercase tracking-wider block mb-1">
-              ⭐ Exklusiv für VIP Explorer
+              🛡️ VIP Radar Shield &amp; Give-and-Take Freischaltung
             </span>
-            <h3 className="font-display text-2xl font-black text-ink mb-2">
-              VIP Explorer Pass &amp; Audio-Club
+            <h3 className="font-display text-2xl font-black text-ink mb-1">
+              {selectedThreatForUnlock ? selectedThreatForUnlock.title : 'VIP Explorer Pass & Live Shield'}
             </h3>
             <p className="font-body text-xs text-ink-faint leading-relaxed mb-4">
-              Schalte alle Audio-Guides zu Stadtlegenden, exklusive Offline-Karten und Notfall-Push-Warnungen frei.
+              {selectedThreatForUnlock?.proShieldReason
+                ? `Schutzbereich: ${selectedThreatForUnlock.proShieldReason}.`
+                : 'Schalte unzensierte Kriminalitätszonen, K.O.-Tropfen Lokale, Audio-Stadtlegenden und Offline-Karten frei.'}
             </p>
 
-            <div className="space-y-2.5 text-xs font-body mb-5">
-              <div className="flex items-center gap-2">
-                <span className="text-leaf">✓</span>
-                <span>Unbegrenzter Zugriff auf alle <strong>Audio-Stadtlegenden</strong></span>
+            {/* Zwei Wege zur Freischaltung */}
+            <div className="space-y-4 my-4">
+              {/* WEG 1: Give & Take (Kostenlos) */}
+              <div className="p-4 rounded-xl border-2 border-leaf bg-leaf-wash">
+                <div className="flex items-center gap-2 mb-1">
+                  <span className="text-xl">🤝</span>
+                  <p className="font-display font-bold text-sm text-leaf">
+                    Weg 1: 100% Kostenlos via Give &amp; Take
+                  </p>
+                </div>
+                <p className="font-body text-xs text-ink-faint leading-relaxed mb-3">
+                  Teile einen Secret Spot oder melde eine Gefahrenstelle. Für jeden Beitrag erhältst du sofort einen <strong>Community VIP Pro Pass</strong>!
+                </p>
+                <div className="flex gap-2 flex-wrap">
+                  <button
+                    onClick={() => {
+                      setShowVipModal(false)
+                      setShowReport(true)
+                    }}
+                    className="btn btn-secondary text-xs py-1.5 px-3 font-bold flex-1 text-center bg-white"
+                  >
+                    🚨 Vorfall melden (+7 Tage Pro)
+                  </button>
+                  <a
+                    href="/explore"
+                    className="btn btn-secondary text-xs py-1.5 px-3 font-bold flex-1 text-center bg-white"
+                  >
+                    📍 Spot einreichen (+14 Tage Pro)
+                  </a>
+                </div>
               </div>
-              <div className="flex items-center gap-2">
-                <span className="text-leaf">✓</span>
-                <span><strong>Offline GPS-Karten</strong> für Schluchten und Funklöcher</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="text-leaf">✓</span>
-                <span>Prioritäre Notfall-Benachrichtigungen bei Naturgefahren</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="text-leaf">✓</span>
-                <span>Verifizierter Explorer-Badge im Profil und Reisepass</span>
+
+              {/* WEG 2: Pro Abo (Sofort ohne Beiträge) */}
+              <div className="p-4 rounded-xl border border-sun bg-paper-deep text-center">
+                <p className="font-mono text-[0.68rem] text-ink-faint uppercase font-bold">Weg 2: Direkt freischalten</p>
+                <p className="font-display text-2xl font-black text-ink my-1">
+                  2,99 € <span className="text-xs font-normal text-ink-faint">/ Monat</span>
+                </p>
+                <p className="font-body text-[0.72rem] text-ink-faint mb-3">
+                  Keine Lust selbst Inhalte einzureichen? Sichere dir vollen Zugriff mit dem fairen Monats-Abo (jederzeit kündbar).
+                </p>
+                <a
+                  href="/pricing"
+                  className="btn btn-primary text-xs font-bold py-2 px-6 w-full text-center block shadow-md"
+                >
+                  💳 Jetzt VIP Pass abonnieren (2,99 €)
+                </a>
               </div>
             </div>
 
-            <div className="bg-paper-deep p-4 rounded-xl border border-sun mb-5 text-center">
-              <p className="font-mono text-xs text-ink-faint">Monatlich kündbar</p>
-              <p className="font-display text-3xl font-black text-ink my-1">
-                9,99 € <span className="text-xs font-normal text-ink-faint">/ Monat</span>
-              </p>
-              <p className="text-[0.68rem] text-emerald-600 font-bold">
-                Oder kostenlos durch Community-Beiträge freischalten (Give &amp; Take)
-              </p>
-            </div>
-
-            <div className="flex gap-3">
-              <a
-                href="/pricing"
-                className="btn btn-primary text-xs font-bold flex-1 py-2.5 text-center"
-              >
-                Jetzt VIP werden
-              </a>
+            <div className="border-t border-line pt-3 flex justify-end">
               <button
-                onClick={() => setShowVipModal(false)}
+                onClick={() => {
+                  setShowVipModal(false)
+                  setSelectedThreatForUnlock(null)
+                }}
                 className="btn btn-ghost text-xs"
               >
-                Später
+                Schließen
               </button>
             </div>
           </div>

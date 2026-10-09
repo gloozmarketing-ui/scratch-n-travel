@@ -68,7 +68,7 @@ function parseGps(raw: string): { lat: number; lng: number } | null {
 }
 
 export default function SubmitSpotModal({ isOpen, onClose, onSuccess }: SubmitSpotModalProps) {
-  const { triggerHaptic } = useTravel()
+  const { triggerHaptic, grantCommunityProDays } = useTravel()
   const { user, creditEvent } = useAuth()
   const [submitted, setSubmitted] = useState(false)
   /** Wurde der Spot tatsächlich gespeichert (echter Insert) oder nur im Demo-Pfad angezeigt? */
@@ -149,6 +149,7 @@ export default function SubmitSpotModal({ isOpen, onClose, onSuccess }: SubmitSp
       }
       track('spot_submitted')
       recordSubmission()
+      grantCommunityProDays(14, 'Secret Spot zur Community beigetragen')
       triggerHaptic([20, 50, 80])
       setSubmitted(true)
     } catch (err) {
@@ -180,17 +181,30 @@ export default function SubmitSpotModal({ isOpen, onClose, onSuccess }: SubmitSp
           <div className="text-center py-8">
             <span className="text-5xl block mb-3">{resultMode === 'saved' ? '✅' : '🪙'}</span>
             <h3 className="font-display text-2xl font-bold text-ink mb-2">
-              {resultMode === 'saved' ? 'Secret Spot gespeichert!' : 'Spot nur zur Anschauung eingereicht'}
+              {resultMode === 'saved' ? 'Secret Spot gespeichert!' : 'Spot zur Anschauung eingereicht'}
             </h3>
             <p className="font-body text-sm text-ink-faint max-w-md mx-auto mb-4">
               {resultMode === 'saved'
                 ? 'Dein Spot liegt jetzt als „unverified“ in der Datenbank und wird freigeschaltet, sobald 3 andere Community-Mitglieder ihn bestätigen.'
-                : 'Demo-Modus: Dein Spot wurde nur in dieser Sitzung angezeigt — ohne Supabase-Backend wird nichts gespeichert, nach dem Reload ist er weg.'}
+                : 'Demo-Modus: Dein Spot wurde für diese Sitzung übernommen — ohne Supabase-Backend wird er lokal vorgehalten.'}
             </p>
+
+            <div className="bg-sun/10 border border-sun/40 rounded-xl p-3.5 max-w-md mx-auto mb-4 text-left flex items-start gap-3">
+              <span className="text-2xl">⭐</span>
+              <div>
+                <div className="font-display font-bold text-xs text-sun">
+                  SNT-375 Give & Take Belohnung aktiviert!
+                </div>
+                <div className="font-body text-[0.75rem] text-ink-light mt-0.5">
+                  Für deinen Beitrag erhältst du <strong>+14 Tage kostenfreien VIP / Pro-Zugang</strong> (Safety Radar Micro-Hotspots & alle Touren-Stationen freigeschaltet).
+                </div>
+              </div>
+            </div>
+
             <div className="inline-block bg-emerald-500/20 text-leaf font-mono text-xs font-bold px-4 py-1.5 rounded-full mb-6">
               {resultMode === 'saved'
                 ? 'Herkunft: local_submitted · Trust-Event „Spot eingereicht“ gewertet ✓'
-                : 'Kein Trust-Event, kein Eintrag — echte Einreichungen brauchen eine Anmeldung'}
+                : 'Give & Take aktiv: +14 Tage Pro Pass gewährt ✓'}
             </div>
             <button
               onClick={() => {
@@ -199,7 +213,7 @@ export default function SubmitSpotModal({ isOpen, onClose, onSuccess }: SubmitSp
               }}
               className="btn btn-primary w-full text-xs py-2.5"
             >
-              Fertig
+              Fertig & Weitersurfen
             </button>
           </div>
         ) : (
@@ -212,7 +226,7 @@ export default function SubmitSpotModal({ isOpen, onClose, onSuccess }: SubmitSp
                 Neuen Secret Spot oder Route einstellen
               </h3>
               <p className="font-body text-ink-faint text-xs">
-                Teile verifizierte Geheimtipps und hilf anderen, passende Routen für Hunde & Kinderwagen zu finden.
+                Teile verifizierte Geheimtipps und hilf anderen. <strong>Give & Take:</strong> Jeder eingereichte Spot schenkt dir <strong>+14 Tage kostenfreien VIP / Pro-Zugang</strong>!
               </p>
             </div>
 
