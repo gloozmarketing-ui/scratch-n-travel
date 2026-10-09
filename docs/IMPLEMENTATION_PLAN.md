@@ -27,20 +27,28 @@
 | T-101 (Teil) | ✅ Route-Splitting + lazy Leaflet: Haupt-Chunk **432 → 169 KB** (gzip 100 → 32 KB) | `3eb6c12`, Build-Log |
 | SNT-219 | ✅ Footer verlinkt Impressum/Datenschutz/AGB/Sicherheit (§ 5 DDG) — waren vorher unerreichbar | `3eb6c12` |
 | SNT-408/412 | ✅ CI-Quality-Gate vor Deploy + Bundle-Budget (`npm run check:bundle`) | `3eb6c12` |
+| SNT-331…334 | ✅ Supabase Live-Betrieb (Schema, RLS-Tests 16/16, Vercel-Env, pg_cron 1.6.4) | `2a2f4a7`, Live verifiziert |
+| SNT-340…346 | ✅ Orts-Chat ADR-002, Migration, Geo-RPC, RLS & UI | `66820dd`, 16 Tests grün |
+| SNT-307/308/311 | ✅ Community P2 Guardrails (3-Voten-Schwelle, Anti-Spoofing, Rate-Limits) | `b945912` |
 
-## 🔴 Was offen ist — in Reihenfolge
+## 🚀 PHASE 4: Premium Ausbau-Masterplan (Content, Safety Radar 2.0 & Monetarisierung)
+
+| Task | Spezifikation & Feature | Modul | Karten | Wer | Status & Nachweis |
+|---|---|---|---|---|---|
+| **T-201** | Multi-Farb Safety Radar & Threat Cockpit (🔴 Kriminalität, 🟠 Natur, 🟡 Wildtiere, 🔵 Connectivity) | Modul A | SNT-501 | 👤 A | ✅ erledigt 2026-10-09 (`src/pages/Radar.tsx`, Notruf-Schnellwahl, Filter) |
+| **T-202** | Globales Country Travel Intelligence Dataset (DACH, Südeuropa, Asien: Notruf, Wasser, Maut, eSIM) | Modul A/D | SNT-502 | 👤 A | ✅ erledigt 2026-10-09 (`src/data/travelIntelligence.ts`, 8 Dossiers DE, AT, CH, PT, ES, IT, IS, JP) |
+| **T-203** | Stadt-Legenden, Mythen & Geheime Geschichte (Guide-Modus & VIP Audio-Teaser) | Modul B | SNT-503 | 👤 A | ✅ erledigt 2026-10-09 (`Radar.tsx` Legenden-Tab + VIP Club Trigger) |
+| **T-204** | Kuration Vorab-Content (Hidden Gems, Panoramen, Wilde Buchten, Lost Places) | Modul C | SNT-504 | 👤 A | ✅ erledigt 2026-10-09 (`travelIntelligence.ts` + `data.ts` Hallstatt & Wien) |
+| **T-205** | Multilingual & DACH-Differenzierung (DE, AT, CH getrennt + i18n Sprachwechsler DE, EN, ES, FR, PT, RU) | Modul D | SNT-505 | 👤 A | ✅ erledigt 2026-10-09 (`src/lib/i18n.ts`, `src/components/LanguageSelector.tsx`, `Layout.tsx`) |
+| **T-206** | B2C VIP Explorer Club & B2B Local Host Portal (QR-Stempel-Aufsteller) | Monetarisierung | SNT-506 | 👤 A | ✅ erledigt 2026-10-09 (`Host.tsx` B2B Kit 29 €/Mo + `Pricing.tsx` Host-Section) |
+
+## 🔴 Was noch offen ist (Owner)
 
 | # | Offene Stelle | Plan-Task | Karten | Wer | Blockiert danach |
 |---|---|---|---|---|---|
-| 1 | **6 API-Keys widerrufen** (Zenmux, Requesty, Cerebras, Vercel AI, Cloudflare, Printful) + neue in Vercel Env | T-001 Rest | SNT-101 | 👤 V | echter KI-Router |
-| 2 | **Domain-Entscheidung** `scratchntravel.com` kaufen oder Vercel-URL — dann Search Console | T-003 Rest | SNT-108/109 | 👤 V | SEO, Magazin |
-| 3 | **Supabase live**: Projekt anlegen, `schema.sql`, Env in Vercel | T-102/103 | SNT-331/332 | 👤 V | **alles Live-Testbare** |
-| 4 | **RLS-Tests + pg_cron** gegen echte Instanz | T-103 | SNT-333/334 | 👤 A | Foto-TTL, Chat |
-| 5 | **POD umsetzen**: Printify-Keys → echte IDs → Musterbestellung (Katalog/Labels ✅ SNT-362) | **T-005 (neu)** | SNT-363…365 | 👤 V/A | Merch-Umsatz |
-| 6 | **Rechtstexte juristisch prüfen** | T-105 | SNT-220 | 👤 V | erster Nutzer |
-| 7 | **Abschließender Verify-Rundgang** (`check:all`, Browser, Login→Reload→Logout) | **T-006 (neu)** | — | 👤 A | v1-Launch |
-
-**Kritischer Pfad:** 3 (Supabase) → 4 → Verify. Punkt 1–2 kann parallel der Owner machen.
+| 1 | **6 API-Keys widerrufen** (Zenmux, Requesty, Cerebras, Vercel AI, Cloudflare, Printful) | T-001 Rest | SNT-101 | 👤 V | echter KI-Router |
+| 2 | **Domain-Entscheidung** `scratchntravel.com` kaufen oder Vercel-URL | T-003 Rest | SNT-108/109 | 👤 V | SEO, Magazin |
+| 3 | **Rechtstexte juristisch prüfen** | T-105 | SNT-220 | 👤 V | erster zahlender Nutzer |
 
 ---
 

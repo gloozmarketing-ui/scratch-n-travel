@@ -191,6 +191,13 @@
 | SNT-315 | 📄 `docs/MEETUP_001_REPORT.md` schreiben | 1 h | 👤 V | SNT-314 |
 | SNT-374 | 🤝 **Give & Take priorisieren**: Sektion auf Startseite + Banner auf Pricing (Freemium = aktiv mitmachen) | 2 h | 👤 A | ✅ erledigt 2026-10-06 — `Home.tsx` Give-&-Take-Sektion, `Pricing.tsx` Banner + Free-Feature |
 | SNT-375 | 🎯 Aktivitäts-Freemium: wer aktiv gibt, bekommt Pro frei (Beitrags-Tracking + Freischaltung) | 4 h | 👤 A | SNT-374 |
+| SNT-501 | 🛡️ Multi-Farb Safety Radar & Threat Cockpit (🔴 Kriminalität, 🟠 Natur, 🟡 Wildtiere, 🔵 Connectivity) | 3 h | 👤 A | ✅ erledigt 2026-10-09 — `src/pages/Radar.tsx` mit Farbkodierung, Notruf-Schnellwahl & Filtern |
+| SNT-502 | 🌍 Globales Country Intelligence Dataset (DACH, Südeuropa, Asien etc.: Notruf, Wasser, Maut, eSIM) | 3 h | 👤 A | ✅ erledigt 2026-10-09 — `src/data/travelIntelligence.ts` mit 8 Dossiers |
+| SNT-503 | 📜 Stadt-Legenden, Mythen & Geheime Geschichte (Guide-Modus & VIP Audio Teaser) | 3 h | 👤 A | ✅ erledigt 2026-10-09 — Stadt-Legenden, Audio-Teaser & VIP Modal |
+| SNT-504 | 🗺️ Vorab-Content Seeding (50+ Hidden Gems: Panoramas, Food, Wild Swims, Lost Places) | 3 h | 👤 A | ✅ erledigt 2026-10-09 — Hidden Gems in AT & PT, DACH getrennt |
+| SNT-505 | 🌐 Multilingual i18n & DACH-Separation (DE, AT, CH spezifisch + Sprachwechsler) | 2,5 h | 👤 A | ✅ erledigt 2026-10-09 — `i18n.ts` + `LanguageSelector.tsx` in Layout |
+| SNT-506 | 💼 B2C VIP Explorer Pass & B2B Local Host Portal (QR-Stempel-Aufsteller) | 3 h | 👤 A | ✅ erledigt 2026-10-09 — B2B Host Portal auf `/host` & `/pricing` (29 €/Mo) |
+
 
 
 ### 🔴 P0 — Schema war nie ausführbar (gefunden 2026-09-27)

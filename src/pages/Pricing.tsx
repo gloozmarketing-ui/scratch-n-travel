@@ -193,6 +193,35 @@ export default function Pricing() {
           ))}
         </div>
 
+        {/* B2B Verified Local Host Partner Section */}
+        <div className="card parchment p-6 sm:p-8 max-w-5xl mx-auto border-2 border-leaf shadow-xl">
+          <div className="grid md:grid-cols-3 gap-6 items-center">
+            <div className="md:col-span-2 space-y-2">
+              <span className="font-mono text-xs font-bold text-leaf bg-leaf-wash px-3 py-1 rounded-full uppercase">
+                B2B Partner &amp; Local Business
+              </span>
+              <h3 className="font-display text-2xl font-bold text-ink">
+                Verified Local Host &amp; Gastro Hub — 29 € / Monat
+              </h3>
+              <p className="font-body text-xs sm:text-sm text-ink-faint leading-relaxed">
+                Für Cafés, Tascas, Guides, Surfschulen und Manufakturen. 
+                Inklusive <strong>physischem Holz/Acryl QR-Stempelaufsteller</strong> per Post, 
+                digitalem Reisepass-Stempel für Gäste (+50 XP), 
+                <strong> 0% Buchungsprovision</strong> und Verifizierung im Safety &amp; Connectivity Radar.
+              </p>
+            </div>
+            <div className="text-center md:text-right space-y-3">
+              <div>
+                <span className="font-display text-3xl font-black text-leaf">29,00 €</span>
+                <span className="font-mono text-xs text-ink-faint ml-1">/ Monat</span>
+              </div>
+              <Link to="/host" className="btn btn-primary w-full md:w-auto py-2.5 px-6 text-xs font-bold shadow-lg inline-block">
+                Host Starter-Kit bestellen →
+              </Link>
+            </div>
+          </div>
+        </div>
+
         <div className="parchment rounded-xl p-6 max-w-4xl mx-auto text-center border border-terracotta shadow-md">
           <p className="font-script text-2xl text-terracotta mb-1">Datenschutz- und DSGVO-konform</p>
           <p className="font-body text-ink text-sm max-w-xl mx-auto">

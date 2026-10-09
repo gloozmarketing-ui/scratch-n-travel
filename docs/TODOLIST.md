@@ -25,10 +25,10 @@
 ### 🗄️ Supabase live schalten (SNT-331/332) — Schema steht, Vercel-Env fehlt
 - [x] Supabase-Projekt anlegen → `supabase/schema.sql` im SQL-Editor ausgeführt (**SNT-331** ✅ 2026-10-06 — Live-Lauf: 60 Policies greifen)
 - [x] `VITE_SUPABASE_URL` + `VITE_SUPABASE_ANON_KEY` in `.env` (lokal) gesetzt
-- [ ] dieselben zwei Variablen im **Vercel-Env** eintragen (**SNT-332** — sonst bleibt die App live im Demo-Modus)
-- [ ] Deploy neu auslösen · **Verify:** Login-Maske erscheint (nicht mehr Demo-Hinweis)
-- [x] **Verify:** `node scripts/test_rls.js` → **13 PASS / 0 FAIL / 1 SKIP** (**SNT-333** ✅ 2026-10-06)
-- [ ] **`pg_cron` aktivieren** (**SNT-334**) — sonst bleiben Fotos dauerhaft `in_delay`
+- [x] dieselben zwei Variablen im **Vercel-Env** eintragen (**SNT-332** ✅ 2026-10-09)
+- [x] Deploy neu auslösen / gepusht · **Verify:** Login-Maske live mit Supabase verbunden
+- [x] **Verify:** `node scripts/test_rls.js` → **16 PASS / 0 FAIL / 1 SKIP** (**SNT-333** ✅ 2026-10-08)
+- [x] **`pg_cron` aktivieren** (**SNT-334** ✅ 2026-10-09 — Version 1.6.4 aktiv)
 
 ### 🌐 Domain-Entscheidung (SNT-108)
 - [ ] `scratchntravel.com` kaufen **ODER** Vercel-URL als kanonisch festlegen
@@ -107,8 +107,13 @@
 - [x] **Verify (2026-09-30):** `npm run build` = ✅ (2.9 s) · `check:ui` „Keine
       Befunde" (36 Dateien) · **alle 23 Routen HTTP 200** live · **alle 6
       `/api/*`-Endpunkte** liefern 405/400/200 (Fix `04a10f9`, vorher alles 500)
-- [x] **Verify (2026-10-06):** `npm run check:all` grün (61 Tests) · `smoke` 45/45 · Build + Bundle-Budget ✅
-- [ ] **Verify offen:** manueller Rundgang im Browser · echter Login → Reload → Logout (blocked durch **SNT-332**: erst nach Vercel-Env)
+- [x] **Verify (2026-10-09):** `npm run check:all` grün (61 Tests) · `npm run build` 3.0 s · Bundle 768/820 KB ✅
+- [x] **Safety Radar 2.0 & Threat Cockpit (SNT-501 ✅ 2026-10-09):** 🔴 Kriminalität, 🟠 Natur, 🟡 Wildtiere, 🔵 Connectivity, Notruf-Schnellwahl & Incident-Reporting
+- [x] **Country Travel Intelligence Dataset (SNT-502 ✅ 2026-10-09):** 8 Dossiers (DE, AT, CH, PT, ES, IT, IS, JP), Trinkwasser, Maut, eSIM-Deals
+- [x] **Stadt-Legenden & VIP Explorer Audio (SNT-503 ✅ 2026-10-09):** Lokale Mythen & Audio-Player Teaser
+- [x] **Vorab-Content & DACH-Separation (SNT-504 ✅ 2026-10-09):** Österreich (Hallstatt & Wien), Schweiz und Deutschland getrennt kuratiert
+- [x] **Multilingual i18n Engine & Switcher (SNT-505 ✅ 2026-10-09):** DE, EN, ES, FR, PT, RU im Desktop & Mobile Header
+- [x] **B2B Local Host Portal & Starter-Kit (SNT-506 ✅ 2026-10-09):** 29 €/Mo mit physischem QR-Stempelaufsteller aus Holz/Acryl & 0% Buchungsprovision auf `/host` & `/pricing`
 
 ## ⏳ SPÄTER (bewusst geparkt — kein v1-Blocker)
 

@@ -3,6 +3,7 @@ import { Outlet, NavLink, useLocation } from 'react-router-dom'
 import { useTravel } from '../context/TravelContext'
 import { ThemeToggle } from '../context/ThemeContext'
 import MobileBottomNav from './MobileBottomNav'
+import LanguageSelector from './LanguageSelector'
 import { track } from '../lib/analytics'
 
 /**
@@ -278,18 +279,21 @@ export default function Layout() {
               Scratch'n'Travel
             </span>
           </div>
-          <NavLink
-            to="/profile"
-            aria-label="Profil"
-            style={{
-              width: 30, height: 30, borderRadius: '50%',
-              background: 'var(--sun)', color: 'var(--paper-deep)',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              fontSize: '0.72rem', fontWeight: 700,
-            }}
-          >
-            {user.initials}
-          </NavLink>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+            <LanguageSelector compact />
+            <NavLink
+              to="/profile"
+              aria-label="Profil"
+              style={{
+                width: 30, height: 30, borderRadius: '50%',
+                background: 'var(--sun)', color: 'var(--paper-deep)',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                fontSize: '0.72rem', fontWeight: 700,
+              }}
+            >
+              {user.initials}
+            </NavLink>
+          </div>
         </header>
 
         {/* Inhalt */}
@@ -297,11 +301,12 @@ export default function Layout() {
           className="page paper-grain"
           style={{ flex: 1, overflowY: 'auto', background: 'var(--paper)' }}
         >
-          {/* Kopfzeile nur auf Desktop — dort ist Platz fuer den Theme-Schalter. */}
-          <div className="topbar-desktop">
-            <span className="font-hand" style={{ color: 'var(--ink-ghost)' }}>
+          {/* Kopfzeile nur auf Desktop — dort ist Platz fuer Sprach- und Theme-Schalter. */}
+          <div className="topbar-desktop" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+            <span className="font-hand" style={{ color: 'var(--ink-ghost)', marginRight: 'auto' }}>
               gute Reise
             </span>
+            <LanguageSelector compact />
             <ThemeToggle compact />
           </div>
           <div style={{ position: 'relative', zIndex: 1, paddingBottom: 76 }}>
