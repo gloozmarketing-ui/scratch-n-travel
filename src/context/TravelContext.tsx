@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react'
 import { allBadges, BadgeItem } from '../data/allBadges'
 import { track } from '../lib/analytics'
+import { supabase } from '../services/supabase'
 
 export interface PassportStamp {
   id: string
@@ -68,6 +69,45 @@ export interface UserProfile {
   secretsCount: number
   badgesCount: number
   storiesCount: number
+  isDemo?: boolean
+  email?: string
+}
+
+export const demoUser: UserProfile = {
+  name: 'Maria Santos (Demo)',
+  handle: '@mariatravels',
+  initials: 'MS',
+  rank: 'Explorer Rang 3 · Pathfinder',
+  level: 3,
+  xp: 2680,
+  xpNext: 3500,
+  joinDate: 'Mai 2025',
+  bio: 'Ocean enthusiast, surf lover & seeker of unmarked dirt roads across Europe.',
+  hobbies: ['Surfing', 'Astrophotography', 'Foraging', 'Fado', 'Cold Plunge', 'Vanlife', 'Wine Tasting'],
+  countriesCount: 14,
+  secretsCount: 28,
+  badgesCount: 27,
+  storiesCount: 9,
+  isDemo: true,
+  email: 'maria@wanderer.eu'
+}
+
+export const guestUser: UserProfile = {
+  name: 'Gast Explorer',
+  handle: '@gast',
+  initials: 'GE',
+  rank: 'Gast (Nicht angemeldet)',
+  level: 1,
+  xp: 0,
+  xpNext: 500,
+  joinDate: 'Heute',
+  bio: 'Du stöberst als Gast. Melde dich an, um Stempel und deinen Reisepass dauerhaft zu speichern.',
+  hobbies: ['Entdecken', 'Reisen'],
+  countriesCount: 0,
+  secretsCount: 0,
+  badgesCount: 0,
+  storiesCount: 0,
+  isDemo: false,
 }
 
 interface TravelContextType {
@@ -86,6 +126,8 @@ interface TravelContextType {
   createReservation: (res: Omit<HostReservation, 'id' | 'status' | 'createdAt'>) => void
   likeFeedItem: (id: string) => void
   resetToStandardUser: () => void
+  logout: () => Promise<void>
+  loginAsDemo: () => void
 }
 
 const initialStamps: PassportStamp[] = [
@@ -384,6 +426,66 @@ export function TravelProvider({ children }: { children: React.ReactNode }) {
     setBadges(allBadges)
   }
 
+  // Supabase Auth Sync
+  useEffect(() => {
+    if (!supabase) return
+
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session?.user?.email) {
+        const email = session.user.email
+        const name = session.user.user_metadata?.full_name || email.split('@')[0]
+        const initials = name.slice(0, 2).toUpperCase()
+        setUser(prev => ({
+          ...prev,
+          name,
+          email,
+          handle: '@' + email.split('@')[0],
+          initials,
+          rank: 'Angemeldeter Explorer',
+          isDemo: false
+        }))
+      }
+    })
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (session?.user?.email) {
+        const email = session.user.email
+        const name = session.user.user_metadata?.full_name || email.split('@')[0]
+        const initials = name.slice(0, 2).toUpperCase()
+        setUser(prev => ({
+          ...prev,
+          name,
+          email,
+          handle: '@' + email.split('@')[0],
+          initials,
+          rank: 'Angemeldeter Explorer',
+          isDemo: false
+        }))
+      }
+    })
+
+    return () => subscription.unsubscribe()
+  }, [])
+
+  const logout = async () => {
+    triggerHaptic(15)
+    if (supabase) {
+      try {
+        await supabase.auth.signOut()
+      } catch (err) {
+        console.warn('SignOut error:', err)
+      }
+    }
+    localStorage.removeItem('snt_user')
+    setUser(guestUser)
+  }
+
+  const loginAsDemo = () => {
+    triggerHaptic(15)
+    localStorage.setItem('snt_user', JSON.stringify(demoUser))
+    setUser(demoUser)
+  }
+
   return (
     <TravelContext.Provider
       value={{
@@ -402,6 +504,8 @@ export function TravelProvider({ children }: { children: React.ReactNode }) {
         createReservation,
         likeFeedItem,
         resetToStandardUser,
+        logout,
+        loginAsDemo,
       }}
     >
       {children}

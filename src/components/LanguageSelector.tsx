@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import { supportedLanguages, getActiveLanguage, setActiveLanguage, SupportedLanguage } from '../lib/i18n'
+import React, { useState } from 'react'
+import { supportedLanguages, useI18n, SupportedLanguage } from '../lib/i18n'
 
 interface LanguageSelectorProps {
   compact?: boolean
@@ -7,25 +7,13 @@ interface LanguageSelectorProps {
 }
 
 export default function LanguageSelector({ compact = false, className = '' }: LanguageSelectorProps) {
-  const [currentLang, setCurrentLang] = useState<SupportedLanguage>(getActiveLanguage)
+  const { lang: currentLang, setLanguage } = useI18n()
   const [isOpen, setIsOpen] = useState(false)
-
-  useEffect(() => {
-    const handleLangChange = (e: Event) => {
-      const customEvent = e as CustomEvent<SupportedLanguage>
-      if (customEvent.detail) {
-        setCurrentLang(customEvent.detail)
-      }
-    }
-    window.addEventListener('snt_lang_changed', handleLangChange)
-    return () => window.removeEventListener('snt_lang_changed', handleLangChange)
-  }, [])
 
   const currentMeta = supportedLanguages.find((l) => l.code === currentLang) || supportedLanguages[0]
 
   const handleSelect = (lang: SupportedLanguage) => {
-    setActiveLanguage(lang)
-    setCurrentLang(lang)
+    setLanguage(lang)
     setIsOpen(false)
   }
 
@@ -73,7 +61,7 @@ export default function LanguageSelector({ compact = false, className = '' }: La
               top: 'calc(100% + 6px)',
               right: 0,
               zIndex: 70,
-              minWidth: '150px',
+              minWidth: '160px',
               background: 'var(--card)',
               border: '1px solid var(--line)',
               borderRadius: '12px',

@@ -4,7 +4,7 @@ import { useTravel } from '../context/TravelContext'
 import { tierGradient } from '../data/allBadges'
 
 export default function Profile() {
-  const { user, badges, stamps, reservations, triggerHaptic } = useTravel()
+  const { user, badges, stamps, reservations, triggerHaptic, logout, loginAsDemo } = useTravel()
   const [activeTab, setActiveTab] = useState<'stats' | 'badges' | 'reservations' | 'settings'>('stats')
   const [isEditing, setIsEditing] = useState(false)
   const [nameInput, setNameInput] = useState(user.name)
@@ -57,19 +57,43 @@ export default function Profile() {
             <h1 className="font-display text-3xl text-ink font-bold">Mein Profil &amp; Abenteuer-Chronik</h1>
             <p className="font-script text-sun text-lg mt-0.5">deine persönliche weltenbummler-legende</p>
           </div>
-          <div className="flex gap-2">
-            <button
-              onClick={() => {
-                triggerHaptic(10)
-                setIsEditing(true)
-              }}
-              className="btn btn-secondary text-xs py-2 px-3 font-bold"
-            >
-              ✏️ Profil bearbeiten
-            </button>
-            <button onClick={handleExportData} className="btn btn-ghost text-xs py-2 px-3">
-              📥 Daten exportieren
-            </button>
+          <div className="flex gap-2 flex-wrap items-center">
+            {user.handle === '@gast' ? (
+              <>
+                <Link to="/login" className="btn btn-primary text-xs py-2 px-4 font-bold shadow-md">
+                  🔑 Jetzt Anmelden
+                </Link>
+                <button
+                  onClick={() => loginAsDemo()}
+                  className="btn btn-secondary text-xs py-2 px-3"
+                  title="Demo-Profil aktivieren"
+                >
+                  Demo-Profil laden
+                </button>
+              </>
+            ) : (
+              <>
+                <button
+                  onClick={() => {
+                    triggerHaptic(10)
+                    setIsEditing(true)
+                  }}
+                  className="btn btn-secondary text-xs py-2 px-3 font-bold"
+                >
+                  ✏️ Profil bearbeiten
+                </button>
+                <button onClick={handleExportData} className="btn btn-ghost text-xs py-2 px-3">
+                  📥 Exportieren
+                </button>
+                <button
+                  onClick={() => logout()}
+                  className="btn btn-ghost text-xs py-2 px-3 text-terracotta border border-terracotta/40 font-bold hover:bg-terracotta hover:text-white transition"
+                  title="Abmelden"
+                >
+                  🚪 Abmelden
+                </button>
+              </>
+            )}
           </div>
         </div>
       </div>

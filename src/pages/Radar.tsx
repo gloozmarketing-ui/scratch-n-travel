@@ -8,13 +8,13 @@ import {
   ThreatSeverity
 } from '../data/travelIntelligence'
 import { useTravel } from '../context/TravelContext'
-import { getActiveLanguage, t } from '../lib/i18n'
+import { useI18n } from '../lib/i18n'
 
 type RadarMainTab = 'radar' | 'country_intel' | 'legends' | 'esim'
 
 export default function Radar() {
   const { triggerHaptic } = useTravel()
-  const lang = getActiveLanguage()
+  const { lang, t } = useI18n()
 
   // Selected Country (Default: Portugal, easily switchable to DE, AT, CH etc.)
   const [selectedCountryCode, setSelectedCountryCode] = useState<string>('PT')
@@ -168,24 +168,68 @@ export default function Radar() {
         </div>
 
         {/* ─── QUICK STATUS BANNER FÜR DAS LAND ─── */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-          {/* Notruf */}
-          <div className="card p-3.5 border border-red-500/20 bg-red-500/5">
-            <p className="font-mono text-[0.62rem] text-terracotta uppercase font-bold tracking-wider mb-1">
-              🚨 Notrufnummern ({activeCountry.code})
-            </p>
-            <div className="flex items-baseline gap-2">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
+          {/* Notruf Card */}
+          <div className="card p-3 border-2 border-red-500/30 bg-red-500/5 shadow-sm">
+            <div className="flex items-center justify-between mb-1.5">
+              <p className="font-mono text-[0.62rem] text-terracotta uppercase font-bold tracking-wider">
+                🚨 Notrufnummern ({activeCountry.code})
+              </p>
+              <span className="text-[0.55rem] font-mono text-emerald-800 dark:text-emerald-300 font-bold bg-emerald-500/20 px-1.5 py-0.2 rounded">
+                Verifiziert 2026
+              </span>
+            </div>
+
+            {/* Euronotruf 112 (EU-Standard) */}
+            {activeCountry.emergency.universalEu && (
+              <div className="mb-2 pb-1.5 border-b border-red-500/20 flex items-center justify-between">
+                <div>
+                  <a
+                    href="tel:112"
+                    className="font-display font-black text-base text-ink hover:text-red-600 transition flex items-center gap-1"
+                    title="Europaweiten Euronotruf 112 wählen"
+                  >
+                    <span>🇪🇺 112</span>
+                    <span className="text-[0.55rem] font-sans font-bold bg-terracotta text-white px-1.5 py-0.2 rounded ml-1">
+                      Euronotruf
+                    </span>
+                  </a>
+                  <p className="text-[0.55rem] text-ink-faint mt-0.5">
+                    EU-weit für Polizei, Rettung &amp; Feuerwehr
+                  </p>
+                </div>
+              </div>
+            )}
+
+            {/* Direktwahltasten */}
+            <div className="grid grid-cols-3 gap-1 text-center">
+              <a
+                href={`tel:${activeCountry.emergency.medical}`}
+                className="p-1 rounded bg-card border border-red-500/20 hover:border-red-500 text-ink block"
+                title="Rettungsdienst / Notarzt anrufen"
+              >
+                <span className="block text-[0.72rem] font-bold text-terracotta">🚑 {activeCountry.emergency.medical}</span>
+                <span className="text-[0.55rem] text-ink-faint block">Rettung</span>
+              </a>
+              <a
+                href={`tel:${activeCountry.emergency.fire}`}
+                className="p-1 rounded bg-card border border-red-500/20 hover:border-red-500 text-ink block"
+                title="Feuerwehr anrufen"
+              >
+                <span className="block text-[0.72rem] font-bold text-terracotta">🚒 {activeCountry.emergency.fire}</span>
+                <span className="text-[0.55rem] text-ink-faint block">Feuer</span>
+              </a>
               <a
                 href={`tel:${activeCountry.emergency.police}`}
-                className="font-display font-black text-lg text-ink hover:text-terracotta transition"
-                title="Klicken zum Anrufen"
+                className="p-1 rounded bg-card border border-red-500/20 hover:border-red-500 text-ink block"
+                title="Polizei anrufen"
               >
-                📞 {activeCountry.emergency.police}
+                <span className="block text-[0.72rem] font-bold text-terracotta">🚓 {activeCountry.emergency.police}</span>
+                <span className="text-[0.55rem] text-ink-faint block">Polizei</span>
               </a>
-              <span className="text-xs text-ink-faint">(Polizei)</span>
             </div>
             {activeCountry.emergency.mountainOrSea && (
-              <p className="text-[0.68rem] text-terracotta mt-1 font-mono">
+              <p className="text-[0.58rem] text-terracotta mt-1.5 font-mono text-center truncate" title={activeCountry.emergency.mountainOrSea}>
                 ⛰️ {activeCountry.emergency.mountainOrSea}
               </p>
             )}

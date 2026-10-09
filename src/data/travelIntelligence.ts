@@ -9,6 +9,7 @@ export type ThreatCategory = 'crime' | 'nature' | 'wildlife' | 'connectivity'
 export type ThreatSeverity = 'high' | 'medium' | 'advisory'
 
 export interface EmergencyContacts {
+  universalEu?: string // 112 (Euronotruf: Polizei, Notarzt & Feuerwehr EU-weit)
   police: string
   medical: string
   fire: string
@@ -102,6 +103,7 @@ export const countriesIntelligence: CountryIntelligence[] = [
     flag: '🇩🇪',
     currency: 'EUR (€)',
     emergency: {
+      universalEu: '112',
       police: '110',
       medical: '112',
       fire: '112',
@@ -134,6 +136,7 @@ export const countriesIntelligence: CountryIntelligence[] = [
     flag: '🇦🇹',
     currency: 'EUR (€)',
     emergency: {
+      universalEu: '112',
       police: '133',
       medical: '144',
       fire: '122',
@@ -167,6 +170,7 @@ export const countriesIntelligence: CountryIntelligence[] = [
     flag: '🇨🇭',
     currency: 'CHF (Schweizer Franken)',
     emergency: {
+      universalEu: '112',
       police: '117',
       medical: '144',
       fire: '118',
@@ -201,6 +205,7 @@ export const countriesIntelligence: CountryIntelligence[] = [
     flag: '🇵🇹',
     currency: 'EUR (€)',
     emergency: {
+      universalEu: '112',
       police: '112',
       medical: '112',
       fire: '112',
@@ -234,6 +239,7 @@ export const countriesIntelligence: CountryIntelligence[] = [
     flag: '🇪🇸',
     currency: 'EUR (€)',
     emergency: {
+      universalEu: '112',
       police: '091 (Nacional) / 062 (Guardia Civil)',
       medical: '112',
       fire: '112'
@@ -265,6 +271,7 @@ export const countriesIntelligence: CountryIntelligence[] = [
     flag: '🇮🇹',
     currency: 'EUR (€)',
     emergency: {
+      universalEu: '112',
       police: '112 / 113',
       medical: '118',
       fire: '115'
@@ -297,6 +304,7 @@ export const countriesIntelligence: CountryIntelligence[] = [
     flag: '🇮🇸',
     currency: 'ISK (Isländische Krone)',
     emergency: {
+      universalEu: '112',
       police: '112',
       medical: '112',
       fire: '112',

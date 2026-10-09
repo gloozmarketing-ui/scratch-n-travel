@@ -92,10 +92,10 @@
 
 ## 🔥 JETZT (Pflicht bis v1)
 
-- [x] **Supabase live** — Projekt + `schema.sql` ausgeführt (**SNT-331** ✅ 2026-10-06); lokal `.env` gesetzt,
-      offen: **Vercel-Env** (**SNT-332** — App live noch im Demo-Modus)
+- [x] **Supabase live** — Projekt + `schema.sql` ausgeführt (**SNT-331** ✅ 2026-10-06); lokal `.env` gesetzt
+- [x] **Vercel-Env Keys** (**SNT-332** ✅ 2026-10-09) — `VITE_SUPABASE_URL` & `VITE_SUPABASE_ANON_KEY` sowie alle API-Keys in Vercel hinterlegt
 - [x] **RLS-Tests gegen echte Instanz** (`node scripts/test_rls.js`, **SNT-333** ✅ 2026-10-06: 13 PASS / 0 FAIL / 1 SKIP)
-- [ ] **`pg_cron` aktivieren** — sonst bleiben Fotos dauerhaft `in_delay` (**SNT-334**)
+- [x] **`pg_cron` aktivieren** (**SNT-334** ✅ 2026-10-09) — Version 1.6.4 in Supabase aktiv geschaltet
 - [ ] **Merch-POD:** Entscheidung ✅ (Ersatz-Linie „Passport Edition" + Printify,
       SNT-360/361) → offen: Printify-Keys → echte IDs → Musterbestellung
       (**SNT-363…365**, Details `docs/POD_ORDERBARKEIT.md`)
@@ -107,13 +107,15 @@
 - [x] **Verify (2026-09-30):** `npm run build` = ✅ (2.9 s) · `check:ui` „Keine
       Befunde" (36 Dateien) · **alle 23 Routen HTTP 200** live · **alle 6
       `/api/*`-Endpunkte** liefern 405/400/200 (Fix `04a10f9`, vorher alles 500)
-- [x] **Verify (2026-10-09):** `npm run check:all` grün (61 Tests) · `npm run build` 3.0 s · Bundle 768/820 KB ✅
+- [x] **Verify (2026-10-09):** `npm run check:all` grün (61 Tests) · `npm run build` 4.6 s · Bundle 781/820 KB ✅
 - [x] **Safety Radar 2.0 & Threat Cockpit (SNT-501 ✅ 2026-10-09):** 🔴 Kriminalität, 🟠 Natur, 🟡 Wildtiere, 🔵 Connectivity, Notruf-Schnellwahl & Incident-Reporting
-- [x] **Country Travel Intelligence Dataset (SNT-502 ✅ 2026-10-09):** 8 Dossiers (DE, AT, CH, PT, ES, IT, IS, JP), Trinkwasser, Maut, eSIM-Deals
+- [x] **Country Travel Intelligence Dataset & Notruf 112 (SNT-502 ✅ 2026-10-09):** 8 Dossiers (DE, AT, CH, PT, ES, IT, IS, JP), Euronotruf 112 (EU/EWR Standard) prominent mit Tel-Links, Trinkwasser, Maut, eSIM-Deals
 - [x] **Stadt-Legenden & VIP Explorer Audio (SNT-503 ✅ 2026-10-09):** Lokale Mythen & Audio-Player Teaser
 - [x] **Vorab-Content & DACH-Separation (SNT-504 ✅ 2026-10-09):** Österreich (Hallstatt & Wien), Schweiz und Deutschland getrennt kuratiert
-- [x] **Multilingual i18n Engine & Switcher (SNT-505 ✅ 2026-10-09):** DE, EN, ES, FR, PT, RU im Desktop & Mobile Header
-- [x] **B2B Local Host Portal & Starter-Kit (SNT-506 ✅ 2026-10-09):** 29 €/Mo mit physischem QR-Stempelaufsteller aus Holz/Acryl & 0% Buchungsprovision auf `/host` & `/pricing`
+- [x] **Multilingual i18n Engine & Switcher (SNT-505 ✅ 2026-10-09):** DE, EN, ES, FR, PT, UK (🇺🇦), RU reaktiv über `useI18n()`, synchron in Desktop/Mobile Header & Sidebar
+- [x] **B2B Local Host Portal & Starter-Kit (SNT-506 ✅ 2026-10-09):** 29 €/Mo mit physischem QR-Code Tisch- und Thekenaufsteller per Post & 0% Buchungsprovision auf `/host` & `/pricing`
+- [x] **5-Farben Design-System & WCAG AAA Kontrast (SNT-507 ✅ 2026-10-09):** Palette `#042c2e`, `#4f412d`, `#a8d4c0`, `#fff6b7`, `#ffea70`; Buttons mit 17:1 Kontrast; `.parchment`-Utility
+- [x] **Auth & User Cabinet Lifecycle (SNT-508 ✅ 2026-10-09):** Echter Logout (`logout()`), Login-Trigger, Gast- vs Demo-Modus, automatische Supabase Auth-Synchronisation
 
 ## ⏳ SPÄTER (bewusst geparkt — kein v1-Blocker)
 

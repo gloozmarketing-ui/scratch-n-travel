@@ -4,6 +4,7 @@ import { useTravel } from '../context/TravelContext'
 import { ThemeToggle } from '../context/ThemeContext'
 import MobileBottomNav from './MobileBottomNav'
 import LanguageSelector from './LanguageSelector'
+import { useI18n } from '../lib/i18n'
 import { track } from '../lib/analytics'
 
 /**
@@ -52,48 +53,50 @@ function CompassRose({ size = 44, spin = false }: { size?: number; spin?: boolea
  * "460+ Badges" — das klingt nach Datenbank, nicht nach Reise.
  * Was ein Mensch auf einer Reise sucht, hat einen anderen Namen.
  */
-const navGroups = [
-  {
-    label: 'Entdecken',
-    items: [
-      { path: '/', icon: '🏠', label: 'Start' },
-      { path: '/explore', icon: '🗺️', label: 'Geheimtipps' },
-      { path: '/stories', icon: '📍', label: 'Erzählungen' },
-      { path: '/local-routes', icon: '🗺️', label: 'Local-Routen' },
-      { path: '/tours', icon: '🥾', label: 'Touren' },
-    ],
-  },
-  {
-    label: 'Menschen',
-    items: [
-      { path: '/people', icon: '🤝', label: 'Gleichgesinnte' },
-      { path: '/meetups', icon: '☕', label: 'Meetups' },
-      { path: '/chat', icon: '💬', label: 'Nachrichten' },
-    ],
-  },
-  {
-    label: 'Deine Reise',
-    items: [
-      { path: '/passport', icon: '📖', label: 'Reisepass' },
-      { path: '/scratch', icon: '🎟️', label: 'Postkarten' },
-      { path: '/wanderbond', icon: '🧭', label: 'Was dich treibt' },
-      { path: '/badges', icon: '🏅', label: 'Erfolge' },
-      { path: '/checklists', icon: '🎒', label: 'Packliste' },
-    ],
-  },
-  {
-    label: 'Sicherheit',
-    items: [
-      { path: '/radar', icon: '🧭', label: 'Gefahrenlage' },
-      { path: '/safety', icon: '🛡️', label: 'Sicher unterwegs' },
-    ],
-  },
-]
 
 function Sidebar({ onClose }: { onClose?: () => void }) {
   const location = useLocation()
-  const { user } = useTravel()
+  const { user, logout, loginAsDemo } = useTravel()
+  const { t } = useI18n()
   const xpPct = Math.min(100, Math.round((user.xp / user.xpNext) * 100))
+
+  const navGroups = [
+    {
+      label: 'Entdecken',
+      items: [
+        { path: '/', icon: '🏠', label: t('nav_home') },
+        { path: '/explore', icon: '🗺️', label: t('nav_explore') },
+        { path: '/stories', icon: '📍', label: t('nav_stories') },
+        { path: '/local-routes', icon: '🗺️', label: t('nav_routes') },
+        { path: '/tours', icon: '🥾', label: t('nav_tours') },
+      ],
+    },
+    {
+      label: 'Menschen',
+      items: [
+        { path: '/people', icon: '🤝', label: t('nav_people') },
+        { path: '/meetups', icon: '☕', label: t('nav_meetups') },
+        { path: '/chat', icon: '💬', label: t('nav_chat') },
+      ],
+    },
+    {
+      label: 'Deine Reise',
+      items: [
+        { path: '/passport', icon: '📖', label: t('nav_passport') },
+        { path: '/scratch', icon: '🎟️', label: t('nav_scratch') },
+        { path: '/wanderbond', icon: '🧭', label: t('nav_wanderbond') },
+        { path: '/badges', icon: '🏅', label: t('nav_badges') },
+        { path: '/checklists', icon: '🎒', label: t('nav_checklists') },
+      ],
+    },
+    {
+      label: 'Sicherheit',
+      items: [
+        { path: '/radar', icon: '🧭', label: t('nav_radar') },
+        { path: '/safety', icon: '🛡️', label: t('nav_safety') },
+      ],
+    },
+  ]
 
   return (
     <aside className="sidebar flex flex-col h-full sidebar-inner" style={{ background: 'var(--paper)', borderRight: '1px solid var(--line)' }}>
@@ -139,7 +142,7 @@ function Sidebar({ onClose }: { onClose?: () => void }) {
         ))}
       </nav>
 
-      {/* Fortschritt */}
+      {/* Fortschritt & Benutzer-Konto */}
       <div style={{ padding: '0.9rem 1.1rem', borderTop: '1px solid var(--line-soft)' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '0.6rem' }}>
           <div
@@ -152,17 +155,88 @@ function Sidebar({ onClose }: { onClose?: () => void }) {
           >
             {user.initials}
           </div>
-          <div style={{ minWidth: 0 }}>
-            <p className="font-display" style={{ margin: 0, color: 'var(--ink)', fontSize: '0.82rem' }}>{user.name}</p>
+          <div style={{ minWidth: 0, flex: 1 }}>
+            <p className="font-display" style={{ margin: 0, color: 'var(--ink)', fontSize: '0.82rem', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+              {user.name}
+            </p>
             <p style={{ margin: 0, color: 'var(--ink-faint)', fontSize: '0.72rem' }}>{user.rank}</p>
           </div>
         </div>
         <div className="progress-track" style={{ marginBottom: '0.3rem' }}>
           <div className="progress-fill" style={{ width: `${xpPct}%` }} />
         </div>
-        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.6rem' }}>
           <span className="value-mono">{user.xp} XP</span>
           <span className="value-mono">{user.xpNext} XP</span>
+        </div>
+
+        {/* Auth / Logout Steuerung */}
+        <div style={{ display: 'flex', gap: '0.35rem', paddingTop: '0.4rem', borderTop: '1px solid var(--line-soft)' }}>
+          {user.handle === '@gast' ? (
+            <div style={{ display: 'flex', width: '100%', gap: '0.35rem' }}>
+              <NavLink
+                to="/login"
+                onClick={onClose}
+                className="btn btn-primary"
+                style={{ flex: 1, padding: '0.35rem 0.5rem', fontSize: '0.72rem', textAlign: 'center', textDecoration: 'none' }}
+              >
+                🔑 {t('login')}
+              </NavLink>
+              <button
+                type="button"
+                onClick={() => loginAsDemo()}
+                style={{
+                  background: 'var(--paper-deep)',
+                  border: '1px solid var(--line)',
+                  borderRadius: '6px',
+                  color: 'var(--ink)',
+                  fontSize: '0.68rem',
+                  padding: '0.35rem 0.5rem',
+                  cursor: 'pointer',
+                }}
+                title="Demo-Profil Maria Santos aktivieren"
+              >
+                Demo
+              </button>
+            </div>
+          ) : (
+            <div style={{ display: 'flex', width: '100%', gap: '0.35rem' }}>
+              <NavLink
+                to="/profile"
+                onClick={onClose}
+                style={{
+                  flex: 1,
+                  fontSize: '0.72rem',
+                  color: 'var(--ink-soft)',
+                  textDecoration: 'none',
+                  padding: '0.32rem 0.4rem',
+                  borderRadius: '6px',
+                  background: 'var(--paper-deep)',
+                  border: '1px solid var(--line)',
+                  textAlign: 'center',
+                }}
+              >
+                👤 Profil
+              </NavLink>
+              <button
+                type="button"
+                onClick={() => logout()}
+                style={{
+                  background: 'transparent',
+                  border: '1px solid var(--line)',
+                  borderRadius: '6px',
+                  color: 'var(--terracotta)',
+                  fontSize: '0.72rem',
+                  fontWeight: 600,
+                  padding: '0.32rem 0.5rem',
+                  cursor: 'pointer',
+                }}
+                title="Vom Konto abmelden"
+              >
+                🚪 {t('logout')}
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </aside>

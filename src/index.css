@@ -17,80 +17,80 @@
    ═══════════════════════════════════════════════════════════════════════ */
 
 :root {
-  /* ── Tag-Modus: warmes Papier ── */
-  --paper:        #FAF5EC;   /* Seitenhintergrund */
-  --paper-deep:   #F2EADC;   /* abgesetzte Flächen, Table-Head */
-  --card:         #FFFDF8;   /* Karten */
-  --card-hover:   #FFFFFF;
+  /* ── Tag-Modus: Warmes Vintage-Pergament mit hohem Kontrast (#042c2e / #4f412d / #a8d4c0 / #fff6b7 / #ffea70) ── */
+  --paper:        #FFFDE8;   /* Sanfter Pergament-Hintergrund mit #fff6b7 Note */
+  --paper-deep:   #FFF6B7;   /* Das Benutzer-Pergament (#fff6b7) für abgesetzte Flächen, Sidebar & Header */
+  --card:         #FFFFFF;   /* Reines, hochkontrastiges Kartenweiß */
+  --card-hover:   #FFFFF5;
 
-  --ink:          #23302A;   /* Haupttext — tiefes Waldgrün statt Schwarz */
-  --ink-soft:     #4A5A52;   /* Fließtext */
-  --ink-faint:    #7C8A82;   /* Nebentext, Platzhalter */
-  --ink-ghost:    #A6B1AB;   /* Disabled, Zähler */
+  --ink:          #042C2E;   /* Der Benutzer-Tiefwald (#042c2e): Maximaler Kontrast (>14:1) auf #fff6b7 */
+  --ink-soft:     #143D3F;   /* Gut lesbarer Fließtext */
+  --ink-faint:    #4F412D;   /* Die Benutzer-Erde (#4f412d): Edles, warmes Umberbraun */
+  --ink-ghost:    #7A6B53;   /* Dezentere Zähler & Labels */
 
-  --line:         #E2D8C6;   /* Rahmen */
-  --line-soft:    #EEE6D8;   /* sehr dezente Trennlinien */
+  --line:         #E8DF9D;   /* Feiner Pergament-Rahmen auf Basis von #fff6b7 */
+  --line-soft:    #F5EEBA;
 
-  --sun:          #B07D24;   /* Primärakzent: Sonnenlicht */
-  --sun-bright:   #D19A3A;
-  --sun-wash:     rgba(176, 125, 36, 0.09);
+  --sun:          #C99700;   /* Tiefgold auf hellem Grund für perfekte Lesbarkeit (WCAG AA) */
+  --sun-bright:   #FFEA70;   /* Das Benutzer-Sonnengold (#ffea70) für Buttons & Highlights */
+  --sun-wash:     rgba(255, 234, 112, 0.25);
 
-  --lagoon:       #1F6F6A;   /* Sekundär: Lagune */
-  --lagoon-wash:  rgba(31, 111, 106, 0.09);
+  --lagoon:       #042C2E;   /* Benutzer #042c2e */
+  --lagoon-wash:  rgba(168, 212, 192, 0.30); /* Benutzer #a8d4c0 als sanfter Salbei-Foam */
 
-  --terracotta:   #B85C38;   /* Warnung, Dringlichkeit */
-  --terracotta-wash: rgba(184, 92, 56, 0.09);
+  --terracotta:   #B84A28;   /* Warnung / Akzent */
+  --terracotta-wash: rgba(184, 74, 40, 0.12);
 
-  --leaf:         #4A7C3F;   /* Erfolg, Sicherheit */
-  --leaf-wash:    rgba(74, 124, 63, 0.10);
+  --leaf:         #10543E;   /* Erfolg / Sicherheit */
+  --leaf-wash:    rgba(168, 212, 192, 0.35); /* Benutzer #a8d4c0 */
 
-  --shadow-sm:    0 1px 2px rgba(51, 44, 32, 0.05);
-  --shadow:       0 2px 8px rgba(51, 44, 32, 0.07), 0 1px 2px rgba(51, 44, 32, 0.04);
-  --shadow-lg:    0 12px 32px rgba(51, 44, 32, 0.10), 0 2px 8px rgba(51, 44, 32, 0.05);
+  --shadow-sm:    0 1px 2px rgba(4, 44, 46, 0.06);
+  --shadow:       0 2px 8px rgba(4, 44, 46, 0.08), 0 1px 2px rgba(4, 44, 46, 0.04);
+  --shadow-lg:    0 12px 32px rgba(4, 44, 46, 0.12), 0 2px 8px rgba(4, 44, 46, 0.06);
 
   --radius-sm:    8px;
   --radius:       14px;
   --radius-lg:    20px;
   --radius-xl:    28px;
 
-  --scrim: rgba(51, 44, 32, 0.42);
+  --scrim: rgba(4, 44, 46, 0.52);
 
   color-scheme: light;
 }
 
-/* ── Nacht-Modus: Lagerfeuer ── */
+/* ── Nacht-Modus: Tiefes Tannengrün & Strahlendes Gold (#042c2e / #fff6b7 / #ffea70 / #a8d4c0) ── */
 [data-theme='dark'] {
-  --paper:        #16120D;
-  --paper-deep:   #1E1913;
-  --card:         #241E17;
-  --card-hover:   #2B241C;
+  --paper:        #042C2E;   /* Das Benutzer-Tiefwald (#042c2e) als Hauptgrund */
+  --paper-deep:   #06393C;   /* Leicht abgesetzt */
+  --card:         #094548;   /* Satte, edle Karten */
+  --card-hover:   #0D5154;
 
-  --ink:          #F2E8D8;
-  --ink-soft:     #D3C7B4;
-  --ink-faint:    #9C9083;
-  --ink-ghost:    #6B6257;
+  --ink:          #FFF6B7;   /* Das Benutzer-Cremegold (#fff6b7) als Haupttext — leuchtend & kontrastreich */
+  --ink-soft:     #E6DFA2;   /* Weiches Cremegelb */
+  --ink-faint:    #A8D4C0;   /* Das Benutzer-Salbeigrün (#a8d4c0) für Nebentexte */
+  --ink-ghost:    #6E9C88;
 
-  --line:         #3A322A;
-  --line-soft:    #2C2620;
+  --line:         #1A5A5D;   /* Klare Kanten */
+  --line-soft:    #124B4E;
 
-  --sun:          #E0A94A;
-  --sun-bright:   #F0C070;
-  --sun-wash:     rgba(224, 169, 74, 0.12);
+  --sun:          #FFEA70;   /* Das Benutzer-Sonnengold (#ffea70) strahlt magisch in der Nacht */
+  --sun-bright:   #FFF199;
+  --sun-wash:     rgba(255, 234, 112, 0.20);
 
-  --lagoon:       #5FB3A8;
-  --lagoon-wash:  rgba(95, 179, 168, 0.12);
+  --lagoon:       #A8D4C0;   /* Das Benutzer-Salbeigrün (#a8d4c0) */
+  --lagoon-wash:  rgba(168, 212, 192, 0.18);
 
-  --terracotta:   #E08360;
-  --terracotta-wash: rgba(224, 131, 96, 0.13);
+  --terracotta:   #E07650;
+  --terracotta-wash: rgba(224, 118, 80, 0.16);
 
-  --leaf:         #8FBF7C;
-  --leaf-wash:    rgba(143, 191, 124, 0.13);
+  --leaf:         #A8D4C0;   /* Benutzer #a8d4c0 */
+  --leaf-wash:    rgba(168, 212, 192, 0.22);
 
-  --shadow-sm:    0 1px 2px rgba(0, 0, 0, 0.3);
-  --shadow:       0 2px 10px rgba(0, 0, 0, 0.35);
-  --shadow-lg:    0 16px 40px rgba(0, 0, 0, 0.45);
+  --shadow-sm:    0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow:       0 2px 10px rgba(0, 0, 0, 0.45);
+  --shadow-lg:    0 16px 40px rgba(0, 0, 0, 0.55);
 
-  --scrim: rgba(12, 9, 6, 0.62);
+  --scrim: rgba(2, 22, 23, 0.75);
 
   color-scheme: dark;
 }
@@ -281,23 +281,41 @@ button, a, input, textarea, select {
 .btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
 .btn-primary {
-  background: var(--sun);
-  color: #FFFDF8;
+  background: var(--sun-bright);
+  color: #042C2E;
+  font-weight: 800;
+  border: 1px solid var(--sun);
   box-shadow: var(--shadow-sm);
 }
-[data-theme='dark'] .btn-primary { color: #16120D; }
+[data-theme='dark'] .btn-primary {
+  background: var(--sun);
+  color: #042C2E;
+  font-weight: 800;
+  border: 1px solid var(--sun-bright);
+}
 .btn-primary:hover:not(:disabled) {
-  background: var(--sun-bright);
+  background: #FFF199;
+  color: #042C2E;
   box-shadow: var(--shadow);
   transform: translateY(-1px);
 }
 
 .btn-secondary {
   background: transparent;
-  border-color: var(--sun);
-  color: var(--sun);
+  border: 1.5px solid var(--sun);
+  color: var(--ink);
+  font-weight: 700;
 }
-.btn-secondary:hover:not(:disabled) { background: var(--sun-wash); }
+.btn-secondary:hover:not(:disabled) {
+  background: var(--sun-wash);
+  color: var(--ink);
+}
+
+.parchment {
+  background: var(--paper-deep);
+  border: 1px solid var(--line);
+  color: var(--ink);
+}
 
 .btn-ghost {
   background: transparent;

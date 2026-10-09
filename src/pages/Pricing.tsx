@@ -72,12 +72,14 @@ export default function Pricing() {
     },
   ]
 
-  const handleCheckout = async (plan: typeof plans[0]) => {
+  const handleCheckout = async (plan: { id: string; name: string; price: string; priceId?: string }) => {
     triggerHaptic(20)
     if (plan.id === 'free') {
-      alert('Du bist bereits auf dem Explorer Free Plan angemeldet!')
+      alert('Der Explorer Free Plan ist dauerhaft kostenlos und bereits aktiv!')
       return
     }
+
+    const emailToUse = user.email || (user.handle !== '@gast' ? `${user.handle.replace('@', '')}@wanderer.eu` : prompt('Bitte geschäftliche E-Mail für die Rechnung eingeben:') || 'partner@scratch-n-travel.com')
 
     setLoadingPlan(plan.id)
     try {
@@ -85,8 +87,8 @@ export default function Pricing() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          priceId: plan.priceId,
-          customerEmail: 'maria@wanderer.eu',
+          priceId: plan.priceId || 'price_1P_mock_b2b_monthly',
+          customerEmail: emailToUse,
           successUrl: window.location.origin + '/passport?checkout=success',
           cancelUrl: window.location.origin + '/pricing',
         }),
@@ -96,7 +98,7 @@ export default function Pricing() {
       if (data.url) {
         window.location.href = data.url
       } else {
-        alert("Stripe Checkout für " + plan.name + " (" + plan.price + ") wird simuliert. Keine Plattformgebühren!")
+        alert("Stripe Checkout für " + plan.name + " (" + plan.price + ") für " + emailToUse + " gestartet! (Test-Modus).")
       }
     } catch (e) {
       alert("Stripe Checkout für " + plan.name + " (" + plan.price + ") initialisiert (Test-Modus).")
@@ -205,18 +207,30 @@ export default function Pricing() {
               </h3>
               <p className="font-body text-xs sm:text-sm text-ink-faint leading-relaxed">
                 Für Cafés, Tascas, Guides, Surfschulen und Manufakturen. 
-                Inklusive <strong>physischem Holz/Acryl QR-Stempelaufsteller</strong> per Post, 
+                Inklusive <strong>physischem QR-Code Tisch- und Thekenaufsteller</strong> per Post, 
                 digitalem Reisepass-Stempel für Gäste (+50 XP), 
-                <strong> 0% Buchungsprovision</strong> und Verifizierung im Safety &amp; Connectivity Radar.
+                <strong> 0% Buchungsprovision</strong> und offizieller Verifizierung im Safety &amp; Connectivity Radar.
               </p>
             </div>
-            <div className="text-center md:text-right space-y-3">
+            <div className="text-center md:text-right space-y-2">
               <div>
                 <span className="font-display text-3xl font-black text-leaf">29,00 €</span>
                 <span className="font-mono text-xs text-ink-faint ml-1">/ Monat</span>
               </div>
-              <Link to="/host" className="btn btn-primary w-full md:w-auto py-2.5 px-6 text-xs font-bold shadow-lg inline-block">
-                Host Starter-Kit bestellen →
+              <button
+                onClick={() => handleCheckout({
+                  id: 'b2b_host',
+                  name: 'Verified Local Host Abo',
+                  price: '€29,00 / Monat',
+                  priceId: 'price_1P_mock_b2b_monthly'
+                })}
+                disabled={loadingPlan === 'b2b_host'}
+                className="btn btn-primary w-full py-2.5 px-4 text-xs font-bold shadow-lg"
+              >
+                {loadingPlan === 'b2b_host' ? 'Wird geladen…' : '💳 B2B Abo abschließen (29 €/Mo) →'}
+              </button>
+              <Link to="/host" className="text-[0.72rem] text-ink-faint hover:text-ink underline block text-center">
+                Oder Details &amp; Starter-Kit Formular ansehen
               </Link>
             </div>
           </div>

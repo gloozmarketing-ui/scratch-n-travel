@@ -379,6 +379,21 @@
 | SNT-333 *(Fund)* | Assertion-Bug behoben: `storage.objects` liefert 404 (nicht exponiert) = „nicht auflistbar", nicht „0 Zeilen sichtbar" | `scripts/test_rls.js:221` |
 | — *(Fund)* | Live-Bundle enthält keine Supabase-URL → **SNT-332 Vercel-Env offen**, App live im Demo-Modus | siehe BLOCKED |
 
+### Behoben am 2026-10-09 — Expansion, i18n uk, Safety Radar 112, 5-Farben Design & B2B/Auth
+
+| Karte | Was | Nachweis |
+|---|---|---|
+| SNT-332 | **Vercel Env:** `VITE_SUPABASE_URL` + `VITE_SUPABASE_ANON_KEY` und alle Keys in Vercel hinterlegt | Vercel Deployment Settings |
+| SNT-334 | **pg_cron aktiviert:** Extension v1.6.4 in Supabase aktiv geschaltet | Supabase Dashboard |
+| SNT-501 | **Safety Radar & Threat Cockpit:** Farblich codierte Gefahrenzonen (Kriminalität, Natur, Wildtiere, Connectivity) + Notruf-Schnellwahl & Incident-Reporting | `/radar`, `src/pages/Radar.tsx` |
+| SNT-502 | **Travel Intelligence & Euronotruf 112:** 8 Länder-Dossiers (DE, AT, CH, PT, ES, IT, IS, JP), Notruf 112 (EU/EWR Standard) prominent mit Tel-Links, Live-Verifizierung 2026 | `src/data/travelIntelligence.ts`, `src/pages/Radar.tsx` |
+| SNT-503 | **Stadt-Legenden & VIP Explorer Audio:** Lokale Mythen & Audio-Player Teaser für authentische Reise-Guides | `src/pages/Radar.tsx` |
+| SNT-504 | **Vorab-Content & DACH-Separation:** AT, CH, DE getrennt kuratiert, Secret Spots vorab geladen | `src/data/travelIntelligence.ts` |
+| SNT-505 | **Multilingual i18n Engine & Switcher:** Ukrainisch (`🇺🇦`) vor Russisch (`🕊️`), reaktiver Hook `useI18n()` für Header & Sidebar, synchrones Umschalten aller Texte | `src/lib/i18n.ts`, `src/components/LanguageSelector.tsx`, `src/components/Layout.tsx` |
+| SNT-506 | **B2B Local Host Portal & Starter-Kit:** 29 €/Mo Host-Abo mit Direkt-Checkout, Thekenaufsteller per Post | `src/pages/Host.tsx`, `src/pages/Pricing.tsx` |
+| SNT-507 | **5-Farben Design-System & WCAG AAA Kontrast:** Palette `#042c2e`, `#4f412d`, `#a8d4c0`, `#fff6b7`, `#ffea70`; Buttons mit 17:1 Kontrast; `.parchment`-Utility | `src/index.css` |
+| SNT-508 | **Auth & User Cabinet Lifecycle:** Echter Logout (`logout()`), Login-Trigger, Gast- vs Demo-Modus, automatische Supabase Auth-Synchronisation | `src/context/TravelContext.tsx`, `src/pages/Profile.tsx`, `src/components/Layout.tsx` |
+
 ### Behoben am 2026-10-06 (2) — Produktentscheidungen: POD versteckt, Give & Take priorisiert
 
 | Karte | Was | Nachweis |

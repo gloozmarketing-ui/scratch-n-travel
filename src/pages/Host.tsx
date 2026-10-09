@@ -239,15 +239,15 @@ export default function Host() {
                   </h2>
                   <p className="font-body text-sm sm:text-base leading-relaxed">
                     Große Buchungsportale verlangen bis zu 25% Kommission. Bei Scratch'n'Travel zahlst du 
-                    <strong> 0% Provision</strong>. Du erhältst ein edles Starter-Kit mit physischem QR-Stempelaufsteller 
-                    aus Eichenholz und Acryl. Reisende rubbeln dein Lokal frei, besuchen dich vor Ort und scannen 
+                    <strong> 0% Provision</strong>. Du erhältst ein unkompliziertes Starter-Kit mit physischem QR-Code 
+                    Thekenaufsteller per Post. Reisende rubbeln dein Lokal frei, besuchen dich vor Ort und scannen 
                     deinen Stempel für ihren digitalen Reisepass.
                   </p>
                 </div>
                 <div className="grid grid-cols-2 gap-3">
                   {[
                     ['29 €', 'Monatlich', 'Jederzeit kündbar'],
-                    ['📦 Kit', 'Aufsteller', 'Eichenholz & Acryl per Post'],
+                    ['📦 Kit', 'Aufsteller', 'QR-Thekenaufsteller per Post'],
                     ['0 %', 'Provision', 'Direkter Kundenkontakt'],
                     ['🛡️ Hub', 'Safety Radar', 'Verifizierte Anlaufstelle']
                   ].map(([v, l, s]) => (
@@ -265,9 +265,9 @@ export default function Host() {
             <div className="grid md:grid-cols-3 gap-6">
               <div className="card p-6 border-sun shadow-md space-y-2">
                 <span className="text-3xl">📦</span>
-                <h3 className="font-display font-bold text-ink text-base">Physischer QR-Stempelaufsteller</h3>
+                <h3 className="font-display font-bold text-ink text-base">Physischer QR-Thekenaufsteller</h3>
                 <p className="font-body text-xs text-ink-faint leading-relaxed">
-                  Hochwertiger Tresen-Aufsteller aus FSC-Eichenholz und graviertem Acryl. Wetterfest, edel und mit deinem persönlichen QR-Token.
+                  Kompakter, robuster Aufsteller für Tresen, Empfang oder Bar. Wetterfest und mit deinem individuellen Verifizierungs-Code.
                 </p>
               </div>
               <div className="card p-6 border-sun shadow-md space-y-2">
