@@ -35,12 +35,14 @@
 
 | Task | Spezifikation & Feature | Modul | Karten | Wer | Status & Nachweis |
 |---|---|---|---|---|---|
-| **T-201** | Multi-Farb Safety Radar & Threat Cockpit (🔴 Kriminalität, 🟠 Natur, 🟡 Wildtiere, 🔵 Connectivity) | Modul A | SNT-501 | 👤 A | ✅ erledigt 2026-10-09 (`src/pages/Radar.tsx`, Notruf-Schnellwahl, Filter) |
-| **T-202** | Globales Country Travel Intelligence Dataset (DACH, Südeuropa, Asien: Notruf, Wasser, Maut, eSIM) | Modul A/D | SNT-502 | 👤 A | ✅ erledigt 2026-10-09 (`src/data/travelIntelligence.ts`, 8 Dossiers DE, AT, CH, PT, ES, IT, IS, JP) |
+| **T-201** | Multi-Farb Safety Radar & Threat Cockpit (🔴 Kriminalität, 🟠 Natur, 🟡 Wildtiere, 🔵 Connectivity) + Euronotruf 112 | Modul A | SNT-501 | 👤 A | ✅ erledigt 2026-10-09 (`src/pages/Radar.tsx`, Euronotruf 112 Prominenz, Notruf-Schnellwahl mit Tel-Links, Filter) |
+| **T-202** | Globales Country Travel Intelligence Dataset (DACH, Südeuropa, Asien: Notruf 112, Wasser, Maut, eSIM) | Modul A/D | SNT-502 | 👤 A | ✅ erledigt 2026-10-09 (`src/data/travelIntelligence.ts`, 8 Dossiers DE, AT, CH, PT, ES, IT, IS, JP, Live-Verifizierung 2026) |
 | **T-203** | Stadt-Legenden, Mythen & Geheime Geschichte (Guide-Modus & VIP Audio-Teaser) | Modul B | SNT-503 | 👤 A | ✅ erledigt 2026-10-09 (`Radar.tsx` Legenden-Tab + VIP Club Trigger) |
 | **T-204** | Kuration Vorab-Content (Hidden Gems, Panoramen, Wilde Buchten, Lost Places) | Modul C | SNT-504 | 👤 A | ✅ erledigt 2026-10-09 (`travelIntelligence.ts` + `data.ts` Hallstatt & Wien) |
-| **T-205** | Multilingual & DACH-Differenzierung (DE, AT, CH getrennt + i18n Sprachwechsler DE, EN, ES, FR, PT, RU) | Modul D | SNT-505 | 👤 A | ✅ erledigt 2026-10-09 (`src/lib/i18n.ts`, `src/components/LanguageSelector.tsx`, `Layout.tsx`) |
-| **T-206** | B2C VIP Explorer Club & B2B Local Host Portal (QR-Stempel-Aufsteller) | Monetarisierung | SNT-506 | 👤 A | ✅ erledigt 2026-10-09 (`Host.tsx` B2B Kit 29 €/Mo + `Pricing.tsx` Host-Section) |
+| **T-205** | Multilingual & DACH-Differenzierung (DE, AT, CH getrennt + i18n Sprachwechsler DE, EN, ES, FR, PT, UK 🇺🇦, RU) | Modul D | SNT-505 | 👤 A | ✅ erledigt 2026-10-09 (`src/lib/i18n.ts`, `src/components/LanguageSelector.tsx`, `Layout.tsx`, reaktiver `useI18n()` Hook) |
+| **T-206** | B2C VIP Explorer Club & B2B Local Host Portal (physischer QR-Code Thekenaufsteller per Post, 29 € / Mo) | Monetarisierung | SNT-506 | 👤 A | ✅ erledigt 2026-10-09 (`Host.tsx` B2B Kit 29 €/Mo + `Pricing.tsx` Host-Section mit Direkt-Checkout) |
+| **T-207** | 5-Farben Design-System & WCAG AAA Kontrast (`#042c2e`, `#4f412d`, `#a8d4c0`, `#fff6b7`, `#ffea70`) | Design-System | SNT-507 | 👤 A | ✅ erledigt 2026-10-09 (`src/index.css`, Buttons mit 17:1 Kontrast, `.parchment`-Utility) |
+| **T-208** | Auth & Session Lifecycle (Logout, Login-Trigger, Gast vs Demo, Supabase Auth-Sync) | Authentifizierung | SNT-508 | 👤 A | ✅ erledigt 2026-10-09 (`TravelContext.tsx`, `Profile.tsx`, `Layout.tsx`) |
 
 ## 🔴 Was noch offen ist (Owner)
 
