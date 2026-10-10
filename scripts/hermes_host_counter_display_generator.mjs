@@ -32,7 +32,92 @@ export const ACRYLIC_BLOCK_SPECS = {
   material: '20 mm poliertes Premium-Acrylglas (freistehend ohne Ständer, UV-Direktdruck auf Rückseite)'
 }
 
-// ── 2. Landesspezifische Easter-Eggs & Design-Motive ─────────────────────────
+// ── 2. Branchen-Profile für alle Arten von Business Ownern ──────────────────
+export const BUSINESS_CATEGORY_PROFILES = {
+  cafe_gastro: {
+    key: 'cafe_gastro',
+    title: 'Café, Bar & Gastronomie',
+    badgeText: 'VERIFIED GASTRO & CAFÉ SPOT',
+    icon: '☕',
+    ctaScanText: 'Tisch reservieren · Tasting buchen (0% Gebühr)',
+    defaultEasterEgg: '„Geheimtipp: Zeige dem Barista diesen Stempel für den geheimen Haus-Roast oder Hauswein!“',
+    defaultRiddle: 'Frage nach dem ungelisteten Spezialgericht · Codewort: TASTE_LOCAL',
+  },
+  surf_watersports: {
+    key: 'surf_watersports',
+    title: 'Surfschule & Wassersport',
+    badgeText: 'VERIFIED SURF & OCEAN BASE',
+    icon: '🏄',
+    ctaScanText: 'Surf-Session buchen · Neopren & Board leihen (0% Gebühr)',
+    defaultEasterEgg: '„Spot-Check: Die Surflehrer verraten dir den geheimen Sandbank-Peak bei Ebbe!“',
+    defaultRiddle: 'Frag nach der Secret Sunset Session · Codewort: SWELL_CHASER',
+  },
+  winery_tasting: {
+    key: 'winery_tasting',
+    title: 'Weingut, Bodega & Craft Tasting',
+    badgeText: 'VERIFIED WINERY & CELLAR',
+    icon: '🍇',
+    ctaScanText: 'Weinprobe reservieren · Direktverkauf ohne Aufschlag (0% Gebühr)',
+    defaultEasterEgg: '„Kellergeheimnis: Wer den Pass vorzeigt, darf das unetikettierte Reserve-Fass probieren!“',
+    defaultRiddle: 'Finde das älteste Holzfass im Gewölbe · Codewort: TERROIR_GOLD',
+  },
+  outdoor_guide: {
+    key: 'outdoor_guide',
+    title: 'Outdoor-, Wander- & Bergführer',
+    badgeText: 'VERIFIED ALPINE & OUTDOOR GUIDE',
+    icon: '🥾',
+    ctaScanText: 'Tour & Guiding anfragen · Ausrüstung leihen (0% Gebühr)',
+    defaultEasterEgg: '„Bergwacht-Insider: Der Guide zeigt dir den versteckten Grat fernab aller Touristenpfade!“',
+    defaultRiddle: 'Erreiche den unmarkierten Panoramastein · Codewort: SUMMIT_SEEKER',
+  },
+  camper_glamping: {
+    key: 'camper_glamping',
+    title: 'Camper-Stellplatz, Glamping & Eco-Lodge',
+    badgeText: 'VERIFIED VANLIFE & ECO-CAMP',
+    icon: '🚐',
+    ctaScanText: 'Stellplatz reservieren · Glamping-Zelt anfragen (0% Gebühr)',
+    defaultEasterEgg: '„Vanlife-Community: Kostenloses Frischwasser & Feuerstelle für registrierte Explorer!“',
+    defaultRiddle: 'Parke mit freiem Blick auf den Sonnenuntergang · Codewort: VANLIFE_HAVEN',
+  },
+  artisan_workshop: {
+    key: 'artisan_workshop',
+    title: 'Handwerk, Töpferei & Manufaktur',
+    badgeText: 'VERIFIED ARTISAN & MAKER ATELIER',
+    icon: '🏺',
+    ctaScanText: 'Workshop buchen · Handgefertigtes Unikat sichern (0% Gebühr)',
+    defaultEasterEgg: '„Meisterstück: Erhalte dein gebranntes Souvenir mit offiziellem Explorer-Signet!“',
+    defaultRiddle: 'Drehe die Töpferscheibe selbst aus · Codewort: CRAFT_SOUL',
+  },
+  coworking_coliving: {
+    key: 'coworking_coliving',
+    title: 'Coworking Space & Nomad Hub',
+    badgeText: 'VERIFIED NOMAD & COWORKING HUB',
+    icon: '💻',
+    ctaScanText: 'Day-Pass sichern · Fix-Desk & Meetingraum anfragen (0% Gebühr)',
+    defaultEasterEgg: '„Nomad Secret: 1 Gbit/s Glasfaser, Community-Kaffee & ruhige Call-Booths inklusive!“',
+    defaultRiddle: 'Finde den besten Desk am Panoramafenster · Codewort: DIGITAL_NOMAD',
+  },
+  hotel_boutique: {
+    key: 'hotel_boutique',
+    title: 'Boutique Hotel, B&B & Eco-Resort',
+    badgeText: 'VERIFIED BOUTIQUE RETREAT',
+    icon: '🏨',
+    ctaScanText: 'Zimmer & Suite direkt anfragen · Bestpreis-Garantie (0% Gebühr)',
+    defaultEasterEgg: '„Rezeptions-Geheimnis: Kostenloses Upgrade oder Welcome-Drink bei Direktbuchung!“',
+    defaultRiddle: 'Frage nach dem historischen Schlüssel · Codewort: BOUTIQUE_KEY',
+  },
+  bike_rental: {
+    key: 'bike_rental',
+    title: 'Bike, Gravel & E-Bike Verleih',
+    badgeText: 'VERIFIED BIKE & GRAVEL STATION',
+    icon: '🚲',
+    ctaScanText: 'Bike & Helm leihen · GPS-Trailroute downloaden (0% Gebühr)',
+    defaultEasterEgg: '„Trail-Tipp: Erhalte die Offline-GPX Route zu den einsamsten Singletrails!“',
+    defaultRiddle: 'Fahre den Trail vor Sonnenuntergang · Codewort: GRAVEL_TRAIL',
+  },
+}
+
+// ── 3. Landesspezifische Easter-Eggs & Design-Motive ─────────────────────────
 export const COUNTRY_DESIGN_THEMES = {
   PT: {
     countryName: 'Portugal',
@@ -81,13 +166,18 @@ export const COUNTRY_DESIGN_THEMES = {
   }
 }
 
-// ── 3. Vektor-Design SVG Template Generator ─────────────────────────────────
+// ── 4. Vektor-Design SVG Template Generator ─────────────────────────────────
 export function generateCounterDisplaySvg(hostData) {
   const theme = COUNTRY_DESIGN_THEMES[hostData.countryCode] || COUNTRY_DESIGN_THEMES.DEFAULT
+  const category = BUSINESS_CATEGORY_PROFILES[hostData.categoryKey] || BUSINESS_CATEGORY_PROFILES.cafe_gastro
   const businessName = hostData.businessName || 'Local Partner Venue'
   const city = hostData.city || 'Lissabon'
   const gps = hostData.gpsCoordinates || "38°42'44\"N · 9°07'59\"W"
   const qrTargetUrl = hostData.qrTargetUrl || `https://scratch-n-travel.vercel.app/host/${encodeURIComponent(hostData.slug || 'verified-host')}?ref=counter_qr`
+  
+  const displayEasterEgg = hostData.customEasterEgg || category.defaultEasterEgg || theme.easterEgg
+  const displayRiddle = hostData.customRiddle || category.defaultRiddle || theme.secretRiddle
+  const displayCta = hostData.customCta || category.ctaScanText
   
   // SVG 1252 x 1843 px (300 DPI @ 10x15 cm + 3mm Bleed)
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1252 1843" width="1252" height="1843">
@@ -131,7 +221,7 @@ export function generateCounterDisplaySvg(hostData) {
       SCRATCH 'N' TRAVEL
     </text>
     <text y="105" font-family="'Space Grotesk', 'Courier New', monospace" font-size="16" font-weight="600" fill="#a8d4c0" letter-spacing="3">
-      VERIFIED LOCAL HOST SPOT · 2026
+      ${escapeXml(category.badgeText)} · 2026
     </text>
   </g>
 
@@ -164,16 +254,16 @@ export function generateCounterDisplaySvg(hostData) {
     <path d="M -180,140 L -180,180 L -140,180" fill="none" stroke="#D9D19B" stroke-width="8" stroke-linecap="round" />
     <path d="M 140,180 L 180,180 L 180,140" fill="none" stroke="#D9D19B" stroke-width="8" stroke-linecap="round" />
 
-    <!-- Zentrum Kompass-Icon -->
+    <!-- Zentrum Branchen-Icon -->
     <circle cx="0" cy="0" r="44" fill="#042c2e" stroke="#D9D19B" stroke-width="4" />
-    <text x="0" y="8" font-size="28" text-anchor="middle">🧭</text>
+    <text x="0" y="10" font-size="32" text-anchor="middle">${category.icon || '🧭'}</text>
 
     <!-- Scan Call to Action -->
     <text x="0" y="290" text-anchor="middle" font-family="'Space Grotesk', sans-serif" font-size="22" font-weight="bold" fill="#ffffff" letter-spacing="1">
       📱 MIT DEM SMARTPHONE SCANNEN
     </text>
     <text x="0" y="325" text-anchor="middle" font-family="'Space Grotesk', monospace" font-size="16" fill="#D9D19B">
-      Pass-Stempel sichern · Tisch &amp; Tasting reservieren (0% Gebühr)
+      ${escapeXml(displayCta)}
     </text>
   </g>
 
@@ -185,10 +275,10 @@ export function generateCounterDisplaySvg(hostData) {
       ✦ LOKALER EHRENKODEX &amp; INSIDER-TIPP:
     </text>
     <text x="-440" y="78" font-family="'Cinzel', Georgia, serif" font-size="20" fill="#ffffff" font-style="italic">
-      ${escapeXml(theme.easterEgg)}
+      ${escapeXml(displayEasterEgg)}
     </text>
     <text x="-440" y="115" font-family="'Space Grotesk', monospace" font-size="15" fill="#a8d4c0">
-      🔑 Community-Easter-Egg: ${escapeXml(theme.secretRiddle)}
+      🔑 Community-Easter-Egg: ${escapeXml(displayRiddle)}
     </text>
   </g>
 
@@ -264,39 +354,94 @@ export function createGelatoOrderPayload(hostOrder) {
   }
 }
 
-// ── 5. Ausführung & Demo-Export ──────────────────────────────────────────────
+// ── 5. Ausführung & Demo-Export für verschiedene Business Owner ─────────────
 if (process.argv[1] && process.argv[1].endsWith('hermes_host_counter_display_generator.mjs')) {
-  console.log('✨ [Hermes B2B Generator] Initialisiere Test-Generierung für Café Miradouro (Lissabon, PT)...\n')
-  
-  const sampleHost = {
-    businessName: 'Miradouro Café & Tasca',
-    slug: 'miradouro-cafe-lisboa',
-    city: 'Lisboa',
-    countryCode: 'PT',
-    gpsCoordinates: "38°42'44\"N · 9°07'59\"W",
-    contactFirstName: 'Manuel',
-    contactLastName: 'Silva',
-    contactEmail: 'host@miradouro-lisboa.pt',
-    shippingStreet: 'Rua de Santa Cruz do Castelo 14',
-    shippingCity: 'Lisboa',
-    shippingZip: '1100-478',
-  }
+  console.log('✨ [Hermes B2B Generator] Initialisiere Multibranchen-Generierung für verschiedene Business Owner...\n')
 
-  const svgOutput = generateCounterDisplaySvg(sampleHost)
-  const gelatoPayload = createGelatoOrderPayload({
-    ...sampleHost,
-    renderedDesignUrl: 'https://scratch-n-travel.vercel.app/storage/host-prints/miradouro-pt-print.pdf'
-  })
+  const sampleBusinesses = [
+    {
+      businessName: 'Miradouro Café & Tasca',
+      slug: 'miradouro-cafe-lisboa',
+      categoryKey: 'cafe_gastro',
+      city: 'Lisboa',
+      countryCode: 'PT',
+      gpsCoordinates: "38°42'44\"N · 9°07'59\"W",
+      contactFirstName: 'Manuel',
+      contactLastName: 'Silva',
+      contactEmail: 'host@miradouro-lisboa.pt',
+      shippingStreet: 'Rua de Santa Cruz do Castelo 14',
+      shippingCity: 'Lisboa',
+      shippingZip: '1100-478',
+    },
+    {
+      businessName: 'Sagres Ocean & Surf Base',
+      slug: 'sagres-surf-base',
+      categoryKey: 'surf_watersports',
+      city: 'Sagres',
+      countryCode: 'PT',
+      gpsCoordinates: "37°00'34\"N · 8°56'21\"W",
+      contactFirstName: 'Tiago',
+      contactLastName: 'Ferreira',
+      contactEmail: 'aloha@sagressurfbase.pt',
+      shippingStreet: 'Estrada da Ponta de Sagres 8',
+      shippingCity: 'Sagres',
+      shippingZip: '8650-380',
+    },
+    {
+      businessName: 'Bodega Viña del Sol',
+      slug: 'bodega-vina-del-sol',
+      categoryKey: 'winery_tasting',
+      city: 'Ronda',
+      countryCode: 'ES',
+      gpsCoordinates: "36°44'38\"N · 5°09'54\"W",
+      contactFirstName: 'Elena',
+      contactLastName: 'Morales',
+      contactEmail: 'bodega@vinadelsol.es',
+      shippingStreet: 'Carretera de Ronda-Setenil km 4',
+      shippingCity: 'Ronda',
+      shippingZip: '29400',
+    },
+    {
+      businessName: 'Matterhorn Alpine & Peak Guides',
+      slug: 'matterhorn-guides-zermatt',
+      categoryKey: 'outdoor_guide',
+      city: 'Zermatt',
+      countryCode: 'DE', // Alpine Theme
+      gpsCoordinates: "45°58'37\"N · 7°44'56\"E",
+      contactFirstName: 'Urs',
+      contactLastName: 'Bumann',
+      contactEmail: 'guide@matterhornalpine.ch',
+      shippingStreet: 'Bahnhofstrasse 42',
+      shippingCity: 'Zermatt',
+      shippingZip: '3920',
+    },
+    {
+      businessName: 'Nomad Oasis Coliving & Desks',
+      slug: 'nomad-oasis-lisbon',
+      categoryKey: 'coworking_coliving',
+      city: 'Lisboa',
+      countryCode: 'PT',
+      gpsCoordinates: "38°43'12\"N · 9°08'45\"W",
+      contactFirstName: 'Clara',
+      contactLastName: 'Mendes',
+      contactEmail: 'community@nomadoasis.pt',
+      shippingStreet: 'Avenida da Liberdade 120',
+      shippingCity: 'Lisboa',
+      shippingZip: '1250-144',
+    }
+  ]
 
   const outputDir = join(ROOT, 'dist/b2b-displays')
   if (!existsSync(outputDir)) {
     mkdirSync(outputDir, { recursive: true })
   }
 
-  const svgFilePath = join(outputDir, 'sample_host_acrylic_display.svg')
-  writeFileSync(svgFilePath, svgOutput, 'utf8')
+  for (const b of sampleBusinesses) {
+    const svgOutput = generateCounterDisplaySvg(b)
+    const filePath = join(outputDir, `display_${b.slug}.svg`)
+    writeFileSync(filePath, svgOutput, 'utf8')
+    console.log(`✓ [${b.categoryKey}] ${b.businessName} -> ${filePath}`)
+  }
 
-  console.log(`✓ 300 DPI Vektor-SVG erfolgreich generiert: ${svgFilePath}`)
-  console.log(`✓ Gelato API Order Payload für automatischen Post-Versand bereit:`)
-  console.log(JSON.stringify(gelatoPayload, null, 2))
+  console.log('\n✨ Alle Branchen-Aufsteller erfolgreich gerendert!')
 }

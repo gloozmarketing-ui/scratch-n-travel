@@ -89,7 +89,10 @@ assert('B2B Host Pläne definiert (Local Host Starter 29€, Gastro Hub Pro 59�
   pricingSrc.includes('Hub Pro') && 
   pricingSrc.includes('€59')
 )
-assert('B2B physischer QR-Thekenaufsteller genannt', pricingSrc.includes('Thekenaufsteller per Post'))
+assert('B2B physischer QR-Thekenaufsteller genannt', 
+  pricingSrc.includes('Thekenaufsteller per Post') || 
+  (pricingSrc.includes('Acrylglas') && pricingSrc.includes('per Post'))
+)
 assert('0% Buchungsprovision Garantie genannt', pricingSrc.includes('0%'))
 assert('Vergleichsmatrix mit allen Tarifen vorhanden', pricingSrc.includes('<table') && pricingSrc.includes('Provision'))
 

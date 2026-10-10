@@ -78,19 +78,20 @@ export default function Pricing() {
     },
   ]
 
-  // B2B Pläne für Cafés, Guides, Hosts & Gewerbetreibende
+  // B2B Pläne für Cafés, Guides, Hosts & Gewerbetreibende aller Branchen
   const b2bPlans = [
     {
       id: 'b2b_host',
       name: 'Verified Local Host Starter',
-      badge: 'FÜR CAFÉS & TASCS',
+      badge: 'FÜR CAFÉS, SURF, WEIN & RETREATS',
       price: '€29',
       period: 'pro Monat (monatlich kündbar)',
       priceId: 'price_1P_mock_b2b_monthly',
-      desc: 'Für Cafés, Weinbars, Tascas, Manufakturen und kleine Surf-Shops.',
+      desc: 'Für Cafés, Surfschulen, Weingüter, Boutique-Hotels, Glamping, Coworking & lokale Manufakturen.',
       features: [
-        '1x Physischer QR-Code Tisch- & Thekenaufsteller per Post inklusive',
-        '0% Buchungsprovision für direkte Tisch- & Gästeanfragen',
+        '1x Physischer 20mm Acrylglas Thekenaufsteller per Post (UV-Hinterdruck, 300 DPI, Gelato POD)',
+        'Individuelles Design passend zu deinem Land, GPS-Gravur & Branchen-Wappen',
+        '0% Buchungsprovision für direkte Tisch-, Zimmer-, Board- & Touranfragen',
         'Digitaler Stempel im Reisepass für Gäste (+50 XP Belohnung)',
         'Offizielle Verifizierung im Safety & Connectivity Radar',
         'Eintrag in die interaktive Map mit Öffnungszeiten & Fotos',
@@ -103,11 +104,11 @@ export default function Pricing() {
     {
       id: 'b2b_pro',
       name: 'Experience & Gastro Hub Pro',
-      badge: 'FÜR GUIDES & CLUBS',
+      badge: 'FÜR MULTI-STANDORTE & CLUBS',
       price: '€59',
       period: 'pro Monat',
       priceId: 'price_1P_mock_b2b_pro_monthly',
-      desc: 'Für Surfschulen, Guides, Weingüter, Hostels und Veranstalter.',
+      desc: 'Für größere Surfschulen, Guides mit Touren, Weingüter, Boutique-Resorts und Veranstalter.',
       features: [
         '3x Physische QR-Code Acryl-Aufsteller per Post inklusive',
         'Eigene geführte Touren & Workshops in der App listen',
@@ -317,13 +318,32 @@ export default function Pricing() {
             <div className="card parchment p-6 max-w-4xl mx-auto border-2 border-leaf shadow-md text-center">
               <span className="text-2xl block mb-2">🏪</span>
               <h2 className="font-display text-2xl font-bold text-ink mb-1">
-                Für Gewerbetreibende, Cafés, Tascas, Guides &amp; Surfschulen
+                Für alle Branchen: Cafés, Surfschulen, Weingüter, Hotels &amp; Guides
               </h2>
               <p className="font-body text-xs sm:text-sm text-ink-faint max-w-2xl mx-auto leading-relaxed">
                 Keine teuren 15–25% Buchungsprovisionen wie bei Booking oder Airbnb. 
                 Du zahlst eine <strong>feste, faire Monatspauschale</strong> und erhältst echte Reisende, 
-                einen <strong>physischen QR-Code Thekenaufsteller per Post</strong> und 0% Provision auf alle Anfragen!
+                einen <strong>physischen QR-Code Acrylglas Thekenaufsteller per Post</strong> und 0% Provision auf alle Anfragen!
               </p>
+            </div>
+
+            {/* Branchen-Tags Bar */}
+            <div className="flex flex-wrap items-center justify-center gap-2 max-w-4xl mx-auto text-xs font-mono">
+              {[
+                '☕ Cafés & Bäckereien',
+                '🏄 Surfschulen & Wassersport',
+                '🍇 Weingüter & Bodegas',
+                '🥾 Outdoor- & Bergführer',
+                '🚐 Campervan & Glamping',
+                '🏺 Handwerk & Ateliers',
+                '💻 Coworking & Nomad Hubs',
+                '🏨 Boutique Hotels & B&Bs',
+                '🚲 Bike & Gravel Verleih',
+              ].map(tag => (
+                <span key={tag} className="bg-paper-deep border border-leaf/40 text-ink px-3 py-1 rounded-full text-[0.68rem] font-bold shadow-sm">
+                  {tag}
+                </span>
+              ))}
             </div>
 
             {/* B2B Pläne Grid */}
