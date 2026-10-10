@@ -9,11 +9,25 @@
  * und Gelato Print-on-Demand (POD) Fulfillment Payload.
  */
 
-import { writeFileSync, mkdirSync, existsSync } from 'node:fs'
+import { writeFileSync, readFileSync, mkdirSync, existsSync } from 'node:fs'
 import { join, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..')
+
+// Auto-Load .env falls lokal vorhanden (ohne fremde Packages)
+const envPath = join(ROOT, '.env')
+if (existsSync(envPath)) {
+  const lines = readFileSync(envPath, 'utf8').split('\n')
+  for (const line of lines) {
+    const trimmed = line.trim()
+    if (trimmed && !trimmed.startsWith('#') && trimmed.includes('=')) {
+      const [k, ...vals] = trimmed.split('=')
+      const val = vals.join('=').trim().replace(/^["']|["']$/g, '')
+      if (!process.env[k.trim()]) process.env[k.trim()] = val
+    }
+  }
+}
 
 // ── 1. Produktspezifikationen: Freistehender Acrylglas-Block (10 x 15 cm) ────
 export const ACRYLIC_BLOCK_SPECS = {
@@ -354,6 +368,40 @@ export function createGelatoOrderPayload(hostOrder) {
   }
 }
 
+/**
+ * Sendet die Bestellung direkt an die Gelato REST-API v2.
+ * Wenn kein Key vorhanden ist, wird ein sicherer Dry-Run durchgeführt.
+ */
+export async function dispatchGelatoOrder(orderPayload) {
+  const gelatoKey = (process.env.GELATO_KEY || process.env.GELATO_API_KEY || '').trim()
+  if (!gelatoKey) {
+    return {
+      success: false,
+      status: 'dry_run_no_key',
+      message: 'Kein GELATO_KEY in .env oder Server-Umgebung gefunden. Order-Payload wurde als Dry-Run validiert.',
+      order: orderPayload
+    }
+  }
+
+  try {
+    const res = await fetch('https://api.gelato.com/v2/orders', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-API-KEY': gelatoKey
+      },
+      body: JSON.stringify(orderPayload)
+    })
+    const data = await res.json()
+    if (!res.ok) {
+      return { success: false, status: 'gelato_error', error: data }
+    }
+    return { success: true, status: 'dispatched', data }
+  } catch (err) {
+    return { success: false, status: 'network_error', error: err.message }
+  }
+}
+
 // ── 5. Ausführung & Demo-Export für verschiedene Business Owner ─────────────
 if (process.argv[1] && process.argv[1].endsWith('hermes_host_counter_display_generator.mjs')) {
   console.log('✨ [Hermes B2B Generator] Initialisiere Multibranchen-Generierung für verschiedene Business Owner...\n')
@@ -443,5 +491,12 @@ if (process.argv[1] && process.argv[1].endsWith('hermes_host_counter_display_gen
     console.log(`✓ [${b.categoryKey}] ${b.businessName} -> ${filePath}`)
   }
 
-  console.log('\n✨ Alle Branchen-Aufsteller erfolgreich gerendert!')
+  const gelatoKey = (process.env.GELATO_KEY || process.env.GELATO_API_KEY || '').trim()
+  if (gelatoKey) {
+    console.log(`\n🔑 Gelato API-Key erkannt (${gelatoKey.slice(0, 4)}***) — Order-API Integration aktiv.`)
+  } else {
+    console.log('\n🔒 Gelato API-Key: Nicht gesetzt (sicherer Dry-Run Modus). Trage GELATO_KEY in .env ein, um echte Bestellungen aufzugeben.')
+  }
+
+  console.log('✨ Alle Branchen-Aufsteller erfolgreich gerendert!')
 }
