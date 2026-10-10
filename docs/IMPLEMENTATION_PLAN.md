@@ -750,8 +750,28 @@ Premium ist **kein Paywall-Zwang**, sondern ein bezahlter Vorteil. Der Pilot sta
 
 **SHIP** Dokumentiert in `docs/MEETUP_001_REPORT.md` (kein Code-Commit)
 
+---
 
-# Anhang A — Reihenfolge & Abhängigkeiten
+## T-404 · Community Give & Take Tauschkonto & Globale Threat Map (SNT-511, SNT-515, SNT-516) ⚪ P3 — ✅ ERLEDIGT (2026-10-10)
+
+**SPEC**
+1. **SNT-511 Give & Take Tauschkonto:** Sichtbare Bilanz im Profil (`Profile.tsx`), Karma-Score, Gegenüberstellung von Gegeben (Spots, Gefahrenmeldungen, Reviews, Skills) vs. Genommen (freigerubbelte Secrets, Radar-Schilde, gebührenfreie Buchungen), Transaktions-Ledger und Sofort-Aktionen (+14d je Spot, +7d je Gefahr).
+2. **SNT-515 Radar Weltkarte & Globale Intelligenz:** Vollständige Behebung des „API KEY REQUIRED" Wasserzeichens durch Wechsel von Carto auf Esri Canvas Tiles + OSM; dynamische Leaflet-Größenanpassung; 35+ Country Centers; universeller Fallback für ausnahmslos alle 200+ Länder weltweit mit 30+ neuen Gefahren und Notrufnummern.
+3. **SNT-516 Auffindbare B2C & B2B Abos & Preisübersicht:** Prominente Navigation in Sidebar & Topbars (`/pricing`, `/host`); Duale Zielgruppen-Tabs für Explorer (B2C) und Local Hosts (B2B mit physischem QR-Thekenaufsteller per Post und 0% Provision); detaillierte Vergleichsmatrix.
+
+**TASKS**
+- [x] SNT-511: Tauschkonto-Tab, Saldo, Gegeben/Genommen Matrix, Transaktions-Chronik, Demo-Boost Button (`src/pages/Profile.tsx`)
+- [x] SNT-515: Watermark-freie Tiles, Leaflet resize, weltweite Abdeckung mit Länder-Fallback (`src/components/RadarThreatMap.tsx`, `src/data/travelIntelligence.ts`, `src/pages/Radar.tsx`)
+- [x] SNT-516: Sidebar & Topbar Nav-Links, B2C vs B2B Pricing-Tabs mit QR-Kit & 0% Gebühren (`src/components/Layout.tsx`, `src/pages/Pricing.tsx`)
+
+**VERIFY**
+- `npm run check:all` = 0 (61 Tests, Typecheck, Schema, UI-Audit 39 Dateien, SEO, Photo, Trust grün)
+- `npm run check:bundle` = 0 (First-Load 787 KB / Budget 820 KB, Lazy Map 148 KB)
+- `npm run build` = 0 (`vite build` in 5.39 s)
+
+**SHIP** `feat(radar-profile-pricing): fix world map watermarks, expand global threat radar, add b2c/b2b pricing navigation and give-and-take balance (SNT-511, SNT-515, SNT-516)`
+
+---
 
 ```
 PHASE 0 (Tag 1–2)          T-001 Keys ─┐

@@ -96,6 +96,13 @@ function Sidebar({ onClose }: { onClose?: () => void }) {
         { path: '/safety', icon: '🛡️', label: t('nav_safety') },
       ],
     },
+    {
+      label: 'Mitgliedschaft & Abos',
+      items: [
+        { path: '/pricing', icon: '💳', label: 'Pläne & VIP Abos' },
+        { path: '/host', icon: '🏪', label: 'B2B Local Host Portal' },
+      ],
+    },
   ]
 
   return (
@@ -353,7 +360,27 @@ export default function Layout() {
               Scratch'n'Travel
             </span>
           </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem' }}>
+            <NavLink
+              to="/pricing"
+              style={{
+                fontSize: '0.68rem',
+                fontWeight: 800,
+                padding: '0.22rem 0.5rem',
+                borderRadius: '8px',
+                background: 'var(--sun-wash)',
+                border: '1px solid var(--sun)',
+                color: 'var(--ink)',
+                textDecoration: 'none',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.25rem',
+              }}
+              title="Preise & Mitgliedschaften"
+            >
+              <span>💳</span>
+              <span>Abos</span>
+            </NavLink>
             <LanguageSelector compact />
             <NavLink
               to="/profile"
@@ -380,6 +407,28 @@ export default function Layout() {
             <span className="font-hand" style={{ color: 'var(--ink-ghost)', marginRight: 'auto' }}>
               gute Reise
             </span>
+            <NavLink
+              to="/pricing"
+              style={{
+                fontSize: '0.75rem',
+                fontWeight: 800,
+                padding: '0.35rem 0.75rem',
+                borderRadius: '999px',
+                background: 'var(--sun-wash)',
+                border: '1px solid var(--sun)',
+                color: 'var(--ink)',
+                textDecoration: 'none',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.35rem',
+                boxShadow: '0 1px 3px rgba(0,0,0,0.06)',
+                transition: 'all 0.15s ease',
+              }}
+              title="Pläne & Mitgliedschaften ansehen"
+            >
+              <span>💳</span>
+              <span>Pläne &amp; VIP Abos</span>
+            </NavLink>
             <LanguageSelector compact />
             <ThemeToggle compact />
           </div>

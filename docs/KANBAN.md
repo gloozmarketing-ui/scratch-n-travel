@@ -350,9 +350,11 @@
 | SNT-508 | 💳 Stripe: Free / Supporter / Local Pro definieren | 2 h | 👤 A | SNT-208 |
 | SNT-509 | 💰 Supporter-Plan live schalten | 1 h | 👤 A | SNT-508 |
 | SNT-510 | 🤝 3 zahlende Locals/Businesses gewinnen | 6 h | 👤 V | SNT-509 |
-| SNT-511 | 🪙 Give-&-Take-Bilanz im Profil (gegeben/genommen als sichtbares Tauschkonto) | 2 h | 👤 A | SNT-374 |
+| SNT-511 | 🪙 Give-&-Take-Bilanz im Profil (gegeben/genommen als sichtbares Tauschkonto) | 2 h | 👤 A | ✅ erledigt 2026-10-10 (`src/pages/Profile.tsx`, Tauschkonto-Tab, Karma-Saldo, Gegeben/Genommen-Matrix, Transaktions-Ledger, Sofort-Aktionen) |
 | SNT-512 | 🌙 „Ich bin heute Abend hier"-Stadt-Feed (24-h-Eintrag, nur für heute Abend) | 1,5 h | 👤 A | ✅ erledigt 2026-10-09 (`src/pages/Meetups.tsx`, Flash-Feed Tab, Countdown, Beitreten, Erstellen) |
 | SNT-513 | 🔄 Skill-Swap-Börse: „Was kannst du beibringen — was willst du lernen?" | 2 h | 👤 A | ✅ erledigt 2026-10-09 (`src/pages/WanderBond.tsx`, Give & Take Börse, Bieten/Suchen, Filter, Inserat-Modal) |
+| SNT-515 | 🗺️ Radar Weltkarten-Fix & Globale Länder-Warnungen (Wasserzeichen entfernt, Esri Canvas + OSM, alle 200+ Länder abgedeckt) | 3 h | 👤 A | ✅ erledigt 2026-10-10 (`src/components/RadarThreatMap.tsx`, `src/data/travelIntelligence.ts`, `src/pages/Radar.tsx`) |
+| SNT-516 | 💳 Auffindbare B2C & B2B Abos & Preisübersicht (Top-/Sidebar-Navigation, Explorer-Pläne vs. Local Host Starter & Hub Pro mit QR-Aufsteller) | 2 h | 👤 A | ✅ erledigt 2026-10-10 (`src/components/Layout.tsx`, `src/pages/Pricing.tsx`) |
 
 ---
 
@@ -378,6 +380,14 @@
 | SNT-331 / SNT-333 | **Supabase live:** `node scripts/test_rls.js` gegen echte Instanz → **13 PASS / 0 FAIL / 1 SKIP** (Skip: keine publizierte Route) — 60 Policies greifen, Anonyme können weder lesen noch schreiben | Live-Lauf 2026-10-06 |
 | SNT-333 *(Fund)* | Assertion-Bug behoben: `storage.objects` liefert 404 (nicht exponiert) = „nicht auflistbar", nicht „0 Zeilen sichtbar" | `scripts/test_rls.js:221` |
 | — *(Fund)* | Live-Bundle enthält keine Supabase-URL → **SNT-332 Vercel-Env offen**, App live im Demo-Modus | siehe BLOCKED |
+
+### Behoben am 2026-10-10 — Radar Weltkarte ohne Watermarks, Globale Threat Intelligence, B2C/B2B Abos & SNT-511 Tauschkonto
+
+| Karte | Was | Nachweis |
+|---|---|---|
+| SNT-511 | **Give-&-Take-Bilanz im Profil (Sichtbares Tauschkonto):** Neuer Tauschkonto-Tab mit Saldo (+12 Karma bei Demo, 0 bei Gast), Gegeben vs. Genommen Bilanzmatrix, Gegenwert-Kalkulation, Transaktions-Chronik/Ledger und Schnell-Aktionen (Spot einreichen, Radar melden, Skill tauschen) | `src/pages/Profile.tsx` |
+| SNT-515 | **Radar Weltkarten-Fix & Globale Länder-Warnungen:** Carto-Voyager Raster-Tiles entfernt (Behebung des „API KEY REQUIRED" Wasserzeichens), durch neutrale Dark-Canvas Esri Tiles & OSM ersetzt; Leaflet `invalidateSize()`-Fix; 35+ weltweite Country Centers; 25+ voll kuratierte Dossiers & universeller Fallback für ausnahmslos alle 200+ Länder weltweit mit 30+ neuen Gefahren | `src/components/RadarThreatMap.tsx`, `src/data/travelIntelligence.ts`, `src/pages/Radar.tsx` |
+| SNT-516 | **Auffindbare B2C & B2B Abos & Transparente Preis-Architektur:** Direkte Verlinkung von `/pricing` und `/host` in Desktop- & Mobile-Navigation (Sidebar & Topbar); Duale Zielgruppen-Tabs (Reisende & Explorer vs. B2B Local Hosts); physischer QR-Thekenaufsteller per Post; 0% Plattform-Provision; detaillierte Vergleichsmatrix | `src/components/Layout.tsx`, `src/pages/Pricing.tsx` |
 
 ### Behoben am 2026-10-09 — Expansion, i18n uk, Safety Radar 112, 5-Farben Design & B2B/Auth
 

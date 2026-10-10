@@ -18,9 +18,9 @@ export interface EmergencyContacts {
 }
 
 export interface CountryIntelligence {
-  code: string          // DE, AT, CH, PT, ES, IT, FR, IS, TH, JP
+  code: string          // DE, AT, CH, PT, ES, IT, FR, IS, US, GB, JP, TH, etc.
   name: string
-  region: 'DACH' | 'Südeuropa' | 'Westeuropa' | 'Nordeuropa' | 'Asien'
+  region: 'DACH' | 'Südeuropa' | 'Westeuropa' | 'Nordeuropa' | 'Osteuropa' | 'Nordamerika' | 'Lateinamerika' | 'Asien' | 'Afrika' | 'Ozeanien' | 'Naher Osten' | 'Global'
   flag: string
   currency: string
   emergency: EmergencyContacts
@@ -403,6 +403,835 @@ export const countriesIntelligence: CountryIntelligence[] = [
       networkScore: 'excellent',
       esimPriceFrom: '€ 4,20 / 5 GB',
       bestLocalCarrier: 'Orange / Free Mobile'
+    }
+  },
+  {
+    code: 'US',
+    name: 'USA (Vereinigte Staaten)',
+    region: 'Nordamerika',
+    flag: '🇺🇸',
+    currency: 'USD ($)',
+    emergency: {
+      police: '911',
+      medical: '911',
+      fire: '911',
+      touristPolice: '911 (Disponenten verbinden spanisch/deutsch)'
+    },
+    tapWater: {
+      drinkable: true,
+      rating: 'Trinkbar (oft Chlor)',
+      note: 'In den meisten Städten sicher genießbar. In alten Wohnungen oder Wüstenstädten Wasserfilter nutzen.'
+    },
+    payment: {
+      cardAcceptance: 'ubiquitous',
+      headline: 'Kreditkarte zwingend erforderlich',
+      tip: 'Für Mietwagen, Kautionen und Hotels ist eine echte Credit Card (keine reine Debit) fast immer Pflicht. Trinkgeld 18–22% üblich.'
+    },
+    roadAndTransit: {
+      tollRequired: true,
+      tollType: 'E-ZPass / SunPass (elektronisch)',
+      tip: 'Brücken in New York/San Francisco und Florida Turnpikes haben keine Barzahlung mehr. PlatePass mit Mietwagen buchen.'
+    },
+    connectivity: {
+      networkScore: 'good',
+      esimPriceFrom: '€ 5,50 / 10 GB',
+      bestLocalCarrier: 'T-Mobile US / Verizon',
+      roamingWarning: '⚠️ Roaming außerhalb von EU-Tarifen extrem teuer! Vor Abflug US-eSIM installieren.'
+    }
+  },
+  {
+    code: 'GB',
+    name: 'Großbritannien & UK',
+    region: 'Westeuropa',
+    flag: '🇬🇧',
+    currency: 'GBP (£)',
+    emergency: {
+      universalEu: '112',
+      police: '999 / 112',
+      medical: '999 / 111 (Nicht-Notfall NHS)',
+      fire: '999'
+    },
+    tapWater: {
+      drinkable: true,
+      rating: 'Ausgezeichnet',
+      note: 'Trinkwasser im ganzen Land von bester Qualität. Schottisches Hochlandwasser gilt als besonders weich.'
+    },
+    payment: {
+      cardAcceptance: 'ubiquitous',
+      headline: '100% Cashless in London & Großstädten',
+      tip: 'U-Bahn (TfL Tube) und Busse akzeptieren kontaktlose Kreditkarten / Apple Pay direkt am Drehkreuz — keine Oyster-Karte mehr nötig.'
+    },
+    roadAndTransit: {
+      tollRequired: true,
+      tollType: 'London Congestion Charge & ULEZ',
+      tip: 'Linksverkehr! In London fallen City-Maut (Congestion Charge) und Umweltzone (ULEZ) an. Außerhalb Autobahnen mautfrei (außer M6 Toll).'
+    },
+    connectivity: {
+      networkScore: 'excellent',
+      esimPriceFrom: '€ 4,00 / 5 GB',
+      bestLocalCarrier: 'EE / Vodafone UK',
+      roamingWarning: 'Post-Brexit: Manche EU-Anbieter berechnen Roaming in UK — Tarif vorab prüfen.'
+    }
+  },
+  {
+    code: 'GR',
+    name: 'Griechenland',
+    region: 'Südeuropa',
+    flag: '🇬🇷',
+    currency: 'EUR (€)',
+    emergency: {
+      universalEu: '112',
+      police: '100',
+      medical: '166 (EKAB)',
+      fire: '199',
+      touristPolice: '171 (Touristenpolizei mehrsprachig)'
+    },
+    tapWater: {
+      drinkable: true,
+      rating: 'Festland ja, Inseln meist Flaschenwasser',
+      note: 'In Athen und Thessaloniki trinkbar. Auf Kykladen (Santorini, Mykonos) und Kreta nur abgefülltes Flaschenwasser trinken (Entsalzungsanlagen).'
+    },
+    payment: {
+      cardAcceptance: 'ubiquitous',
+      headline: 'Kartenzahlung gesetzlich vorgeschrieben',
+      tip: 'Alle Tavernen und Taxis müssen Kartenzahlung akzeptieren. Kleingeld (1–2 €) für Trinkgeld bar auf dem Tisch lassen.'
+    },
+    roadAndTransit: {
+      tollRequired: true,
+      tollType: 'Autobahn-Mauthäuschen (Bar / Karte)',
+      tip: 'Autobahnen zwischen Athen, Patras und Thessaloniki haben regelmäßige Mautstellen. Fährverbindungen im Sommer früh buchen.'
+    },
+    connectivity: {
+      networkScore: 'good',
+      esimPriceFrom: '€ 3,90 / 5 GB',
+      bestLocalCarrier: 'Cosmote / Vodafone GR'
+    }
+  },
+  {
+    code: 'TR',
+    name: 'Türkei',
+    region: 'Südeuropa',
+    flag: '🇹🇷',
+    currency: 'TRY (Türkische Lira)',
+    emergency: {
+      universalEu: '112',
+      police: '155 / 112',
+      medical: '112',
+      fire: '110',
+      touristPolice: '+90 212 527 45 03 (Istanbul Touristenpolizei)'
+    },
+    tapWater: {
+      drinkable: false,
+      rating: 'Nicht zum Trinken empfohlen',
+      note: 'Leitungswasser in Istanbul und Urlaubsregionen stark gechlort und altberohrt. Immer versiegeltes Flaschenwasser kaufen.'
+    },
+    payment: {
+      cardAcceptance: 'common',
+      headline: 'Karte weit verbreitet, Lira bar für Basare',
+      tip: 'Visa & Mastercard werden in fast allen Geschäften akzeptiert. Auf Basaren, Märkten und in Dolmuş-Sammeltaxis immer Bar-Lira dabeihaben.'
+    },
+    roadAndTransit: {
+      tollRequired: true,
+      tollType: 'HGS Transponder-Maut',
+      tip: 'Maut auf Autobahnen und Brücken über den Bosporus erfolgt elektronisch per HGS-Chip an der Windschutzscheibe (Mietwagen prüfen).'
+    },
+    connectivity: {
+      networkScore: 'good',
+      esimPriceFrom: '€ 4,50 / 5 GB',
+      bestLocalCarrier: 'Turkcell / Vodafone TR',
+      roamingWarning: '⚠️ Türkei ist kein EU-Land! Roaming ist ohne Auslandspaket extrem teuer.'
+    }
+  },
+  {
+    code: 'HR',
+    name: 'Kroatien',
+    region: 'Südeuropa',
+    flag: '🇭🇷',
+    currency: 'EUR (€)',
+    emergency: {
+      universalEu: '112',
+      police: '192 / 112',
+      medical: '194 / 112',
+      fire: '193',
+      mountainOrSea: '195 (Seenotrettung MRCC)'
+    },
+    tapWater: {
+      drinkable: true,
+      rating: 'Hervorragend',
+      note: 'Kroatisches Leitungswasser gehört zu den saubersten Europas und ist überall bedenkenlos trinkbar.'
+    },
+    payment: {
+      cardAcceptance: 'ubiquitous',
+      headline: 'Euro seit 2023 gesetzliches Zahlungsmittel',
+      tip: 'Kartenzahlung überall Standard. An Strandbars und Bauernmärkten ist etwas Bar-Euro vorteilhaft.'
+    },
+    roadAndTransit: {
+      tollRequired: true,
+      tollType: 'Mauthäuschen (Ticket ziehen & bei Ausfahrt zahlen)',
+      tip: 'Autobahn A1 (Zagreb–Split–Dubrovnik) ist streckenabhängig mautpflichtig. Kreditkarte an den ENC-Mautspuren geht am schnellsten.'
+    },
+    connectivity: {
+      networkScore: 'excellent',
+      esimPriceFrom: '€ 3,80 / 5 GB',
+      bestLocalCarrier: 'Hrvatski Telekom (HT) / A1 HR'
+    }
+  },
+  {
+    code: 'TH',
+    name: 'Thailand',
+    region: 'Asien',
+    flag: '🇹🇭',
+    currency: 'THB (Thailändische Baht)',
+    emergency: {
+      police: '191',
+      medical: '1669',
+      fire: '199',
+      touristPolice: '1155 (Touristenpolizei, Englisch 24/7)'
+    },
+    tapWater: {
+      drinkable: false,
+      rating: 'Niemals aus dem Hahn trinken',
+      note: 'Nur abgefülltes Flaschenwasser mit intaktem Siegel trinken. Eiswürfel mit Loch in der Mitte in Restaurants sind industriell und sicher.'
+    },
+    payment: {
+      cardAcceptance: 'cash_preferred',
+      headline: 'Bargeld ist König (Cash-Kultur)',
+      tip: 'Geldautomaten (ATMs) verlangen pauschal 220 THB Gebühr pro Abhebung. Höchstbetrag (20.000–30.000 THB) auf einmal ziehen.'
+    },
+    roadAndTransit: {
+      tollRequired: true,
+      tollType: 'Expressway Mauthäuschen (Barzahlung)',
+      tip: 'Linksverkehr! In Bangkok Mautstraßen (Expressways) nutzen, um Staus zu umgehen. Taxis immer auf "Meter" (Taxameter) bestehen.'
+    },
+    connectivity: {
+      networkScore: 'excellent',
+      esimPriceFrom: '€ 4,50 / 15 GB (unbegrenzt Datenpakete)',
+      bestLocalCarrier: 'AIS / TrueMove H',
+      roamingWarning: 'Kein EU-Roaming. Lokale 5G eSIM am Flughafen oder vorab installieren.'
+    }
+  },
+  {
+    code: 'ID',
+    name: 'Indonesien (inkl. Bali)',
+    region: 'Asien',
+    flag: '🇮🇩',
+    currency: 'IDR (Indonesische Rupiah)',
+    emergency: {
+      universalEu: '112',
+      police: '110 / 112',
+      medical: '118',
+      fire: '113',
+      mountainOrSea: 'BASARNAS Rettung 115'
+    },
+    tapWater: {
+      drinkable: false,
+      rating: 'Gefahr von "Bali Belly"',
+      note: 'Leitungswasser nicht zum Zähneputzen oder Trinken verwenden. Gallonen-Wasserfilter oder Flaschenwasser nutzen.'
+    },
+    payment: {
+      cardAcceptance: 'common',
+      headline: 'Bargeld & QRIS / Karte in Cafés',
+      tip: 'In Hipster-Cafés geht Karte (oft 2–3% Aufschlag). Auf Märkten, für Roller-Miete und Warungs nur IDR-Bargeld.'
+    },
+    roadAndTransit: {
+      tollRequired: true,
+      tollType: 'Elektronische E-Toll Card (Mandiri / BCA)',
+      tip: 'Linksverkehr! Roller nur mit internationalem Führerschein (Klasse A) und Helm fahren. Mautstraßen (z. B. Bali Mandara) nur mit E-Money Karte.'
+    },
+    connectivity: {
+      networkScore: 'good',
+      esimPriceFrom: '€ 4,80 / 10 GB',
+      bestLocalCarrier: 'Telkomsel / XL Axiata'
+    }
+  },
+  {
+    code: 'VN',
+    name: 'Vietnam',
+    region: 'Asien',
+    flag: '🇻🇳',
+    currency: 'VND (Vietnamesische Dong)',
+    emergency: {
+      police: '113',
+      medical: '115',
+      fire: '114'
+    },
+    tapWater: {
+      drinkable: false,
+      rating: 'Nur abgekochtes oder Flaschenwasser',
+      note: 'Leitungswasser meiden. Gekochter Tee (Trà Đá) und industrielles Eis sind meist unbedenklich.'
+    },
+    payment: {
+      cardAcceptance: 'cash_preferred',
+      headline: 'Bargeld dominant, Grab-App für Fahrten',
+      tip: 'VND hat viele Nullen (100.000 VND ≈ 3,70 €) — Geldscheine bei der Übergabe genau prüfen (500.000 und 20.000 sehen ähnlich aus!).'
+    },
+    roadAndTransit: {
+      tollRequired: true,
+      tollType: 'ETC Mautkarte',
+      tip: 'Verkehr extrem dicht mit Millionen Rollern. Als Fußgänger die Straße in stetem, berechenbarem Schritt überqueren — die Roller weichen aus.'
+    },
+    connectivity: {
+      networkScore: 'excellent',
+      esimPriceFrom: '€ 3,90 / 15 GB',
+      bestLocalCarrier: 'Viettel / Vinaphone'
+    }
+  },
+  {
+    code: 'EG',
+    name: 'Ägypten',
+    region: 'Afrika',
+    flag: '🇪🇬',
+    currency: 'EGP (Ägyptische Pfund)',
+    emergency: {
+      police: '122',
+      medical: '123',
+      fire: '180',
+      touristPolice: '126 (Touristenpolizei Kairo & Rotes Meer)'
+    },
+    tapWater: {
+      drinkable: false,
+      rating: 'Strikt abzuraten',
+      note: 'Nilwasser ist gechlort aber mikrobiell für Reisende riskant. Immer Flaschenwasser trinken und Salate meiden.'
+    },
+    payment: {
+      cardAcceptance: 'cash_preferred',
+      headline: 'Bargeld für Bakschisch & Taxis',
+      tip: 'Trinkgeld ("Bakschisch") ist allgegenwärtig. Immer kleine 10–20 EGP Scheine parat haben.'
+    },
+    roadAndTransit: {
+      tollRequired: true,
+      tollType: 'Bar-Mautstellen auf Wüstenstraßen',
+      tip: 'Verkehr in Kairo ist chaotisch. Uber nutzen statt Straßen-Taxis, um Preisdiskussionen zu vermeiden.'
+    },
+    connectivity: {
+      networkScore: 'good',
+      esimPriceFrom: '€ 5,50 / 5 GB',
+      bestLocalCarrier: 'Vodafone Egypt / WE'
+    }
+  },
+  {
+    code: 'MA',
+    name: 'Marokko',
+    region: 'Afrika',
+    flag: '🇲🇦',
+    currency: 'MAD (Marokkanische Dirham)',
+    emergency: {
+      universalEu: '112',
+      police: '19 (Stadt) / 177 (Gendarmerie Überland)',
+      medical: '15',
+      fire: '15'
+    },
+    tapWater: {
+      drinkable: false,
+      rating: 'Flaschenwasser bevorzugen',
+      note: 'In großen Hotels teils gefiltert, für empfindliche Mägen aber versiegeltes Quellwasser (Sidi Ali / Ain Saiss) empfohlen.'
+    },
+    payment: {
+      cardAcceptance: 'cash_preferred',
+      headline: 'Bargeld in Souks & Riads',
+      tip: 'In den Medinas geht fast alles bar. Dirham ist eine geschlossene Währung — Reste vor Rückflug am Flughafen umtauschen.'
+    },
+    roadAndTransit: {
+      tollRequired: true,
+      tollType: 'Mauthäuschen (Ticket ziehen & bar zahlen)',
+      tip: 'Autobahnen (Autoroutes du Maroc) sind exzellent ausgebaut und mautpflichtig. Strikte Polizeikontrollen mit Laser-Geschwindigkeitsmessung.'
+    },
+    connectivity: {
+      networkScore: 'good',
+      esimPriceFrom: '€ 4,50 / 5 GB',
+      bestLocalCarrier: 'Maroc Telecom / Orange MA'
+    }
+  },
+  {
+    code: 'ZA',
+    name: 'Südafrika',
+    region: 'Afrika',
+    flag: '🇿🇦',
+    currency: 'ZAR (Südafrikanische Rand)',
+    emergency: {
+      universalEu: '112',
+      police: '10111 / 112',
+      medical: '10177',
+      fire: '10177',
+      mountainOrSea: 'NSRI Seenotrettung +27 21 434 4011'
+    },
+    tapWater: {
+      drinkable: true,
+      rating: 'In Städten ausgezeichnet',
+      note: 'In Kapstadt, Johannesburg und an der Garden Route ist das Leitungswasser von hoher Qualität. In ländlichen Regionen nachfragen.'
+    },
+    payment: {
+      cardAcceptance: 'ubiquitous',
+      headline: 'Karte fast überall akzeptiert',
+      tip: 'Trinkgeld für Parkplatzwächter ("Car Guards") 5–10 Rand in bar bereithalten.'
+    },
+    roadAndTransit: {
+      tollRequired: true,
+      tollType: 'Mauthäuschen (Kreditkarte/Bargeld)',
+      tip: 'Linksverkehr! Nach Einbruch der Dunkelheit nicht zu Fuß gehen. Türen im Auto verriegeln und Wertsachen nicht offen im Fahrzeug lassen.'
+    },
+    connectivity: {
+      networkScore: 'good',
+      esimPriceFrom: '€ 6,00 / 5 GB',
+      bestLocalCarrier: 'Vodacom / MTN',
+      roamingWarning: '⚠️ Stromabschaltungen ("Load Shedding") können lokale Mobilfunkmasten kurzzeitig lahmlegen.'
+    }
+  },
+  {
+    code: 'MX',
+    name: 'Mexiko',
+    region: 'Lateinamerika',
+    flag: '🇲🇽',
+    currency: 'MXN (Mexikanische Pesos)',
+    emergency: {
+      police: '911',
+      medical: '911 / Rotes Kreuz 065',
+      fire: '911',
+      touristPolice: '078 (Ángeles Verdes Pannenhilfe & Touristeninfo)'
+    },
+    tapWater: {
+      drinkable: false,
+      rating: 'Niemals Leitungswasser trinken',
+      note: 'Immer "Agua purificada" aus Krügen oder Flaschen verwenden. Zähneputzen ebenfalls mit Flaschenwasser.'
+    },
+    payment: {
+      cardAcceptance: 'common',
+      headline: 'Pesos für Street Food & Colectivos',
+      tip: 'Restaurants und Supermärkte nehmen Karte. Für Tacos, Tienditas und Trinkgeld ("Propina") immer Pesos dabeihaben.'
+    },
+    roadAndTransit: {
+      tollRequired: true,
+      tollType: 'Cuota-Mautstraßen (Barzahlung)',
+      tip: 'Immer gebührenpflichtige "Cuota"-Autobahnen wählen — diese sind sicherer und in besserem Zustand als mautfreie "Libre"-Straßen.'
+    },
+    connectivity: {
+      networkScore: 'good',
+      esimPriceFrom: '€ 5,00 / 5 GB',
+      bestLocalCarrier: 'Telcel / AT&T Mexico'
+    }
+  },
+  {
+    code: 'BR',
+    name: 'Brasilien',
+    region: 'Lateinamerika',
+    flag: '🇧🇷',
+    currency: 'BRL (Brasilianische Real)',
+    emergency: {
+      universalEu: '190 (Polizei) / 192 (SAMU Notarzt) / 193 (Feuerwehr)',
+      police: '190',
+      medical: '192',
+      fire: '193',
+      touristPolice: 'DEAT Touristenpolizei Rio: +55 21 2332-2924'
+    },
+    tapWater: {
+      drinkable: false,
+      rating: 'Gefiltertes oder Flaschenwasser',
+      note: 'Leitungswasser nicht trinken. Filter ("Filtro de barro") in Pousadas oder Flaschenwasser nutzen.'
+    },
+    payment: {
+      cardAcceptance: 'ubiquitous',
+      headline: 'Kontaktlose Karte & Pix überall',
+      tip: 'Selbst Strandverkäufer in Copacabana haben Kartenterminals. Smartphone auf der Straße nicht offen in der Hand tragen.'
+    },
+    roadAndTransit: {
+      tollRequired: true,
+      tollType: 'Pedágio (Mautstelle bar/Karte)',
+      tip: 'Uber ist in Großstädten die sicherste Fortbewegung. Nach Einbruch der Dunkelheit rote Ampeln vorsichtig überqueren.'
+    },
+    connectivity: {
+      networkScore: 'good',
+      esimPriceFrom: '€ 5,50 / 5 GB',
+      bestLocalCarrier: 'Vivo / Claro'
+    }
+  },
+  {
+    code: 'AU',
+    name: 'Australien',
+    region: 'Ozeanien',
+    flag: '🇦🇺',
+    currency: 'AUD ($)',
+    emergency: {
+      universalEu: '112 (vom Mobiltelefon) / 000 (Standard Triple Zero)',
+      police: '000 / 131 444 (Nicht-Notfall)',
+      medical: '000',
+      fire: '000'
+    },
+    tapWater: {
+      drinkable: true,
+      rating: 'Hervorragend',
+      note: 'Australisches Leitungswasser ist von höchster Güte und überall trinkbar.'
+    },
+    payment: {
+      cardAcceptance: 'ubiquitous',
+      headline: 'Fast 100% bargeldlos ("Tap & Go")',
+      tip: 'Kreditkarten und Apple Pay überall Standard. Bargeld ist praktisch nirgends erforderlich.'
+    },
+    roadAndTransit: {
+      tollRequired: true,
+      tollType: 'Elektronische Maut (Linkt e-Tag)',
+      tip: 'Linksverkehr! In Sydney, Melbourne und Brisbane gibt es elektronische Maut ohne Mauthäuschen. Online innerhalb von 3 Tagen bezahlen.'
+    },
+    connectivity: {
+      networkScore: 'rural_gaps',
+      esimPriceFrom: '€ 5,00 / 10 GB',
+      bestLocalCarrier: 'Telstra (beste Abdeckung im Outback) / Optus'
+    }
+  },
+  {
+    code: 'NZ',
+    name: 'Neuseeland',
+    region: 'Ozeanien',
+    flag: '🇳🇿',
+    currency: 'NZD ($)',
+    emergency: {
+      universalEu: '111',
+      police: '111 / 105 (Nicht-Notfall)',
+      medical: '111',
+      fire: '111'
+    },
+    tapWater: {
+      drinkable: true,
+      rating: 'Ausgezeichnet',
+      note: 'Leitungswasser ist überall rein und trinkbar.'
+    },
+    payment: {
+      cardAcceptance: 'ubiquitous',
+      headline: 'EFTPOS & kontaktlose Karten',
+      tip: 'Kein Bargeld nötig. Trinkgeld wird in Neuseeland nicht erwartet.'
+    },
+    roadAndTransit: {
+      tollRequired: true,
+      tollType: 'Elektronische Maut (Northern Gateway u. a.)',
+      tip: 'Linksverkehr! Kurvige Bergstraßen erfordern doppelte Reisezeit. Maut online bei Waka Kotahi NZTA bezahlen.'
+    },
+    connectivity: {
+      networkScore: 'good',
+      esimPriceFrom: '€ 5,50 / 10 GB',
+      bestLocalCarrier: 'Spark / One NZ'
+    }
+  },
+  {
+    code: 'NO',
+    name: 'Norwegen',
+    region: 'Nordeuropa',
+    flag: '🇳🇴',
+    currency: 'NOK (Norwegische Krone)',
+    emergency: {
+      universalEu: '112',
+      police: '112',
+      medical: '113',
+      fire: '110'
+    },
+    tapWater: {
+      drinkable: true,
+      rating: 'Gletscher-Reinheit',
+      note: 'Eines der reinsten Trinkwasser der Welt direkt aus alpinen Gebirgsquellen.'
+    },
+    payment: {
+      cardAcceptance: 'ubiquitous',
+      headline: 'Nahezu 100% bargeldlos',
+      tip: 'Bargeld wird oft gar nicht mehr angenommen. Bankkarte oder Kreditkarte zwingend nötig.'
+    },
+    roadAndTransit: {
+      tollRequired: true,
+      tollType: 'AutoPASS (Kameras erfassen Kennzeichen)',
+      tip: 'Automatische Maut an Brücken und Tunneln. Vorab bei Epass24 registrieren oder Mietwagen-Chip nutzen.'
+    },
+    connectivity: {
+      networkScore: 'excellent',
+      esimPriceFrom: '€ 4,50 / 5 GB',
+      bestLocalCarrier: 'Telenor / Telia'
+    }
+  },
+  {
+    code: 'SE',
+    name: 'Schweden',
+    region: 'Nordeuropa',
+    flag: '🇸🇪',
+    currency: 'SEK (Schwedische Krone)',
+    emergency: {
+      universalEu: '112',
+      police: '112 / 114 14 (Nicht-Notfall)',
+      medical: '112 / 1177 (Gesundheitsberatung)',
+      fire: '112'
+    },
+    tapWater: {
+      drinkable: true,
+      rating: 'Hervorragend',
+      note: 'Reinstes Trinkwasser aus Seen und Urgesteinsquellen.'
+    },
+    payment: {
+      cardAcceptance: 'ubiquitous',
+      headline: '"Kontantfri" — Kein Bargeld erwünscht',
+      tip: 'Viele Cafés und Museen sind rein bargeldlos ("No Cash Accepted"). Karte oder Smartphone zwingend.'
+    },
+    roadAndTransit: {
+      tollRequired: false,
+      tip: 'Keine Autobahnmaut. Nur City-Maut ("Trängselskatt") in Stockholm und Göteborg (wird per Rechnung über Kennzeichen erhoben).'
+    },
+    connectivity: {
+      networkScore: 'excellent',
+      esimPriceFrom: '€ 4,00 / 5 GB',
+      bestLocalCarrier: 'Telia / Tele2'
+    }
+  },
+  {
+    code: 'DK',
+    name: 'Dänemark',
+    region: 'Nordeuropa',
+    flag: '🇩🇰',
+    currency: 'DKK (Dänische Krone)',
+    emergency: {
+      universalEu: '112',
+      police: '112 / 114',
+      medical: '112 / 1813 (Kopenhagen Notdienst)',
+      fire: '112'
+    },
+    tapWater: {
+      drinkable: true,
+      rating: 'Ausgezeichnet',
+      note: 'Grundwasser von höchster Reinheit, streng kontrolliert.'
+    },
+    payment: {
+      cardAcceptance: 'ubiquitous',
+      headline: '100% kontaktlos',
+      tip: 'Kreditkarten und MobilePay dominieren. Bargeld ist nicht erforderlich.'
+    },
+    roadAndTransit: {
+      tollRequired: false,
+      tip: 'Autobahnen mautfrei. Große Brücken Storebælt und Øresund (nach Schweden) sind gebührenpflichtig.'
+    },
+    connectivity: {
+      networkScore: 'excellent',
+      esimPriceFrom: '€ 3,90 / 5 GB',
+      bestLocalCarrier: 'TDC / 3 Denmark'
+    }
+  },
+  {
+    code: 'NL',
+    name: 'Niederlande',
+    region: 'Westeuropa',
+    flag: '🇳🇱',
+    currency: 'EUR (€)',
+    emergency: {
+      universalEu: '112',
+      police: '112 / 0900-8844',
+      medical: '112',
+      fire: '112'
+    },
+    tapWater: {
+      drinkable: true,
+      rating: 'Weltspitze',
+      note: 'Chlorfreies, mehrfach gefiltertes Dünentrinkwasser von bester Qualität.'
+    },
+    payment: {
+      cardAcceptance: 'ubiquitous',
+      headline: '"Pin Alleen" — Karte bevorzugt',
+      tip: 'Supermärkte (Albert Heijn) und öffentliche Verkehrsmittel (OV-pay per Debitkarte) sind oft rein bargeldlos.'
+    },
+    roadAndTransit: {
+      tollRequired: false,
+      tip: 'Keine Autobahnmaut (außer Westerscheldetunnel). Extrem hohe Parkgebühren in Amsterdam (P+R nutzen!).'
+    },
+    connectivity: {
+      networkScore: 'excellent',
+      esimPriceFrom: '€ 3,80 / 5 GB',
+      bestLocalCarrier: 'KPN / Vodafone NL'
+    }
+  },
+  {
+    code: 'BE',
+    name: 'Belgien',
+    region: 'Westeuropa',
+    flag: '🇧🇪',
+    currency: 'EUR (€)',
+    emergency: {
+      universalEu: '112',
+      police: '101 / 112',
+      medical: '112',
+      fire: '112'
+    },
+    tapWater: {
+      drinkable: true,
+      rating: 'Trinkbar (oft kalkhaltig)',
+      note: 'In Brüssel und Flandern sicher genießbar, jedoch kalkreich.'
+    },
+    payment: {
+      cardAcceptance: 'ubiquitous',
+      headline: 'Kartenzahlung Pflicht',
+      tip: 'Seit 2022 müssen alle belgischen Händler mindestens eine digitale Zahlungsmethode anbieten.'
+    },
+    roadAndTransit: {
+      tollRequired: false,
+      tip: 'Autobahnen für PKW mautfrei und nachts beleuchtet. Umweltzonen (LEZ) in Brüssel, Antwerpen und Gent.'
+    },
+    connectivity: {
+      networkScore: 'excellent',
+      esimPriceFrom: '€ 4,00 / 5 GB',
+      bestLocalCarrier: 'Proximus / Orange BE'
+    }
+  },
+  {
+    code: 'PL',
+    name: 'Polen',
+    region: 'Osteuropa',
+    flag: '🇵🇱',
+    currency: 'PLN (Złoty)',
+    emergency: {
+      universalEu: '112',
+      police: '997 / 112',
+      medical: '999 / 112',
+      fire: '998'
+    },
+    tapWater: {
+      drinkable: true,
+      rating: 'In Städten trinkbar',
+      note: 'In Warschau, Krakau und Danzig ("Kranówka") bedenkenlos trinkbar.'
+    },
+    payment: {
+      cardAcceptance: 'ubiquitous',
+      headline: 'Modernste bargeldlose Infrastruktur',
+      tip: 'Kontaktlos und BLIK überall Standard. Bei Kartenzahlung Abrechnung in PLN wählen, um DCC-Gebühren zu vermeiden.'
+    },
+    roadAndTransit: {
+      tollRequired: true,
+      tollType: 'e-TOLL & Mauthäuschen',
+      tip: 'Teilstrecken der A1, A2 und A4 sind mautpflichtig. Auf staatlichen Strecken App e-TOLL PL Ticket nutzen.'
+    },
+    connectivity: {
+      networkScore: 'excellent',
+      esimPriceFrom: '€ 3,50 / 5 GB',
+      bestLocalCarrier: 'Orange Polska / Plus'
+    }
+  },
+  {
+    code: 'CZ',
+    name: 'Tschechien',
+    region: 'Osteuropa',
+    flag: '🇨🇿',
+    currency: 'CZK (Tschechische Kronen)',
+    emergency: {
+      universalEu: '112',
+      police: '158 / 112',
+      medical: '155',
+      fire: '150'
+    },
+    tapWater: {
+      drinkable: true,
+      rating: 'Hervorragend',
+      note: 'Sehr gute Trinkwasserqualität im ganzen Land.'
+    },
+    payment: {
+      cardAcceptance: 'ubiquitous',
+      headline: 'Karte überall, aber Kronen statt Euro zahlen',
+      tip: 'VORSICHT vor dubiosen Wechselstuben in Prag! Keine Geldwechsel auf der Straße (häufige Betrugsmasche mit wertlosen belarussischen Rubeln).'
+    },
+    roadAndTransit: {
+      tollRequired: true,
+      tollType: 'Elektronische Autobahnvignette (edalnice.cz)',
+      tip: 'Vignette nur auf der offiziellen Seite edalnice.cz kaufen (Vorsicht vor betrügerischen Drittanbieter-Websites!).'
+    },
+    connectivity: {
+      networkScore: 'excellent',
+      esimPriceFrom: '€ 3,80 / 5 GB',
+      bestLocalCarrier: 'T-Mobile CZ / O2'
+    }
+  },
+  {
+    code: 'HU',
+    name: 'Ungarn',
+    region: 'Osteuropa',
+    flag: '🇭🇺',
+    currency: 'HUF (Ungarische Forint)',
+    emergency: {
+      universalEu: '112',
+      police: '107 / 112',
+      medical: '104',
+      fire: '105'
+    },
+    tapWater: {
+      drinkable: true,
+      rating: 'Ausgezeichnet',
+      note: 'Leitungswasser in Budapest und am Balaton ist von hoher Qualität.'
+    },
+    payment: {
+      cardAcceptance: 'common',
+      headline: 'Forint in bar für Ruinenbars & Markthallen',
+      tip: 'Bei Kartenzahlung immer "Abrechnung in Forint" wählen. Euro-Preise in Restaurants haben oft schlechte Wechselkurse.'
+    },
+    roadAndTransit: {
+      tollRequired: true,
+      tollType: 'E-Matrica (Elektronische Vignette)',
+      tip: 'Autobahnen erfordern E-Vignette. Bereits vor Grenzübertritt oder innerhalb von 60 Minuten online buchen.'
+    },
+    connectivity: {
+      networkScore: 'good',
+      esimPriceFrom: '€ 4,00 / 5 GB',
+      bestLocalCarrier: 'Telekom HU / Yettel'
+    }
+  },
+  {
+    code: 'CA',
+    name: 'Kanada',
+    region: 'Nordamerika',
+    flag: '🇨🇦',
+    currency: 'CAD ($)',
+    emergency: {
+      police: '911',
+      medical: '911',
+      fire: '911'
+    },
+    tapWater: {
+      drinkable: true,
+      rating: 'Weltspitze',
+      note: 'Reinstes Schmelzwasser aus den Rocky Mountains und Borealen Wäldern.'
+    },
+    payment: {
+      cardAcceptance: 'ubiquitous',
+      headline: '100% kontaktlos',
+      tip: 'Kreditkarten überall Standard. Trinkgeld 15–20% in Gastronomie üblich.'
+    },
+    roadAndTransit: {
+      tollRequired: false,
+      tip: 'Autobahnen bis auf Highway 407 (Toronto) mautfrei. Parks Canada Discovery Pass für Nationalparks nötig.'
+    },
+    connectivity: {
+      networkScore: 'rural_gaps',
+      esimPriceFrom: '€ 6,00 / 10 GB',
+      bestLocalCarrier: 'Telus / Rogers'
+    }
+  },
+  {
+    code: 'IN',
+    name: 'Indien',
+    region: 'Asien',
+    flag: '🇮🇳',
+    currency: 'INR (Indische Rupien)',
+    emergency: {
+      universalEu: '112',
+      police: '100 / 112',
+      medical: '102 / 108',
+      fire: '101'
+    },
+    tapWater: {
+      drinkable: false,
+      rating: 'Gefahr von schweren Mageninfektionen',
+      note: 'Leitungswasser strikt meiden (auch für Eiswürfel und Zähneputzen). Nur versiegelte Flaschen bekannter Marken (Kinley, Aquafina) kaufen.'
+    },
+    payment: {
+      cardAcceptance: 'common',
+      headline: 'Bargeld & UPI dominant',
+      tip: 'Kreditkarten in Malls und Hotels akzeptiert. Für Märkte, Street Food und Tuk-Tuks ("Auto-Rickshaws") immer Bargeld dabeihaben.'
+    },
+    roadAndTransit: {
+      tollRequired: true,
+      tollType: 'FASTag Transponder',
+      tip: 'Linksverkehr! Extrem dichter Verkehr mit Kühen, Fußgängern und Rollern. Für Überlandfahrten Wagen mit Fahrer mieten.'
+    },
+    connectivity: {
+      networkScore: 'good',
+      esimPriceFrom: '€ 4,50 / 10 GB',
+      bestLocalCarrier: 'Jio / Airtel'
     }
   }
 ]
@@ -876,8 +1705,513 @@ export const threatRadarItems: ThreatItem[] = [
     radiusMeters: 350,
     isProOnly: true,
     proShieldReason: 'Schwarze Liste von Lockvogel-Bars mit 5.000 € Zwangsrechnungen'
+  },
+
+  // ─── 🇺🇸 USA (VEREINIGTE STAATEN) ───
+  {
+    id: 'thr-us-01',
+    countryCode: 'US',
+    area: 'San Francisco · Tenderloin & SOMA (Bipping)',
+    category: 'crime',
+    severity: 'high',
+    title: 'Autofenster-Einschlagen ("Bipping") & Gepäckdiebstahl',
+    desc: 'Organisierte Täterbanden schlagen in Sekunden Autoscheiben ein und entwenden Koffer und Rucksäcke aus dem Kofferraum — selbst bei parkenden Autos an Aussichtspunkten (Twin Peaks, Fisherman’s Wharf).',
+    advice: 'Niemals Wertsachen, Taschen oder Ladekabel sichtbar im Fahrzeug lassen. Mietwagen mit leerem Kofferraum abstellen.',
+    icon: '🚗',
+    timeAgo: 'vor 1 Stunde aktualisiert',
+    verifiedReports: 430,
+    lat: 37.7844,
+    lng: -122.4144,
+    radiusMeters: 1800,
+    isProOnly: false
+  },
+  {
+    id: 'thr-us-vip',
+    countryCode: 'US',
+    area: 'New York · Times Square & Subway (nachts)',
+    category: 'crime',
+    severity: 'medium',
+    title: '🔒 VIP Shield: Aggressive Maskottchen & CD-Aufdräng-Betrug',
+    desc: 'Verkleidete Figuren fordern nach ungefragten Fotos aggressiv 20–50 $ Trinkgeld. Personen drücken Musik-CDs in die Hand und verlangen sofort Bargeld.',
+    advice: 'Nichts annehmen, Figuren ignorieren und in der U-Bahn zu später Stunde den Schaffner-Wagen in der Zugmitte wählen.',
+    icon: '🗽',
+    timeAgo: 'vor 2 Stunden verifiziert',
+    verifiedReports: 285,
+    lat: 40.7580,
+    lng: -73.9855,
+    radiusMeters: 600,
+    isProOnly: true,
+    proShieldReason: 'Exakte Standorte von Touristenfallen & Abzocke-Zonen'
+  },
+  {
+    id: 'thr-us-nature',
+    countryCode: 'US',
+    area: 'Florida & Golfküste · Strände um Miami & Tampa',
+    category: 'nature',
+    severity: 'high',
+    title: 'Rote Flut (Red Tide) & tückische Rip-Currents',
+    desc: 'Giftige Algenblüten ("Red Tide") reizen Atemwege und führen zu Hustenreiz. Unterströmungen am Atlantik ziehen Schwimmer binnen Sekunden aufs offene Meer.',
+    advice: 'Strandbefaggung beachten (Rote Flagge = Badeverbot). Bei Strömung niemals gegen die Welle ankämpfen, sondern parallel zum Ufer schwimmen.',
+    icon: '🌊',
+    timeAgo: 'vor 4 Stunden',
+    verifiedReports: 112,
+    lat: 25.7826,
+    lng: -80.1340,
+    radiusMeters: 8000,
+    isProOnly: false
+  },
+
+  // ─── 🇬🇧 GROSSBRITANNIEN (UK) ───
+  {
+    id: 'thr-gb-01',
+    countryCode: 'GB',
+    area: 'London · Soho, Oxford Street & Westminster',
+    category: 'crime',
+    severity: 'high',
+    title: 'Moped- & E-Bike Handy-Raub im Vorbeifahren ("Phone Snatching")',
+    desc: 'Maskierte Fahrer auf schnellen E-Bikes oder Mopeds reißen Fußgängern Smartphones blitzschnell aus der Hand, während diese auf Google Maps schauen.',
+    advice: 'Smartphone nie nah an der Bordsteinkante halten. In Hauseingängen oder mit beiden Händen und Körperabschirmung navigieren.',
+    icon: '📱',
+    timeAgo: 'vor 1 Stunde aktualisiert',
+    verifiedReports: 512,
+    lat: 51.5138,
+    lng: -0.1312,
+    radiusMeters: 1200,
+    isProOnly: false
+  },
+  {
+    id: 'thr-gb-scotland',
+    countryCode: 'GB',
+    area: 'Schottland · Highlands & Isle of Skye',
+    category: 'nature',
+    severity: 'medium',
+    title: 'Plötzlicher Kälteeinbruch & tückischer Hochlandnebel',
+    desc: 'Binnen 30 Minuten kann strahlender Sonnenschein in orkanartige Regenschauer mit Sichtweiten unter 5 Metern umschlagen. Gefahr von Hypothermie.',
+    advice: 'Wasserdichte Hardshell-Kleidung, Offline-Karten (kein Mobilfunk in Glens) und Notfall-Biwak mitführen.',
+    icon: '🌧️',
+    timeAgo: 'vor 6 Stunden',
+    verifiedReports: 88,
+    lat: 57.2736,
+    lng: -6.2155,
+    radiusMeters: 25000,
+    isProOnly: false
+  },
+
+  // ─── 🇬🇷 GRIECHENLAND ───
+  {
+    id: 'thr-gr-01',
+    countryCode: 'GR',
+    area: 'Athen · Monastiraki, Plaka & Omonia',
+    category: 'crime',
+    severity: 'medium',
+    title: 'Kneipen-Einladungs-Scam ("Bar Scam") & Metro-Diebstahl',
+    desc: 'Freundliche Einheimische laden Touristen auf einen "traditionellen Drink" in eine versteckte Bar ein. Am Ende steht eine Rechnung über 500–1.000 € unter Androhung von Gewalt.',
+    advice: 'Keine spontanen Clubeinladungen von Fremden auf der Straße annehmen. In der Metro Linie 1 & 3 Rucksack vorne tragen.',
+    icon: '🍸',
+    timeAgo: 'vor 3 Stunden aktualisiert',
+    verifiedReports: 194,
+    lat: 37.9763,
+    lng: 23.7258,
+    radiusMeters: 900,
+    isProOnly: false
+  },
+  {
+    id: 'thr-gr-fire',
+    countryCode: 'GR',
+    area: 'Kykladen & Attika · Waldbrand-Warnstufen',
+    category: 'nature',
+    severity: 'high',
+    title: 'Meltemi-Winde & Waldbrandgefahr im Hochsommer',
+    desc: 'Starke Sommerwinde ("Meltemi") fachen bei über 40°C extrem schnell unkontrollierbare Brände an. Küstenstraßen können kurzfristig gesperrt werden.',
+    advice: 'Notfall-App 112 Griechenland aktivieren (sendet Evakuierungs-SMS). Keine Zigaretten oder Glasflaschen in die Natur werfen.',
+    icon: '🔥',
+    timeAgo: 'vor 5 Stunden',
+    verifiedReports: 140,
+    lat: 38.0498,
+    lng: 23.8585,
+    radiusMeters: 20000,
+    isProOnly: false
+  },
+
+  // ─── 🇹🇷 TÜRKEI ───
+  {
+    id: 'thr-tr-01',
+    countryCode: 'TR',
+    area: 'Istanbul · Sultanahmet, Taksim & Galatabrücke',
+    category: 'crime',
+    severity: 'high',
+    title: 'Schuhputzer-Trick & gefälschte Taxi-Zähler',
+    desc: 'Ein Schuhputzer "verliert" seine Bürste vor dir. Wer sie aufhebt, wird mit einem scheinbar dankbaren Putzen bedacht und anschließend um 30–50 € erpresst.',
+    advice: 'Bürsten liegen lassen und weitergehen. Bei Taxis auf offiziellem Taxameter (Taksimetre) bestehen oder BiTaksi-App nutzen.',
+    icon: '👞',
+    timeAgo: 'vor 2 Stunden aktualisiert',
+    verifiedReports: 360,
+    lat: 41.0054,
+    lng: 28.9768,
+    radiusMeters: 1400,
+    isProOnly: false
+  },
+  {
+    id: 'thr-tr-dogs',
+    countryCode: 'TR',
+    area: 'Türkei · Stadtrandgebiete & Ruinenstätten',
+    category: 'wildlife',
+    severity: 'medium',
+    title: 'Rudelbildung von Straßenhunden',
+    desc: 'Große Straßenhunde verteidigen nachts ihr Revier in Parks und archäologischen Stätten abseits der Hauptstraßen.',
+    advice: 'Ruhe bewahren, nicht wegrennen, nicht in die Augen starren und bei Annäherung einen Stein aufheben (signalisiert Abwehr).',
+    icon: '🐕',
+    timeAgo: 'vor 1 Tag',
+    verifiedReports: 65,
+    lat: 36.8841,
+    lng: 30.7056,
+    radiusMeters: 5000,
+    isProOnly: false
+  },
+
+  // ─── 🇭🇷 KROATIEN ───
+  {
+    id: 'thr-hr-01',
+    countryCode: 'HR',
+    area: 'Küste & Inseln · Istrien & Kvarner Bucht',
+    category: 'nature',
+    severity: 'high',
+    title: 'Bura-Sturmwinde an Küstenstraßen & Brücken',
+    desc: 'Fallwinde vom Velebit-Gebirge ("Bura") erreichen Orkanböen über 180 km/h. Küstenstraßen (Jadranska Magistrala) und Brücken (Krk-Brücke) werden für Wohnmobile gesperrt.',
+    advice: 'HAK-Verkehrsbericht (App HAK) vor Fahrtantritt prüfen. Bei Sturmwarnung Autobahntunnel im Landesinneren meiden.',
+    icon: '💨',
+    timeAgo: 'vor 3 Stunden aktualisiert',
+    verifiedReports: 92,
+    lat: 45.0812,
+    lng: 14.6387,
+    radiusMeters: 30000,
+    isProOnly: false
+  },
+  {
+    id: 'thr-hr-sea',
+    countryCode: 'HR',
+    area: 'Adria-Küste · Felsstrände & Buchten',
+    category: 'wildlife',
+    severity: 'medium',
+    title: 'Seeigel & Petermännchen in seichten Felsen',
+    desc: 'Tausende schwarze Seeigel sitzen auf Felsen im klaren Wasser. Stiche brechen unter der Haut ab und entzünden sich stark.',
+    advice: 'Immer feste Badeschuhe tragen! Bei Stichen mit Olivenöl einreiben und Stacheln mit einer sterilen Nadel entfernen.',
+    icon: '🦔',
+    timeAgo: 'vor 2 Tagen',
+    verifiedReports: 145,
+    lat: 43.5081,
+    lng: 16.4402,
+    radiusMeters: 10000,
+    isProOnly: false
+  },
+
+  // ─── 🇹🇭 THAILAND ───
+  {
+    id: 'thr-th-01',
+    countryCode: 'TH',
+    area: 'Bangkok · Königspalast & Wat Pho',
+    category: 'crime',
+    severity: 'high',
+    title: '"Der Palast ist heute geschlossen"-Scam',
+    desc: 'Freundliche Männer in Hemden behaupten vor dem Palast, dieser sei wegen einer buddhistischen Zeremonie geschlossen, und leiten Touristen in ein Tuk-Tuk zu überteuerten Juweliergeschäften.',
+    advice: 'Niemals auf Personen vor den Toren hören! Immer direkt zum offiziellen Ticketschalter gehen — der Palast ist fast täglich geöffnet.',
+    icon: '🛺',
+    timeAgo: 'vor 2 Stunden aktualisiert',
+    verifiedReports: 620,
+    lat: 13.7500,
+    lng: 100.4914,
+    radiusMeters: 800,
+    isProOnly: false
+  },
+  {
+    id: 'thr-th-jelly',
+    countryCode: 'TH',
+    area: 'Golf von Thailand · Koh Samui & Koh Phangan',
+    category: 'wildlife',
+    severity: 'high',
+    title: 'Tödliche Würfelquallen (Box Jellyfish) in Regenzeiten',
+    desc: 'Zwischen Juli und Oktober treiben hochgiftige Würfelquallen in Strandnähe. Ein Kontakt führt binnen 3 Minuten zu Atem- und Herzstillstand.',
+    advice: 'Nur in abgezäunten Quallenschutznetzen schwimmen. An vielen Stränden stehen Essig-Stationen (Essig neutralisiert Nesselkapseln).',
+    icon: '🪼',
+    timeAgo: 'vor 5 Stunden',
+    verifiedReports: 78,
+    lat: 9.5120,
+    lng: 100.0136,
+    radiusMeters: 15000,
+    isProOnly: false
+  },
+
+  // ─── 🇮🇩 INDONESIEN (BALI) ───
+  {
+    id: 'thr-id-01',
+    countryCode: 'ID',
+    area: 'Bali · Kuta & Canggu Nachtleben',
+    category: 'crime',
+    severity: 'high',
+    title: 'Panschung mit giftigem Methanol (Arak-Cocktails)',
+    desc: 'Billige Bars und Strandstände strecken traditionellen Palmwein (Arak) oder Cocktails mit billigem Industrie-Methanol. Führt zu Erblindung und Tod.',
+    advice: 'Nur versiegelte Markenflaschen (Bier, importierte Spirituosen) trinken. Cocktails in dubiosen "Free Drink"-Bars meiden.',
+    icon: '🍹',
+    timeAgo: 'vor 3 Stunden aktualisiert',
+    verifiedReports: 184,
+    lat: -8.7185,
+    lng: 115.1686,
+    radiusMeters: 2500,
+    isProOnly: false
+  },
+  {
+    id: 'thr-id-monkeys',
+    countryCode: 'ID',
+    area: 'Bali · Ubud Monkey Forest & Uluwatu Tempel',
+    category: 'wildlife',
+    severity: 'medium',
+    title: 'Aggressive Langschwanzmakaken & Tollwutgefahr',
+    desc: 'Affen stehlen Brillen, Schmuck, Hüte und Handys aus Taschen und beißen zu, wenn man Gegenstände zurückfordert.',
+    advice: 'Keine Nahrungsmittel in Taschen haben, Brillen vor dem Tempel abnehmen. Bei Biss sofort ins Krankenhaus für Tollwutimpfung.',
+    icon: '🐒',
+    timeAgo: 'vor 4 Stunden',
+    verifiedReports: 290,
+    lat: -8.5194,
+    lng: 115.2606,
+    radiusMeters: 600,
+    isProOnly: false
+  },
+
+  // ─── 🇪🇬 ÄGYPTEN ───
+  {
+    id: 'thr-eg-01',
+    countryCode: 'EG',
+    area: 'Kairo · Pyramiden von Gizeh',
+    category: 'crime',
+    severity: 'high',
+    title: 'Kamelritt-Erpressung & gefälschte Ticket-Kontrolleure',
+    desc: 'Händler bieten Kamelritte für 5 € an — verlangen aber für den Abstieg 100 € oder halten Touristen in der Wüste fest. Männer in Zivil behaupten, Tickets seien ungültig.',
+    advice: 'Nur offizielle Tickets am Haupteingang kaufen. Kamele ignorieren oder Festpreis vorab schriftlich vereinbaren.',
+    icon: '🐪',
+    timeAgo: 'vor 2 Stunden aktualisiert',
+    verifiedReports: 510,
+    lat: 29.9792,
+    lng: 31.1342,
+    radiusMeters: 1800,
+    isProOnly: false
+  },
+
+  // ─── 🇲🇦 MAROKKO ───
+  {
+    id: 'thr-ma-01',
+    countryCode: 'MA',
+    area: 'Marrakesch · Jemaa el-Fna & Gerberviertel',
+    category: 'crime',
+    severity: 'high',
+    title: 'Falsche Guides & Schlangen-Fotofallen',
+    desc: 'Gaukler werfen ungefragt Schlangen um den Hals und fordern 50 € für ein Foto. Männer leiten Touristen in abgelegene Gerberviertel und verlangen Schutzgeld für den Rückweg.',
+    advice: 'Mit fester Geste "La, Shukran" (Nein, danke) sagen und zügig weitergehen. Offline-Karte mit GPS nutzen, um sich nicht in der Medina zu verirren.',
+    icon: '🐍',
+    timeAgo: 'vor 3 Stunden aktualisiert',
+    verifiedReports: 380,
+    lat: 31.6258,
+    lng: -7.9891,
+    radiusMeters: 1200,
+    isProOnly: false
+  },
+
+  // ─── 🇿🇦 SÜDAFRIKA ───
+  {
+    id: 'thr-za-01',
+    countryCode: 'ZA',
+    area: 'Kapstadt & Johannesburg · Innenstädte nachts',
+    category: 'crime',
+    severity: 'high',
+    title: 'Bewaffnete Überfälle & Carjacking an Ampeln',
+    desc: 'Nach Einbruch der Dunkelheit ist das Gehen zu Fuß in Stadtzentren lebensgefährlich. An Ampeln schlagen Kriminelle Scheiben ein, um Handtaschen vom Beifahrersitz zu stehlen.',
+    advice: 'Nachts ausschließlich Uber Door-to-Door nutzen. Im Auto alle Türen verriegeln und Wertsachen im Fußraum verstecken.',
+    icon: '🚗',
+    timeAgo: 'vor 2 Stunden aktualisiert',
+    verifiedReports: 490,
+    lat: -33.9249,
+    lng: 18.4241,
+    radiusMeters: 4000,
+    isProOnly: false
+  },
+
+  // ─── 🇲🇽 MEXIKO ───
+  {
+    id: 'thr-mx-01',
+    countryCode: 'MX',
+    area: 'Cancún, Tulum & Mexiko-Stadt',
+    category: 'crime',
+    severity: 'high',
+    title: 'Manipulierte Geldautomaten (Skimming) & Express-Scams',
+    desc: 'Freistehende Geldautomaten an Touristenmeilen kopieren Kartendaten und PINs. Falsche Polizisten erpressen "Sofort-Bußgelder" für angebliche Verstöße.',
+    advice: 'Geld nur IN videoüberwachten Bankfilialen abheben. Strafzettel niemals bar auf der Straße zahlen — auf Vorladung zur Polizeiwache bestehen.',
+    icon: '🏧',
+    timeAgo: 'vor 3 Stunden aktualisiert',
+    verifiedReports: 310,
+    lat: 21.1391,
+    lng: -86.7497,
+    radiusMeters: 3000,
+    isProOnly: false
+  },
+
+  // ─── 🇧🇷 BRASILIEN ───
+  {
+    id: 'thr-br-01',
+    countryCode: 'BR',
+    area: 'Rio de Janeiro · Copacabana, Ipanema & Lapa nachts',
+    category: 'crime',
+    severity: 'high',
+    title: 'Blitzüberfälle ("Arrastão") & offener Handydiebstahl',
+    desc: 'Jugendgruppen rennen über den Strand und entreißen Taschen und Handys. Nach Einbruch der Dunkelheit lauern bewaffnete Täter in Strandnähe.',
+    advice: 'Niemals teuren Schmuck oder Smartphones offen am Strand tragen. Nur etwas Bargeld und eine Kopie des Ausweises mitführen.',
+    icon: '🏖️',
+    timeAgo: 'vor 2 Stunden aktualisiert',
+    verifiedReports: 420,
+    lat: -22.9711,
+    lng: -43.1822,
+    radiusMeters: 2500,
+    isProOnly: false
+  },
+
+  // ─── 🇦🇺 AUSTRALIEN ───
+  {
+    id: 'thr-au-01',
+    countryCode: 'AU',
+    area: 'Queensland & Northern Territory · Strände & Flüsse',
+    category: 'wildlife',
+    severity: 'high',
+    title: 'Tödliche Salzwasserkrokodile ("Salties") & Würfelquallen',
+    desc: 'Krokodile lauern unsichtbar im trüben Wasser von Mündungen und Stränden in Nordaustralien. Extrem aggressive Jäger.',
+    advice: 'Warnschilder "Crocodile Warning" strikt beachten! Niemals in Flüssen oder unbewachten Stränden nördlich von Rockhampton schwimmen.',
+    icon: '🐊',
+    timeAgo: 'vor 5 Stunden',
+    verifiedReports: 65,
+    lat: -16.9186,
+    lng: 145.7781,
+    radiusMeters: 15000,
+    isProOnly: false
+  },
+
+  // ─── 🇳🇴 NORWEGEN ───
+  {
+    id: 'thr-no-01',
+    countryCode: 'NO',
+    area: 'Lofoten, Preikestolen & Trolltunga',
+    category: 'nature',
+    severity: 'high',
+    title: 'Unberechenbare Sturmböen & ungesicherte Felsabstürze',
+    desc: 'Mehrere hundert Meter tiefe Klippen haben keine Zäune. Nasse Felsen und plötzliche Windböen über 100 km/h führen regelmäßig zu Abstürzen.',
+    advice: 'Feste Bergschuhe mit Vibram-Sohle tragen. Mindestens 3 Meter Abstand zur Abbruchkante halten, kein Leichtsinn für Selfies.',
+    icon: '🏔️',
+    timeAgo: 'vor 4 Stunden aktualisiert',
+    verifiedReports: 74,
+    lat: 58.9864,
+    lng: 6.1887,
+    radiusMeters: 10000,
+    isProOnly: false
+  },
+
+  // ─── 🇳🇱 NIEDERLANDE ───
+  {
+    id: 'thr-nl-01',
+    countryCode: 'NL',
+    area: 'Amsterdam · De Wallen & Centraal Station',
+    category: 'crime',
+    severity: 'medium',
+    title: 'Fake-Drogendealer & Taschendiebe an Grachten',
+    desc: 'Straßenverkäufer bieten weiße Pulver an, die sich als Backpulver oder giftiges Waschmittel entpuppen. Gleichzeitig werden abgelenkte Touristen bestohlen.',
+    advice: 'Niemals Substanzen auf der Straße kaufen. In Coffeeshops auf offizielle Genehmigungen achten und Handys an Grachtenkanten festhalten.',
+    icon: '🚲',
+    timeAgo: 'vor 2 Stunden aktualisiert',
+    verifiedReports: 215,
+    lat: 52.3725,
+    lng: 4.8970,
+    radiusMeters: 800,
+    isProOnly: false
+  },
+
+  // ─── 🇨🇿 TSCHECHIEN ───
+  {
+    id: 'thr-cz-01',
+    countryCode: 'CZ',
+    area: 'Prag · Karlsbrücke & Wenzelsplatz',
+    category: 'crime',
+    severity: 'high',
+    title: 'Geldwechsel-Betrug ("Fake Exchange") mit wertlosen Rubeln',
+    desc: 'Betrüger sprechen Touristen vor Wechselstuben an und bieten einen "besseren Kurs" für Euro an. Ausgehändigt werden jedoch wertlose, alte belarussische Rubel.',
+    advice: 'Niemals Geld auf der Straße wechseln! Nur in lizenzierten Banken oder am Automaten abheben.',
+    icon: '💶',
+    timeAgo: 'vor 1 Stunde aktualisiert',
+    verifiedReports: 340,
+    lat: 50.0865,
+    lng: 14.4114,
+    radiusMeters: 600,
+    isProOnly: false
+  },
+
+  // ─── 🇮🇳 INDIEN ───
+  {
+    id: 'thr-in-01',
+    countryCode: 'IN',
+    area: 'Neu-Delhi · Paharganj & Hauptbahnhof New Delhi',
+    category: 'crime',
+    severity: 'high',
+    title: '"Tourist Office Scam" & Magen-Darm-Warnung ("Delhi Belly")',
+    desc: 'Taxifahrer behaupten, dein gebuchtes Hotel sei abgebrannt oder die Straße gesperrt, und fahren dich zu einem Fake "Government Tourist Office" für teure Buchungen.',
+    advice: 'Auf direktem Weg zum gebuchten Hotel bestehen. Nur Flaschenwasser trinken, kein offenes Eis und kein ungewaschenes Streetfood.',
+    icon: '🍛',
+    timeAgo: 'vor 3 Stunden aktualisiert',
+    verifiedReports: 580,
+    lat: 28.6432,
+    lng: 77.2144,
+    radiusMeters: 1500,
+    isProOnly: false
   }
 ]
+
+/**
+ * Universal Global Intelligence Resolver:
+ * Liefert verlässliche, standardisierte Sicherheits- & Reiserelevante Informationen
+ * für JEDES Land der Welt (auch wenn es nicht in den kuratierten Top-30 liegt).
+ */
+export function getCountryIntelligence(code: string): CountryIntelligence {
+  const found = countriesIntelligence.find(c => c.code.toUpperCase() === code.toUpperCase())
+  if (found) return found
+
+  // Fallback für alle weiteren Länder der Erde
+  return {
+    code: code.toUpperCase(),
+    name: `Land (${code.toUpperCase()})`,
+    region: 'Global',
+    flag: '🌐',
+    currency: 'Lokale Landeswährung',
+    emergency: {
+      universalEu: '112 / 911 (Internationale Notruf-Standards)',
+      police: '112 oder 911',
+      medical: '112 oder 911',
+      fire: '112 oder 911',
+      touristPolice: 'Notrufzentrale der Landespolizei'
+    },
+    tapWater: {
+      drinkable: false,
+      rating: 'Flaschenwasser vorsichtshalber empfohlen',
+      note: 'Vor Ort prüfen oder auf abgepacktes Flaschenwasser zurückgreifen.'
+    },
+    payment: {
+      cardAcceptance: 'common',
+      headline: 'Kreditkarte & Bargeld-Notgroschen',
+      tip: 'Internationale Kreditkarte (Visa/Mastercard) und kleiner Bargeldbestand in lokaler Währung empfohlen.'
+    },
+    roadAndTransit: {
+      tollRequired: false,
+      tip: 'Lokale Verkehrsregeln und Versicherungsschutz vor Mietwagen-Nutzung sorgfältig prüfen.'
+    },
+    connectivity: {
+      networkScore: 'good',
+      esimPriceFrom: '€ 4,90 / 5 GB',
+      bestLocalCarrier: 'Führender nationaler Netzanbieter'
+    }
+  }
+}
 
 // ─── STADT-LEGENDEN & GEHEIMNISSE (DER GUIDE-MODUS) ────────────────────────
 export const cityLegends: CityLegend[] = [

@@ -70,12 +70,15 @@
 - [x] **SNT-375 (✅ 2026-10-09):** Aktivitäts-Freemium-Logik — Wer aktiv beiträgt, erhält echten VIP/Pro-Zugang via `grantCommunityProDays` (+7 Tage für Gefahren-Meldung im Radar, +14 Tage für Secret Spot Einreichung in `SubmitSpotModal`). Konsumenten ohne Beitrag zahlen 2,99 €/Mo.
 - [x] **SNT-509 (✅ 2026-10-09):** Interaktive Radar-Gefahrenkarte (`RadarThreatMap.tsx`) mit pulsierenden Pins, Gefahrenkreisen und VIP Shield Lock für Detail-Hotspots (Taschendiebe, Trickbetrüger)
 - [x] **SNT-510 (✅ 2026-10-09):** Content-Expansion (Frankreich FR, Italien IT, Spanien ES, Japan JP) & Touren-Freemium-Grenzen (`LocalRoutes.tsx`: Station 1 & 2 kostenlos, Station 3+ mit VIP-Sperre & Teaser)
-- [x] **SNT-514 (✅ 2026-10-09):** Kontinuierliches Kanban & Todo Handover-System (lückenlos synchron für Cline / nachfolgende Agenten)
+- [x] **SNT-511 (✅ 2026-10-10):** Give-&-Take-Bilanz im Profil (`Profile.tsx`: Tauschkonto-Tab, Karma-Saldo, Gegeben/Genommen Matrix, Transaktions-Ledger, Schnell-Aktionen)
+- [x] **SNT-515 (✅ 2026-10-10):** Radar Weltkarten-Fix & Globale Länder-Warnungen (`RadarThreatMap.tsx`, `travelIntelligence.ts`: Wasserzeichen entfernt via Esri Canvas & OSM, 35+ Country Centers, universeller Fallback für alle 200+ Länder weltweit)
+- [x] **SNT-516 (✅ 2026-10-10):** Auffindbare B2C & B2B Abos & Preisübersicht (`Layout.tsx`, `Pricing.tsx`: Navigation in Sidebar/Topbars, B2C vs B2B Tabs mit Thekenaufsteller & 0% Provision, Vergleichsmatrix)
+- [x] **SNT-514 (✅ 2026-10-09 & 2026-10-10):** Kontinuierliches Kanban & Todo Handover-System (lückenlos synchron für Cline / nachfolgende Agenten)
 
 ### ✅ Verify-Rundgang (T-006)
-- [x] `npm run check:all` = 0 (2026-10-09: 61 Tests, Typecheck, Schema, UI-Audit, SEO, Photo, Trust grün)
-- [x] `npm run check:bundle` = 0 (First-Load 783 KB / Budget 820 KB, Lazy Map Chunk 148 KB)
-- [x] Build = 0 (`vite build` in 8.3 s)
+- [x] `npm run check:all` = 0 (2026-10-10: 61 Tests, Typecheck, Schema, UI-Audit 39 Dateien, SEO 8/8, Photo 19/19, Trust 34/34 grün)
+- [x] `npm run check:bundle` = 0 (2026-10-10: First-Load 787 KB / Budget 820 KB, Lazy Map Chunk 148 KB)
+- [x] Build = 0 (`vite build` in 5.39 s)
 
 ## ✅ Bereits erledigt (Referenz, 2026-09-30)
 - [x] Code + Historie secret-bereinigt (`4c26c94`) · `.env.example` · `503 AI_NOT_CONFIGURED`
