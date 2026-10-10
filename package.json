@@ -18,7 +18,8 @@
     "smoke": "node scripts/smoke_live.mjs",
     "test:photo": "node scripts/test_photo_safety.js",
     "test:trust": "node scripts/test_trust.js",
-    "check:all": "npm run typecheck && npm run check:schema && npm run check:ui && npm run check:seo && npm run test:photo && npm run test:trust",
+    "test:flows": "node scripts/test_click_flows.mjs",
+    "check:all": "npm run typecheck && npm run check:schema && npm run check:ui && npm run check:seo && npm run test:photo && npm run test:trust && npm run test:flows",
     "seed": "node scripts/hermes_travel_seeder.js"
   },
   "keywords": [
