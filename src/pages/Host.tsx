@@ -22,7 +22,9 @@ export default function Host() {
     city: 'Lisbon',
     address: '',
     category: '☕ Café & Bäckerei',
-    perk: '10% Willkommens-Rabatt für Reisende'
+    perk: '10% Willkommens-Rabatt für Reisende',
+    planOption: 'quarterly', // 'quarterly' | 'monthly' | 'digital'
+    secretSpecial: '',
   })
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -246,7 +248,7 @@ export default function Host() {
                 </div>
                 <div className="grid grid-cols-2 gap-3">
                   {[
-                    ['29 €', 'Monatlich', 'Jederzeit kündbar'],
+                    ['29 €', 'Ab 29 € / Mo', '3-Mo Starter: Aufsteller geschenkt'],
                     ['📦 Kit', 'Aufsteller', 'QR-Thekenaufsteller per Post'],
                     ['0 %', 'Provision', 'Direkter Kundenkontakt'],
                     ['🛡️ Hub', 'Safety Radar', 'Verifizierte Anlaufstelle']
@@ -532,19 +534,85 @@ export default function Host() {
 
                   <div>
                     <label className="font-mono text-[0.62rem] text-sun uppercase block mb-1">
-                      Willkommens-Geste für Scratch-Reisende
+                      Dein exklusives Insider-Special für App-Nutzer (Secret Dish, Tasting-Vorteil, Board-Rabatt etc.)
                     </label>
                     <input
                       type="text"
-                      value={b2bForm.perk}
-                      onChange={e => setB2bForm({ ...b2bForm, perk: e.target.value })}
-                      placeholder="z. B. 10% Rabatt, Willkommens-Kaffee, kostenloser Shot"
+                      value={b2bForm.secretSpecial}
+                      onChange={e => setB2bForm({ ...b2bForm, secretSpecial: e.target.value })}
+                      placeholder="z. B. Secret Dessert der Großmutter, unetikettierter Hauswein, 10% Surfboard-Rabatt"
                       className="field text-sm"
                     />
+                    <p className="font-mono text-[0.6rem] text-ink-faint mt-1">
+                      💡 Schlage etwas vor, das nicht auf der regulären Karte steht. Reisende lieben Geheimnisse und kommen gezielt deswegen zu dir!
+                    </p>
                   </div>
 
-                  <button type="submit" className="btn btn-primary w-full py-3 text-xs font-bold shadow-xl">
-                    📦 Starter-Kit bestellen &amp; 14 Tage testen (29 €/Mo) →
+                  {/* Tarif-Auswahl */}
+                  <div className="pt-2 border-t border-line space-y-2">
+                    <label className="font-mono text-[0.62rem] text-sun uppercase block font-bold">
+                      Wähle dein Einstiegs-Paket:
+                    </label>
+                    <div className="grid sm:grid-cols-3 gap-2">
+                      <button
+                        type="button"
+                        onClick={() => setB2bForm({ ...b2bForm, planOption: 'quarterly' })}
+                        className={`p-3 rounded-xl border text-left transition-all ${
+                          b2bForm.planOption === 'quarterly'
+                            ? 'border-leaf bg-leaf-wash/30 shadow-md ring-1 ring-leaf'
+                            : 'border-line bg-card hover:border-leaf/50'
+                        }`}
+                      >
+                        <span className="font-mono text-[0.58rem] font-bold text-leaf block uppercase">⭐ Beliebteste Wahl</span>
+                        <p className="font-display text-xs font-bold text-ink">3-Monate Starter</p>
+                        <p className="font-mono text-[0.68rem] text-leaf font-bold">29 € / Mo</p>
+                        <p className="font-mono text-[0.55rem] text-ink-faint mt-1">
+                          (87 € Vorauszahlung) · <strong>Aufsteller 100% GESCHENKT</strong> (0 € Setup)
+                        </p>
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => setB2bForm({ ...b2bForm, planOption: 'monthly' })}
+                        className={`p-3 rounded-xl border text-left transition-all ${
+                          b2bForm.planOption === 'monthly'
+                            ? 'border-leaf bg-leaf-wash/30 shadow-md ring-1 ring-leaf'
+                            : 'border-line bg-card hover:border-leaf/50'
+                        }`}
+                      >
+                        <span className="font-mono text-[0.58rem] font-bold text-ink-faint block uppercase">Monatlich Flexibel</span>
+                        <p className="font-display text-xs font-bold text-ink">Monats-Abo</p>
+                        <p className="font-mono text-[0.68rem] text-ink font-bold">29 € / Mo</p>
+                        <p className="font-mono text-[0.55rem] text-ink-faint mt-1">
+                          + 29 € einmalige Hardware-Pauschale im 1. Monat · Monatlich kündbar
+                        </p>
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => setB2bForm({ ...b2bForm, planOption: 'digital' })}
+                        className={`p-3 rounded-xl border text-left transition-all ${
+                          b2bForm.planOption === 'digital'
+                            ? 'border-leaf bg-leaf-wash/30 shadow-md ring-1 ring-leaf'
+                            : 'border-line bg-card hover:border-leaf/50'
+                        }`}
+                      >
+                        <span className="font-mono text-[0.58rem] font-bold text-ink-faint block uppercase">Einstieg / Test</span>
+                        <p className="font-display text-xs font-bold text-ink">Digital Test-Host</p>
+                        <p className="font-mono text-[0.68rem] text-ink font-bold">14 € / Mo</p>
+                        <p className="font-mono text-[0.55rem] text-ink-faint mt-1">
+                          Rein digital in Radar &amp; Map · PDF-QR Code zum Ausdrucken
+                        </p>
+                      </button>
+                    </div>
+                  </div>
+
+                  <button type="submit" className="btn btn-primary w-full py-3.5 text-xs font-bold shadow-xl">
+                    {b2bForm.planOption === 'quarterly'
+                      ? '⭐ 3-Monate Starter buchen (87 € · Acrylglas-Aufsteller 100% GESCHENKT) →'
+                      : b2bForm.planOption === 'monthly'
+                        ? '📦 Flexibel starten (29 € / Mo + 29 € Hardware-Setup) →'
+                        : '📱 Digitalen Test-Host starten (14 € / Mo · Sofort aktiv) →'}
                   </button>
                 </form>
               )}

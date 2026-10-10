@@ -81,15 +81,34 @@ export default function Pricing() {
   // B2B Pläne für Cafés, Guides, Hosts & Gewerbetreibende aller Branchen
   const b2bPlans = [
     {
+      id: 'b2b_digital',
+      name: 'Digital Test-Host',
+      badge: 'TESTEN OHNE HARDWARE',
+      price: '€14',
+      period: 'pro Monat (monatlich kündbar)',
+      priceId: 'price_1P_mock_b2b_digital_monthly',
+      desc: 'Ideal für den schnellen Einstieg: Verifizierter Eintrag in App & Map, 0% Provision, ohne physischen Versand.',
+      features: [
+        'Offizielle Verifizierung im Safety & Connectivity Radar',
+        'Eintrag in die interaktive Map mit Öffnungszeiten & Fotos',
+        '0% Buchungsprovision für direkte Anfragen',
+        'Digitaler QR-Code zum Selbstausdrucken als PDF',
+        'Direkter Chat-Kanal mit anfragenden Reisenden',
+        'Jederzeit mit 1 Klick auf den Acrylglas-Aufsteller upgraden',
+      ],
+      cta: 'Digital testen (14 €/Mo) →',
+      primary: false,
+    },
+    {
       id: 'b2b_host',
       name: 'Verified Local Host Starter',
-      badge: 'FÜR CAFÉS, SURF, WEIN & RETREATS',
+      badge: '⭐ EMPFEHLUNG · 0 € SETUP-GEBÜHR',
       price: '€29',
-      period: 'pro Monat (monatlich kündbar)',
-      priceId: 'price_1P_mock_b2b_monthly',
-      desc: 'Für Cafés, Surfschulen, Weingüter, Boutique-Hotels, Glamping, Coworking & lokale Manufakturen.',
+      period: 'pro Monat (3 Monate Vorauszahlung / 87 €)',
+      priceId: 'price_1P_mock_b2b_quarterly',
+      desc: 'Beliebteste Wahl: 1x 20mm Acrylglas-Block per Post ist 100% GESCHENKT (du sparst 29 € Hardware-Setup-Gebühr!).',
       features: [
-        '1x Physischer 20mm Acrylglas Thekenaufsteller per Post (UV-Hinterdruck, 300 DPI, Gelato POD)',
+        '1x Physischer 20mm Acrylglas Thekenaufsteller per Post (UV-Hinterdruck, 300 DPI, Gelato POD) — 100% GESCHENKT',
         'Individuelles Design passend zu deinem Land, GPS-Gravur & Branchen-Wappen',
         '0% Buchungsprovision für direkte Tisch-, Zimmer-, Board- & Touranfragen',
         'Digitaler Stempel im Reisepass für Gäste (+50 XP Belohnung)',
@@ -97,8 +116,9 @@ export default function Pricing() {
         'Eintrag in die interaktive Map mit Öffnungszeiten & Fotos',
         'Gäste können Bewertungen & verifizierte Empfehlungen abgeben',
         'Direkter Chat-Kanal mit anfragenden Reisenden',
+        'Option: Auch monatlich flexibel buchbar (29 €/Mo + 29 € Hardware-Setup)',
       ],
-      cta: 'Local Host Starter buchen (29 €/Mo) →',
+      cta: '3-Monate Starter buchen (87 € · Aufsteller geschenkt) →',
       primary: true,
     },
     {
@@ -347,7 +367,7 @@ export default function Pricing() {
             </div>
 
             {/* B2B Pläne Grid */}
-            <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
               {b2bPlans.map(p => (
                 <div
                   key={p.id}
