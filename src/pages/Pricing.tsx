@@ -2,11 +2,13 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useTravel } from '../context/TravelContext'
 import { POD_ENABLED } from '../lib/features'
+import { useI18n } from '../lib/i18n'
 
 type AudienceMode = 'b2c' | 'b2b' | 'matrix'
 
 export default function Pricing() {
   const { user, triggerHaptic } = useTravel()
+  const { t } = useI18n()
   const [audienceMode, setAudienceMode] = useState<AudienceMode>('b2c')
   const [loadingPlan, setLoadingPlan] = useState<string | null>(null)
   const [billingCycle, setBillingCycle] = useState<'monthly' | 'yearly'>('yearly')
@@ -130,13 +132,13 @@ export default function Pricing() {
       priceId: 'price_1P_mock_b2b_pro_monthly',
       desc: 'Für größere Surfschulen, Guides mit Touren, Weingüter, Boutique-Resorts und Veranstalter.',
       features: [
-        '3x Physische QR-Code Acryl-Aufsteller per Post inklusive',
-        'Eigene geführte Touren & Workshops in der App listen',
-        '0% Buchungsgebühr auf alle Kurs- und Touranfragen',
-        'Top-Platzierung im Safety Radar unter "Verifizierte Local Hubs"',
-        'Empfehlung durch den AI Concierge für passende Hobbys',
-        'Analyse-Dashboard: Aufrufe, Stempel-Scans & Reservierungen',
-        'Persönlicher Partner-Support & Quartals-Feature im Newsletter',
+        '1x Physischer 20mm Acrylglas Multi-Hub Aufsteller (10x15cm, bis zu 4 QR-Code Ecken & NFC) per Post inklusive (Zusatz-Aufsteller für weitere Theken/Tische zubuchbar)',
+        'Eigene geführte Touren, Kurse & Workshops in der App listen & direkt verkaufen',
+        '0% Buchungsprovision auf alle Buchungen, Tische & Verkäufe vor Ort',
+        'Top-Platzierung im Safety & Connectivity Radar als „Verifizierter Gastro/Experience Hub“',
+        'Empfehlung durch den AI Concierge für passende Gäste mit übereinstimmender WanderBond-DNA',
+        'Gast-Analyse-Dashboard: Aufrufe, Stempel-Scans, Konversionen & Gästebuch',
+        'Persönlicher VIP-Support & Quartals-Feature im Newsletter',
       ],
       cta: 'Gastro Hub Pro starten (59 €/Mo) →',
       primary: false,
@@ -183,12 +185,12 @@ export default function Pricing() {
       {/* ─── HEADER ─── */}
       <div className="page-header border-b border-sun/30 pb-5">
         <div className="max-w-6xl mx-auto">
-          <p className="coord mb-1">Echte Erlebnisse · Transparente Preise · Keine versteckten Gebühren</p>
+          <p className="coord mb-1">{t('pricing_badge')}</p>
           <h1 className="font-display text-3xl md:text-4xl text-ink font-black tracking-tight">
-            Pläne, Mitgliedschaften &amp; B2B-Partner
+            {t('pricing_headline')}
           </h1>
           <p className="font-body text-ink-faint text-sm mt-1 max-w-2xl">
-            Klare Differenzierung: Für normale Reisende (kostenlos mit Give &amp; Take oder Pro) und für lokale Gewerbetreibende (feste Monatspauschale ohne Buchungsprovision).
+            {t('pricing_sub')}
           </p>
         </div>
       </div>
@@ -208,8 +210,7 @@ export default function Pricing() {
                   : 'text-ink-faint hover:text-ink hover:bg-card'
               }`}
             >
-              <span>👤</span>
-              <span>Für Reisende &amp; Explorer (B2C)</span>
+              <span>{t('tab_travelers')}</span>
             </button>
 
             <button
@@ -223,8 +224,7 @@ export default function Pricing() {
                   : 'text-ink-faint hover:text-ink hover:bg-card'
               }`}
             >
-              <span>🏪</span>
-              <span>Für Business Owner, Cafés &amp; Hosts (B2B)</span>
+              <span>{t('tab_hosts')}</span>
             </button>
 
             <button
@@ -238,8 +238,7 @@ export default function Pricing() {
                   : 'text-ink-faint hover:text-ink hover:bg-card'
               }`}
             >
-              <span>⚖️</span>
-              <span>Alle Details im Vergleich</span>
+              <span>{t('tab_matrix')}</span>
             </button>
           </div>
         </div>
@@ -489,12 +488,23 @@ export default function Pricing() {
           </div>
         )}
 
-        {/* DSGVO & Sicherheit Footer */}
-        <div className="parchment rounded-xl p-6 max-w-4xl mx-auto text-center border border-terracotta shadow-md">
-          <p className="font-script text-2xl text-terracotta mb-1">Datenschutz- und DSGVO-konform</p>
-          <p className="font-body text-ink text-xs sm:text-sm max-w-xl mx-auto">
-            Keine Weitergabe deiner Reisedaten. Jederzeit monatlich mit 1 Klick kündbar im Kundenportal. Sichere Zahlungsabwicklung via Stripe.
-          </p>
+        {/* Steuern & Kleinunternehmer-Hinweis (§ 19 UStG) & DSGVO */}
+        <div className="grid md:grid-cols-2 gap-4 max-w-4xl mx-auto text-center">
+          <div className="parchment rounded-xl p-5 border border-sun shadow-sm">
+            <p className="font-mono text-xs font-bold text-sun mb-1">⚖️ Steuerhinweis Einzelunternehmen</p>
+            <p className="font-body text-ink text-xs leading-relaxed">
+              Gemäß <strong>§ 19 UStG</strong> wird als Einzelunternehmer keine Umsatzsteuer berechnet und nicht ausgewiesen (Kleinunternehmerstatus). 
+              Alle angegebenen Preise sind Endpreise. Geschäftskunden (B2B) erhalten eine ordnungsgemäße Rechnung ausgestellt auf ihr Unternehmen.
+            </p>
+          </div>
+
+          <div className="parchment rounded-xl p-5 border border-terracotta shadow-sm">
+            <p className="font-mono text-xs font-bold text-terracotta mb-1">🛡️ Datenschutz &amp; Kündigung</p>
+            <p className="font-body text-ink text-xs leading-relaxed">
+              100% DSGVO-konform. Keine Weitergabe deiner Reisedaten an Dritte. Monatliche Abos sind jederzeit mit 1 Klick im Kundenportal kündbar. 
+              Sichere Zahlungsabwicklung verschlüsselt via Stripe.
+            </p>
+          </div>
         </div>
       </div>
     </div>

@@ -74,6 +74,8 @@ export interface UserProfile {
   isVip?: boolean
   proUnlockedUntil?: string | null
   communityContributionsCount?: number
+  subscriptionTier?: 'free' | 'pro' | 'family_pet' | 'b2b_digital' | 'b2b_host' | 'b2b_pro'
+  scratchedCountries?: string[]
 }
 
 export const demoUser: UserProfile = {
@@ -94,6 +96,8 @@ export const demoUser: UserProfile = {
   isDemo: true,
   email: 'maria@wanderer.eu',
   isVip: true,
+  subscriptionTier: 'pro',
+  scratchedCountries: ['Portugal', 'Spanien'],
   communityContributionsCount: 12,
 }
 
@@ -115,7 +119,17 @@ export const guestUser: UserProfile = {
   isDemo: false,
   isVip: false,
   proUnlockedUntil: null,
+  subscriptionTier: 'free',
+  scratchedCountries: [],
   communityContributionsCount: 0,
+}
+
+export interface TravelLocation {
+  country: string
+  city: string
+  flag: string
+  gps: string
+  isSimulated: boolean
 }
 
 interface TravelContextType {
@@ -127,11 +141,18 @@ interface TravelContextType {
   feed: FeedItem[]
   scratchedIds: number[]
   revealedPins: number[]
+  scratchedCountries: string[]
+  currentLocation: TravelLocation
+  subscriptionTier: 'free' | 'pro' | 'family_pet' | 'b2b_digital' | 'b2b_host' | 'b2b_pro'
   isProUser: boolean
   proDaysRemaining: number
   grantCommunityProDays: (days: number, reason: string) => void
   triggerHaptic: (pattern?: number | number[]) => void
   scratchSecret: (id: number, xpReward: number, locationName: string, gps: string, category: string) => void
+  scratchCountry: (countryName: string, xpReward?: number) => void
+  addGpsStamp: (country: string, city: string, flag: string, gps: string, secretName?: string, xpReward?: number) => PassportStamp
+  setCurrentLocation: (loc: TravelLocation) => void
+  setSubscriptionTier: (tier: 'free' | 'pro' | 'family_pet' | 'b2b_digital' | 'b2b_host' | 'b2b_pro') => void
   unlockBadge: (badgeId: string) => void
   completeQuestStep: (questId: string, stepId: number) => void
   createReservation: (res: Omit<HostReservation, 'id' | 'status' | 'createdAt'>) => void
@@ -277,6 +298,25 @@ export function TravelProvider({ children }: { children: React.ReactNode }) {
   const [feed, setFeed] = useState<FeedItem[]>(initialFeed)
   const [scratchedIds, setScratchedIds] = useState<number[]>([1, 5, 6])
   const [revealedPins, setRevealedPins] = useState<number[]>([1, 3, 5])
+  const [scratchedCountries, setScratchedCountries] = useState<string[]>(() => {
+    const saved = localStorage.getItem('snt_scratched_countries')
+    if (saved) {
+      try { return JSON.parse(saved) } catch (e) {}
+    }
+    return user.scratchedCountries || ['Portugal']
+  })
+
+  const [currentLocation, setCurrentLocation] = useState<TravelLocation>(() => ({
+    country: 'Portugal',
+    city: 'Lissabon',
+    flag: '🇵🇹',
+    gps: "38°42'44\"N · 9°07'59\"W",
+    isSimulated: false,
+  }))
+
+  const [subscriptionTier, setSubscriptionTierState] = useState<'free' | 'pro' | 'family_pet' | 'b2b_digital' | 'b2b_host' | 'b2b_pro'>(() => {
+    return user.subscriptionTier || (user.isVip ? 'pro' : 'free')
+  })
 
   // LocalStorage sync
   useEffect(() => {
@@ -298,6 +338,62 @@ export function TravelProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     localStorage.setItem('snt_reservations', JSON.stringify(reservations))
   }, [reservations])
+
+  useEffect(() => {
+    localStorage.setItem('snt_scratched_countries', JSON.stringify(scratchedCountries))
+  }, [scratchedCountries])
+
+  const setSubscriptionTier = (tier: 'free' | 'pro' | 'family_pet' | 'b2b_digital' | 'b2b_host' | 'b2b_pro') => {
+    setSubscriptionTierState(tier)
+    setUser(prev => ({
+      ...prev,
+      subscriptionTier: tier,
+      isVip: ['pro', 'family_pet', 'b2b_pro', 'b2b_host'].includes(tier),
+    }))
+    triggerHaptic([30, 60])
+  }
+
+  const scratchCountry = (countryName: string, xpReward = 150) => {
+    if (scratchedCountries.includes(countryName)) return
+    triggerHaptic([40, 60, 80])
+    setScratchedCountries(prev => [...prev, countryName])
+    setUser(prev => ({
+      ...prev,
+      xp: prev.xp + xpReward,
+      countriesCount: Math.max(prev.countriesCount, prev.countriesCount + 1),
+      scratchedCountries: [...(prev.scratchedCountries || []), countryName],
+    }))
+  }
+
+  const addGpsStamp = (
+    country: string,
+    city: string,
+    flag: string,
+    gps: string,
+    secretName = 'Offizieller Grenzübertritt & Visum-Checkin',
+    xpReward = 75
+  ): PassportStamp => {
+    triggerHaptic([50, 100, 50])
+    const newStamp: PassportStamp = {
+      id: `STAMP-${Date.now()}`,
+      country,
+      city,
+      flag,
+      date: new Date().toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric' }),
+      secretName,
+      gps,
+      xpEarned: xpReward,
+      category: 'GPS Checkin',
+      color: '#B07D24',
+    }
+    setStamps(prev => [newStamp, ...prev])
+    setUser(prev => ({
+      ...prev,
+      xp: prev.xp + xpReward,
+      secretsCount: prev.secretsCount + 1,
+    }))
+    return newStamp
+  }
 
   const triggerHaptic = (pattern: number | number[] = 20) => {
     if (typeof window !== 'undefined' && 'vibrate' in navigator) {
@@ -533,11 +629,18 @@ export function TravelProvider({ children }: { children: React.ReactNode }) {
         feed,
         scratchedIds,
         revealedPins,
+        scratchedCountries,
+        currentLocation,
+        subscriptionTier,
         isProUser,
         proDaysRemaining,
         grantCommunityProDays,
         triggerHaptic,
         scratchSecret,
+        scratchCountry,
+        addGpsStamp,
+        setCurrentLocation,
+        setSubscriptionTier,
         unlockBadge,
         completeQuestStep,
         createReservation,

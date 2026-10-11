@@ -62,7 +62,7 @@ function Sidebar({ onClose }: { onClose?: () => void }) {
 
   const navGroups = [
     {
-      label: 'Entdecken',
+      label: t('nav_grp_discover'),
       items: [
         { path: '/', icon: '🏠', label: t('nav_home') },
         { path: '/explore', icon: '🗺️', label: t('nav_explore') },
@@ -72,7 +72,7 @@ function Sidebar({ onClose }: { onClose?: () => void }) {
       ],
     },
     {
-      label: 'Menschen',
+      label: t('nav_grp_people'),
       items: [
         { path: '/people', icon: '🤝', label: t('nav_people') },
         { path: '/meetups', icon: '☕', label: t('nav_meetups') },
@@ -80,7 +80,7 @@ function Sidebar({ onClose }: { onClose?: () => void }) {
       ],
     },
     {
-      label: 'Deine Reise',
+      label: t('nav_grp_journey'),
       items: [
         { path: '/passport', icon: '📖', label: t('nav_passport') },
         { path: '/scratch', icon: '🎟️', label: t('nav_scratch') },
@@ -90,17 +90,17 @@ function Sidebar({ onClose }: { onClose?: () => void }) {
       ],
     },
     {
-      label: 'Sicherheit',
+      label: t('nav_grp_safety'),
       items: [
         { path: '/radar', icon: '🧭', label: t('nav_radar') },
         { path: '/safety', icon: '🛡️', label: t('nav_safety') },
       ],
     },
     {
-      label: 'Mitgliedschaft & Abos',
+      label: t('nav_grp_membership') || 'Mitgliedschaft & Abos',
       items: [
-        { path: '/pricing', icon: '💳', label: 'Pläne & VIP Abos' },
-        { path: '/host', icon: '🏪', label: 'B2B Local Host Portal' },
+        { path: '/pricing', icon: '💳', label: t('nav_pricing_plans') || 'Pläne & VIP Abos' },
+        { path: '/host', icon: '🏪', label: t('nav_host_portal') || 'B2B Local Host Portal' },
       ],
     },
   ]
@@ -304,6 +304,7 @@ function LegalFooter() {
 export default function Layout() {
   const [drawerOpen, setDrawerOpen] = useState(false)
   const { user } = useTravel()
+  const { t } = useI18n()
 
   return (
     <div style={{ display: 'flex', height: '100%' }}>
@@ -379,7 +380,7 @@ export default function Layout() {
               title="Preise & Mitgliedschaften"
             >
               <span>💳</span>
-              <span>Abos</span>
+              <span>{t('nav_abos') || 'Abos'}</span>
             </NavLink>
             <LanguageSelector compact />
             <NavLink
@@ -405,7 +406,7 @@ export default function Layout() {
           {/* Kopfzeile nur auf Desktop — dort ist Platz fuer Sprach- und Theme-Schalter. */}
           <div className="topbar-desktop" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
             <span className="font-hand" style={{ color: 'var(--ink-ghost)', marginRight: 'auto' }}>
-              gute Reise
+              {t('topbar_greeting')}
             </span>
             <NavLink
               to="/pricing"
@@ -427,7 +428,7 @@ export default function Layout() {
               title="Pläne & Mitgliedschaften ansehen"
             >
               <span>💳</span>
-              <span>Pläne &amp; VIP Abos</span>
+              <span>{t('nav_pricing_plans') || 'Pläne & VIP Abos'}</span>
             </NavLink>
             <LanguageSelector compact />
             <ThemeToggle compact />

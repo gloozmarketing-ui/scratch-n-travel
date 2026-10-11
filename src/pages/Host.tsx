@@ -902,6 +902,16 @@ export default function Host() {
                         ? '📦 Flexibel starten (29 € / Mo + 29 € Hardware-Setup) →'
                         : '📱 Digitalen Test-Host starten (14 € / Mo · Sofort aktiv) →'}
                   </button>
+
+                  {/* Steuerhinweis Einzelunternehmen */}
+                  <div className="p-2.5 rounded-xl bg-paper-deep border border-sun text-center space-y-1">
+                    <p className="font-mono text-[0.62rem] text-sun font-bold">
+                      ⚖️ Steuerhinweis Einzelunternehmen (§ 19 UStG)
+                    </p>
+                    <p className="font-mono text-[0.58rem] text-ink-faint leading-tight">
+                      Gemäß § 19 UStG wird keine Umsatzsteuer berechnet und ausgewiesen (Kleinunternehmerstatus). Endpreise. Du erhältst eine ordnungsgemäße Rechnung für deine Buchhaltung.
+                    </p>
+                  </div>
                 </form>
               )}
             </div>
