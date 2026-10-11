@@ -42,11 +42,10 @@ export default function Impressum() {
       <Section title="Umsatzsteuer-Identifikationsnummer">
         <p style={{ margin: 0 }}>
           Umsatzsteuer-Identifikationsnummer gemäß § 27 a Umsatzsteuergesetz:<br />
-          <strong>{'<USt-IdNr. oder Hinweis auf Kleinunternehmerregelung § 19 UStG>'}</strong>
+          <strong>{'<USt-IdNr. wird nach Erteilung eingetragen (Regelbesteuerung mit 19% MwSt.)>'}</strong>
         </p>
         <p style={hintStyle}>
-          Falls die Kleinunternehmerregelung greift: nicht weglassen, sondern ausdrücklich
-          angeben. Fehlt die Angabe, ist das ein abmahnfähiger Punkt.
+          Umsatzsteuerpflichtiges Unternehmen (Regelbesteuerung mit gesetzlicher Mehrwertsteuer). Rechnungen werden mit ordnungsgemäß ausgewiesener Umsatzsteuer ausgestellt.
         </p>
       </Section>
 
