@@ -583,6 +583,36 @@ export function TravelProvider({ children }: { children: React.ReactNode }) {
     }
     setReservations(prev => [newRes, ...prev])
     triggerHaptic([30, 60])
+
+    if (supabase) {
+      void (async () => {
+        try {
+          await supabase
+            .from('host_reservations')
+            .insert({
+              country: res.country || 'Portugal',
+              city: res.city,
+              guest_name: res.guestName,
+              guest_email: res.email,
+              guest_phone: res.phone,
+              start_date: res.date,
+              end_date: res.endDate,
+              check_in_time: res.time,
+              guests_count: res.guests,
+              category: res.category,
+              notes: res.notes,
+              has_baby_bed: res.hasBabyBed,
+              has_pets: res.hasPets,
+              is_regular_guest: res.isRegularGuest,
+              original_price: res.originalPrice,
+              custom_price: res.customPrice,
+              discount_pct: res.discountPct,
+              status: 'confirmed',
+              checked_in: false,
+            })
+        } catch (err) {}
+      })()
+    }
   }
 
   const updateReservationStatus = (id: string, status: 'confirmed' | 'pending' | 'cancelled') => {
@@ -590,6 +620,17 @@ export function TravelProvider({ children }: { children: React.ReactNode }) {
     setReservations(prev =>
       prev.map(r => (r.id === id ? { ...r, status } : r))
     )
+
+    if (supabase) {
+      void (async () => {
+        try {
+          await supabase
+            .from('host_reservations')
+            .update({ status })
+            .eq('id', id)
+        } catch (err) {}
+      })()
+    }
   }
 
   const checkInGuest = (id: string) => {
@@ -613,6 +654,18 @@ export function TravelProvider({ children }: { children: React.ReactNode }) {
         if (country && !scratchedCountries.includes(country)) {
           setScratchedCountries(sc => [...sc, country])
         }
+
+        if (supabase) {
+          void (async () => {
+            try {
+              await supabase
+                .from('host_reservations')
+                .update({ checked_in: true, status: 'confirmed' })
+                .eq('id', id)
+            } catch (err) {}
+          })()
+        }
+
         return updated
       })
     )
@@ -670,6 +723,43 @@ export function TravelProvider({ children }: { children: React.ReactNode }) {
           rank: 'Angemeldeter Explorer',
           isDemo: false
         }))
+
+        // Sync real reservations from Supabase if available
+        void (async () => {
+          try {
+            const { data, error } = await supabase.from('host_reservations').select('*')
+            if (!error && Array.isArray(data) && data.length > 0) {
+              const mapped: HostReservation[] = data.map((d: any) => ({
+                id: d.id,
+                hostBusiness: d.host_business || d.city || 'Host Partner',
+                country: d.country,
+                city: d.city,
+                guestName: d.guest_name,
+                email: d.guest_email,
+                phone: d.guest_phone,
+                date: d.start_date,
+                endDate: d.end_date,
+                time: d.check_in_time || '15:00',
+                guests: d.guests_count || 1,
+                category: d.category || 'hotel',
+                notes: d.notes || '',
+                hasBabyBed: Boolean(d.has_baby_bed),
+                hasPets: Boolean(d.has_pets),
+                isRegularGuest: Boolean(d.is_regular_guest),
+                originalPrice: Number(d.original_price || 0),
+                customPrice: Number(d.custom_price || 0),
+                discountPct: Number(d.discount_pct || 0),
+                checkedIn: Boolean(d.checked_in),
+                status: d.status,
+                createdAt: d.created_at ? d.created_at.split('T')[0] : new Date().toISOString().split('T')[0],
+              }))
+              setReservations(prev => {
+                const ids = new Set(mapped.map(m => m.id))
+                return [...mapped, ...prev.filter(p => !ids.has(p.id))]
+              })
+            }
+          } catch (e) {}
+        })()
       }
     })
 

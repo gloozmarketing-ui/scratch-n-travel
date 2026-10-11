@@ -29,6 +29,8 @@ const scratchSrc = readFileSync(join(ROOT, 'src/pages/ScratchPage.tsx'), 'utf8')
 const travelContextSrc = readFileSync(join(ROOT, 'src/context/TravelContext.tsx'), 'utf8')
 const layoutSrc = readFileSync(join(ROOT, 'src/components/Layout.tsx'), 'utf8')
 const i18nSrc = readFileSync(join(ROOT, 'src/lib/i18n.ts'), 'utf8')
+const schemaSqlSrc = readFileSync(join(ROOT, 'supabase/schema.sql'), 'utf8')
+const migrationSqlSrc = readFileSync(join(ROOT, 'supabase/migrations/20261011_003_host_pms_reservations.sql'), 'utf8')
 
 // [1] B2C Abos (Free, Pro, Family & Pet)
 console.log('[1] B2C Abos (Free, Pro, Family & Pet VIP)')
@@ -196,6 +198,26 @@ assert('Layout Header & Sidebar nutzen reaktive i18n Übersetzung',
   layoutSrc.includes("t('nav_abos')") && 
   layoutSrc.includes("t('nav_pricing_plans')") &&
   layoutSrc.includes("t('nav_grp_membership')")
+)
+
+// [8] Backend PostgreSQL Schema & Supabase Migrations (TEIL 14)
+console.log('\n[8] Backend PostgreSQL Schema & Supabase Migrations (TEIL 14)')
+assert('supabase/schema.sql enthält TEIL 14 Host PMS & Dual-Unlock',
+  schemaSqlSrc.includes('TEIL 14') &&
+  schemaSqlSrc.includes('host_profiles') &&
+  schemaSqlSrc.includes('host_reservations')
+)
+assert('supabase/schema.sql enthält can_unlock_country_by_booking Funktion',
+  schemaSqlSrc.includes('can_unlock_country_by_booking') &&
+  schemaSqlSrc.includes('check_in_reservation')
+)
+assert('Migrations-Datei 20261011_003_host_pms_reservations.sql ist vorhanden und valide',
+  migrationSqlSrc.includes('CREATE TABLE IF NOT EXISTS public.host_profiles') &&
+  migrationSqlSrc.includes('CREATE TABLE IF NOT EXISTS public.host_reservations')
+)
+assert('Passport enthält keine irreführenden NFC-Claims',
+  passportSrc.includes('BIOMETRIC · GPS VERIFIED') &&
+  !passportSrc.includes('CHIP SECURE · NFC')
 )
 
 console.log(`\n========================================`)

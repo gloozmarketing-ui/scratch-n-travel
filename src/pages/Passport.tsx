@@ -242,7 +242,7 @@ export default function Passport() {
                           <span className="text-5xl filter drop-shadow-[0_4px_8px_rgba(217,209,155,0.4)]">⚜️</span>
                         </div>
                         <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 font-mono text-[0.55rem] text-[#D9D19B] bg-[#151f28] px-3 py-0.5 rounded-full border border-[#D9D19B]/40 whitespace-nowrap">
-                          CHIP SECURE · NFC
+                          BIOMETRIC · GPS VERIFIED
                         </div>
                       </div>
 
