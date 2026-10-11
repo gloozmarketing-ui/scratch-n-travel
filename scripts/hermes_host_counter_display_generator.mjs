@@ -259,10 +259,10 @@ export function generateCounterDisplaySvg(hostData) {
     <path d="M 0,-80 L 22,-22 L 80,0 L 22,22 L 0,80 L -22,22 L -80,0 L -22,-22 Z" fill="url(#goldGradient)" />
     <circle cx="0" cy="0" r="14" fill="#042c2e" />
     <text y="125" font-family="'Cinzel', Georgia, serif" font-size="22" font-weight="bold" fill="#ffffff" letter-spacing="4">
-      NFC-TOUCH &amp; LASER-GRAVUR
+      HERMES MASTER WAPPEN
     </text>
     <text y="155" font-family="'Space Grotesk', monospace" font-size="15" fill="#D9D19B">
-      Reisepass-Checkin kontaktlos via Smartphone-NFC
+      Offizieller Partner · 20mm Acrylglas-Block
     </text>
   </g>
   ` : hostData.qrCount === 4 ? `

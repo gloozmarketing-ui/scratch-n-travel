@@ -132,7 +132,7 @@ export default function Pricing() {
       priceId: 'price_1P_mock_b2b_pro_monthly',
       desc: 'Für größere Surfschulen, Guides mit Touren, Weingüter, Boutique-Resorts und Veranstalter.',
       features: [
-        '1x Physischer 20mm Acrylglas Multi-Hub Aufsteller (10x15cm, bis zu 4 QR-Code Ecken & NFC) per Post inklusive (Zusatz-Aufsteller für weitere Theken/Tische zubuchbar)',
+        '1x Physischer 20mm Acrylglas Multi-Hub Aufsteller (10x15cm, bis zu 4 frei konfigurierbare QR-Code-Ecken) per Post inklusive (Zusatz-Aufsteller für weitere Theken/Tische zubuchbar)',
         'Eigene geführte Touren, Kurse & Workshops in der App listen & direkt verkaufen',
         '0% Buchungsprovision auf alle Buchungen, Tische & Verkäufe vor Ort',
         'Top-Platzierung im Safety & Connectivity Radar als „Verifizierter Gastro/Experience Hub“',
@@ -488,13 +488,12 @@ export default function Pricing() {
           </div>
         )}
 
-        {/* Steuern & Kleinunternehmer-Hinweis (§ 19 UStG) & DSGVO */}
+        {/* Steuern & Mehrwertsteuer-Hinweis (19% MwSt. Regelbesteuerung) & DSGVO */}
         <div className="grid md:grid-cols-2 gap-4 max-w-4xl mx-auto text-center">
           <div className="parchment rounded-xl p-5 border border-sun shadow-sm">
-            <p className="font-mono text-xs font-bold text-sun mb-1">⚖️ Steuerhinweis Einzelunternehmen</p>
+            <p className="font-mono text-xs font-bold text-sun mb-1">⚖️ Steuerhinweis &amp; Mehrwertsteuer (19% MwSt.)</p>
             <p className="font-body text-ink text-xs leading-relaxed">
-              Gemäß <strong>§ 19 UStG</strong> wird als Einzelunternehmer keine Umsatzsteuer berechnet und nicht ausgewiesen (Kleinunternehmerstatus). 
-              Alle angegebenen Preise sind Endpreise. Geschäftskunden (B2B) erhalten eine ordnungsgemäße Rechnung ausgestellt auf ihr Unternehmen.
+              Scratch&apos;n&apos;Travel wird mit <strong>regulärer Umsatzsteuer (19% MwSt.)</strong> geführt. Alle B2C-Preise verstehen sich inklusive der gesetzlichen 19% Mehrwertsteuer. Gewerbliche Partner (B2B) erhalten eine ordnungsgemäße Rechnung mit ausgewiesener 19% Umsatzsteuer für den Vorsteuerabzug ihres Unternehmens.
             </p>
           </div>
 

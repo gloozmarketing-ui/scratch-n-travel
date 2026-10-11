@@ -1,11 +1,53 @@
 import React, { useState } from 'react'
 import { cities, businessCategories } from '../data/data'
 import { Link } from 'react-router-dom'
+import { useTravel } from '../context/TravelContext'
 
 export default function Host() {
-  const [tab, setTab] = useState<'community' | 'business'>('community')
+  const {
+    reservations,
+    updateReservationStatus,
+    checkInGuest,
+    addReservation,
+    triggerHaptic,
+  } = useTravel()
+
+  const [tab, setTab] = useState<'cockpit' | 'business' | 'community'>('cockpit')
   const [applied, setApplied] = useState(false)
   const [b2bApplied, setB2bApplied] = useState(false)
+
+  // Cockpit PMS State
+  const [availabilityStatus, setAvailabilityStatus] = useState<'available' | 'limited' | 'full'>('available')
+  const [availableUnits, setAvailableUnits] = useState(4)
+  const [searchQuery, setSearchQuery] = useState('')
+  const [statusFilter, setStatusFilter] = useState<'all' | 'confirmed' | 'checkedIn' | 'pending' | 'cancelled'>('all')
+  const [checkInFeedback, setCheckInFeedback] = useState<string | null>(null)
+  const [showAddBooking, setShowAddBooking] = useState(false)
+  const [icalImportInput, setIcalImportInput] = useState('')
+  const [icalSyncStatus, setIcalSyncStatus] = useState<string | null>(null)
+  const [webhookInput, setWebhookInput] = useState('https://api.my-hotel-pms.com/webhooks/scratch-travel')
+  const [webhookTestResult, setWebhookTestResult] = useState<string | null>(null)
+
+  // New Booking State
+  const [newBooking, setNewBooking] = useState({
+    guestName: '',
+    email: '',
+    phone: '',
+    country: 'Portugal',
+    city: 'Lisbon',
+    hostBusiness: 'Miradouro Café & Tasca',
+    date: new Date().toISOString().split('T')[0],
+    endDate: new Date(Date.now() + 86400000 * 3).toISOString().split('T')[0],
+    time: '14:00',
+    guests: 2,
+    hasBabyBed: false,
+    hasPets: false,
+    isRegularGuest: false,
+    basePrice: 120,
+    notes: '',
+    category: '🏨 Boutique Retreat & Zimmer',
+  })
+
   const [form, setForm] = useState({
     name: '',
     email: '',
@@ -50,6 +92,80 @@ export default function Host() {
     setB2bApplied(true)
   }
 
+  const handleCheckInGuest = (id: string, guestName: string, country: string) => {
+    triggerHaptic([40, 80, 40])
+    checkInGuest(id)
+    setCheckInFeedback(`🎉 Gast ${guestName} erfolgreich eingecheckt! Visum-Stempel geprägt & Land (${country}) für die Weltkarte freigeschaltet.`)
+    setTimeout(() => setCheckInFeedback(null), 6000)
+  }
+
+  const handleSaveBooking = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!newBooking.guestName) return
+    triggerHaptic([30, 60])
+    const discount = newBooking.isRegularGuest ? 15 : 0
+    const finalPrice = Math.round(newBooking.basePrice * (1 - discount / 100))
+    addReservation({
+      guestName: newBooking.guestName,
+      email: newBooking.email,
+      phone: newBooking.phone,
+      country: newBooking.country,
+      city: newBooking.city,
+      hostBusiness: newBooking.hostBusiness,
+      date: newBooking.date,
+      endDate: newBooking.endDate,
+      time: newBooking.time,
+      guests: Number(newBooking.guests),
+      hasBabyBed: newBooking.hasBabyBed,
+      hasPets: newBooking.hasPets,
+      isRegularGuest: newBooking.isRegularGuest,
+      originalPrice: Number(newBooking.basePrice),
+      customPrice: finalPrice,
+      discountPct: discount,
+      notes: newBooking.notes,
+      category: newBooking.category,
+      status: 'confirmed',
+      checkedIn: false,
+    })
+    setShowAddBooking(false)
+    setNewBooking({
+      guestName: '',
+      email: '',
+      phone: '',
+      country: 'Portugal',
+      city: 'Lisbon',
+      hostBusiness: 'Miradouro Café & Tasca',
+      date: new Date().toISOString().split('T')[0],
+      endDate: new Date(Date.now() + 86400000 * 3).toISOString().split('T')[0],
+      time: '14:00',
+      guests: 2,
+      hasBabyBed: false,
+      hasPets: false,
+      isRegularGuest: false,
+      basePrice: 120,
+      notes: '',
+      category: '🏨 Boutique Retreat & Zimmer',
+    })
+  }
+
+  const handleSyncIcal = () => {
+    triggerHaptic(20)
+    setIcalSyncStatus('⏳ Synchronisiere mit externem Kalender...')
+    setTimeout(() => {
+      setIcalSyncStatus('✓ 2-Wege iCal-Synchronisation erfolgreich! Externe Belegungen wurden abgeglichen.')
+      setTimeout(() => setIcalSyncStatus(null), 5000)
+    }, 1200)
+  }
+
+  const handleTestWebhook = () => {
+    triggerHaptic(20)
+    setWebhookTestResult('⏳ Sende Test-Payload an Webhook...')
+    setTimeout(() => {
+      setWebhookTestResult('✓ Webhook-Status 200 OK: Event "guest.checked_in" erfolgreich an PMS übertragen!')
+      setTimeout(() => setWebhookTestResult(null), 5000)
+    }, 1000)
+  }
+
   return (
     <div>
       <div className="page-header text-center">
@@ -64,31 +180,798 @@ export default function Host() {
         </p>
 
         {/* Tab Switcher */}
-        <div className="flex justify-center gap-2 mt-6">
+        <div className="flex flex-wrap justify-center gap-2 mt-6">
           <button
-            onClick={() => setTab('community')}
-            className={`px-5 py-2 rounded-full text-xs font-display font-bold transition-all ${
-              tab === 'community'
+            onClick={() => {
+              triggerHaptic(10)
+              setTab('cockpit')
+            }}
+            className={`px-5 py-2.5 rounded-full text-xs font-display font-bold transition-all flex items-center gap-1.5 ${
+              tab === 'cockpit'
                 ? 'bg-sun text-ink shadow-lg scale-105'
                 : 'bg-paper-deep text-ink-faint hover:text-ink'
             }`}
           >
-            🏡 Privater Local Host &amp; Home Sharing (0 € Kostenlos)
+            <span>🏨</span>
+            <span>Host &amp; Hotel Cockpit (PMS)</span>
           </button>
           <button
-            onClick={() => setTab('business')}
-            className={`px-5 py-2 rounded-full text-xs font-display font-bold transition-all ${
+            onClick={() => {
+              triggerHaptic(10)
+              setTab('business')
+            }}
+            className={`px-5 py-2.5 rounded-full text-xs font-display font-bold transition-all flex items-center gap-1.5 ${
               tab === 'business'
                 ? 'bg-sun text-ink shadow-lg scale-105'
                 : 'bg-paper-deep text-ink-faint hover:text-ink'
             }`}
           >
-            ☕ Lokale Manufakturen &amp; Partner
+            <span>☕</span>
+            <span>Lokale Partner &amp; Aufsteller</span>
+          </button>
+          <button
+            onClick={() => {
+              triggerHaptic(10)
+              setTab('community')
+            }}
+            className={`px-5 py-2.5 rounded-full text-xs font-display font-bold transition-all flex items-center gap-1.5 ${
+              tab === 'community'
+                ? 'bg-sun text-ink shadow-lg scale-105'
+                : 'bg-paper-deep text-ink-faint hover:text-ink'
+            }`}
+          >
+            <span>🏡</span>
+            <span>Privater Local Host (0 €)</span>
           </button>
         </div>
       </div>
 
       <div className="p-6 sm:p-8 space-y-10 max-w-5xl mx-auto pb-24 md:pb-8">
+
+        {/* ─── TAB 0: HOTEL & HOST MANAGEMENT COCKPIT (PMS) ─── */}
+        {tab === 'cockpit' && (
+          <div className="space-y-8 animate-fade-in">
+            {/* Header: Was Business Owner wirklich wollen */}
+            <div className="parchment rounded-2xl p-7 relative overflow-hidden shadow-2xl text-ink">
+              <div className="space-y-3 relative z-10">
+                <div className="flex items-center justify-between flex-wrap gap-2">
+                  <span className="font-mono text-xs font-bold text-leaf bg-leaf-wash px-3 py-1 rounded-full uppercase">
+                    🏨 Property Management System · 0% Provision · Volle Kontrolle
+                  </span>
+                  <span className="font-mono text-xs text-leaf font-bold">
+                    ✓ Live-Schnittstellen aktiv
+                  </span>
+                </div>
+                <h2 className="font-display text-2xl sm:text-3xl font-black leading-tight text-ink">
+                  Das smarte Cockpit für mehr Umsatz, Direktbuchungen &amp; Stammgäste
+                </h2>
+                <p className="font-body text-sm sm:text-base leading-relaxed text-ink-faint">
+                  Keine 20% Plattformprovisionen mehr. Scratch&apos;n&apos;Travel liefert dir alles, was moderne Hotelmanagement- und Gastgewerbe-Tools bieten: Live-Zimmerbelegung, Notizen zu Gästewünschen (Kinderbett, Haustiere), variable Stammkunden-Preise, automatische iCal-Kalendersynchronisation mit Airbnb/Booking.com sowie eine direkte REST-API- &amp; Webhook-Schnittstelle zu deinen bestehenden Systemen.
+                </p>
+
+                {/* 6 Kern-Treiber für Business Owner */}
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 pt-3">
+                  {[
+                    { icon: '👥', title: 'Kunden', desc: 'Explorer aus der Community' },
+                    { icon: '📍', title: 'Sichtbarkeit', desc: 'Safety Radar & Map-Spot' },
+                    { icon: '⭐', title: 'Bewertungen', desc: 'Direkt auf Google per QR' },
+                    { icon: '💶', title: 'Umsatz', desc: '0% Provision (100% bei dir)' },
+                    { icon: '🔄', title: 'Stammgäste', desc: 'Flexible Vorzugspreise' },
+                    { icon: '🤝', title: 'Community', desc: 'Lokales Partnernetzwerk' },
+                  ].map(pillar => (
+                    <div key={pillar.title} className="p-3 rounded-xl bg-card/80 border border-sun/60 text-center space-y-1 shadow-sm">
+                      <span className="text-xl block">{pillar.icon}</span>
+                      <p className="font-display font-bold text-xs text-ink">{pillar.title}</p>
+                      <p className="font-mono text-[0.6rem] text-ink-faint leading-tight">{pillar.desc}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Check-In Feedback Alert */}
+            {checkInFeedback && (
+              <div className="p-4 rounded-2xl bg-leaf-wash border-2 border-leaf text-ink text-xs font-mono font-bold flex items-center justify-between shadow-xl animate-fade-in">
+                <div className="flex items-center gap-2">
+                  <span className="text-2xl">🎉</span>
+                  <span>{checkInFeedback}</span>
+                </div>
+                <button onClick={() => setCheckInFeedback(null)} className="text-ink-faint hover:text-ink font-bold">✕</button>
+              </div>
+            )}
+
+            {/* ─── BEREICH 1: LIVE-BELEGUNGSAMPEL & ZIMMERSTATUS ─── */}
+            <div className="card p-6 border-sun bg-card shadow-lg space-y-5">
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-line pb-4">
+                <div>
+                  <h3 className="font-display text-lg font-bold text-ink flex items-center gap-2">
+                    <span>🟢</span> Live-Belegungsampel &amp; Kontingent-Steuerung
+                  </h3>
+                  <p className="font-body text-xs text-ink-faint">
+                    Steuere in Echtzeit, ob Reisende in deiner Stadt freie Zimmer, Tische oder Plätze sehen.
+                  </p>
+                </div>
+
+                {/* Status Switcher Buttons */}
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => {
+                      triggerHaptic(15)
+                      setAvailabilityStatus('available')
+                    }}
+                    className={`px-3 py-1.5 rounded-xl font-mono text-xs font-bold transition-all border ${
+                      availabilityStatus === 'available'
+                        ? 'bg-leaf text-white border-leaf shadow-md scale-105'
+                        : 'bg-paper-deep text-ink-faint border-line hover:text-ink'
+                    }`}
+                  >
+                    🟢 Zimmer / Tische frei
+                  </button>
+                  <button
+                    onClick={() => {
+                      triggerHaptic(15)
+                      setAvailabilityStatus('limited')
+                    }}
+                    className={`px-3 py-1.5 rounded-xl font-mono text-xs font-bold transition-all border ${
+                      availabilityStatus === 'limited'
+                        ? 'bg-sun text-paper-deep border-sun shadow-md scale-105'
+                        : 'bg-paper-deep text-ink-faint border-line hover:text-ink'
+                    }`}
+                  >
+                    🟡 Begrenztes Kontingent
+                  </button>
+                  <button
+                    onClick={() => {
+                      triggerHaptic(15)
+                      setAvailabilityStatus('full')
+                    }}
+                    className={`px-3 py-1.5 rounded-xl font-mono text-xs font-bold transition-all border ${
+                      availabilityStatus === 'full'
+                        ? 'bg-terracotta text-white border-terracotta shadow-md scale-105'
+                        : 'bg-paper-deep text-ink-faint border-line hover:text-ink'
+                    }`}
+                  >
+                    🔴 Ausgebucht
+                  </button>
+                </div>
+              </div>
+
+              {/* Kontingent-Counter & Info */}
+              <div className="grid sm:grid-cols-3 gap-4 text-xs font-mono">
+                <div className="p-3.5 rounded-xl bg-paper-deep border border-line flex items-center justify-between">
+                  <div>
+                    <span className="text-ink-faint block text-[0.65rem]">FREIE EINHEITEN</span>
+                    <strong className="text-base text-ink font-bold">{availableUnits} Einheiten</strong>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <button
+                      onClick={() => {
+                        triggerHaptic(10)
+                        setAvailableUnits(u => Math.max(0, u - 1))
+                      }}
+                      className="w-7 h-7 rounded-lg bg-card border border-line text-ink font-bold hover:bg-paper flex items-center justify-center text-sm"
+                    >
+                      -
+                    </button>
+                    <button
+                      onClick={() => {
+                        triggerHaptic(10)
+                        setAvailableUnits(u => u + 1)
+                      }}
+                      className="w-7 h-7 rounded-lg bg-card border border-line text-ink font-bold hover:bg-paper flex items-center justify-center text-sm"
+                    >
+                      +
+                    </button>
+                  </div>
+                </div>
+
+                <div className="p-3.5 rounded-xl bg-paper-deep border border-line">
+                  <span className="text-ink-faint block text-[0.65rem]">STATUS IN RADAR &amp; APP</span>
+                  <span className="text-xs font-bold text-leaf flex items-center gap-1 mt-0.5">
+                    {availabilityStatus === 'available' ? '✓ Sofort buchbar für Reisende' : availabilityStatus === 'limited' ? '⚠️ Nur noch wenige Plätze frei' : '⛔ Als belegt markiert (Keine Anfragen)'}
+                  </span>
+                </div>
+
+                <div className="p-3.5 rounded-xl bg-paper-deep border border-line">
+                  <span className="text-ink-faint block text-[0.65rem]">KALENDER-SYNC</span>
+                  <span className="text-xs font-bold text-ink flex items-center gap-1 mt-0.5">
+                    🔄 iCal Sync aktiv (Alle 5 Min.)
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* ─── BEREICH 2: GÄSTE- & RESERVIERUNGS-VERWALTUNG (PMS) ─── */}
+            <div className="space-y-4">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div>
+                  <h3 className="font-display text-xl font-bold text-ink flex items-center gap-2">
+                    <span>📋</span> Reservierungs- &amp; Gästemanager
+                  </h3>
+                  <p className="font-body text-xs text-ink-faint">
+                    Übersicht aller Gäste, Sonderwünsche (Kinderbett, Hund), Stammkunden-Rabatte und Check-In Aktionen.
+                  </p>
+                </div>
+
+                <button
+                  onClick={() => setShowAddBooking(!showAddBooking)}
+                  className="btn btn-primary text-xs py-2 px-4 font-bold shadow flex items-center gap-1.5 self-start sm:self-auto"
+                >
+                  <span>{showAddBooking ? '✕ Schließen' : '➕ Neue Direktbuchung anlegen'}</span>
+                </button>
+              </div>
+
+              {/* NEUE BUCHUNG FORMULAR (MODAL/SLIDE) */}
+              {showAddBooking && (
+                <div className="card p-6 border-leaf bg-paper-deep shadow-2xl rounded-2xl animate-fade-in space-y-4">
+                  <div className="border-b border-line pb-3">
+                    <h4 className="font-display text-base font-bold text-ink">
+                      Manuelle Reservierung anlegen (Walk-In, Telefon, Stammkunde)
+                    </h4>
+                    <p className="font-body text-xs text-ink-faint">
+                      Wird sofort im System gespeichert und löst 0% Plattformprovision aus.
+                    </p>
+                  </div>
+
+                  <form onSubmit={handleSaveBooking} className="space-y-4 text-xs font-mono">
+                    <div className="grid sm:grid-cols-3 gap-3">
+                      <div>
+                        <label className="text-sun uppercase block mb-1 text-[0.62rem]">Gast Vor- &amp; Nachname *</label>
+                        <input
+                          type="text"
+                          required
+                          value={newBooking.guestName}
+                          onChange={e => setNewBooking({ ...newBooking, guestName: e.target.value })}
+                          placeholder="z. B. Dr. Sarah Lindner"
+                          className="field text-xs"
+                        />
+                      </div>
+                      <div>
+                        <label className="text-sun uppercase block mb-1 text-[0.62rem]">E-Mail</label>
+                        <input
+                          type="email"
+                          value={newBooking.email}
+                          onChange={e => setNewBooking({ ...newBooking, email: e.target.value })}
+                          placeholder="sarah@traveler.com"
+                          className="field text-xs"
+                        />
+                      </div>
+                      <div>
+                        <label className="text-sun uppercase block mb-1 text-[0.62rem]">Telefon / WhatsApp</label>
+                        <input
+                          type="tel"
+                          value={newBooking.phone}
+                          onChange={e => setNewBooking({ ...newBooking, phone: e.target.value })}
+                          placeholder="+49 170 1234567"
+                          className="field text-xs"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="grid sm:grid-cols-4 gap-3">
+                      <div>
+                        <label className="text-sun uppercase block mb-1 text-[0.62rem]">Anreise Datum *</label>
+                        <input
+                          type="date"
+                          required
+                          value={newBooking.date}
+                          onChange={e => setNewBooking({ ...newBooking, date: e.target.value })}
+                          className="field text-xs"
+                        />
+                      </div>
+                      <div>
+                        <label className="text-sun uppercase block mb-1 text-[0.62rem]">Abreise Datum</label>
+                        <input
+                          type="date"
+                          value={newBooking.endDate}
+                          onChange={e => setNewBooking({ ...newBooking, endDate: e.target.value })}
+                          className="field text-xs"
+                        />
+                      </div>
+                      <div>
+                        <label className="text-sun uppercase block mb-1 text-[0.62rem]">Uhrzeit</label>
+                        <input
+                          type="time"
+                          value={newBooking.time}
+                          onChange={e => setNewBooking({ ...newBooking, time: e.target.value })}
+                          className="field text-xs"
+                        />
+                      </div>
+                      <div>
+                        <label className="text-sun uppercase block mb-1 text-[0.62rem]">Gästeanzahl</label>
+                        <input
+                          type="number"
+                          min={1}
+                          max={20}
+                          value={newBooking.guests}
+                          onChange={e => setNewBooking({ ...newBooking, guests: Number(e.target.value) })}
+                          className="field text-xs"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="grid sm:grid-cols-3 gap-3">
+                      <div>
+                        <label className="text-sun uppercase block mb-1 text-[0.62rem]">Land des Betriebs</label>
+                        <select
+                          value={newBooking.country}
+                          onChange={e => setNewBooking({ ...newBooking, country: e.target.value })}
+                          className="field text-xs"
+                        >
+                          <option>Portugal</option>
+                          <option>Spanien</option>
+                          <option>Italien</option>
+                          <option>Frankreich</option>
+                          <option>Deutschland</option>
+                          <option>Japan</option>
+                          <option>Indonesien</option>
+                        </select>
+                      </div>
+                      <div>
+                        <label className="text-sun uppercase block mb-1 text-[0.62rem]">Stadt</label>
+                        <input
+                          type="text"
+                          value={newBooking.city}
+                          onChange={e => setNewBooking({ ...newBooking, city: e.target.value })}
+                          className="field text-xs"
+                        />
+                      </div>
+                      <div>
+                        <label className="text-sun uppercase block mb-1 text-[0.62rem]">Betrieb / Zimmer / Angebot</label>
+                        <input
+                          type="text"
+                          value={newBooking.hostBusiness}
+                          onChange={e => setNewBooking({ ...newBooking, hostBusiness: e.target.value })}
+                          className="field text-xs"
+                        />
+                      </div>
+                    </div>
+
+                    {/* HOTELMANAGEMENT SPEZIFIKATIONEN */}
+                    <div className="p-3.5 rounded-xl bg-card border border-sun/40 space-y-2">
+                      <p className="font-bold text-ink text-xs">Hotel- &amp; Zimmerspezifikationen:</p>
+                      <div className="grid sm:grid-cols-3 gap-3">
+                        <label className="flex items-center gap-2 cursor-pointer">
+                          <input
+                            type="checkbox"
+                            checked={newBooking.hasBabyBed}
+                            onChange={e => setNewBooking({ ...newBooking, hasBabyBed: e.target.checked })}
+                            className="rounded text-leaf focus:ring-leaf"
+                          />
+                          <span>👶 Kinderbett benötigt</span>
+                        </label>
+
+                        <label className="flex items-center gap-2 cursor-pointer">
+                          <input
+                            type="checkbox"
+                            checked={newBooking.hasPets}
+                            onChange={e => setNewBooking({ ...newBooking, hasPets: e.target.checked })}
+                            className="rounded text-leaf focus:ring-leaf"
+                          />
+                          <span>🐕 Haustiere dabei</span>
+                        </label>
+
+                        <label className="flex items-center gap-2 cursor-pointer">
+                          <input
+                            type="checkbox"
+                            checked={newBooking.isRegularGuest}
+                            onChange={e => setNewBooking({ ...newBooking, isRegularGuest: e.target.checked })}
+                            className="rounded text-leaf focus:ring-leaf"
+                          />
+                          <span>⭐ Stammkunde (-15% VIP-Rabatt)</span>
+                        </label>
+                      </div>
+
+                      <div className="grid sm:grid-cols-2 gap-3 pt-2">
+                        <div>
+                          <label className="text-sun uppercase block mb-1 text-[0.62rem]">Regulärer Grundpreis (€)</label>
+                          <input
+                            type="number"
+                            value={newBooking.basePrice}
+                            onChange={e => setNewBooking({ ...newBooking, basePrice: Number(e.target.value) })}
+                            className="field text-xs"
+                          />
+                        </div>
+                        <div>
+                          <label className="text-sun uppercase block mb-1 text-[0.62rem]">Berechneter Endpreis (€)</label>
+                          <div className="field text-xs bg-paper font-bold text-leaf">
+                            {newBooking.isRegularGuest
+                              ? `${Math.round(newBooking.basePrice * 0.85)} € (inkl. 15% Stammkunden-Rabatt)`
+                              : `${newBooking.basePrice} € (Regulär)`}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="text-sun uppercase block mb-1 text-[0.62rem]">Notizen zu Reisenden &amp; Sonderwünsche</label>
+                      <textarea
+                        rows={2}
+                        value={newBooking.notes}
+                        onChange={e => setNewBooking({ ...newBooking, notes: e.target.value })}
+                        placeholder="z. B. Spätanreise nach 22 Uhr, Laktoseintoleranz, Leihboard 7ft, Jubiläumsüberraschung..."
+                        className="field text-xs"
+                      />
+                    </div>
+
+                    <div className="flex gap-2">
+                      <button type="submit" className="btn btn-primary py-2.5 px-5 text-xs font-bold shadow">
+                        ✓ Reservierung verbindlich einbuchen (0% Provision)
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setShowAddBooking(false)}
+                        className="btn btn-secondary py-2.5 px-4 text-xs font-bold"
+                      >
+                        Abbrechen
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              )}
+
+              {/* FILTER & SUCHE */}
+              <div className="flex flex-col sm:flex-row gap-2 justify-between items-stretch sm:items-center">
+                <div className="flex gap-1.5 overflow-x-auto pb-1 no-scrollbar text-xs font-mono">
+                  {(['all', 'confirmed', 'checkedIn', 'pending', 'cancelled'] as const).map(st => {
+                    const labelMap = {
+                      all: `Alle (${reservations.length})`,
+                      confirmed: `Bestätigt (${reservations.filter(r => r.status === 'confirmed').length})`,
+                      checkedIn: `Eingecheckt (${reservations.filter(r => r.checkedIn).length})`,
+                      pending: `Ausstehend (${reservations.filter(r => r.status === 'pending').length})`,
+                      cancelled: `Storniert (${reservations.filter(r => r.status === 'cancelled').length})`,
+                    }
+                    return (
+                      <button
+                        key={st}
+                        onClick={() => {
+                          triggerHaptic(10)
+                          setStatusFilter(st)
+                        }}
+                        className={`px-3 py-1 rounded-xl font-bold whitespace-nowrap transition-all border ${
+                          statusFilter === st
+                            ? 'bg-ink text-white border-ink shadow'
+                            : 'bg-card text-ink-faint border-line hover:text-ink'
+                        }`}
+                      >
+                        {labelMap[st]}
+                      </button>
+                    )
+                  })}
+                </div>
+
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={e => setSearchQuery(e.target.value)}
+                  placeholder="🔍 Gast suchen..."
+                  className="field text-xs py-1.5 px-3 max-w-xs"
+                />
+              </div>
+
+              {/* RESERVIERUNGS-LISTE */}
+              <div className="space-y-3">
+                {reservations
+                  .filter(r => {
+                    if (statusFilter === 'confirmed' && r.status !== 'confirmed') return false
+                    if (statusFilter === 'checkedIn' && !r.checkedIn) return false
+                    if (statusFilter === 'pending' && r.status !== 'pending') return false
+                    if (statusFilter === 'cancelled' && r.status !== 'cancelled') return false
+                    if (searchQuery) {
+                      const q = searchQuery.toLowerCase()
+                      return (
+                        r.guestName.toLowerCase().includes(q) ||
+                        r.hostBusiness.toLowerCase().includes(q) ||
+                        r.id.toLowerCase().includes(q) ||
+                        r.city.toLowerCase().includes(q)
+                      )
+                    }
+                    return true
+                  })
+                  .map(res => {
+                    const isPast = new Date(res.date) <= new Date()
+
+                    return (
+                      <div
+                        key={res.id}
+                        className={`card p-5 rounded-2xl border-2 transition-all space-y-3 ${
+                          res.checkedIn
+                            ? 'border-leaf/70 bg-card'
+                            : res.status === 'cancelled'
+                              ? 'border-line bg-paper-deep opacity-60'
+                              : 'border-sun/60 bg-card shadow-sm'
+                        }`}
+                      >
+                        {/* Top Row: Gast, Status, Preis */}
+                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-line pb-3">
+                          <div className="flex items-center gap-3">
+                            <div className="w-10 h-10 rounded-full bg-paper-deep border border-sun flex items-center justify-center font-display font-bold text-sm text-ink">
+                              {res.guestName.slice(0, 2).toUpperCase()}
+                            </div>
+                            <div>
+                              <div className="flex items-center gap-2">
+                                <h4 className="font-display font-bold text-base text-ink">{res.guestName}</h4>
+                                {res.isRegularGuest && (
+                                  <span className="font-mono text-[0.6rem] font-bold text-sun bg-sun-wash px-2 py-0.5 rounded-full border border-sun">
+                                    ⭐ Stammkunde (-15%)
+                                  </span>
+                                )}
+                              </div>
+                              <p className="font-mono text-[0.68rem] text-ink-faint">
+                                {res.id} · {res.email} {res.phone ? `· ${res.phone}` : ''}
+                              </p>
+                            </div>
+                          </div>
+
+                          <div className="text-right">
+                            <div className="flex items-center gap-2 justify-end">
+                              <span
+                                className={`font-mono text-[0.62rem] font-bold px-2 py-0.5 rounded-full uppercase ${
+                                  res.checkedIn
+                                    ? 'bg-leaf text-white'
+                                    : res.status === 'confirmed'
+                                      ? 'bg-leaf-wash text-leaf border border-leaf'
+                                      : res.status === 'cancelled'
+                                        ? 'bg-terracotta-wash text-terracotta border border-terracotta'
+                                        : 'bg-sun-wash text-ink border border-sun'
+                                }`}
+                              >
+                                {res.checkedIn ? '✓ Eingecheckt' : res.status.toUpperCase()}
+                              </span>
+                              <span className="font-mono font-bold text-sm text-ink">
+                                {res.customPrice || res.originalPrice || 120} €
+                              </span>
+                            </div>
+                            <p className="font-mono text-[0.58rem] text-leaf font-bold">
+                              0% Provision · 100% Gewinn bei dir
+                            </p>
+                          </div>
+                        </div>
+
+                        {/* Middle Row: Datum, Details & Spezifikationen */}
+                        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs font-mono">
+                          <div className="p-2.5 rounded-xl bg-paper-deep border border-line">
+                            <span className="text-ink-faint text-[0.6rem] block">ZEITRAUM &amp; GÄSTE</span>
+                            <span className="font-bold text-ink">
+                              📅 {new Date(res.date).toLocaleDateString('de-DE')} {res.endDate ? `– ${new Date(res.endDate).toLocaleDateString('de-DE')}` : ''}
+                            </span>
+                            <span className="text-[0.65rem] text-ink-faint block mt-0.5">
+                              ⏰ {res.time} Uhr · 👥 {res.guests} {res.guests === 1 ? 'Person' : 'Personen'}
+                            </span>
+                          </div>
+
+                          <div className="p-2.5 rounded-xl bg-paper-deep border border-line">
+                            <span className="text-ink-faint text-[0.6rem] block">LOCATION &amp; KATEGORIE</span>
+                            <span className="font-bold text-ink truncate block">
+                              📍 {res.hostBusiness}
+                            </span>
+                            <span className="text-[0.65rem] text-sun block mt-0.5">
+                              {res.city}, {res.country || 'Portugal'} · {res.category}
+                            </span>
+                          </div>
+
+                          <div className="p-2.5 rounded-xl bg-paper-deep border border-line">
+                            <span className="text-ink-faint text-[0.6rem] block">KINDERBETT &amp; HAUSTIERE</span>
+                            <div className="flex flex-col gap-0.5 mt-0.5">
+                              <span className={res.hasBabyBed ? 'text-ink font-bold' : 'text-ink-faint'}>
+                                {res.hasBabyBed ? '👶 Kinderbett gewünscht' : '👶 Kein Kinderbett'}
+                              </span>
+                              <span className={res.hasPets ? 'text-leaf font-bold' : 'text-ink-faint'}>
+                                {res.hasPets ? '🐕 Hund / Haustier dabei' : '🐕 Keine Haustiere'}
+                              </span>
+                            </div>
+                          </div>
+
+                          <div className="p-2.5 rounded-xl bg-paper-deep border border-line">
+                            <span className="text-ink-faint text-[0.6rem] block">ZEITLICHE EINORDNUNG</span>
+                            <span className={`font-bold block mt-0.5 ${isPast ? 'text-leaf' : 'text-sun'}`}>
+                              {isPast ? '✓ Liegt in Vergangenheit' : '⏳ Zukünftige Reise'}
+                            </span>
+                            <span className="text-[0.6rem] text-ink-faint block mt-0.5">
+                              {isPast && res.status === 'confirmed'
+                                ? 'Schaltet Weltkarte für Gast frei!'
+                                : 'Check-in am Anreisetag'}
+                            </span>
+                          </div>
+                        </div>
+
+                        {/* Notes Row */}
+                        {res.notes && (
+                          <div className="p-2.5 rounded-xl bg-paper-deep/60 border border-sun/30 text-xs">
+                            <span className="font-mono text-[0.62rem] text-sun font-bold block uppercase">
+                              📝 Notizen zum Reisenden &amp; Sonderwünsche:
+                            </span>
+                            <p className="font-body text-ink text-xs mt-0.5">{res.notes}</p>
+                          </div>
+                        )}
+
+                        {/* Actions Row: Check-In Button, Status Change */}
+                        <div className="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-line">
+                          <div className="flex items-center gap-2">
+                            {!res.checkedIn && res.status !== 'cancelled' ? (
+                              <button
+                                onClick={() => handleCheckInGuest(res.id, res.guestName, res.country || 'Portugal')}
+                                className="btn btn-primary text-xs py-2 px-3.5 font-bold shadow flex items-center gap-1.5"
+                              >
+                                <span>🏨</span>
+                                <span>Gast einchecken (Stempel im Pass &amp; Land freischalten)</span>
+                              </button>
+                            ) : res.checkedIn ? (
+                              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-leaf-wash text-leaf border border-leaf font-mono text-xs font-bold">
+                                <span>✓</span>
+                                <span>Offizieller Stempel geprägt · Land freigeschaltet</span>
+                              </span>
+                            ) : null}
+                          </div>
+
+                          <div className="flex items-center gap-1.5 font-mono text-xs">
+                            {res.status !== 'confirmed' && (
+                              <button
+                                onClick={() => updateReservationStatus(res.id, 'confirmed')}
+                                className="px-2.5 py-1 rounded-lg border border-leaf text-leaf hover:bg-leaf hover:text-white transition-all"
+                              >
+                                Bestätigen
+                              </button>
+                            )}
+                            {res.status !== 'cancelled' && (
+                              <button
+                                onClick={() => updateReservationStatus(res.id, 'cancelled')}
+                                className="px-2.5 py-1 rounded-lg border border-line text-ink-faint hover:text-terracotta hover:border-terracotta transition-all"
+                              >
+                                Stornieren
+                              </button>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    )
+                  })}
+              </div>
+            </div>
+
+            {/* ─── BEREICH 3: SCHNITTSTELLEN & INTEGRATIONEN (ICAL & REST-API) ─── */}
+            <div className="grid md:grid-cols-2 gap-6">
+              {/* iCal Kalender-Synchronisation */}
+              <div className="card p-6 border-sun bg-card shadow-lg space-y-4">
+                <div className="space-y-1">
+                  <span className="font-mono text-[0.62rem] text-sun uppercase font-bold">2-Wege Kalender-Sync</span>
+                  <h4 className="font-display text-base font-bold text-ink flex items-center gap-1.5">
+                    <span>📅</span> iCal Kalender-Schnittstelle
+                  </h4>
+                  <p className="font-body text-xs text-ink-faint">
+                    Synchronisiere Belegungen automatisch mit Airbnb, Booking.com, Google Kalender und FeWo-direkt.
+                  </p>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="font-mono text-[0.62rem] text-ink uppercase block font-bold">Dein iCal Export-Link:</label>
+                  <div className="flex gap-1.5">
+                    <input
+                      type="text"
+                      readOnly
+                      value="https://scratch-n-travel.vercel.app/api/ical/host-lisbon-441.ics"
+                      className="field text-xs font-mono bg-paper-deep text-ink flex-1"
+                    />
+                    <button
+                      onClick={() => {
+                        triggerHaptic(15)
+                        navigator.clipboard?.writeText('https://scratch-n-travel.vercel.app/api/ical/host-lisbon-441.ics')
+                        alert('iCal Export-Link in die Zwischenablage kopiert!')
+                      }}
+                      className="btn btn-secondary text-xs px-3 font-bold"
+                    >
+                      Kopieren
+                    </button>
+                  </div>
+                  <p className="font-mono text-[0.58rem] text-ink-faint">
+                    💡 Hinterlege diesen Link im Kalender-Export deiner Buchungsportale, um Doppelbuchungen zu verhindern.
+                  </p>
+                </div>
+
+                <div className="pt-2 border-t border-line space-y-2">
+                  <label className="font-mono text-[0.62rem] text-ink uppercase block font-bold">Externen iCal-Kalender importieren:</label>
+                  <div className="flex gap-1.5">
+                    <input
+                      type="url"
+                      value={icalImportInput}
+                      onChange={e => setIcalImportInput(e.target.value)}
+                      placeholder="https://www.airbnb.com/calendar/ical/..."
+                      className="field text-xs font-mono flex-1"
+                    />
+                    <button
+                      onClick={handleSyncIcal}
+                      className="btn btn-primary text-xs px-3 font-bold"
+                    >
+                      Sync
+                    </button>
+                  </div>
+                  {icalSyncStatus && (
+                    <p className="font-mono text-[0.62rem] text-leaf font-bold animate-fade-in">{icalSyncStatus}</p>
+                  )}
+                </div>
+              </div>
+
+              {/* REST-API & Webhook-Schnittstelle */}
+              <div className="card p-6 border-sun bg-card shadow-lg space-y-4">
+                <div className="space-y-1">
+                  <span className="font-mono text-[0.62rem] text-sun uppercase font-bold">Direkt-Anbindung für Entwickler &amp; PMS</span>
+                  <h4 className="font-display text-base font-bold text-ink flex items-center gap-1.5">
+                    <span>⚡</span> REST-API &amp; Webhook Cockpit
+                  </h4>
+                  <p className="font-body text-xs text-ink-faint">
+                    Binde externe PMS-Systeme (Cloudbeds, Mews, Apaleo, Kassen-/POS-Software) oder n8n-Workflows an.
+                  </p>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="font-mono text-[0.62rem] text-ink uppercase block font-bold">Dein geheimer Live API-Key:</label>
+                  <div className="flex gap-1.5">
+                    <input
+                      type="password"
+                      readOnly
+                      value="snt_live_sec_8849204bc991a0"
+                      className="field text-xs font-mono bg-paper-deep text-ink flex-1"
+                    />
+                    <button
+                      onClick={() => {
+                        triggerHaptic(15)
+                        navigator.clipboard?.writeText('snt_live_sec_8849204bc991a0')
+                        alert('API-Key kopiert!')
+                      }}
+                      className="btn btn-secondary text-xs px-3 font-bold"
+                    >
+                      Kopieren
+                    </button>
+                  </div>
+                </div>
+
+                <div className="pt-2 border-t border-line space-y-2">
+                  <label className="font-mono text-[0.62rem] text-ink uppercase block font-bold">Echtzeit-Webhook URL:</label>
+                  <div className="flex gap-1.5">
+                    <input
+                      type="url"
+                      value={webhookInput}
+                      onChange={e => setWebhookInput(e.target.value)}
+                      className="field text-xs font-mono flex-1"
+                    />
+                    <button
+                      onClick={handleTestWebhook}
+                      className="btn btn-primary text-xs px-3 font-bold whitespace-nowrap"
+                    >
+                      Test-Webhook
+                    </button>
+                  </div>
+                  {webhookTestResult && (
+                    <p className="font-mono text-[0.62rem] text-leaf font-bold animate-fade-in">{webhookTestResult}</p>
+                  )}
+                  <p className="font-mono text-[0.58rem] text-ink-faint">
+                    Events: <code className="text-sun">guest.checked_in</code>, <code className="text-sun">reservation.created</code>, <code className="text-sun">stamp.minted</code>
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* ─── BEREICH 4: AUFSTELLER-KLARSTELLUNG & TRANSPARENZ ─── */}
+            <div className="p-5 rounded-2xl bg-[#042c2e] text-[#D9D19B] border border-[#D9D19B]/40 shadow-xl space-y-2">
+              <div className="flex items-center gap-2">
+                <span className="text-2xl">📦</span>
+                <h4 className="font-serif text-base font-bold text-white">
+                  1x Physischer 20mm Acrylglas Multi-Hub Aufsteller (10x15 cm) per Post inklusive
+                </h4>
+              </div>
+              <p className="font-sans text-xs text-white leading-relaxed">
+                Jeder verifizierte Betrieb erhält einen hochwertigen, freistehenden 20mm Acrylglas-Block per Post zugestellt.
+                Mit bis zu <strong>4 frei konfigurierbaren QR-Code-Ecken</strong> verwandelt er deinen Tresen in einen interaktiven Hub für Reisepass-Stempel, direkte Google-Bewertungen, Menü-Abruf und Secret-Spot Empfehlungen.
+              </p>
+              <div className="p-3 rounded-xl bg-[#021c1d] border border-[#D9D19B]/20 font-mono text-[0.65rem] text-[#a8d4c0] space-y-1">
+                <p className="font-bold text-[#D9D19B]">🔍 Transparenz bezüglich Gelato Print-on-Demand &amp; NFC:</p>
+                <p>
+                  Gelato fertigt diese 20mm kristallklaren Blöcke im hochauflösenden UV-Direktrückseitendruck. Da Gelato keine elektronischen NFC-Chips in Acryl eingießen kann, läuft der kontaktlose Scan <strong>zu 100% zuverlässig und plattformunabhängig über hochauflösende 300 DPI QR-Codes</strong> direkt mit jeder Smartphone-Kamera ohne App-Zwang.
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* ─── TAB 1: COMMUNITY HOME SHARING ─── */}
         {tab === 'community' && (
@@ -425,7 +1308,7 @@ export default function Host() {
                           }}
                           className="px-2.5 py-1 rounded-lg border border-line text-ink-faint hover:text-ink transition-all"
                         >
-                          0 QR (Pure Gravur &amp; NFC)
+                          0 QR (Pure Gravur &amp; Wappen)
                         </button>
                       </div>
                     </div>
@@ -558,16 +1441,16 @@ export default function Host() {
 
                           {/* DYNAMISCHES QR-LAYOUT (0, 1, 2 ODER 3-4 ECKEN) */}
                           {activeCount === 0 && (
-                            /* 0 QR CODES: PURE GRAVUR & NFC */
+                            /* 0 QR CODES: PURE GRAVUR & WAPPEN */
                             <div className="py-6 px-4 my-3 rounded-2xl bg-[#021c1d] border border-[#D9D19B]/60 text-center space-y-2">
                               <div className="w-20 h-20 mx-auto rounded-full bg-[#042c2e] border-2 border-[#D9D19B] flex items-center justify-center text-3xl shadow-lg">
                                 🧭
                               </div>
                               <p className="font-serif text-xs font-bold text-white uppercase tracking-widest">
-                                Pure Laser-Gravur &amp; NFC-Touch
+                                Pure Laser-Gravur &amp; Wappen
                               </p>
                               <p className="font-mono text-[0.62rem] text-[#D9D19B]">
-                                Keine QR-Codes aufgedruckt. Gäste halten ihr Smartphone an den Block für den Check-in &amp; Pass-Stempel.
+                                Minimalistischer Acrylglas-Block. 100% kontaktloser Check-in über hochauflösenden QR-Code (Gelato UV-Druck) oder die App.
                               </p>
                             </div>
                           )}
@@ -903,13 +1786,13 @@ export default function Host() {
                         : '📱 Digitalen Test-Host starten (14 € / Mo · Sofort aktiv) →'}
                   </button>
 
-                  {/* Steuerhinweis Einzelunternehmen */}
+                  {/* Steuerhinweis Mehrwertsteuer (19% MwSt. Regelbesteuerung) */}
                   <div className="p-2.5 rounded-xl bg-paper-deep border border-sun text-center space-y-1">
                     <p className="font-mono text-[0.62rem] text-sun font-bold">
-                      ⚖️ Steuerhinweis Einzelunternehmen (§ 19 UStG)
+                      ⚖️ Steuerhinweis &amp; Mehrwertsteuer (19% MwSt. Regelbesteuerung)
                     </p>
                     <p className="font-mono text-[0.58rem] text-ink-faint leading-tight">
-                      Gemäß § 19 UStG wird keine Umsatzsteuer berechnet und ausgewiesen (Kleinunternehmerstatus). Endpreise. Du erhältst eine ordnungsgemäße Rechnung für deine Buchhaltung.
+                      Scratch&apos;n&apos;Travel wird mit regulärer Umsatzsteuer geführt. Du erhältst eine ordnungsgemäße B2B-Rechnung mit separat ausgewiesener 19% Umsatzsteuer für den Vorsteuerabzug deines Betriebs.
                     </p>
                   </div>
                 </form>

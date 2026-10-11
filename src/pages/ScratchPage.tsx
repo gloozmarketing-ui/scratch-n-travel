@@ -3,6 +3,7 @@ import ScratchCard from '../components/ScratchCard'
 import { storyPins } from '../data/data'
 import { useTravel } from '../context/TravelContext'
 import { useI18n } from '../lib/i18n'
+import { Link } from 'react-router-dom'
 import confetti from 'canvas-confetti'
 
 const COUNTRIES_CATALOG = [
@@ -116,6 +117,7 @@ export default function ScratchPage() {
     scratchCountry,
     currentLocation,
     setCurrentLocation,
+    reservations,
     triggerHaptic,
   } = useTravel()
 
@@ -250,7 +252,7 @@ export default function ScratchPage() {
                   Aktueller Aufenthaltsort: <span className="text-sun">{currentLocation.country} {currentLocation.flag}</span>
                 </h2>
                 <p className="font-body text-xs text-ink-faint max-w-xl leading-relaxed">
-                  <strong>Echte Reise-Verifikation:</strong> Um Betrug zu verhindern, kannst du auf deiner Weltkarte <strong>nur jene Länder freirubbeln</strong>, in denen du dich physisch befindest! Alle anderen Länder sind mit der goldenen GPS-Sperre versiegelt.
+                  <strong>Echte Reise-Verifikation (GPS &amp; Host-Buchung):</strong> Um Betrug zu verhindern, kannst du auf deiner Weltkarte <strong>nur Länder freirubbeln</strong>, in denen du dich entweder <strong>physisch per GPS-Signal</strong> befindest ODER in denen du eine <strong>bestätigte Buchung bei einem unserer registrierten Business-Owner</strong> hast (zeitlich in der Vergangenheit &amp; nicht storniert).
                 </p>
                 <p className="font-mono text-[0.68rem] text-leaf font-bold">
                   📍 GPS-Koordinaten: {currentLocation.gps} ({currentLocation.city})
@@ -332,15 +334,41 @@ export default function ScratchPage() {
                   c => c.toLowerCase() === country.name.toLowerCase()
                 )
 
+                // Dual-Unlock Prüfung:
+                // 1. Physisch mit GPS vor Ort ODER
+                // 2. Bestätigte Buchung bei einem unserer Businessowner in diesem Land in der Vergangenheit (nicht storniert)
+                const now = new Date()
+                const matchingPastBooking = reservations.find(r => {
+                  if (r.status === 'cancelled') return false
+                  const matchesCountry = (
+                    (r.country && r.country.toLowerCase() === country.name.toLowerCase()) ||
+                    (country.name === 'Portugal' && ['lisbon', 'lissabon', 'ericeira', 'sagres', 'sintra', 'porto', 'faro'].includes(r.city.toLowerCase())) ||
+                    (country.name === 'Spanien' && ['ronda', 'barcelona', 'madrid', 'sevilla', 'valencia', 'malaga'].includes(r.city.toLowerCase())) ||
+                    (country.name === 'Italien' && ['rom', 'florenz', 'venedig', 'mailand', 'neapel'].includes(r.city.toLowerCase())) ||
+                    (country.name === 'Frankreich' && ['paris', 'nizza', 'marseille', 'lyon'].includes(r.city.toLowerCase())) ||
+                    (country.name === 'Deutschland' && ['berlin', 'münchen', 'hamburg', 'köln'].includes(r.city.toLowerCase())) ||
+                    (country.name === 'Japan' && ['tokio', 'kyoto', 'osaka'].includes(r.city.toLowerCase())) ||
+                    (country.name === 'Indonesien' && ['bali', 'ubud', 'canggu', 'seminyak'].includes(r.city.toLowerCase()))
+                  )
+                  if (!matchesCountry) return false
+                  const bookingDate = new Date(r.date)
+                  return bookingDate <= now
+                })
+
+                const isUnlockedByBooking = Boolean(matchingPastBooking)
+                const isUnlocked = isCurrentLocation || isUnlockedByBooking
+
                 return (
                   <div
                     key={country.id}
                     className={`card p-5 rounded-2xl flex flex-col justify-between border-2 transition-all duration-300 relative overflow-hidden ${
                       isCurrentLocation
                         ? 'border-leaf shadow-[0_0_25px_rgba(42,157,143,0.3)] bg-gradient-to-b from-card to-paper-deep'
-                        : isAlreadyScratched
-                          ? 'border-sun shadow-md bg-card'
-                          : 'border-sun/30 bg-card/60 opacity-80'
+                        : isUnlockedByBooking
+                          ? 'border-leaf/80 shadow-[0_0_20px_rgba(42,157,143,0.2)] bg-card'
+                          : isAlreadyScratched
+                            ? 'border-sun shadow-md bg-card'
+                            : 'border-sun/30 bg-card/60 opacity-80'
                     }`}
                   >
                     {/* Header */}
@@ -362,7 +390,9 @@ export default function ScratchPage() {
                             ? '✓ Freigerubbelt'
                             : isCurrentLocation
                               ? '🔓 GPS Entsperrt'
-                              : '🔒 GPS Sperre'}
+                              : isUnlockedByBooking
+                                ? '🏨 Buchung Verifiziert'
+                                : '🔒 GPS / Buchungs-Sperre'}
                         </p>
                       </div>
                     </div>
@@ -395,9 +425,20 @@ export default function ScratchPage() {
                             ✓ Im Reisepass vermerkt
                           </span>
                         </div>
-                      ) : isCurrentLocation ? (
-                        /* AKTUELLER STANDORT: INTERAKTIVER SCRATCH-CANVAS */
-                        <div className="space-y-1.5 flex flex-col items-center">
+                      ) : isUnlocked ? (
+                        /* ENTSPERRT (ENTWEDER DURCH GPS ODER BESTÄTIGTE FRÜHERE BUCHUNG) */
+                        <div className="space-y-1.5 flex flex-col items-center w-full">
+                          {isUnlockedByBooking && !isCurrentLocation && (
+                            <div className="w-full p-2 rounded-xl bg-leaf-wash/40 border border-leaf text-center space-y-0.5 mb-1 animate-fade-in">
+                              <p className="font-mono text-[0.62rem] font-bold text-leaf">
+                                🎉 Freigeschaltet durch deine Buchung bei {matchingPastBooking?.hostBusiness}!
+                              </p>
+                              <p className="font-mono text-[0.52rem] text-ink-faint">
+                                Reise am {new Date(matchingPastBooking!.date).toLocaleDateString('de-DE')} in {matchingPastBooking?.city} · Bestätigt &amp; nicht storniert ✓
+                              </p>
+                            </div>
+                          )}
+
                           <ScratchCard
                             width={300}
                             height={180}
@@ -425,35 +466,42 @@ export default function ScratchPage() {
                               </div>
                             </div>
                           </ScratchCard>
-                          <p className="font-mono text-[0.58rem] text-leaf font-bold animate-pulse">
-                            👆 Mit Maus oder Finger goldenen Schutzlack wegrubbeln!
+                          <p className="font-mono text-[0.58rem] text-leaf font-bold animate-pulse text-center">
+                            {isCurrentLocation
+                              ? `👆 GPS Live-Standort bestätigt (${currentLocation.city})! Mit Maus oder Finger freirubbeln!`
+                              : `👆 Verifizierte Buchung! Mit Maus oder Finger freirubbeln!`}
                           </p>
                         </div>
                       ) : (
-                        /* NICHT VOR ORT: GOLDENE GPS-VERSCHLÜSSELUNG */
+                        /* NICHT VOR ORT & KEINE BUCHUNG: GOLDENE SPERRE */
                         <div className="w-full h-[180px] rounded-xl p-4 flex flex-col items-center justify-center text-center bg-paper-deep border-2 border-dashed border-sun/40 space-y-2">
                           <span className="text-3xl">🔒</span>
                           <p className="font-display font-bold text-xs text-ink">
-                            GPS-Sperre aktiv
+                            GPS- &amp; Buchungs-Sperre aktiv
                           </p>
                           <p className="font-body text-[0.68rem] text-ink-faint max-w-[240px] leading-tight">
-                            Nur vor Ort freirubbelbar. Reise nach <strong>{country.name}</strong>, um diesen Kartenteil freizulegen.
+                            Nur vor Ort per GPS oder durch eine <strong>bestätigte Buchung bei einem unserer Businessowner</strong> in {country.name} (in der Vergangenheit &amp; nicht storniert) freirubbelbar.
                           </p>
-                          <button
-                            onClick={() => {
-                              triggerHaptic(10)
-                              setCurrentLocation({
-                                country: country.name,
-                                city: country.capital,
-                                flag: country.flag,
-                                gps: country.gps,
-                                isSimulated: true,
-                              })
-                            }}
-                            className="btn btn-secondary text-[0.65rem] py-1 px-3 mt-1 font-bold"
-                          >
-                            ✈️ Mit Simulator dorthin reisen →
-                          </button>
+                          <div className="flex items-center gap-1.5 mt-1">
+                            <Link to="/host" className="btn btn-secondary text-[0.62rem] py-1 px-2.5 font-bold">
+                              🏨 Partner finden
+                            </Link>
+                            <button
+                              onClick={() => {
+                                triggerHaptic(10)
+                                setCurrentLocation({
+                                  country: country.name,
+                                  city: country.capital,
+                                  flag: country.flag,
+                                  gps: country.gps,
+                                  isSimulated: true,
+                                })
+                              }}
+                              className="btn btn-primary text-[0.62rem] py-1 px-2.5 font-bold"
+                            >
+                              ✈️ GPS-Simulator
+                            </button>
+                          </div>
                         </div>
                       )}
                     </div>

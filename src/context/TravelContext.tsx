@@ -30,14 +30,24 @@ export interface Quest {
 export interface HostReservation {
   id: string
   hostBusiness: string
+  country?: string
   city: string
   guestName: string
   email: string
+  phone?: string
   date: string
+  endDate?: string
   time: string
   guests: number
   category: string
   notes: string
+  hasBabyBed?: boolean
+  hasPets?: boolean
+  isRegularGuest?: boolean
+  originalPrice?: number
+  customPrice?: number
+  discountPct?: number
+  checkedIn?: boolean
   status: 'confirmed' | 'pending' | 'cancelled'
   createdAt: string
 }
@@ -156,6 +166,9 @@ interface TravelContextType {
   unlockBadge: (badgeId: string) => void
   completeQuestStep: (questId: string, stepId: number) => void
   createReservation: (res: Omit<HostReservation, 'id' | 'status' | 'createdAt'>) => void
+  addReservation: (res: Omit<HostReservation, 'id' | 'createdAt'>) => void
+  updateReservationStatus: (id: string, status: 'confirmed' | 'pending' | 'cancelled') => void
+  checkInGuest: (id: string) => void
   likeFeedItem: (id: string) => void
   resetToStandardUser: () => void
   logout: () => Promise<void>
@@ -275,22 +288,85 @@ export function TravelProvider({ children }: { children: React.ReactNode }) {
   const [reservations, setReservations] = useState<HostReservation[]>(() => {
     const saved = localStorage.getItem('snt_reservations')
     if (saved) {
-      try { return JSON.parse(saved) } catch (e) {}
+      try {
+        const parsed = JSON.parse(saved)
+        if (Array.isArray(parsed) && parsed.length > 0 && parsed[0].country) {
+          return parsed
+        }
+      } catch (e) {}
     }
     return [
       {
         id: 'RES-101',
-        hostBusiness: 'Surf School Ericeira',
-        city: 'Ericeira',
+        hostBusiness: 'Sagres Ocean & Surf Base',
+        country: 'Portugal',
+        city: 'Sagres',
         guestName: 'Maria Santos',
         email: 'maria@wanderer.eu',
-        date: '2026-09-18',
+        phone: '+351 912 884 219',
+        date: '2026-09-18', // Vergangenheit!
+        endDate: '2026-09-22',
         time: '10:00',
         guests: 2,
-        category: 'Surf Coaching & Board Rental',
-        notes: 'Intermediate level, require 7ft hardboards.',
+        category: '🏄 Surf Coaching & Board Rental',
+        notes: 'Fortgeschrittenes Level, 2x 7ft Hardboards gewünscht.',
+        hasBabyBed: false,
+        hasPets: true,
+        isRegularGuest: true,
+        originalPrice: 160,
+        customPrice: 136,
+        discountPct: 15,
+        checkedIn: true,
         status: 'confirmed',
         createdAt: '2026-09-01',
+      },
+      {
+        id: 'RES-102',
+        hostBusiness: 'Bodega Viña del Sol',
+        country: 'Spanien',
+        city: 'Ronda',
+        guestName: 'Maria Santos',
+        email: 'maria@wanderer.eu',
+        phone: '+34 612 998 123',
+        date: '2026-08-10', // Vergangenheit!
+        endDate: '2026-08-11',
+        time: '18:30',
+        guests: 2,
+        category: '🍇 Weingut & Tasting',
+        notes: 'Weinprobe & Tapas im Sonnenuntergang. Vegetarische Optionen.',
+        hasBabyBed: false,
+        hasPets: false,
+        isRegularGuest: false,
+        originalPrice: 90,
+        customPrice: 90,
+        discountPct: 0,
+        checkedIn: true,
+        status: 'confirmed',
+        createdAt: '2026-08-01',
+      },
+      {
+        id: 'RES-103',
+        hostBusiness: 'Quinta das Flores Retreat',
+        country: 'Portugal',
+        city: 'Sintra',
+        guestName: 'Dr. Lukas Weber',
+        email: 'lukas.weber@alps.at',
+        phone: '+43 664 1234567',
+        date: '2026-10-15',
+        endDate: '2026-10-19',
+        time: '15:00',
+        guests: 3,
+        category: '🏨 Boutique Retreat',
+        notes: 'Familie mit Kleinkind. Bitte Babybett im Master Bedroom bereitstellen.',
+        hasBabyBed: true,
+        hasPets: false,
+        isRegularGuest: true,
+        originalPrice: 480,
+        customPrice: 408,
+        discountPct: 15,
+        checkedIn: false,
+        status: 'confirmed',
+        createdAt: '2026-10-02',
       },
     ]
   })
@@ -499,6 +575,49 @@ export function TravelProvider({ children }: { children: React.ReactNode }) {
     triggerHaptic([30, 60])
   }
 
+  const addReservation = (res: Omit<HostReservation, 'id' | 'createdAt'>) => {
+    const newRes: HostReservation = {
+      ...res,
+      id: `RES-${Math.floor(100 + Math.random() * 900)}`,
+      createdAt: new Date().toISOString().split('T')[0],
+    }
+    setReservations(prev => [newRes, ...prev])
+    triggerHaptic([30, 60])
+  }
+
+  const updateReservationStatus = (id: string, status: 'confirmed' | 'pending' | 'cancelled') => {
+    triggerHaptic(20)
+    setReservations(prev =>
+      prev.map(r => (r.id === id ? { ...r, status } : r))
+    )
+  }
+
+  const checkInGuest = (id: string) => {
+    triggerHaptic([40, 80, 40])
+    setReservations(prev =>
+      prev.map(r => {
+        if (r.id !== id) return r
+        const updated = { ...r, checkedIn: true, status: 'confirmed' as const }
+        // Mint stamp for this checkin
+        const country = updated.country || 'Portugal'
+        const flag = country === 'Spanien' ? '🇪🇸' : country === 'Italien' ? '🇮🇹' : country === 'Frankreich' ? '🇫🇷' : '🇵🇹'
+        addGpsStamp(
+          country,
+          updated.city || 'Lisbon',
+          flag,
+          "38°42'44\"N · 9°07'59\"W",
+          `Check-in bei ${updated.hostBusiness} (${updated.guestName})`,
+          100
+        )
+        // Unlock country in scratched countries if not already there
+        if (country && !scratchedCountries.includes(country)) {
+          setScratchedCountries(sc => [...sc, country])
+        }
+        return updated
+      })
+    )
+  }
+
   const likeFeedItem = (id: string) => {
     triggerHaptic(15)
     setFeed(prev =>
@@ -644,6 +763,9 @@ export function TravelProvider({ children }: { children: React.ReactNode }) {
         unlockBadge,
         completeQuestStep,
         createReservation,
+        addReservation,
+        updateReservationStatus,
+        checkInGuest,
         likeFeedItem,
         resetToStandardUser,
         logout,

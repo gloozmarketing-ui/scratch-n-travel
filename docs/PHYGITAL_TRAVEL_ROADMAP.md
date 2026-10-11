@@ -38,7 +38,7 @@ Im Gelato Developer Dashboard unter Webhooks muss folgendes eingetragen werden:
 
 ### 2.2 Der flexible 0-bis-4-Ecken QR-Konfigurator
 Hosts & Business-Owner können ihren Thekenaufsteller frei konfigurieren:
-* **0 Ecken (Pure Gravur & NFC):** Keine QR-Codes, minimalistisches Luxus-Design mit goldenem Wappen und integriertem NFC-Radar für kontaktlosen Pass-Stempel.
+* **0 Ecken (Pure Gravur & Wappen):** Keine QR-Codes, minimalistisches Luxus-Design mit goldenem Wappen.
 * **1 QR-Code (Zentriert):** Prominenter großer Scan-Bereich für maximale Scan-Rate.
 * **2 Ecken (Duo-Scan):** Pass-Stempel + Direktkontakt / Speisekarte nebeneinander.
 * **3 bis 4 Ecken (Multi-Hub):**
@@ -47,6 +47,7 @@ Hosts & Business-Owner können ihren Thekenaufsteller frei konfigurieren:
   * Unten Links: 🗝️ Insider Secret & Tages-Special des Wirts
   * Unten Rechts: 🗺️ Lokale Empfehlungen & Wanderrouten des Hosts
   * **Alternative konfigurierbare Funktionen:** 🍽️ Digitale Speisekarte, 📶 Gäste-WLAN Express-Connect, 📸 Instagram Community-Tagging, ✏️ Freie URL / Reservierungslink.
+  * *Hinweis zu Gelato POD:* Gelato fertigt kristallklare 20mm Acrylglasblöcke im UV-Direktdruck. Da Gelato keine elektronischen NFC-Chips in Acryl gießt, erfolgt der 100% kontaktlose Check-in zuverlässig über hochauflösende QR-Codes per Smartphone-Kamera.
 
 ---
 
@@ -55,7 +56,7 @@ Hosts & Business-Owner können ihren Thekenaufsteller frei konfigurieren:
 ### Kategorie A: Sofort umsetzbar mit Gelato POD & Vektor-Engine (Tier 1)
 1. **Reise-Quest-Notizblock (Travel Quest Journal):** Hardcover A5 Notizbuch mit vorgedruckten Seiten, Secret-Clues, QR-Check-in-Rätseln und Vigenère-Chiffre.
 2. **Goldene Rubbel-Sticker (Scratch Sticker Kits):** Individuelle Scratch'n'Travel Postkarten & Poster, veredelt mit beiliegenden Rubbel-Stickern.
-3. **Phygital Hotel- & Gastro-Thekenblöcke:** 20mm Acrylglas-Blöcke mit UV-Rückseitendruck, 0-4 QR-Codes und NFC-Radar.
+3. **Phygital Hotel- & Gastro-Thekenblöcke:** 20mm Acrylglas-Blöcke mit UV-Rückseitendruck und bis zu 4 QR-Code Ecken (Gelato POD).
 4. **Postkarten-Quests mit Koordinaten:** Limitierte Kunst-Postkarten mit verschlüsselten GPS-Geheimtipps des Hosts.
 5. **Wanderrouten-Miniguides (Z-Fold Faltpläne):** Wetterfeste lokale Karten für Gasthöfe mit geheimen Aussichtspunkten.
 6. **Pass-Stempel Stickerbogen:** Physische Hologramm-/Wappen-Sticker für das physische Reisetagebuch bei erreichten Meilensteinen.
