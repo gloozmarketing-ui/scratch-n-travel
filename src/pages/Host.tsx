@@ -27,6 +27,19 @@ export default function Host() {
     secretSpecial: '',
   })
 
+  // Interaktiver Aufsteller-Konfigurator: 0 bis 4 QR-Code Ecken
+  const [cornerQrs, setCornerQrs] = useState<{
+    tl: { active: boolean; type: string; title: string; hint: string; icon: string; customText?: string }
+    tr: { active: boolean; type: string; title: string; hint: string; icon: string; customText?: string }
+    bl: { active: boolean; type: string; title: string; hint: string; icon: string; customText?: string }
+    br: { active: boolean; type: string; title: string; hint: string; icon: string; customText?: string }
+  }>({
+    tl: { active: true, type: 'stamp', title: 'Pass-Stempel', hint: '+50 XP für Explorer', icon: '🎟️' },
+    tr: { active: true, type: 'contact', title: 'WhatsApp / 0% Chat', hint: 'Direktkontakt ohne Gebühr', icon: '💬' },
+    bl: { active: true, type: 'secret', title: 'Insider Secret', hint: 'Geheimes Tages-Special', icon: '🗝️' },
+    br: { active: true, type: 'routes', title: 'Lokale Routen', hint: 'Secret Spots des Hosts', icon: '🗺️' }
+  })
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     setApplied(true)
@@ -344,66 +357,341 @@ export default function Host() {
                     ))}
                   </div>
 
-                  {/* LIVE MOCKUP DES ACRYLGLAS-AUFSTELLERS */}
-                  <div className="max-w-md mx-auto p-6 rounded-3xl bg-[#042c2e] text-[#D9D19B] border-2 border-[#D9D19B]/60 shadow-2xl relative overflow-hidden transition-all duration-300">
-                    {/* Gold-Lichtreflex Glanzeffekt */}
-                    <div className="absolute -top-12 -right-12 w-36 h-36 bg-[#D9D19B]/10 rounded-full blur-2xl pointer-events-none" />
-
-                    <div className="text-center space-y-3 relative z-10">
-                      <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-[#021c1d] border border-[#D9D19B]/40 text-[0.62rem] font-mono text-[#a8d4c0] uppercase tracking-wider">
-                        ✦ 20 mm Acrylglas Block · Gelato POD 300 DPI
-                      </div>
-
+                  {/* INTERAKTIVER QR-CODE ECKEN-KONFIGURATOR (0 BIS 4 ECKEN) */}
+                  <div className="p-4 sm:p-5 rounded-2xl bg-card border border-leaf/40 space-y-4">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-line pb-3">
                       <div>
-                        <span className="text-2xl block mb-1">{activeInd.icon}</span>
-                        <p className="font-serif tracking-widest text-xs font-bold text-[#D9D19B]">SCRATCH &apos;N&apos; TRAVEL</p>
-                        <p className="font-mono text-[0.6rem] text-[#a8d4c0] font-semibold tracking-wider">
-                          {activeInd.badge}
-                        </p>
-                      </div>
-
-                      <div className="pt-2 border-t border-[#D9D19B]/20">
-                        <h4 className="font-serif text-lg font-bold text-white tracking-wide">
-                          {b2bForm.businessName || activeInd.venue}
+                        <h4 className="font-display font-bold text-ink text-sm sm:text-base flex items-center gap-2">
+                          <span>📐</span> Aufsteller-Konfigurator: QR-Code Ecken (0 bis 4 Ecken)
                         </h4>
-                        <p className="font-mono text-[0.68rem] text-[#D9D19B]">
-                          📍 {(b2bForm.city || activeInd.city).toUpperCase()} · GPS: {activeInd.gps}
+                        <p className="font-body text-xs text-ink-faint">
+                          Wähle frei, welche Ecken deines Acrylglas-Blocks mit scannbaren QR-Codes belegt werden sollen.
                         </p>
                       </div>
 
-                      {/* QR-Container */}
-                      <div className="bg-white p-3 rounded-2xl w-36 h-36 mx-auto flex flex-col items-center justify-center shadow-lg my-2 border border-[#D9D19B]">
-                        <div className="w-28 h-28 bg-[#121816] rounded-xl flex items-center justify-center text-white text-3xl font-bold">
-                          📱
-                        </div>
-                      </div>
-
-                      <div className="space-y-1">
-                        <p className="font-sans font-bold text-xs text-white uppercase tracking-wider">
-                          Mit Smartphone Scannen
-                        </p>
-                        <p className="font-mono text-[0.65rem] text-[#D9D19B]">
-                          {activeInd.cta}
-                        </p>
-                      </div>
-
-                      {/* Insider Easter-Egg Box */}
-                      <div className="p-2.5 rounded-xl bg-[#021c1d] border border-[#D9D19B]/40 text-left space-y-1">
-                        <p className="font-mono text-[0.6rem] font-bold text-[#D9D19B]">✦ LOKALER INSIDER-HINT &amp; EASTER-EGG:</p>
-                        <p className="font-serif text-[0.7rem] italic text-white leading-tight">
-                          {activeInd.hint}
-                        </p>
-                        <p className="font-mono text-[0.58rem] text-[#a8d4c0]">
-                          🔑 Codewort für Gäste in der App: <strong className="text-white">{activeInd.code}</strong>
-                        </p>
-                      </div>
-
-                      {/* 0% Guarantee */}
-                      <div className="pt-2 border-t border-[#D9D19B]/20 text-[0.6rem] font-mono text-[#a8d4c0]">
-                        🛡️ 0% PLATTFORM-PROVISION · DIREKTE BEZAHLUNG VOR ORT
+                      {/* Schnell-Wahl Buttons */}
+                      <div className="flex flex-wrap gap-1.5 font-mono text-[0.65rem]">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setCornerQrs({
+                              tl: { ...cornerQrs.tl, active: true },
+                              tr: { ...cornerQrs.tr, active: true },
+                              bl: { ...cornerQrs.bl, active: true },
+                              br: { ...cornerQrs.br, active: true },
+                            })
+                          }}
+                          className="px-2.5 py-1 rounded-lg border border-leaf/60 bg-leaf-wash text-leaf font-bold hover:bg-leaf hover:text-white transition-all"
+                        >
+                          4 Ecken (Multi-Hub)
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setCornerQrs({
+                              tl: { ...cornerQrs.tl, active: true },
+                              tr: { ...cornerQrs.tr, active: true },
+                              bl: { ...cornerQrs.bl, active: false },
+                              br: { ...cornerQrs.br, active: false },
+                            })
+                          }}
+                          className="px-2.5 py-1 rounded-lg border border-sun text-ink hover:bg-sun-wash transition-all"
+                        >
+                          2 Ecken (Duo)
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setCornerQrs({
+                              tl: { ...cornerQrs.tl, active: true },
+                              tr: { ...cornerQrs.tr, active: false },
+                              bl: { ...cornerQrs.bl, active: false },
+                              br: { ...cornerQrs.br, active: false },
+                            })
+                          }}
+                          className="px-2.5 py-1 rounded-lg border border-sun text-ink hover:bg-sun-wash transition-all"
+                        >
+                          1 QR (Zentriert)
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setCornerQrs({
+                              tl: { ...cornerQrs.tl, active: false },
+                              tr: { ...cornerQrs.tr, active: false },
+                              bl: { ...cornerQrs.bl, active: false },
+                              br: { ...cornerQrs.br, active: false },
+                            })
+                          }}
+                          className="px-2.5 py-1 rounded-lg border border-line text-ink-faint hover:text-ink transition-all"
+                        >
+                          0 QR (Pure Gravur &amp; NFC)
+                        </button>
                       </div>
                     </div>
+
+                    {/* 4 Ecken Einstellungs-Grid */}
+                    <div className="grid sm:grid-cols-2 gap-3 text-xs">
+                      {[
+                        { key: 'tl' as const, label: '↖️ Ecke Oben Links', defaultType: 'stamp' },
+                        { key: 'tr' as const, label: '↗️ Ecke Oben Rechts', defaultType: 'contact' },
+                        { key: 'bl' as const, label: '↙️ Ecke Unten Links', defaultType: 'secret' },
+                        { key: 'br' as const, label: '↘️ Ecke Unten Rechts', defaultType: 'routes' },
+                      ].map(corner => {
+                        const cur = cornerQrs[corner.key]
+                        const options = [
+                          { type: 'stamp', title: 'Pass-Stempel (+50 XP)', hint: 'Reisepass-Stempel & Badge', icon: '🎟️' },
+                          { type: 'contact', title: 'WhatsApp / Direktkontakt', hint: '0% Buchungsprovision', icon: '💬' },
+                          { type: 'secret', title: 'Insider Secret / Special', hint: 'Geheimes Tages-Special', icon: '🗝️' },
+                          { type: 'routes', title: 'Lokale Routen & Spots', hint: 'Geheimtipps des Wirts', icon: '🗺️' },
+                          { type: 'menu', title: 'Speisekarte & Angebote', hint: 'Digitale Speisekarte', icon: '🍽️' },
+                          { type: 'wifi', title: 'Gäste-WLAN Login', hint: '1-Click WiFi-Verbindung', icon: '📶' },
+                          { type: 'instagram', title: 'Instagram / Fotos', hint: 'Community-Social Feed', icon: '📸' },
+                          { type: 'custom', title: 'Eigene Aktion / Link', hint: 'Individuelle Host-Aktion', icon: '✏️' },
+                        ]
+
+                        return (
+                          <div
+                            key={corner.key}
+                            className={`p-3 rounded-xl border transition-all ${
+                              cur.active ? 'bg-paper-deep border-leaf/60 shadow-sm' : 'bg-card/60 border-line opacity-60'
+                            }`}
+                          >
+                            <div className="flex items-center justify-between mb-2">
+                              <label className="flex items-center gap-2 cursor-pointer font-bold font-mono text-[0.65rem] text-ink">
+                                <input
+                                  type="checkbox"
+                                  checked={cur.active}
+                                  onChange={e => {
+                                    setCornerQrs({
+                                      ...cornerQrs,
+                                      [corner.key]: { ...cur, active: e.target.checked }
+                                    })
+                                  }}
+                                  className="rounded text-leaf focus:ring-leaf"
+                                />
+                                <span>{corner.label}</span>
+                              </label>
+                              <span className="text-base">{cur.active ? cur.icon : '⚪'}</span>
+                            </div>
+
+                            {cur.active && (
+                              <div className="space-y-1.5 mt-2">
+                                <select
+                                  value={cur.type}
+                                  onChange={e => {
+                                    const match = options.find(o => o.type === e.target.value) || options[0]
+                                    setCornerQrs({
+                                      ...cornerQrs,
+                                      [corner.key]: {
+                                        ...cur,
+                                        type: match.type,
+                                        title: match.title,
+                                        hint: match.hint,
+                                        icon: match.icon
+                                      }
+                                    })
+                                  }}
+                                  className="field text-xs py-1"
+                                >
+                                  {options.map(opt => (
+                                    <option key={opt.type} value={opt.type}>
+                                      {opt.icon} {opt.title}
+                                    </option>
+                                  ))}
+                                </select>
+                                {cur.type === 'custom' && (
+                                  <input
+                                    type="text"
+                                    placeholder="Eigener Titel / Link-Zweck"
+                                    value={cur.customText || ''}
+                                    onChange={e => {
+                                      setCornerQrs({
+                                        ...cornerQrs,
+                                        [corner.key]: { ...cur, customText: e.target.value, title: e.target.value || 'Eigene Aktion' }
+                                      })
+                                    }}
+                                    className="field text-xs py-1"
+                                  />
+                                )}
+                              </div>
+                            )}
+                          </div>
+                        )
+                      })}
+                    </div>
                   </div>
+
+                  {/* LIVE MOCKUP DES ACRYLGLAS-AUFSTELLERS */}
+                  {(() => {
+                    const activeEntries = (['tl', 'tr', 'bl', 'br'] as const)
+                      .map(k => ({ key: k, ...cornerQrs[k] }))
+                      .filter(c => c.active)
+                    const activeCount = activeEntries.length
+
+                    return (
+                      <div className="max-w-md mx-auto p-6 rounded-3xl bg-[#042c2e] text-[#D9D19B] border-2 border-[#D9D19B]/60 shadow-2xl relative overflow-hidden transition-all duration-300">
+                        {/* Gold-Lichtreflex Glanzeffekt */}
+                        <div className="absolute -top-12 -right-12 w-36 h-36 bg-[#D9D19B]/10 rounded-full blur-2xl pointer-events-none" />
+
+                        <div className="text-center space-y-3 relative z-10">
+                          <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-[#021c1d] border border-[#D9D19B]/40 text-[0.62rem] font-mono text-[#a8d4c0] uppercase tracking-wider">
+                            ✦ 20 mm Acrylglas Block · Gelato POD · {activeCount} QR-{activeCount === 1 ? 'Code' : 'Ecken'}
+                          </div>
+
+                          <div>
+                            <span className="text-2xl block mb-1">{activeInd.icon}</span>
+                            <p className="font-serif tracking-widest text-xs font-bold text-[#D9D19B]">SCRATCH &apos;N&apos; TRAVEL</p>
+                            <p className="font-mono text-[0.6rem] text-[#a8d4c0] font-semibold tracking-wider">
+                              {activeInd.badge}
+                            </p>
+                          </div>
+
+                          <div className="pt-2 border-t border-[#D9D19B]/20">
+                            <h4 className="font-serif text-lg font-bold text-white tracking-wide">
+                              {b2bForm.businessName || activeInd.venue}
+                            </h4>
+                            <p className="font-mono text-[0.68rem] text-[#D9D19B]">
+                              📍 {(b2bForm.city || activeInd.city).toUpperCase()} · GPS: {activeInd.gps}
+                            </p>
+                          </div>
+
+                          {/* DYNAMISCHES QR-LAYOUT (0, 1, 2 ODER 3-4 ECKEN) */}
+                          {activeCount === 0 && (
+                            /* 0 QR CODES: PURE GRAVUR & NFC */
+                            <div className="py-6 px-4 my-3 rounded-2xl bg-[#021c1d] border border-[#D9D19B]/60 text-center space-y-2">
+                              <div className="w-20 h-20 mx-auto rounded-full bg-[#042c2e] border-2 border-[#D9D19B] flex items-center justify-center text-3xl shadow-lg">
+                                🧭
+                              </div>
+                              <p className="font-serif text-xs font-bold text-white uppercase tracking-widest">
+                                Pure Laser-Gravur &amp; NFC-Touch
+                              </p>
+                              <p className="font-mono text-[0.62rem] text-[#D9D19B]">
+                                Keine QR-Codes aufgedruckt. Gäste halten ihr Smartphone an den Block für den Check-in &amp; Pass-Stempel.
+                              </p>
+                            </div>
+                          )}
+
+                          {activeCount === 1 && (
+                            /* 1 QR CODE ZENTRIERT */
+                            <div className="my-2 space-y-2">
+                              <div className="bg-white p-3 rounded-2xl w-36 h-36 mx-auto flex flex-col items-center justify-center shadow-lg border border-[#D9D19B]">
+                                <div className="w-28 h-28 bg-[#121816] rounded-xl flex items-center justify-center text-white text-3xl font-bold">
+                                  {activeEntries[0].icon}
+                                </div>
+                              </div>
+                              <p className="font-sans font-bold text-xs text-white uppercase tracking-wider">
+                                {activeEntries[0].title}
+                              </p>
+                              <p className="font-mono text-[0.65rem] text-[#D9D19B]">
+                                {activeEntries[0].hint}
+                              </p>
+                            </div>
+                          )}
+
+                          {activeCount === 2 && (
+                            /* 2 QR CODES NEBENEINANDER (DUO) */
+                            <div className="grid grid-cols-2 gap-3 my-2">
+                              {activeEntries.map(entry => (
+                                <div key={entry.key} className="p-2.5 rounded-xl bg-[#021c1d] border border-[#D9D19B]/40 text-center space-y-1.5">
+                                  <div className="bg-white p-2 rounded-xl w-20 h-20 mx-auto flex items-center justify-center shadow">
+                                    <div className="w-16 h-16 bg-[#121816] rounded-lg flex items-center justify-center text-white text-xl">
+                                      {entry.icon}
+                                    </div>
+                                  </div>
+                                  <p className="font-mono font-bold text-[0.65rem] text-white truncate">{entry.title}</p>
+                                  <p className="font-mono text-[0.55rem] text-[#a8d4c0] truncate">{entry.hint}</p>
+                                </div>
+                              ))}
+                            </div>
+                          )}
+
+                          {activeCount >= 3 && (
+                            /* 3 BIS 4 ECKEN MULTI-HUB LAYOUT */
+                            <div className="space-y-2 my-2">
+                              {/* Obere Reihe */}
+                              <div className="grid grid-cols-2 gap-3">
+                                {(['tl', 'tr'] as const).map(k => {
+                                  const c = cornerQrs[k]
+                                  return (
+                                    <div
+                                      key={k}
+                                      className={`p-2 rounded-xl border text-center transition-all ${
+                                        c.active ? 'bg-[#021c1d] border-[#D9D19B]/60' : 'bg-[#021c1d]/30 border-[#D9D19B]/10 opacity-40'
+                                      }`}
+                                    >
+                                      {c.active ? (
+                                        <>
+                                          <div className="bg-white p-1.5 rounded-lg w-16 h-16 mx-auto flex items-center justify-center shadow mb-1">
+                                            <div className="w-13 h-13 bg-[#121816] rounded flex items-center justify-center text-white text-lg">
+                                              {c.icon}
+                                            </div>
+                                          </div>
+                                          <p className="font-mono font-bold text-[0.62rem] text-white truncate">{c.title}</p>
+                                          <p className="font-mono text-[0.52rem] text-[#D9D19B] truncate">{c.hint}</p>
+                                        </>
+                                      ) : (
+                                        <div className="h-20 flex items-center justify-center text-[#D9D19B]/40 font-mono text-[0.55rem]">
+                                          Ecke Frei
+                                        </div>
+                                      )}
+                                    </div>
+                                  )
+                                })}
+                              </div>
+
+                              {/* Untere Reihe */}
+                              <div className="grid grid-cols-2 gap-3">
+                                {(['bl', 'br'] as const).map(k => {
+                                  const c = cornerQrs[k]
+                                  return (
+                                    <div
+                                      key={k}
+                                      className={`p-2 rounded-xl border text-center transition-all ${
+                                        c.active ? 'bg-[#021c1d] border-[#D9D19B]/60' : 'bg-[#021c1d]/30 border-[#D9D19B]/10 opacity-40'
+                                      }`}
+                                    >
+                                      {c.active ? (
+                                        <>
+                                          <div className="bg-white p-1.5 rounded-lg w-16 h-16 mx-auto flex items-center justify-center shadow mb-1">
+                                            <div className="w-13 h-13 bg-[#121816] rounded flex items-center justify-center text-white text-lg">
+                                              {c.icon}
+                                            </div>
+                                          </div>
+                                          <p className="font-mono font-bold text-[0.62rem] text-white truncate">{c.title}</p>
+                                          <p className="font-mono text-[0.52rem] text-[#D9D19B] truncate">{c.hint}</p>
+                                        </>
+                                      ) : (
+                                        <div className="h-20 flex items-center justify-center text-[#D9D19B]/40 font-mono text-[0.55rem]">
+                                          Ecke Frei
+                                        </div>
+                                      )}
+                                    </div>
+                                  )
+                                })}
+                              </div>
+                            </div>
+                          )}
+
+                          {/* Insider Easter-Egg Box */}
+                          <div className="p-2.5 rounded-xl bg-[#021c1d] border border-[#D9D19B]/40 text-left space-y-1">
+                            <p className="font-mono text-[0.6rem] font-bold text-[#D9D19B]">✦ LOKALER INSIDER-HINT &amp; EASTER-EGG:</p>
+                            <p className="font-serif text-[0.7rem] italic text-white leading-tight">
+                              {b2bForm.secretSpecial || activeInd.hint}
+                            </p>
+                            <p className="font-mono text-[0.58rem] text-[#a8d4c0]">
+                              🔑 Codewort für Gäste in der App: <strong className="text-white">{activeInd.code}</strong>
+                            </p>
+                          </div>
+
+                          {/* 0% Guarantee */}
+                          <div className="pt-2 border-t border-[#D9D19B]/20 text-[0.6rem] font-mono text-[#a8d4c0]">
+                            🛡️ 0% PLATTFORM-PROVISION · DIREKTE BEZAHLUNG VOR ORT
+                          </div>
+                        </div>
+                      </div>
+                    )
+                  })()}
                 </div>
               )
             })()}

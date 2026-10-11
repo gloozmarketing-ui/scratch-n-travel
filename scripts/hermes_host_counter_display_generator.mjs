@@ -252,27 +252,66 @@ export function generateCounterDisplaySvg(hostData) {
     </text>
   </g>
 
-  <!-- 5. QR-Code Container (Zentraler Interaktionsbereich) -->
+  <!-- 5. QR-Code Container (Unterstützt 0, 1 oder 4 Ecken) -->
+  ${hostData.qrCount === 0 ? `
+  <g transform="translate(626, 780)" text-anchor="middle">
+    <circle cx="0" cy="0" r="160" fill="#021c1d" stroke="url(#goldGradient)" stroke-width="4" filter="drop-shadow(0px 16px 32px rgba(0,0,0,0.5))" />
+    <path d="M 0,-80 L 22,-22 L 80,0 L 22,22 L 0,80 L -22,22 L -80,0 L -22,-22 Z" fill="url(#goldGradient)" />
+    <circle cx="0" cy="0" r="14" fill="#042c2e" />
+    <text y="125" font-family="'Cinzel', Georgia, serif" font-size="22" font-weight="bold" fill="#ffffff" letter-spacing="4">
+      NFC-TOUCH &amp; LASER-GRAVUR
+    </text>
+    <text y="155" font-family="'Space Grotesk', monospace" font-size="15" fill="#D9D19B">
+      Reisepass-Checkin kontaktlos via Smartphone-NFC
+    </text>
+  </g>
+  ` : hostData.qrCount === 4 ? `
   <g transform="translate(626, 780)">
-    <!-- Weißer Kontrast-Hintergrund für 100% Kamera-Lesbarkeit -->
+    <!-- 4 Ecken Layout: TL, TR, BL, BR -->
+    <g transform="translate(-320, -140)">
+      <rect x="-110" y="-110" width="220" height="220" rx="20" fill="#ffffff" stroke="url(#goldGradient)" stroke-width="2" />
+      <rect x="-90" y="-90" width="180" height="180" fill="#121816" rx="10" />
+      <text x="0" y="8" font-size="28" text-anchor="middle">🎟️</text>
+      <text x="0" y="140" text-anchor="middle" font-family="'Space Grotesk', sans-serif" font-size="14" font-weight="bold" fill="#ffffff">Pass-Stempel</text>
+    </g>
+    <g transform="translate(320, -140)">
+      <rect x="-110" y="-110" width="220" height="220" rx="20" fill="#ffffff" stroke="url(#goldGradient)" stroke-width="2" />
+      <rect x="-90" y="-90" width="180" height="180" fill="#121816" rx="10" />
+      <text x="0" y="8" font-size="28" text-anchor="middle">💬</text>
+      <text x="0" y="140" text-anchor="middle" font-family="'Space Grotesk', sans-serif" font-size="14" font-weight="bold" fill="#ffffff">Direkt-Chat</text>
+    </g>
+    <!-- Zentrum: Wappen -->
+    <circle cx="0" cy="0" r="60" fill="#021c1d" stroke="url(#goldGradient)" stroke-width="3" />
+    <text x="0" y="14" font-size="44" text-anchor="middle">${category.icon || '🧭'}</text>
+    <g transform="translate(-320, 180)">
+      <rect x="-110" y="-110" width="220" height="220" rx="20" fill="#ffffff" stroke="url(#goldGradient)" stroke-width="2" />
+      <rect x="-90" y="-90" width="180" height="180" fill="#121816" rx="10" />
+      <text x="0" y="8" font-size="28" text-anchor="middle">🗝️</text>
+      <text x="0" y="140" text-anchor="middle" font-family="'Space Grotesk', sans-serif" font-size="14" font-weight="bold" fill="#ffffff">Insider Secret</text>
+    </g>
+    <g transform="translate(320, 180)">
+      <rect x="-110" y="-110" width="220" height="220" rx="20" fill="#ffffff" stroke="url(#goldGradient)" stroke-width="2" />
+      <rect x="-90" y="-90" width="180" height="180" fill="#121816" rx="10" />
+      <text x="0" y="8" font-size="28" text-anchor="middle">🗺️</text>
+      <text x="0" y="140" text-anchor="middle" font-family="'Space Grotesk', sans-serif" font-size="14" font-weight="bold" fill="#ffffff">Lokale Routen</text>
+    </g>
+  </g>
+  ` : `
+  <g transform="translate(626, 780)">
+    <!-- Standard 1 QR Code Zentriert -->
     <rect x="-240" y="-240" width="480" height="480" rx="32" fill="#ffffff" filter="drop-shadow(0px 16px 32px rgba(0,0,0,0.4))" />
     <rect x="-248" y="-248" width="496" height="496" rx="36" fill="none" stroke="url(#goldGradient)" stroke-width="3" />
     
-    <!-- QR Code Placeholder Graphic (Inkl. Marken-Zentrum) -->
-    <!-- (Im echten Flow wird hier der exakte QR Vektorkern eingebunden) -->
     <rect x="-200" y="-200" width="400" height="400" fill="#121816" rx="16" opacity="0.95" />
     
-    <!-- QR Scanner Target Ecken -->
     <path d="M -180,-140 L -180,-180 L -140,-180" fill="none" stroke="#D9D19B" stroke-width="8" stroke-linecap="round" />
     <path d="M 140,-180 L 180,-180 L 180,-140" fill="none" stroke="#D9D19B" stroke-width="8" stroke-linecap="round" />
     <path d="M -180,140 L -180,180 L -140,180" fill="none" stroke="#D9D19B" stroke-width="8" stroke-linecap="round" />
     <path d="M 140,180 L 180,180 L 180,140" fill="none" stroke="#D9D19B" stroke-width="8" stroke-linecap="round" />
 
-    <!-- Zentrum Branchen-Icon -->
     <circle cx="0" cy="0" r="44" fill="#042c2e" stroke="#D9D19B" stroke-width="4" />
     <text x="0" y="10" font-size="32" text-anchor="middle">${category.icon || '🧭'}</text>
 
-    <!-- Scan Call to Action -->
     <text x="0" y="290" text-anchor="middle" font-family="'Space Grotesk', sans-serif" font-size="22" font-weight="bold" fill="#ffffff" letter-spacing="1">
       📱 MIT DEM SMARTPHONE SCANNEN
     </text>
@@ -280,6 +319,7 @@ export function generateCounterDisplaySvg(hostData) {
       ${escapeXml(displayCta)}
     </text>
   </g>
+  `}
 
   <!-- 6. Community Easter-Egg & Geheimtipp-Box -->
   <g transform="translate(626, 1260)">
